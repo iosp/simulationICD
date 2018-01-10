@@ -24,9 +24,13 @@ OBJ = $(D1)/VLPCommunication.o $(D1)/VLPCommunication16.o $(D1)/VLPCommunication
 
 DIRS = utilities products
 
-all: dirs $(TARGET)
+all: createdirs makedirs $(TARGET)
 
-dirs:
+createdirs:
+	mkdir -p comp
+	mkdir -p comp/statlibs
+
+makedirs:
 	for dir in $(DIRS); do \
 		$(MAKE) -C $$dir; \
 	done
