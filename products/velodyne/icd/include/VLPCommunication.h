@@ -14,51 +14,16 @@
 #include <map>
 #include <boost/date_time/posix_time/posix_time.hpp> // boost::posix_time::time_duration
 #include <boost/thread.hpp> // boost::thread
+#include "IICD.h"
+#include "VelodyneData.h"
+#include "VLPConfig.h"
 
 static const int DEGREES = 360;
 static const int SECOND_TO_MICROSECOND  = 1e6;
-static const int SENSOR_FREQ = 10;
 static const int NUM_OF_VLP_DATA_CHANNELS_IN_BLOCK = 32;
 static const int NUM_OF_VLP_DATA_BLOCKS = 12;
 
-class VLPCommunication {
-public:
-    enum Resolution { _RES02_ = 200, _RES04_ = 400};
-    enum ReturnMode { _STRONGEST_ = 37, _LAST_ = 38, _DUAL_ = 39};
-    enum DataSource {_HDL32E_ = 21, _VLP16_ = 22};
-    /**
-     * Hold VLP configuration
-     */
-    struct VLPConfig {
-        std::string m_ipAddress;
-        std::string m_port;
-        Resolution m_horizontalResolution;
-        double m_realHorizontalResolution;
-        ReturnMode m_returnMode;
-        DataSource m_dataSource;
-        int m_sensorFrequency;
-        std::string toString();
-        VLPConfig() = default;
-        VLPConfig(const std::string& ipAddress, const std::string& port, Resolution horizontalResolution = _RES02_,
-            ReturnMode returnMode = _STRONGEST_, DataSource dataSource = _VLP16_,
-             int sensorFrequency = SENSOR_FREQ);
-        };
-
-        
-
-    typedef std::vector<std::pair<double, short> > t_channel_data;
-    /**
-     * VLP data to get and save 
-     */  
-    struct VLPData {
-        double m_azimuth;
-        t_channel_data m_channels;
-        boost::posix_time::time_duration m_durationAfterLastHour;
-        VLPData() = default;
-        VLPData(double azimuth, const t_channel_data& channels, const boost::posix_time::time_duration& durationAfterLastHour) :
-            m_azimuth(azimuth), m_channels(channels), m_durationAfterLastHour(durationAfterLastHour) {} 
-    };
-
+class VLPCommunication : public IICD<VelodyneData> {
 protected:
     /**
      * VLP packet that defined by Velodyne
@@ -79,14 +44,14 @@ protected:
         VLPDataBlock dataBlocks[NUM_OF_VLP_DATA_BLOCKS];
         unsigned char timeStamp[4]{}; // time stamp is how much seconds passed after the last round hour
         unsigned char factory[2]{};
-        VLPDataPacket();
+        VLPDataPacket() = default;
         void InitVLPDataPacket();
     };
 
     /**
      * velodyne data to save on process  
     */
-    std::vector<VLPData> m_velodyneData;
+    std::vector<VelodyneData::VLPBlock> m_velodyneData;
     /**
      * VLP configuration values
      */ 
@@ -156,7 +121,7 @@ protected:
      * @param channels - vector of channel pairs (distance and reflectivity)
      * @return dataIndex - new formatted vector
      */
-    t_channel_data MapChannels(const t_channel_data& channels) const;
+    VelodyneData::VLPBlock::t_channel_data MapChannels(const VelodyneData::VLPBlock::t_channel_data& channels) const;
 
     /**
      * Fill channles in specific packet in packet index
@@ -164,7 +129,7 @@ protected:
      * @param channels - the data of the channels
      * @param packetIndex - the index on VLP packet struct to put the data on
      */
-    void FillChannelsInPacket(VLPDataPacket& packet, const t_channel_data& channels, int packetIndex) const;
+    void FillChannelsInPacket(VLPDataPacket& packet, const VelodyneData::VLPBlock::t_channel_data& channels, int packetIndex) const;
 
     /**
      * Fill data records on VLP packet (on suitable block - according to packetIndex)
@@ -180,7 +145,7 @@ protected:
      * @param numOfRowsInColumn - number of rows expected in every column
      * @return true if data is valid and false otherwise
     */
-    virtual bool CheckDataValidation(const VLPData& data) const;
+    virtual bool CheckDataValidation(const VelodyneData::VLPBlock& data) const;
 
     /**
      * Get how many rows in column on the data table
@@ -242,9 +207,6 @@ protected:
      */ 
     void printPacketData(const VLPDataPacket& packet) const;
 
-    static const std::map<VLPCommunication::ReturnMode, std::string> retModeToStr;
-    static const std::map<VLPCommunication::DataSource, std::string> dataSourceToStr;
-
 public:
     /**
      * Ctor
@@ -257,18 +219,20 @@ public:
      * Set data on inner velodyne data vector
      * @param data - vector of VLPData struct
      */ 
-    void SetData(const std::vector<VLPData>& data);
+    virtual void SetData(const VelodyneData& data) override;
+
+    virtual VelodyneData* GetData() override;
 
     /**
      * Run VLP send data thread
      */ 
-    void Run();
+    virtual void Run() override;
 
-    const VLPConfig& GetConfig() const {
+    virtual const VLPConfig& GetConfig() const {
         return m_vlpConfig;
     }
 
-    static void printVelData(const std::vector<VLPCommunication::VLPData>& velData);
+    static void printVelData(const std::vector<VelodyneData::VLPBlock>& velData);
 
 };
 

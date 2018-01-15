@@ -11,13 +11,13 @@ VLPCommunication32::VLPCommunication32(const VLPConfig& vlpConfig) : VLPCommunic
 
 }
 void VLPCommunication32::FillDataRecords(VLPDataPacket& packet, int dataIndex, int packetIndex) const {
-    auto values = MapChannels(m_velodyneData[dataIndex].m_channels);
+    auto values = MapChannels(m_velodyneData[dataIndex].GetChannels());
 
     FillChannelsInPacket(packet, values, packetIndex);
 }
 
 bool VLPCommunication32::CanAddToPacket(const boost::posix_time::time_duration& lastDuration, int dataIndex) const {
-    return (lastDuration < m_velodyneData[dataIndex].m_durationAfterLastHour && !IsDataZeroed(dataIndex));
+    return (lastDuration < m_velodyneData[dataIndex].GetDurationAfterLastHour() && !IsDataZeroed(dataIndex));
 }
 
 int VLPCommunication32::DataIndexIncrement() const {
