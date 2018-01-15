@@ -12,6 +12,7 @@ class Tester {
     void TestVLP();
 public:
     Tester();
+    ~Tester() = default;
 
 };
 

@@ -3,7 +3,7 @@
 
 /*
 * IWrapper.h
-* 
+* Interface for ICD Wrappers
 * Author: Binyamin Appelbaum
 * Date: 09.01.18
 * 
@@ -14,6 +14,9 @@
 template <class T>
 class IWrapper {
 protected:
+    /**
+     * ICD object pointer (T represents the ICD data type)
+    */
     IICD<T>* m_icd;
     
 public:
@@ -22,8 +25,14 @@ public:
     
     virtual ~IWrapper() = default;
 
+    /**
+     * Set the accumolative data on ICD object
+     */ 
     virtual void SetData() = 0;
 
+    /**
+     * Call run method of ICD object
+     */ 
     virtual void Run() = 0;
 };
 

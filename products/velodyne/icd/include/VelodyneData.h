@@ -3,7 +3,7 @@
 
 /*
 * VelodyneData.h
-* 
+* Represents the data that is passed between the ICD and the user of the lib
 * Author: Binyamin Appelbaum
 * Date: 10.01.18
 * 
@@ -58,6 +58,9 @@ public:
     };
 
 private:
+    /**
+     * Holds multiple data blocks
+     */ 
     std::vector<VLPBlock> m_data;
 
 public:
