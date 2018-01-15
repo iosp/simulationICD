@@ -221,6 +221,9 @@ public:
      */ 
     virtual void SetData(const VelodyneData& data) override;
 
+    /**
+     * This function is implemented with nullptr return
+     */ 
     virtual VelodyneData* GetData() override;
 
     /**

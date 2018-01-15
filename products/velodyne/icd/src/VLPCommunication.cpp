@@ -65,22 +65,17 @@ bool VLPCommunication::IsDataZeroed(int dataIndex) const {
 }
 
 void VLPCommunication::SetData(const VelodyneData& data) {
-    try {
-        for (auto const& block : data.GetData()) {
-            m_velodyneDataMutex.lock();
-            if (!CheckDataValidation(block)) {
-                LOG(_ERROR_, "received invalid block");
-                m_velodyneDataMutex.unlock();
-                continue;
-            }
-            // index is (angle / resolution) + 0.5 - to round up
-            double index = block.GetAzimuth() / m_vlpConfig.GetRealHorizontalResolution() + 0.5f; // HANDLE CASTING!!
-            m_velodyneData[index] = block;
+    for (auto const& block : data.GetData()) {
+        m_velodyneDataMutex.lock();
+        if (!CheckDataValidation(block)) {
+            LOG(_ERROR_, "received invalid block");
             m_velodyneDataMutex.unlock();
+            continue;
         }
-    }
-    catch (std::bad_cast exp) {
-        LOG(_ERROR_, "Caught bad exception");
+        // index is (angle / resolution) + 0.5 - to round up
+        double index = block.GetAzimuth() / m_vlpConfig.GetRealHorizontalResolution() + 0.5f; // HANDLE CASTING!!
+        m_velodyneData[index] = block;
+        m_velodyneDataMutex.unlock();
     }
 }
 
