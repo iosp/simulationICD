@@ -24,7 +24,7 @@ protected:
 
 public:
     VLPCommunication16(const VLPConfig& vlpConfig);
-    ~VLPCommunication16() {}
+    ~VLPCommunication16() = default;
 };
 
 
