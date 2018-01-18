@@ -1,10 +1,10 @@
 /**
-* Utilities.cpp
+* Helper.cpp
 * Author: Binyamin Appelbaum
 * Date: 3.12.17
 */
 
-#include "Utilities.h"
+#include "Helper.h"
 #include <sstream>
 #include <fstream>
 #include <boost/date_time/posix_time/posix_time.hpp> // boost::posix_time::ptime

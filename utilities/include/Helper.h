@@ -2,7 +2,7 @@
 #define UTILITIES_H
 
 /**
-* Utilities.h
+* Helper.h
 * Author: Binyamin Appelbaum
 * Date: 3.12.17
 */

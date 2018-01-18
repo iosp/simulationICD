@@ -1,14 +1,10 @@
 CC = g++
 
-LDFLAGS = -shared
+CFLAGS = -std=c++0x -fPIC -O -g
 
-TARGET = comp/libvlp.so
+TARGET = comp/vlp
 
 LIBS = -lboost_system -lboost_thread
-
-STAT_DIR = comp/statlibs
-
-STAT_LIBS = $(STAT_DIR)/libvlpwrapper.a $(STAT_DIR)/libvelicd.a $(STAT_DIR)/libutils.a
 
 INC_DIR_NAME = include
 OBJ_DIR = obj
@@ -16,30 +12,32 @@ OBJ_DIR = obj
 INC_ICD = products/velodyne/icd/$(INC_DIR_NAME)
 INC_WRAPPER = products/velodyne/wrapper/$(INC_DIR_NAME)
 INC_UTILS = utilities/$(INC_DIR_NAME)
+INC_TESTER = tester/$(INC_DIR_NAME)
 
-INC_FILES = $(wildcard $(INC_ICD)/*.h) $(wildcard $(INC_WRAPPER)/*.h) $(wildcard $(INC_UTILS)/*.h)
+INC_FILES = $(wildcard $(INC_ICD)/*.h) $(wildcard $(INC_WRAPPER)/*.h) $(wildcard $(INC_UTILS)/*.h) $(wildcard $(INC_TESTER)/*.h)
+INCLUDES = -I$(INC_ICD) -I$(INC_WRAPPER) -I$(INC_UTILS) -I$(INC_TESTER)
+
 # Change suffix to .o
 _OBJ = $(addsuffix .o,$(basename $(INC_FILES)))
 # Change suffix directory to obj
-OBJ = ${subst $(INC_DIR_NAME),$(OBJ_DIR),$(_OBJ)}
-
-SUBDIRS = utilities products
+OBJ = main.o ${subst $(INC_DIR_NAME),$(OBJ_DIR),$(_OBJ)}
+SUBDIRS = utilities products tester
 
 all: createdirs compdirs $(TARGET)
 
-# create required directories
 createdirs:
 	mkdir -p comp
-	mkdir -p comp/statlibs
 
-# compile all sub directories
 compdirs:
 	for dir in $(SUBDIRS); do \
 		$(MAKE) -C $$dir; \
 	done
 
 $(TARGET): $(OBJ)
-	$(CC) $(LDFLAGS) -o $@ $(OBJ) $(LIBS)
+	$(CC) -o $@ $(OBJ) $(LIBS)
+
+main.o : main.cpp
+	$(CC) $(CFLAGS) -c $^ $(INCLUDES) 
 
 .PHONY: all clean
 
@@ -47,4 +45,4 @@ clean:
 	for dir in $(SUBDIRS); do \
 		$(MAKE) -C $$dir clean; \
 	done
-	$(RM) $(STAT_LIB)/*.a $(TARGET)
+	$(RM) $(TARGET)

@@ -6,7 +6,7 @@
 */
 
 #include "Logger.h"
-#include "Utilities.h"
+#include "Helper.h"
 #include <boost/assign.hpp> // boost::assign::map_list_of
 #include <sstream>
 #include <iostream>

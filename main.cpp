@@ -12,7 +12,6 @@
 int main() {
     std::stringstream ss;
     ss << "********************* starting " << __FILE__ << ". Time: " << boost::posix_time::microsec_clock::local_time() << " ******************";
-    // LOG << 4;
     LOG(_ALWAYS_, ss.str());
 
     Tester t;
