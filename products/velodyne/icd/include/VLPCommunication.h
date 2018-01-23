@@ -13,7 +13,7 @@
 #include <vector>
 #include <map>
 #include <boost/date_time/posix_time/posix_time.hpp> // boost::posix_time::time_duration
-#include <boost/thread.hpp> // boost::thread
+#include <boost/thread.hpp> // boost::thread, mutex
 #include "IICD.h"
 #include "VelodyneData.h"
 #include "VLPConfig.h"
@@ -217,7 +217,7 @@ public:
 
     /**
      * Set data on inner velodyne data vector
-     * @param data - vector of VLPData struct
+     * @param data - VelodyneData object
      */ 
     virtual void SetData(const VelodyneData& data) override;
 

@@ -39,7 +39,7 @@ void VLPWrapper::SetAzimuth(double azimuth){
 }
 
 void VLPWrapper::SetTimeStamp(int timeStamp) {
-     m_data.SetDurationAfterLastHour(boost::posix_time::microseconds(timeStamp));
+     m_data.SetSimTime(boost::posix_time::microseconds(timeStamp));
 }
 
 void VLPWrapper::SetChannel(double distance, short reflectivity) {
@@ -50,5 +50,5 @@ void VLPWrapper::ClearCurrentData() {
     m_currChannels.clear();
     m_data.SetChannels(VelodyneData::VLPBlock::t_channel_data());
     m_data.SetAzimuth(0);
-    m_data.SetDurationAfterLastHour(boost::posix_time::microseconds(0));
+    m_data.SetSimTime(boost::posix_time::microseconds(0));
 }

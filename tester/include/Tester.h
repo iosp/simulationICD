@@ -10,6 +10,7 @@
 
 class Tester {
     void TestVLP();
+    void TestDgps();
 public:
     Tester();
     ~Tester() = default;

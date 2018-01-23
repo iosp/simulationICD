@@ -20,8 +20,8 @@ void VLPCommunication16::FillDataRecords(VLPDataPacket& packet, int dataIndex, i
 }
 
 bool VLPCommunication16::CanAddToPacket(const boost::posix_time::time_duration& lastDuration, int dataIndex) const {
-    return (lastDuration < m_velodyneData[dataIndex].GetDurationAfterLastHour()) && 
-                (m_velodyneData[dataIndex].GetDurationAfterLastHour() < m_velodyneData[dataIndex + 1].GetDurationAfterLastHour()) &&
+    return (lastDuration < m_velodyneData[dataIndex].GetSimTime()) && 
+                (m_velodyneData[dataIndex].GetSimTime() < m_velodyneData[dataIndex + 1].GetSimTime()) &&
                 !IsDataZeroed(dataIndex);
 }
 

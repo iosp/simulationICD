@@ -2,35 +2,40 @@ CC = g++
 
 LDFLAGS = -shared
 
-TARGET = comp/libvlp.so
+TARGET_VLP = comp/libvlp.so
 
-LIBS = -lboost_system -lboost_thread
+TARGET_DGPS = comp/libdgps.so
+
+EX_LIBS = -lboost_system -lboost_thread
 
 STAT_DIR = comp/statlibs
 
-STAT_LIBS = $(STAT_DIR)/libvlpwrapper.a $(STAT_DIR)/libvelicd.a $(STAT_DIR)/libutils.a
+STAT_VEL_LIBS_BASE_NAMES = velicd \
+							vlpwrapper \
+							utils
 
-INC_DIR_NAME = include
-OBJ_DIR = obj
+STAT_DGPS_LIBS_BASE_NAMES = dgpsicd \
+							dgpswrapper \
+							utils
 
-INC_ICD = products/velodyne/icd/$(INC_DIR_NAME)
-INC_WRAPPER = products/velodyne/wrapper/$(INC_DIR_NAME)
-INC_UTILS = utilities/$(INC_DIR_NAME)
+STAT_VEL_LIBS = $(addprefix -l, $(STAT_VEL_LIBS_BASE_NAMES))
 
-INC_FILES = $(wildcard $(INC_ICD)/*.h) $(wildcard $(INC_WRAPPER)/*.h) $(wildcard $(INC_UTILS)/*.h)
-# Change suffix to .o
-_OBJ = $(addsuffix .o,$(basename $(INC_FILES)))
-# Change suffix directory to obj
-OBJ = ${subst $(INC_DIR_NAME),$(OBJ_DIR),$(_OBJ)}
+STAT_DGPS_LIBS = $(addprefix -l, $(STAT_DGPS_LIBS_BASE_NAMES))
+
+_STAT_VEL_LIB_DEPS = $(addprefix $(STAT_DIR)/lib, $(STAT_VEL_LIBS_BASE_NAMES))
+STAT_VEL_LIB_DEPS = $(addsuffix .a, $(_STAT_VEL_LIB_DEPS))
+
+_STAT_DGPS_LIB_DEPS = $(addprefix $(STAT_DIR)/lib, $(STAT_DGPS_LIBS_BASE_NAMES))
+STAT_DGPS_LIB_DEPS = $(addsuffix .a, $(_STAT_DGPS_LIB_DEPS))
 
 SUBDIRS = utilities products
 
-all: createdirs compdirs $(TARGET)
+all: createdirs compdirs $(TARGET_VLP) $(TARGET_DGPS)
 
 # create required directories
 createdirs:
 	mkdir -p comp
-	mkdir -p comp/statlibs
+	mkdir -p $(STAT_DIR)
 
 # compile all sub directories
 compdirs:
@@ -38,8 +43,11 @@ compdirs:
 		$(MAKE) -C $$dir; \
 	done
 
-$(TARGET): $(OBJ)
-	$(CC) $(LDFLAGS) -o $@ $(OBJ) $(LIBS)
+$(TARGET_VLP): $(STAT_VEL_LIB_DEPS)
+	$(CC) $(LDFLAGS) -L$(STAT_DIR) -o $@ -Wl,-whole-archive $(STAT_VEL_LIBS) -Wl,-no-whole-archive $(EX_LIBS)
+
+$(TARGET_DGPS):  $(STAT_DGPS_LIB_DEPS)
+	$(CC) $(LDFLAGS) -L$(STAT_DIR) -o $@ -Wl,-whole-archive $(STAT_DGPS_LIBS) -Wl,-no-whole-archive $(EX_LIBS)
 
 .PHONY: all clean
 
@@ -47,4 +55,4 @@ clean:
 	for dir in $(SUBDIRS); do \
 		$(MAKE) -C $$dir clean; \
 	done
-	$(RM) $(STAT_LIB)/*.a $(TARGET)
+	$(RM) $(STAT_DIR)/*.a $(TARGET_VLP) $(TARGET_DGPS)

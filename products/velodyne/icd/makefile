@@ -14,11 +14,17 @@ UTIL_INC_DIR = ../../../utilities/$(INC_DIR)
 
 INTERFACE_INC_DIR = ../../../interfaces
 
-INCLUDES = -I$(INC_DIR) -I$(UTIL_INC_DIR) -I$(INTERFACE_INC_DIR)
+INCLUDES = -I$(INC_DIR) \
+			-I$(UTIL_INC_DIR) \
+			-I$(INTERFACE_INC_DIR)
 # take all h files on include dir
-DEPS = $(wildcard $(INC_DIR)/*.h) $(wildcard $(UTIL_INC_DIR)/*.h) $(wildcard $(INTERFACE_INC_DIR)/*.h) 
-# replace the name of all h files to the same name with o suffix
-OBJ = $(DEPS:$(INC_DIR)/%.h=$(OBJ_DIR)/%.o)
+DEPS = $(wildcard $(INC_DIR)/*.h) \
+		$(wildcard $(UTIL_INC_DIR)/*.h) \
+		$(wildcard $(INTERFACE_INC_DIR)/*.h)
+
+SRCS = $(wildcard $(SRC_DIR)/*.cpp)
+
+OBJ = $(SRCS:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
 all: directories $(TARGET)
 

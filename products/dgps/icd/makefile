@@ -2,7 +2,7 @@ CC = g++
 
 CFLAGS = -std=c++0x -fPIC -O -g
 
-TARGET = ../../../comp/statlibs/libvlpwrapper.a
+TARGET = ../../../comp/statlibs/libdgpsicd.a
 
 OBJ_DIR = obj
 
@@ -10,17 +10,17 @@ INC_DIR = include
 
 SRC_DIR = src
 
-VLP_INC_DIR = ../icd/$(INC_DIR)
+UTIL_INC_DIR = ../../../utilities/$(INC_DIR)
 
 INTERFACE_INC_DIR = ../../../interfaces
 
 INCLUDES = -I$(INC_DIR) \
-			-I$(VLP_INC_DIR) \
+			-I$(UTIL_INC_DIR) \
 			-I$(INTERFACE_INC_DIR)
 # take all h files on include dir
 DEPS = $(wildcard $(INC_DIR)/*.h) \
-		$(wildcard $(VLP_INC_DIR)/*.h) \
-		$(wildcard $(INTERFACE_INC_DIR)/*.h)
+		$(wildcard $(UTIL_INC_DIR)/*.h) \
+		$(wildcard $(INTERFACE_INC_DIR)/*.h) 
 
 SRCS = $(wildcard $(SRC_DIR)/*.cpp)
 

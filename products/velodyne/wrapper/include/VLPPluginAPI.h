@@ -8,7 +8,7 @@ extern "C" {
 
     void DeleteVLPObject(VLPWrapper* pVlp);
 
-    void Run(VLPWrapper* pVlp);
+    void RunVLP(VLPWrapper* pVlp);
 
     void SetAzimuth(VLPWrapper* pVlp, double azimuth);
 
@@ -16,5 +16,5 @@ extern "C" {
 
     void SetChannel(VLPWrapper* pVlp, double distance, short reflectivity);
 
-    void SendData(VLPWrapper* pVlp);
+    void SendVLPData(VLPWrapper* pVlp);
 }

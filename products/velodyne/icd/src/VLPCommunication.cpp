@@ -1,4 +1,4 @@
-/**../include/
+/**
 * VLPCommunication.cpp
 * Manage communication between velodyne sensor with UDP socket
 * Author: Binyamin Appelbaum
@@ -7,6 +7,7 @@
 
 #include "VLPCommunication.h"
 #include "Logger.h"
+#include "Helper.h"
 #include "VLPConfig.h"
 
 #include <boost/asio.hpp> // boost::asio::io_service
@@ -124,12 +125,7 @@ void VLPCommunication::SendData() const {
                 packet.InitVLPDataPacket();
                 packetIndex = 0;
                 // calculate sleep time: (<time to sleep> - <time of the iteration>)
-                ptime endTime = microsec_clock::local_time();
-                time_duration diff = endTime - startTime;
-                int sleepTime = m_sleepTimeBetweenEverySend - diff.total_microseconds();
-                if (sleepTime > 0) {
-                    usleep(sleepTime);
-                }
+                Utilities::SleepForRestTime(startTime, m_sleepTimeBetweenEverySend);
                 startTime = microsec_clock::local_time();
             }
             // critical section - try to fill a block
@@ -138,7 +134,7 @@ void VLPCommunication::SendData() const {
             if (CanAddToPacket(lastDuration, dataIndex)) {
                 FillBlockInPacket(dataIndex, packetIndex, packet);
                 // take the last duration from the last cell that was inserted
-                lastDuration = m_velodyneData[dataIndex + DataIndexIncrement() - 1].GetDurationAfterLastHour();
+                lastDuration = m_velodyneData[dataIndex + DataIndexIncrement() - 1].GetSimTime();
                 packetIndex++;
             }
             dataIndex += DataIndexIncrement();
@@ -157,7 +153,7 @@ void VLPCommunication::FillBlockInPacket(int dataIndex, int packetIndex, VLPData
 }
 
 void VLPCommunication::FillTimeStamp(VLPDataPacket& packet, int dataIndex) const {
-    boost::posix_time::time_duration td = m_velodyneData[dataIndex].GetDurationAfterLastHour();
+    boost::posix_time::time_duration td = m_velodyneData[dataIndex].GetSimTime();
     // reduce hours from the time stamp (time stamp is how much time passed after the last round hour)
     unsigned long microseconds = td.total_microseconds() - (td.hours() * HOUR_TO_MICRO_SEC);
     ToByteArray((unsigned long)microseconds, packet.timeStamp, sizeof(packet.timeStamp));
@@ -255,6 +251,6 @@ void VLPCommunication::printPacketData(const VLPDataPacket& packet) const {
     }
     LOG(_DEBUG_, "Return mode: " + VLPConfig::retModeToStr.find((VLPConfig::ReturnMode)packet.factory[0])->second);
     LOG(_DEBUG_, "Data source: " + VLPConfig::dataSourceToStr.find((VLPConfig::DataSource)packet.factory[1])->second);
-    LOG(_NORMAL_, "*********** Time After startup: " + 
+    LOG(_NORMAL_, "*********** Simulation time: " + 
         std::to_string(FormatBlock(packet.timeStamp, sizeof(packet.timeStamp), tsFunc)) + " *********************");
 }

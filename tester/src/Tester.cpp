@@ -6,6 +6,8 @@
 
 #include "Tester.h"
 #include "VLPPluginAPI.h"
+#include "DgpsPluginAPI.h"
+#include "Logger.h"
 #include <boost/range/irange.hpp> // boost::irange
 #include <boost/date_time/posix_time/posix_time.hpp> // boost::posix_time::ptime
 
@@ -52,7 +54,11 @@ void Tester::TestVLP() {
     // delete vlp;
 }
 
+void Tester::TestDgps() {
+    DgpsWrapper* dgps = CreateDgpsObject();
+    LOG(_NORMAL_, "here");
+}
 
 Tester::Tester() {
-    TestVLP();
+    TestDgps();
 }

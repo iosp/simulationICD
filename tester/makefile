@@ -12,15 +12,30 @@ SRC_DIR = src
 
 UTIL_INC_DIR = ../utilities/$(INC_DIR)
 INTERFACE_INC_DIR = ../interfaces
-PROD_INC_DIR = ../products/velodyne/icd/$(INC_DIR)
-WRAPPER_INC_DIR = ../products/velodyne/wrapper/$(INC_DIR)
+VEL_INC_DIR = ../products/velodyne/icd/$(INC_DIR)
+VEL_WRAPPER_INC_DIR = ../products/velodyne/wrapper/$(INC_DIR)
+DGPS_INC_DIR = ../products/dgps/icd/$(INC_DIR)
+DGPS_WRAPPER_INC_DIR = ../products/dgps/wrapper/$(INC_DIR)
 
-INCLUDES = -I$(INC_DIR) -I$(UTIL_INC_DIR) -I$(INTERFACE_INC_DIR) -I$(PROD_INC_DIR) -I$(WRAPPER_INC_DIR)
+INCLUDES = -I$(INC_DIR) \
+			-I$(UTIL_INC_DIR) \
+			-I$(INTERFACE_INC_DIR) \
+			-I$(VEL_INC_DIR) \
+			-I$(VEL_WRAPPER_INC_DIR) \
+			-I$(DGPS_INC_DIR) \
+			-I$(DGPS_WRAPPER_INC_DIR)
 # take all h files on include dir
-DEPS = $(wildcard $(INC_DIR)/*.h) $(wildcard $(UTIL_INC_DIR)/*.h) \
-		$(wildcard $(INTERFACE_INC_DIR)/*.h) $(wildcard $(PROD_INC_DIR)/*.h) $(wildcard $(WRAPPER_INC_DIR)/*.h)
-# replace the name of all h files to the same name with o suffix
-OBJ = $(DEPS:$(INC_DIR)/%.h=$(OBJ_DIR)/%.o)
+DEPS = $(wildcard $(INC_DIR)/*.h) \
+		$(wildcard $(UTIL_INC_DIR)/*.h) \
+		$(wildcard $(INTERFACE_INC_DIR)/*.h) \
+		$(wildcard $(VEL_INC_DIR)/*.h) \
+		$(wildcard $(VEL_WRAPPER_INC_DIR)/*.h) \
+		$(wildcard $(DGPS_INC_DIR)/*.h) \
+		$(wildcard $(DGPS_WRAPPER_INC_DIR)/*.h)
+
+SRCS = $(wildcard $(SRC_DIR)/*.cpp)
+
+OBJ = $(SRCS:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
 all: directories $(TARGET)
 

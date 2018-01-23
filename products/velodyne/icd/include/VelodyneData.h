@@ -23,19 +23,19 @@ public:
     private:
         double m_azimuth;
         t_channel_data m_channels;
-        boost::posix_time::time_duration m_durationAfterLastHour;
+        boost::posix_time::time_duration m_simTime;
 
     public:
         VLPBlock() = default;
 
-        VLPBlock(double azimuth, const t_channel_data& channels, const boost::posix_time::time_duration& durationAfterLastHour);
+        VLPBlock(double azimuth, const t_channel_data& channels, const boost::posix_time::time_duration& simTime);
 
         ~VLPBlock() = default;
 
         double GetAzimuth() const {
             return m_azimuth;
         }
-
+        
         void SetAzimuth(double azimuth) {
             m_azimuth = azimuth;
         }
@@ -48,12 +48,12 @@ public:
             m_channels = channels;
         }
 
-        const boost::posix_time::time_duration& GetDurationAfterLastHour() const {
-            return m_durationAfterLastHour;
+        const boost::posix_time::time_duration& GetSimTime() const {
+            return m_simTime;
         }
 
-        void SetDurationAfterLastHour(const boost::posix_time::time_duration& durationAfterLastHour) {
-            m_durationAfterLastHour = durationAfterLastHour;
+        void SetSimTime(const boost::posix_time::time_duration& simTime) {
+            m_simTime = simTime;
         }
     };
 

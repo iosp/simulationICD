@@ -7,8 +7,6 @@
 #include "Helper.h"
 #include <sstream>
 #include <fstream>
-#include <boost/date_time/posix_time/posix_time.hpp> // boost::posix_time::ptime
-
 
 bool Utilities::MakeDirectory(const std::string& dirName, mode_t mode) {
     return (mkdir(dirName.c_str(), mode) == 0);
@@ -33,4 +31,16 @@ void Utilities::PrintToFile(const std::string& fileName, const std::string& text
     std::ofstream file(fileName, std::ios_base::app);
     file << text;
     file.close();
+}
+
+
+void Utilities::SleepForRestTime(boost::posix_time::ptime startTime, int maxTimeToSleep) {
+	using namespace boost::posix_time;
+
+	ptime endTime = microsec_clock::local_time();
+	time_duration diff = endTime - startTime;
+	int sleepTime = maxTimeToSleep - diff.total_microseconds();
+	if (sleepTime > 0) {
+		usleep(sleepTime);
+	}
 }

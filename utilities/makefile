@@ -4,6 +4,8 @@ CFLAGS = -std=c++0x -fPIC -O -g
 
 TARGET = ../comp/statlibs/libutils.a
 
+MKDIR = mkdir -p
+
 OBJ_DIR = obj
 
 INC_DIR = include
@@ -18,10 +20,8 @@ OBJ = $(DEPS:$(INC_DIR)/%.h=$(OBJ_DIR)/%.o)
 
 all: directories $(TARGET)
 
-directories: $(OBJ_DIR)
-
-$(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
+directories:
+	$(MKDIR) $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp $(DEPS)
 	$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES)

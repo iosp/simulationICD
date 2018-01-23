@@ -2,7 +2,7 @@ CC = g++
 
 CFLAGS = -std=c++0x -fPIC -O -g
 
-TARGET = ../../../comp/statlibs/libvlpwrapper.a
+TARGET = ../../../comp/statlibs/libdgpswrapper.a
 
 OBJ_DIR = obj
 
