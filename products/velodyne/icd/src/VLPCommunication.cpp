@@ -39,7 +39,6 @@ void VLPCommunication::VLPDataPacket::InitVLPDataPacket() {
 
 void VLPCommunication::InitVelodyneData() {
     int numOfColumns = (DEGREES / m_vlpConfig.GetRealHorizontalResolution());
-    LOG(_NORMAL_, "");
     for (int i : boost::irange(0,numOfColumns)) {
        m_velodyneData.push_back(VelodyneData::VLPBlock(0, VelodyneData::VLPBlock::t_channel_data(), boost::posix_time::microseconds(0)));
     }
