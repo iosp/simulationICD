@@ -88,7 +88,7 @@ VelodyneData* VLPControl::GetData() {
 void VLPControl::SendPacket(const VLPDataPacket& packet) const {
     char buf[sizeof(VLPDataPacket)]{};
     memcpy(buf, &packet, sizeof(packet));
-    m_comm->SendData(buf, sizeof(packet));
+    m_comm->SendData(buf);
 }
 
 void VLPControl::SendData() const {
@@ -179,6 +179,10 @@ VelodyneData::VLPBlock::t_channel_data VLPControl::MapChannels(const VelodyneDat
 }
 
 void VLPControl::Run() {
+    if (!m_comm->Init()) {
+		LOG(_NORMAL_, "Failed to initialize communication, not running send thread.");
+		return;
+	}
     m_sendDataThread = boost::thread(&VLPControl::SendData, this);
 }
 

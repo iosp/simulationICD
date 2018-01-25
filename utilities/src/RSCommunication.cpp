@@ -9,8 +9,7 @@
 #include "RSCommunication.h"
 #include "Logger.h"
 
-RSCommunication::RSCommunication(const std::string& tty) : m_tty(tty) {
-    Init();
+RSCommunication::RSCommunication(const std::string& tty, int baudRate) : m_tty(tty), m_baudRate(baudRate) {
 }
 
 bool RSCommunication::Init() {
@@ -25,14 +24,16 @@ bool RSCommunication::Init() {
         return false;
     }
 
-    m_port->set_option(boost::asio::serial_port_base::baud_rate(115200));
+    m_port->set_option(boost::asio::serial_port_base::baud_rate(m_baudRate));
     m_port->set_option(boost::asio::serial_port_base::character_size(8));
 	m_port->set_option(boost::asio::serial_port_base::stop_bits(boost::asio::serial_port_base::stop_bits::one));
 	m_port->set_option(boost::asio::serial_port_base::parity(boost::asio::serial_port_base::parity::none));
 	m_port->set_option(boost::asio::serial_port_base::flow_control(boost::asio::serial_port_base::flow_control::none));
+
+    return true;
 }
 
-int RSCommunication::SendData(const char* buffer, int sizeOfData) const {
-	int n = m_port->write_some(boost::asio::buffer(buffer, sizeOfData));
+int RSCommunication::SendData(const std::string& buffer) const {
+	int n = m_port->write_some(boost::asio::buffer(buffer.c_str(), buffer.length()));
     return n;
 }

@@ -15,10 +15,25 @@
 #include "DgpsData.h"
 #include "DgpsStructs.h"
 
+static const int BUFFER_SIZE = 100;
+
 class ICommunication; // forward declaration
  
 class DgpsControl : public IICD<DgpsData> {
 private:
+
+    ICommunication* m_comm;
+    /**
+     * time to sleep between every packet send
+    */
+    int m_sleepTimeBetweenEverySend;
+    boost::thread m_sendDataThread;
+    mutable boost::mutex m_dgpsData_mutex;
+    
+    //Data
+    char m_BestVelBuffer[BUFFER_SIZE]{};
+    char m_BestPosBuffer[BUFFER_SIZE]{};
+    boost::lockfree::queue<DgpsData, boost::lockfree::capacity<100> > m_dgpsDataCollection;
 
     void SendThreadMethod();
 
@@ -26,7 +41,7 @@ private:
 
     void SendBestPosData(const DgpsData& data);
 
-    void SendBuffer(char* buffer, size_t sizeOfBuffer) const;
+    void SendBuffer(const std::string& buffer) const;
 
     void FillBestVel(const DgpsData& data);
 
@@ -43,20 +58,6 @@ private:
     unsigned int CRC32Value(int i) const;
 
     unsigned int CalcBlockCRC32(unsigned int ulCount, unsigned char* data) const;
-
-    ICommunication* m_comm;
-
-    /**
-     * time to sleep between every packet send
-    */
-    int m_sleepTimeBetweenEverySend;
-    boost::thread m_sendDataThread;
-    mutable boost::mutex m_dgpsData_mutex;
-    
-    //Data
-    char m_BestVelBuffer[1000]{};
-    char m_BestPosBuffer[1000]{};
-    boost::lockfree::queue<DgpsData, boost::lockfree::capacity<100> > m_dgpsDataCollection;
 
 public:
     DgpsControl();

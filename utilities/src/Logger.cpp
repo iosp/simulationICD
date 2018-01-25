@@ -16,7 +16,7 @@
 #define RED COL_PREFIX"31m"
 
 const std::map<LogLevel, std::string> Logger::m_logLevelToStr = boost::assign::map_list_of(_DEBUG_, "D")(_NORMAL_, "N")(_ERROR_, "E")(_ALWAYS_, "A");
-const std::string Logger::DEF_LOG_DIR_NAME = "/home/robil/icd/";
+const std::string Logger::DEF_LOG_DIR_NAME = "~/icd/";
 
 
 Logger::Logger(LogLevel screenLogLevel/* = _NORMAL_*/, LogLevel fileLogLevel /** = _NORMAL_ */) :

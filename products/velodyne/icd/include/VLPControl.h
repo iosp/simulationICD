@@ -50,7 +50,9 @@ protected:
         void InitVLPDataPacket();
     };
 
-
+    /**
+     * connection protocol to use 
+    */
     ICommunication* m_comm;
     /**
      * velodyne data to save on process  

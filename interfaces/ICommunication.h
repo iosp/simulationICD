@@ -9,6 +9,8 @@
 * 
 */
 
+#include <string>
+
 class ICommunication {
 public:
     
@@ -16,13 +18,14 @@ public:
     
     virtual ~ICommunication() = default;
     
+    virtual bool Init() = 0;
     /**
      * Send data via protocol
      * @param buffer - the data to send
      * @sizeOfData - data size to send
      * @return num of bytes that has been sent
      */ 
-    virtual int SendData(const char* buffer, int sizeOfData) const = 0;
+    virtual int SendData(const std::string& buffer) const = 0;
 };
 
 

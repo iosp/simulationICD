@@ -14,7 +14,11 @@
 UDPCommunication::UDPCommunication(const std::string& ipAddress, const std::string& port) : m_port(port), m_ipAddress(ipAddress) {
 }
 
-int UDPCommunication::SendData(const char* buffer, int sizeOfData) const {
+bool UDPCommunication::Init() {
+    return true;
+}
+
+int UDPCommunication::SendData(const std::string& buffer) const {
     using namespace boost::asio;
 
     boost::asio::io_service io_service;
@@ -25,12 +29,12 @@ int UDPCommunication::SendData(const char* buffer, int sizeOfData) const {
     // set the ip address of the configuration
     remote_endpoint.address(ip::address::from_string(m_ipAddress));
     boost::system::error_code err;
-    socket.send_to(boost::asio::buffer(buffer, sizeOfData), remote_endpoint, 0, err);
+    socket.send_to(boost::asio::buffer(buffer.c_str(), buffer.length()), remote_endpoint, 0, err);
     if (err.value() != boost::system::errc::success) {
         LOG(_ERROR_, "Failed to send packet. " + err.message());
         socket.close();
         return 0;
     }
     socket.close();
-    return sizeOfData;
+    return buffer.length();
 }

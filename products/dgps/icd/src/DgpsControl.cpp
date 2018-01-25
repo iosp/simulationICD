@@ -12,9 +12,11 @@
 
 static const int HEADER_LEN = 28;
 static const int TIME_BETWEEN_EVERY_SEND = 50000;
+static const int BAUD_RATE = 115200;
+static const std::string DEV_TTY = "/dev/ttyUSB0";
 
 DgpsControl::DgpsControl() {
-	m_comm = new RSCommunication("/dev/ttyUSB0");
+	m_comm = new RSCommunication(DEV_TTY, BAUD_RATE);
 	m_sleepTimeBetweenEverySend = TIME_BETWEEN_EVERY_SEND;
 }
 
@@ -23,6 +25,10 @@ DgpsControl::~DgpsControl() {
 }
 
 void DgpsControl::Run() {
+	if (!m_comm->Init()) {
+		LOG(_ERROR_, "Failed to initialize communication, not running send thread.");
+		return;
+	}
 	m_sendDataThread = boost::thread(&DgpsControl::SendThreadMethod, this);
 }
 
@@ -59,19 +65,19 @@ void DgpsControl::SendThreadMethod() {
 
 void DgpsControl::SendBestVelData(const DgpsData& data) {
 	FillBestVel(data);
-	SendBuffer(m_BestVelBuffer, sizeof(PHS_BESTVEL));	
+	SendBuffer(m_BestVelBuffer);	
 }
 
 void DgpsControl::SendBestPosData(const DgpsData& data) {
 	FillBestPos(data);
-	SendBuffer(m_BestPosBuffer, sizeof(PHS_BESTPOS));
+	SendBuffer(m_BestPosBuffer);
 }
 
-void DgpsControl::SendBuffer(char* buffer, size_t sizeOfBuffer) const {
+void DgpsControl::SendBuffer(const std::string& buffer) const {
 	bool allSent = false;
 	while (!allSent) {
-		int bytesSent =	m_comm->SendData(buffer, sizeOfBuffer);
-		allSent = (bytesSent >= sizeof(buffer));
+		int bytesSent =	m_comm->SendData(buffer);
+		allSent = (bytesSent >= buffer.length());
 		if (!allSent) {
 			LOG(_ERROR_, "Couldn't send all buffer data. Retrying...");
 		}
@@ -96,7 +102,7 @@ void DgpsControl::FillBestVel(const DgpsData& data) {
 	//CRC will calculate after copy data to the buffer
 	msg.CRC = 0;
 
-	bzero(m_BestVelBuffer, 1000);
+	bzero(m_BestVelBuffer, BUFFER_SIZE);
 
 
 	//HEADER
@@ -177,7 +183,7 @@ void DgpsControl::FillBestPos(const DgpsData& data) {
 	//CRC will calculate after copy data to the buffer
 	msg.CRC = 0;
 
-	bzero(m_BestPosBuffer, 1000);
+	bzero(m_BestPosBuffer, BUFFER_SIZE);
 
 
 	//HEADER

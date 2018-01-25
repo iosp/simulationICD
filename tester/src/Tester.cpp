@@ -35,6 +35,7 @@ static const std::string IP_ADDRESS = "192.168.1.77";
 
 void Tester::TestVLP() {
     VLPWrapper* vlp = CreateVLPObject(192, 168, 1, 77, 2368, 200, 37, 22, 10, 16);
+    DeleteVLPObject(vlp);
     // VelodyneData::Resolution res = VLPCommunication::_RES02_;
     // double realRes = (res / 1000.0);
     // int vecSize = 360 / realRes;

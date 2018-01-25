@@ -9,7 +9,6 @@
 * 
 */
 
-#include <string>
 #include "ICommunication.h"
 
 class UDPCommunication : public ICommunication{
@@ -21,7 +20,8 @@ public:
     UDPCommunication(const std::string& ipAddress, const std::string& port);
     ~UDPCommunication() = default;
 
-    int SendData(const char* buffer, int sizeOfData) const;
+    bool Init() override;
+    int SendData(const std::string& buffer) const override;
 };
 
 
