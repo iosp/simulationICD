@@ -6,6 +6,8 @@ TARGET = comp/icd
 
 EX_LIBS = -lboost_system -lboost_thread
 
+MAIN_INCLUDES = -Itester/include -Iutilities/include
+
 STAT_DIR = comp/statlibs
 
 STAT_LIBS_BASE_NAMES = velicd \
@@ -38,7 +40,7 @@ $(TARGET): main.o $(STAT_LIB_DEPS)
 	$(CC) -L$(STAT_DIR) -o $@ main.o -Wl,-whole-archive $(STAT_LIBS) -Wl,-no-whole-archive $(EX_LIBS)
 
 main.o : main.cpp
-	$(CC) $(CFLAGS) -c $^
+	$(CC) $(CFLAGS) -c $^ $(MAIN_INCLUDES)
 
 .PHONY: all clean
 
@@ -46,4 +48,4 @@ clean:
 	for dir in $(SUBDIRS); do \
 		$(MAKE) -C $$dir clean; \
 	done
-	$(RM) $(STAT_DIR)/*.a $(TARGET)
+	$(RM) $(STAT_DIR)/*.a $(TARGET) *.o

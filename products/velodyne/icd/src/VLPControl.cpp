@@ -1,50 +1,51 @@
 /**
-* VLPCommunication.cpp
+* VLPControl.cpp
 * Manage communication between velodyne sensor with UDP socket
 * Author: Binyamin Appelbaum
 * Date: 7.11.17
 */
 
-#include "VLPCommunication.h"
+#include "VLPControl.h"
 #include "Logger.h"
 #include "Helper.h"
 #include "VLPConfig.h"
+#include "UDPCommunication.h"
 
-#include <boost/asio.hpp> // boost::asio::io_service
 #include <boost/range/irange.hpp> // boost::irange
-#include <boost/lexical_cast.hpp>
 
 static const int DISTANCE_MULT = 500;
 static const int AZIMUTH_MULT = 100;
 static const unsigned long HOUR_TO_MICRO_SEC = 360 * SECOND_TO_MICROSECOND;
 
 
-VLPCommunication::VLPCommunication(const VLPConfig& vlpConfig) : m_vlpConfig(vlpConfig) {
+VLPControl::VLPControl(const VLPConfig& vlpConfig) : m_vlpConfig(vlpConfig) {
     InitVelodyneData();
     // transmittion frequency is the degrees*10 / <degrees range of packet>
     size_t transmissionFrequency = (m_vlpConfig.GetSensorFrequency() * DEGREES) /
                                     (m_vlpConfig.GetRealHorizontalResolution() * 2*NUM_OF_VLP_DATA_BLOCKS);
     // sleep time is 1/transmission time * 1000 (milliseconds) * 1000 (to microseconds)
     m_sleepTimeBetweenEverySend = SECOND_TO_MICROSECOND / transmissionFrequency;
+    m_comm = new UDPCommunication(m_vlpConfig.GetIpAddress(), m_vlpConfig.GetPort());
 }
 
-VLPCommunication::~VLPCommunication() {
+VLPControl::~VLPControl() {
     m_sendDataThread.interrupt();
+    delete m_comm;
 }
 
-void VLPCommunication::VLPDataPacket::InitVLPDataPacket() {
+void VLPControl::VLPDataPacket::InitVLPDataPacket() {
     std::fill_n(dataBlocks, NUM_OF_VLP_DATA_BLOCKS, VLPDataBlock());
     std::fill_n(timeStamp, 4, 0);
 }
 
-void VLPCommunication::InitVelodyneData() {
+void VLPControl::InitVelodyneData() {
     int numOfColumns = (DEGREES / m_vlpConfig.GetRealHorizontalResolution());
     for (int i : boost::irange(0,numOfColumns)) {
        m_velodyneData.push_back(VelodyneData::VLPBlock(0, VelodyneData::VLPBlock::t_channel_data(), boost::posix_time::microseconds(0)));
     }
 }
 
-bool VLPCommunication::CheckDataValidation(const VelodyneData::VLPBlock& data) const {
+bool VLPControl::CheckDataValidation(const VelodyneData::VLPBlock& data) const {
     double angle = data.GetAzimuth();
     // avoid 360 Degrees and above
     if ((angle >= DEGREES) || (angle < 0)) {
@@ -59,12 +60,12 @@ bool VLPCommunication::CheckDataValidation(const VelodyneData::VLPBlock& data) c
     return true;
 }
 
-bool VLPCommunication::IsDataZeroed(int dataIndex) const {
+bool VLPControl::IsDataZeroed(int dataIndex) const {
     return std::all_of(m_velodyneData[dataIndex].GetChannels().begin(), m_velodyneData[dataIndex].GetChannels().end(), 
             [](const std::pair<double, short>& p) { return p.first == 0; });
 }
 
-void VLPCommunication::SetData(const VelodyneData& data) {
+void VLPControl::SetData(const VelodyneData& data) {
     for (auto const& block : data.GetData()) {
         m_velodyneDataMutex.lock();
         if (!CheckDataValidation(block)) {
@@ -79,32 +80,18 @@ void VLPCommunication::SetData(const VelodyneData& data) {
     }
 }
 
-VelodyneData* VLPCommunication::GetData() {
+VelodyneData* VLPControl::GetData() {
     LOG(_ERROR_, "This function is not implemented!");
     return nullptr;
 }
 
-void VLPCommunication::SendPacket(const VLPDataPacket& packet) const {
-    using namespace boost::asio;
+void VLPControl::SendPacket(const VLPDataPacket& packet) const {
     char buf[sizeof(VLPDataPacket)]{};
     memcpy(buf, &packet, sizeof(packet));
-
-    boost::asio::io_service io_service;
-    ip::udp::socket socket(io_service);
-    socket.open(ip::udp::v4());
-    ip::udp::endpoint remote_endpoint = ip::udp::endpoint(ip::address::from_string(m_vlpConfig.GetIpAddress()),
-         boost::lexical_cast<int>(m_vlpConfig.GetPort()));
-    // set the ip address of the configuration
-    remote_endpoint.address(ip::address::from_string(m_vlpConfig.GetIpAddress()));
-    boost::system::error_code err;
-    socket.send_to(buffer(buf, sizeof(packet)), remote_endpoint, 0, err);
-    if (err.value() != boost::system::errc::success) {
-        LOG(_ERROR_, "Failed to send packet. " + err.message());
-    }
-    socket.close();
+    m_comm->SendData(buf, sizeof(packet));
 }
 
-void VLPCommunication::SendData() const {
+void VLPControl::SendData() const {
     using namespace boost::posix_time;
 
     VLPDataPacket packet;
@@ -142,7 +129,7 @@ void VLPCommunication::SendData() const {
     }
 }
 
-void VLPCommunication::FillBlockInPacket(int dataIndex, int packetIndex, VLPDataPacket& packet) const {
+void VLPControl::FillBlockInPacket(int dataIndex, int packetIndex, VLPDataPacket& packet) const {
     // fill time stamp only for the first index
     if (packetIndex == 0) {
         FillTimeStamp(packet, dataIndex);
@@ -151,25 +138,25 @@ void VLPCommunication::FillBlockInPacket(int dataIndex, int packetIndex, VLPData
     FillDataRecords(packet, dataIndex, packetIndex);
 }
 
-void VLPCommunication::FillTimeStamp(VLPDataPacket& packet, int dataIndex) const {
+void VLPControl::FillTimeStamp(VLPDataPacket& packet, int dataIndex) const {
     boost::posix_time::time_duration td = m_velodyneData[dataIndex].GetSimTime();
     // reduce hours from the time stamp (time stamp is how much time passed after the last round hour)
     unsigned long microseconds = td.total_microseconds() - (td.hours() * HOUR_TO_MICRO_SEC);
     ToByteArray((unsigned long)microseconds, packet.timeStamp, sizeof(packet.timeStamp));
 }
 
-void VLPCommunication::FillFactory(VLPDataPacket& packet) const {
+void VLPControl::FillFactory(VLPDataPacket& packet) const {
     packet.factory[0] = m_vlpConfig.GetReturnMode();
     packet.factory[1] = m_vlpConfig.GetDataSource();    
 }
 
-void VLPCommunication::FillAzimuth(VLPDataPacket& packet, int dataIndex, int packetIndex) const {
+void VLPControl::FillAzimuth(VLPDataPacket& packet, int dataIndex, int packetIndex) const {
     // convert the angle * 100 (in order to save double information) to array on the suitable block of the packet
     ToByteArray((unsigned int) (m_velodyneData[dataIndex].GetAzimuth() * AZIMUTH_MULT),
         packet.dataBlocks[packetIndex].azimuth, sizeof(packet.dataBlocks[packetIndex].azimuth));
 }
 
-void VLPCommunication::FillChannelsInPacket(VLPDataPacket& packet, const VelodyneData::VLPBlock::t_channel_data& channels, int packetIndex) const {
+void VLPControl::FillChannelsInPacket(VLPDataPacket& packet, const VelodyneData::VLPBlock::t_channel_data& channels, int packetIndex) const {
     for (auto i : boost::irange<size_t>(0, channels.size())) {
          // convert the distance * 500 (in order to save double information) to array on the suitable block of the packet
         ToByteArray((unsigned int)(channels[i].first * DISTANCE_MULT), 
@@ -177,7 +164,7 @@ void VLPCommunication::FillChannelsInPacket(VLPDataPacket& packet, const Velodyn
     }
 }
 
-VelodyneData::VLPBlock::t_channel_data VLPCommunication::MapChannels(const VelodyneData::VLPBlock::t_channel_data& channels) const {
+VelodyneData::VLPBlock::t_channel_data VLPControl::MapChannels(const VelodyneData::VLPBlock::t_channel_data& channels) const {
     int channelsSize = channels.size();
     VelodyneData::VLPBlock::t_channel_data newChannels(channelsSize);
     // put the size/2 first elements in the correspoindig 2*i indexes on the new vector (0 -> 0, 1 -> 2, 2 -> 4, etc)
@@ -191,12 +178,12 @@ VelodyneData::VLPBlock::t_channel_data VLPCommunication::MapChannels(const Velod
     return newChannels;
 }
 
-void VLPCommunication::Run() {
-    m_sendDataThread = boost::thread(&VLPCommunication::SendData, this);
+void VLPControl::Run() {
+    m_sendDataThread = boost::thread(&VLPControl::SendData, this);
 }
 
 template <typename Func>
-double VLPCommunication::FormatBlock(const unsigned char* arr, size_t size, Func func) const {
+double VLPControl::FormatBlock(const unsigned char* arr, size_t size, Func func) const {
     long num = 0;
     for (int i = 0; i < size; i++) {
         num += ((long)arr[i] << i*8);
@@ -205,7 +192,7 @@ double VLPCommunication::FormatBlock(const unsigned char* arr, size_t size, Func
 }
 
 template <typename T>
-bool VLPCommunication::ToByteArray(T num, unsigned char* ret, size_t size) const {
+bool VLPControl::ToByteArray(T num, unsigned char* ret, size_t size) const {
     if (ret == nullptr) {
         LOG(_ERROR_, "nullptr");
         return false;
@@ -217,7 +204,7 @@ bool VLPCommunication::ToByteArray(T num, unsigned char* ret, size_t size) const
     return true;
 }
 
-void VLPCommunication::printVelData() const {       
+void VLPControl::printVelData() const {       
     for (auto const& data : m_velodyneData) {
         auto values = data.GetChannels();
         if (values.empty()) {
@@ -231,7 +218,7 @@ void VLPCommunication::printVelData() const {
     }
 }
 
-void VLPCommunication::printPacketData(const VLPDataPacket& packet) const {
+void VLPControl::printPacketData(const VLPDataPacket& packet) const {
     auto azimuthFunc = [](double num) -> double {return (double)num/AZIMUTH_MULT; };
     auto distanceFunc = [](double num) -> double {return (double)num/DISTANCE_MULT; };
     auto tsFunc = [](double num) -> double {return (double)num/SECOND_TO_MICROSECOND; };

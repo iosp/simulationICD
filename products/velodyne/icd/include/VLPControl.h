@@ -2,7 +2,7 @@
 #define VLP_COMMUNICATION
 
 /*
-* VLPCommunication.h
+* VLPControl.h
 * Manage communication between velodyne sensor with UDP socket
 * Author: Binyamin Appelbaum
 * Date: 7.11.17
@@ -23,7 +23,9 @@ static const int SECOND_TO_MICROSECOND  = 1e6;
 static const int NUM_OF_VLP_DATA_CHANNELS_IN_BLOCK = 32;
 static const int NUM_OF_VLP_DATA_BLOCKS = 12;
 
-class VLPCommunication : public IICD<VelodyneData> {
+class ICommunication; // forward declaration
+
+class VLPControl : public IICD<VelodyneData> {
 protected:
     /**
      * VLP packet that defined by Velodyne
@@ -48,6 +50,8 @@ protected:
         void InitVLPDataPacket();
     };
 
+
+    ICommunication* m_comm;
     /**
      * velodyne data to save on process  
     */
@@ -212,8 +216,8 @@ public:
      * Ctor
      * @param vlpConfig - struct of VLPConfig
      */ 
-    VLPCommunication(const VLPConfig& vlpConfig);
-    virtual ~VLPCommunication();
+    VLPControl(const VLPConfig& vlpConfig);
+    virtual ~VLPControl();
 
     /**
      * Set data on inner velodyne data vector

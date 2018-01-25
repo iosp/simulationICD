@@ -1,16 +1,16 @@
 /*
-* VLPCommunication16.cpp
+* VLP16Control.cpp
 * Manage communication between velodyne sensor with UDP socket - for VLP 16
 * Author: Binyamin Appelbaum
 * Date: 13.12.17
 */
 
-#include "VLPCommunication16.h"
+#include "VLP16Control.h"
 
-VLPCommunication16::VLPCommunication16(const VLPConfig& vlpConfig) : VLPCommunication(vlpConfig) {
+VLP16Control::VLP16Control(const VLPConfig& vlpConfig) : VLPControl(vlpConfig) {
 }
 
-void VLPCommunication16::FillDataRecords(VLPDataPacket& packet, int dataIndex, int packetIndex) const {
+void VLP16Control::FillDataRecords(VLPDataPacket& packet, int dataIndex, int packetIndex) const {
     auto values = MapChannels(m_velodyneData[dataIndex].GetChannels());
 
     auto additionalValues = MapChannels(m_velodyneData[dataIndex + 1].GetChannels());
@@ -19,16 +19,16 @@ void VLPCommunication16::FillDataRecords(VLPDataPacket& packet, int dataIndex, i
     FillChannelsInPacket(packet, values, packetIndex);
 }
 
-bool VLPCommunication16::CanAddToPacket(const boost::posix_time::time_duration& lastDuration, int dataIndex) const {
+bool VLP16Control::CanAddToPacket(const boost::posix_time::time_duration& lastDuration, int dataIndex) const {
     return (lastDuration < m_velodyneData[dataIndex].GetSimTime()) && 
                 (m_velodyneData[dataIndex].GetSimTime() < m_velodyneData[dataIndex + 1].GetSimTime()) &&
                 !IsDataZeroed(dataIndex);
 }
 
-int VLPCommunication16::DataIndexIncrement() const {
+int VLP16Control::DataIndexIncrement() const {
     return 2;
 }
 
-int VLPCommunication16::GetNumOfrowsInColumn() const {
+int VLP16Control::GetNumOfrowsInColumn() const {
     return 16;
 }

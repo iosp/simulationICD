@@ -12,11 +12,17 @@ INC_DIR = include
 
 SRC_DIR = src
 
-INCLUDES = -I$(INC_DIR)
+INTERFACE_INC_DIR = ../interfaces
+
+INCLUDES = -I$(INC_DIR) \
+			-I$(INTERFACE_INC_DIR)
 # take all h files on include dir
-DEPS = $(wildcard $(INC_DIR)/*.h)
-# replace the name of all h files to the same name with o suffix
-OBJ = $(DEPS:$(INC_DIR)/%.h=$(OBJ_DIR)/%.o)
+DEPS = $(wildcard $(INC_DIR)/*.h) \
+		$(wildcard $(INTERFACE_INC_DIR)/*.h)
+
+SRCS = $(wildcard $(SRC_DIR)/*.cpp)
+# replace the name of all cpp files to the same name with o suffix
+OBJ = $(SRCS:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
 all: directories $(TARGET)
 

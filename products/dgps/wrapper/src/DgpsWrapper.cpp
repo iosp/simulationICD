@@ -1,10 +1,10 @@
 
 #include "DgpsWrapper.h"
-#include "DgpsCommunication.h"
+#include "DgpsControl.h"
 
 
 DgpsWrapper::DgpsWrapper() {
-    m_icd = new DgpsCommunication();
+    m_icd = new DgpsControl();
 }
 
 DgpsWrapper::~DgpsWrapper(){

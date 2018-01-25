@@ -55,8 +55,21 @@ void Tester::TestVLP() {
 }
 
 void Tester::TestDgps() {
+    using namespace boost::posix_time;
+
     DgpsWrapper* dgps = CreateDgpsObject();
-    LOG(_NORMAL_, "here");
+    RunDgps(dgps);
+    for (auto i : boost::irange(0, 1000000)) {
+        time_duration td =  microsec_clock::local_time() - from_time_t(0);
+        DgpsData data(31.771959,35.217018,10,10,10,10, td);
+        SetDgpsData(dgps, data);
+        SendDgpsData(dgps);
+        usleep(100000);
+    }
+    
+
+    DeleteDgpsObject(dgps);
+    dgps = nullptr;
 }
 
 Tester::Tester() {

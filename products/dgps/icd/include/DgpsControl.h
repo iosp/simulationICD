@@ -1,8 +1,8 @@
-#ifndef DGPS_COMMUNICATION
-#define DGPS_COMMUNICATION
+#ifndef DGPS_CONTROL
+#define DGPS_CONTROL
 
 /*
-* DgpsCommunication.h
+* DgpsControl.h
 * Manage communication between DGPS sensor
 * Author: Binyamin Appelbaum
 * Date: 15.01.18
@@ -11,16 +11,14 @@
 #include <string>
 #include <boost/thread.hpp> // boost::thread
 #include <boost/lockfree/queue.hpp>
-#include <termios.h>
 #include "IICD.h"
 #include "DgpsData.h"
 #include "DgpsStructs.h"
 
+class ICommunication; // forward declaration
  
-class DgpsCommunication : public IICD<DgpsData> {
+class DgpsControl : public IICD<DgpsData> {
 private:
-
-    int SendData(char* buffer, int sizeOfData) const;
 
     void SendThreadMethod();
 
@@ -42,15 +40,11 @@ private:
 
     char ExtractSigMask(const PHS_BESTPOS& msg) const;
 
-    bool InitRS232Connection();
-
     unsigned int CRC32Value(int i) const;
 
     unsigned int CalcBlockCRC32(unsigned int ulCount, unsigned char* data) const;
 
-    //RS interface
-    int m_cport;
-    struct termios m_newPortSettings, m_oldPortSettings;
+    ICommunication* m_comm;
 
     /**
      * time to sleep between every packet send
@@ -59,15 +53,15 @@ private:
     boost::thread m_sendDataThread;
     mutable boost::mutex m_dgpsData_mutex;
     
-    //RS Data
+    //Data
     char m_BestVelBuffer[1000]{};
     char m_BestPosBuffer[1000]{};
-    boost::lockfree::queue<DgpsData> m_dgpsDataCollection;
+    boost::lockfree::queue<DgpsData, boost::lockfree::capacity<100> > m_dgpsDataCollection;
 
 public:
-    DgpsCommunication();
+    DgpsControl();
 
-    virtual ~DgpsCommunication() = default;
+    virtual ~DgpsControl();
 
     /**
      * Set data on Dgps
@@ -87,4 +81,4 @@ public:
 
 };
 
-#endif // DGPS_COMMUNICATION
+#endif // DGPS_CONTROL

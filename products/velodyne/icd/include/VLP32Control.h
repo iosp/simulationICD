@@ -1,17 +1,17 @@
-#ifndef VLP_COMMUNICATION16
-#define VLP_COMMUNICATION16
+#ifndef VLP32CONTROL_H
+#define VLP32CONTROL_H
 
 /*
-* VLPCommunication16.h
-* Manage communication between velodyne sensor with UDP socket - for VLP 16
+* VLP32Control.h
+* Manage communication between velodyne sensor with UDP socket - for VLP 32
 * Author: Binyamin Appelbaum
 * Date: 13.12.17
 */
 
-#include "VLPCommunication.h"
+#include "VLPControl.h"
 
 
-class VLPCommunication16 : public VLPCommunication {
+class VLP32Control : public VLPControl {
 protected:
 
     virtual void FillDataRecords(VLPDataPacket& packet, int dataIndex, int packetIndex) const;
@@ -23,10 +23,10 @@ protected:
     virtual int DataIndexIncrement() const;
 
 public:
-    VLPCommunication16(const VLPConfig& vlpConfig);
-    ~VLPCommunication16() = default;
+    VLP32Control(const VLPConfig& vlpConfig);
+    ~VLP32Control() = default;
 };
 
 
 
-#endif // VLP_COMMUNICATION16
+#endif // VLP32CONTROL_H

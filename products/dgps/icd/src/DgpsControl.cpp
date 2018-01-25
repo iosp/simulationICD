@@ -1,50 +1,43 @@
 /*
-* DgpsCommunication.cpp
+* DgpsControl.cpp
 * Manage communication between DGPS sensor
 * Author: Binyamin Appelbaum
 * Date: 15.01.18
 */
 
-#include "DgpsCommunication.h"
+#include "DgpsControl.h"
 #include "Logger.h"
 #include "Helper.h"
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
+#include "RSCommunication.h"
 
 static const int HEADER_LEN = 28;
 static const int TIME_BETWEEN_EVERY_SEND = 50000;
 
-DgpsCommunication::DgpsCommunication() {
-	InitRS232Connection();
+DgpsControl::DgpsControl() {
+	m_comm = new RSCommunication("/dev/ttyUSB0");
 	m_sleepTimeBetweenEverySend = TIME_BETWEEN_EVERY_SEND;
 }
 
-void DgpsCommunication::Run() {
-	m_sendDataThread = boost::thread(&DgpsCommunication::SendThreadMethod, this);
+DgpsControl::~DgpsControl() {
+	delete m_comm;
 }
 
-DgpsData* DgpsCommunication::GetData() {
+void DgpsControl::Run() {
+	m_sendDataThread = boost::thread(&DgpsControl::SendThreadMethod, this);
+}
+
+DgpsData* DgpsControl::GetData() {
     LOG(_ERROR_, "This function is not implemented!");
     return nullptr;
 }
 
-void DgpsCommunication::SetData(const DgpsData& data) {
+void DgpsControl::SetData(const DgpsData& data) {
 	m_dgpsData_mutex.lock();
 	m_dgpsDataCollection.push(data);
 	m_dgpsData_mutex.unlock();
 }
 
-int DgpsCommunication::SendData(char* buffer, int sizeOfData) const {
-	if(tcdrain(m_cport) != 0) { // verify the previous buffer transition is over and prevent collisions, dcdrain is a block function it waits until it has an answer.
-		LOG(_ERROR_, "tcdrain return an error, errno");
-	}
-
-	int n = write(m_cport, buffer, sizeOfData); // the actual transition of the data via the RS232 channel.
-	return n;
-}
-
-void DgpsCommunication::SendThreadMethod() {
+void DgpsControl::SendThreadMethod() {
 	boost::posix_time::ptime startTime = boost::posix_time::microsec_clock::local_time();
 	
 	while (true) {
@@ -54,6 +47,7 @@ void DgpsCommunication::SendThreadMethod() {
 		m_dgpsData_mutex.unlock();
 		
 		if (hasValue) {
+			LOG(_NORMAL_, "Going to send data: " + std::to_string(data.GetLatitude()));
 			SendBestVelData(data);
 			SendBestPosData(data);
 		}
@@ -63,20 +57,20 @@ void DgpsCommunication::SendThreadMethod() {
 	}
 }
 
-void DgpsCommunication::SendBestVelData(const DgpsData& data) {
+void DgpsControl::SendBestVelData(const DgpsData& data) {
 	FillBestVel(data);
 	SendBuffer(m_BestVelBuffer, sizeof(PHS_BESTVEL));	
 }
 
-void DgpsCommunication::SendBestPosData(const DgpsData& data) {
+void DgpsControl::SendBestPosData(const DgpsData& data) {
 	FillBestPos(data);
 	SendBuffer(m_BestPosBuffer, sizeof(PHS_BESTPOS));
 }
 
-void DgpsCommunication::SendBuffer(char* buffer, size_t sizeOfBuffer) const {
+void DgpsControl::SendBuffer(char* buffer, size_t sizeOfBuffer) const {
 	bool allSent = false;
 	while (!allSent) {
-		int bytesSent =	SendData(buffer, sizeOfBuffer);
+		int bytesSent =	m_comm->SendData(buffer, sizeOfBuffer);
 		allSent = (bytesSent >= sizeof(buffer));
 		if (!allSent) {
 			LOG(_ERROR_, "Couldn't send all buffer data. Retrying...");
@@ -84,7 +78,7 @@ void DgpsCommunication::SendBuffer(char* buffer, size_t sizeOfBuffer) const {
 	}
 }
 
-void DgpsCommunication::FillBestVel(const DgpsData& data) {
+void DgpsControl::FillBestVel(const DgpsData& data) {
 	PHS_BESTVEL msg;
 
 	FillDefaultHeader(msg.HEADER, E_MESSAGE_ID_INPUT_DGPS_DLV3::E_MESSAGE_ID_INPUT_DGPS_DLV3_BESTVEL, sizeof(PHS_BESTVEL));
@@ -142,7 +136,7 @@ void DgpsCommunication::FillBestVel(const DgpsData& data) {
 	memcpy(m_BestVelBuffer + sizeof(msg) - sizeof(int), ((char*)&msg.CRC), sizeof(unsigned int));
 }
 
-void DgpsCommunication::FillBestPos(const DgpsData& data) {
+void DgpsControl::FillBestPos(const DgpsData& data) {
 	PHS_BESTPOS msg;
 
 	FillDefaultHeader(msg.HEADER, E_MESSAGE_ID_INPUT_DGPS_DLV3::E_MESSAGE_ID_INPUT_DGPS_DLV3_BESTPOS, sizeof(PHS_BESTPOS));
@@ -264,7 +258,7 @@ void DgpsCommunication::FillBestPos(const DgpsData& data) {
 	memcpy(m_BestPosBuffer + sizeof(msg) - sizeof(int), ((char*)&msg.CRC), sizeof(unsigned int));
 }
 
-void DgpsCommunication::FillDefaultHeader(HEADER_STRUCT& HEADER, E_MESSAGE_ID_INPUT_DGPS_DLV3 msgID, int sizeOfMsg) const{
+void DgpsControl::FillDefaultHeader(HEADER_STRUCT& HEADER, E_MESSAGE_ID_INPUT_DGPS_DLV3 msgID, int sizeOfMsg) const{
 	HEADER.Sync = 170;
 	HEADER.Sync1 = 68;
 	HEADER.Sync2 = 18;
@@ -286,7 +280,7 @@ void DgpsCommunication::FillDefaultHeader(HEADER_STRUCT& HEADER, E_MESSAGE_ID_IN
 	HEADER.Receiver_SW_Version = 1;													//
 }
 
-void DgpsCommunication::FillHeaderInBuffer(HEADER_STRUCT HEADER, char* buffer) const{
+void DgpsControl::FillHeaderInBuffer(HEADER_STRUCT HEADER, char* buffer) const{
 	//sync
 	memcpy(buffer, &HEADER.Sync, 1);
 	memcpy(buffer+1, &HEADER.Sync1, 1);
@@ -335,7 +329,7 @@ void DgpsCommunication::FillHeaderInBuffer(HEADER_STRUCT HEADER, char* buffer) c
 	memcpy(buffer+26, &HEADER.Receiver_SW_Version, 2);
 }
 
-char DgpsCommunication::ExtractSolState(const PHS_BESTPOS& msg) const{
+char DgpsControl::ExtractSolState(const PHS_BESTPOS& msg) const{
 	char solState;
 	bzero(&solState, 1);
 	solState |= msg.ext_sol_state.Bit_AdVance_RTK_Verified << 0;
@@ -344,7 +338,7 @@ char DgpsCommunication::ExtractSolState(const PHS_BESTPOS& msg) const{
 	return solState;
 }
 
-char DgpsCommunication::ExtractSigMask(const PHS_BESTPOS& msg) const{
+char DgpsControl::ExtractSigMask(const PHS_BESTPOS& msg) const{
 	char sigMask;
 	bzero(&sigMask, 1);
 	sigMask |= msg.sig_mask.Bit_GPS_L1_used_in_Solution << 0;
@@ -358,42 +352,7 @@ char DgpsCommunication::ExtractSigMask(const PHS_BESTPOS& msg) const{
 	return sigMask;
 }
 
-bool DgpsCommunication::InitRS232Connection() {
-	int baudr = B115200;
-	m_cport = open("/dev/ttyUSB0", O_RDWR | O_NOCTTY | O_NDELAY); // to find what tty use : "$dmesg | grep tty"
-
-	if(m_cport == -1) {
-		perror("unable to open comport ");
-		return(1);
-	}
-
-	// just making sure that m_cport is a valid socket
-	int error = tcgetattr(m_cport, &m_oldPortSettings); //get
-	if(error==-1) {
-		close(m_cport);
-		perror("unable to read portsettings ");
-		return(1);
-	}
-
-	// configure m_cport with our flags
-	memset(&m_newPortSettings, 0, sizeof(m_newPortSettings));  /* clear the new struct */
-	m_newPortSettings.c_cflag = baudr | CS8 | CLOCAL | CREAD;
-	m_newPortSettings.c_iflag = IGNPAR;
-	m_newPortSettings.c_oflag = 0;
-	m_newPortSettings.c_lflag = 0;
-	m_newPortSettings.c_cc[VMIN] = 0;      /* block untill n bytes are received */
-	m_newPortSettings.c_cc[VTIME] = 0;     /* block untill a timer expires (n * 100 mSec.) */
-	error = tcsetattr(m_cport, TCSANOW, &m_newPortSettings); //set
-	if (error==-1) {
-		close(m_cport);
-		perror("unable to adjust portsettings ");
-		return(1);
-	}
-
-	return true;
-}
-
-unsigned int DgpsCommunication::CRC32Value(int i) const{
+unsigned int DgpsControl::CRC32Value(int i) const{
 	int j;
 	unsigned int ulCRC;
 
@@ -410,7 +369,7 @@ unsigned int DgpsCommunication::CRC32Value(int i) const{
 	return ulCRC;
 }
     
-unsigned int DgpsCommunication::CalcBlockCRC32(unsigned int ulCount, unsigned char* data) const{
+unsigned int DgpsControl::CalcBlockCRC32(unsigned int ulCount, unsigned char* data) const{
 	unsigned int ulTemp1;
 	unsigned int ulTemp2;
 	unsigned int ulCRC = 0;
