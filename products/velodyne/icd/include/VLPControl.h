@@ -11,7 +11,6 @@
 
 #include <string>
 #include <vector>
-#include <map>
 #include <boost/date_time/posix_time/posix_time.hpp> // boost::posix_time::time_duration
 #include <boost/thread.hpp> // boost::thread, mutex
 #include "IICD.h"

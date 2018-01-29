@@ -21,6 +21,7 @@ DgpsControl::DgpsControl() {
 }
 
 DgpsControl::~DgpsControl() {
+	m_sendDataThread.interrupt();
 	delete m_comm;
 }
 

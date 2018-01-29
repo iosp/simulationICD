@@ -21,16 +21,15 @@ class ICommunication; // forward declaration
  
 class DgpsControl : public IICD<DgpsData> {
 private:
-
+    // connection protocol to use 
     ICommunication* m_comm;
-    /**
-     * time to sleep between every packet send
-    */
+    // time to sleep between every packet send
     int m_sleepTimeBetweenEverySend;
+    // holds thread method of send data
     boost::thread m_sendDataThread;
     mutable boost::mutex m_dgpsData_mutex;
     
-    //Data
+    // Data
     char m_BestVelBuffer[BUFFER_SIZE]{};
     char m_BestPosBuffer[BUFFER_SIZE]{};
     boost::lockfree::queue<DgpsData, boost::lockfree::capacity<100> > m_dgpsDataCollection;
