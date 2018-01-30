@@ -11,11 +11,19 @@
 
 #include <string>
 #include <map>
+#include <sstream>
 
 enum LogLevel {_NONE_ = -1, _DEBUG_, _NORMAL_, _ERROR_, _ALWAYS_};
 
+#define COL_PREFIX "\033["
+#define RESET_COL COL_PREFIX"0m"
+#define RED COL_PREFIX"31m"
+
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__) // print only file name, without path
-#define LOG(level, msg) Logger::GetInstance().PrintToLog(level, __FILENAME__, __func__, __LINE__, msg)
+#define LOG Logger::GetInstance()(_NORMAL_, __FILENAME__, __func__, __LINE__)
+#define ERRLOG Logger::GetInstance()(_ERROR_, __FILENAME__, __func__, __LINE__)
+#define DBGLOG Logger::GetInstance()(_DEBUG_, __FILENAME__, __func__, __LINE__)
+#define ALWLOG Logger::GetInstance()(_ALWAYS_, __FILENAME__, __func__, __LINE__)
 
 class Logger {
 private:
@@ -23,6 +31,10 @@ private:
     Logger(const Logger&) = default;
     ~Logger() = default;
 
+    /**
+     * temporary level of the current message
+     */ 
+    LogLevel m_tmpLevel;
     /**
      * screen log level for printing
      */ 
@@ -61,14 +73,32 @@ private:
 public:
     static Logger& GetInstance();
     /**
-     * print message to log (file or screen)
+     * operator () of class Logger
      * @param level -log level of the message (debug/normal/etc)
      * @param sourceFile - the cpp file that the message came from
      * @param funcName - function name that the nessage came from
      * @param lineNumber - the line where the message came from
-     * @param message - the message body to print,
+     * @return instance of Logger class
      */ 
-    void PrintToLog(LogLevel level, const std::string& sourceFile, const std::string& funcName, int lineNumber, const std::string& message) const;
+    Logger& operator () (LogLevel level, const std::string& sourceFile, const std::string& funcName, int lineNumber);
+
+    /**
+     * operator << of class Logger - implementation of template function must be on header file
+     * @param message - the message body to print
+     * @return instance of Logger class
+     */     
+    template <typename T>
+    inline Logger& operator << (const T& msg) {
+        std::stringstream ss;
+        ss << msg;
+        std::string message = ss.str();
+        if (m_tmpLevel == _ERROR_) {
+            message = MarkMessageWithColor(message, RED);
+        }
+        PrintToFile(m_tmpLevel, ss.str());
+        PrintToScreen(m_tmpLevel, ss.str());
+        return *this;
+    }
 };
 
 

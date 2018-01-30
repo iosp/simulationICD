@@ -31,7 +31,7 @@ int UDPCommunication::SendData(const std::string& buffer) const {
     boost::system::error_code err;
     socket.send_to(boost::asio::buffer(buffer.c_str(), buffer.length()), remote_endpoint, 0, err);
     if (err.value() != boost::system::errc::success) {
-        LOG(_ERROR_, "Failed to send packet. " + err.message());
+        ERRLOG << "Failed to send packet. " << err.message() << "\n";
         socket.close();
         return 0;
     }

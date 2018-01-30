@@ -20,7 +20,7 @@ bool RSCommunication::Init() {
     m_port->open(m_tty.c_str(), ec);
  
     if (!m_port->is_open()) {
-        LOG(_ERROR_, "unable to open port: " + ec.message());
+        ERRLOG << "unable to open port: " << ec.message() << "\n";
         return false;
     }
 

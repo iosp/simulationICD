@@ -11,12 +11,12 @@
 
 int main() {
     std::stringstream ss;
-    ss << "********************* starting " << __FILE__ << ". Time: " << boost::posix_time::microsec_clock::local_time() << " ******************";
-    LOG(_ALWAYS_, ss.str());
+    ss << "********************* starting " << __FILE__ << ". Time: " << boost::posix_time::microsec_clock::local_time() << " ******************" << std::endl;
+    ALWLOG << ss.str();
 
     Tester t;
 
     ss.str("");
-    ss << "********************* Ending " << __FILE__ << ". Time: " << boost::posix_time::microsec_clock::local_time();
-    LOG(_ALWAYS_, ss.str());
+    ss << "********************* Ending " << __FILE__ << ". Time: " << boost::posix_time::microsec_clock::local_time() << std::endl;
+    ALWLOG << ss.str();
 }

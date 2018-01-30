@@ -11,12 +11,8 @@
 #include <sstream>
 #include <iostream>
 
-#define COL_PREFIX "\033["
-#define RESET_COL COL_PREFIX"0m"
-#define RED COL_PREFIX"31m"
-
 const std::map<LogLevel, std::string> Logger::m_logLevelToStr = boost::assign::map_list_of(_DEBUG_, "D")(_NORMAL_, "N")(_ERROR_, "E")(_ALWAYS_, "A");
-const std::string Logger::DEF_LOG_DIR_NAME = "~/icd/";
+const std::string Logger::DEF_LOG_DIR_NAME = "/var/log/icd/";
 
 
 Logger::Logger(LogLevel screenLogLevel/* = _NORMAL_*/, LogLevel fileLogLevel /** = _NORMAL_ */) :
@@ -31,18 +27,20 @@ Logger& Logger::GetInstance() {
     return l;
 }
 
-void Logger::PrintToLog(LogLevel level, const std::string& sourceFile, const std::string& funcName, int lineNumber, const std::string& message) const {
+Logger& Logger::operator () (LogLevel level, const std::string& sourceFile, const std::string& funcName, int lineNumber) {
     std::stringstream ss;
     ss << Utilities::GetFormattedTime("%d.%m.%y %H:%M:%S") << "::" << sourceFile << "(" << lineNumber << ")::" <<
-            funcName << "::(*" << m_logLevelToStr.find(level)->second << "*) " << message;
-
+            funcName << "::(*" << m_logLevelToStr.find(level)->second << "*) ";
+    // save current level of the log (for the << operator)
+    m_tmpLevel = level;
     PrintToFile(level, ss.str());
     PrintToScreen(level, ss.str());
+    return *this;
 }
 
 void Logger::PrintToFile(LogLevel level, const std::string& message) const {
     if (level >= m_fileLogLevel) {
-        Utilities::PrintToFile(m_logFileName, message + "\n");
+        Utilities::PrintToFile(m_logFileName, message);
     }
 }
 
@@ -55,7 +53,7 @@ void Logger::PrintToScreen(LogLevel level, const std::string& message) const {
     if (level == _ERROR_) {
         msgToDisp = MarkMessageWithColor(message, RED);
     }
-    std::cout << msgToDisp << std::endl;
+    std::cout << msgToDisp;
 }
 
 template <typename T>

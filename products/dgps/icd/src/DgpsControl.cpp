@@ -27,14 +27,14 @@ DgpsControl::~DgpsControl() {
 
 void DgpsControl::Run() {
 	if (!m_comm->Init()) {
-		LOG(_ERROR_, "Failed to initialize communication, not running send thread.");
+		ERRLOG << "Failed to initialize communication, not running send thread.\n";
 		return;
 	}
 	m_sendDataThread = boost::thread(&DgpsControl::SendThreadMethod, this);
 }
 
 DgpsData* DgpsControl::GetData() {
-    LOG(_ERROR_, "This function is not implemented!");
+	ERRLOG << "This function is not implemented!\n";
     return nullptr;
 }
 
@@ -54,7 +54,7 @@ void DgpsControl::SendThreadMethod() {
 		m_dgpsData_mutex.unlock();
 		
 		if (hasValue) {
-			LOG(_NORMAL_, "Going to send data: " + std::to_string(data.GetLatitude()));
+			LOG << "Going to send data: " << data.GetLatitude() << "\n";
 			SendBestVelData(data);
 			SendBestPosData(data);
 		}
@@ -80,7 +80,7 @@ void DgpsControl::SendBuffer(const std::string& buffer) const {
 		int bytesSent =	m_comm->SendData(buffer);
 		allSent = (bytesSent >= buffer.length());
 		if (!allSent) {
-			LOG(_ERROR_, "Couldn't send all buffer data. Retrying...");
+			ERRLOG << "Couldn't send all buffer data. Retrying...\n";
 		}
 	}
 }

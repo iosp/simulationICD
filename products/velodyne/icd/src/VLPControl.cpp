@@ -49,12 +49,12 @@ bool VLPControl::CheckDataValidation(const VelodyneData::VLPBlock& data) const {
     double angle = data.GetAzimuth();
     // avoid 360 Degrees and above
     if ((angle >= DEGREES) || (angle < 0)) {
-        LOG(_ERROR_, "Angle is not valid: " + std::to_string(angle));
+        ERRLOG << "Angle is not valid: " << angle << "\n";
         return false;
     }
     // check that the data size corresponds to the number of columns
     if (data.GetChannels().size() != GetNumOfrowsInColumn()) {
-        LOG(_ERROR_, "Channels size is not valid: " + std::to_string(data.GetChannels().size()));
+         ERRLOG << "Channels size is not valid: " << data.GetChannels().size() << "\n";
         return false;
     }
     return true;
@@ -69,7 +69,7 @@ void VLPControl::SetData(const VelodyneData& data) {
     for (auto const& block : data.GetData()) {
         m_velodyneDataMutex.lock();
         if (!CheckDataValidation(block)) {
-            LOG(_ERROR_, "received invalid block");
+            ERRLOG << "received invalid block\n";
             m_velodyneDataMutex.unlock();
             continue;
         }
@@ -81,7 +81,7 @@ void VLPControl::SetData(const VelodyneData& data) {
 }
 
 VelodyneData* VLPControl::GetData() {
-    LOG(_ERROR_, "This function is not implemented!");
+    ERRLOG << "This function is not implemented!\n";
     return nullptr;
 }
 
@@ -180,7 +180,7 @@ VelodyneData::VLPBlock::t_channel_data VLPControl::MapChannels(const VelodyneDat
 
 void VLPControl::Run() {
     if (!m_comm->Init()) {
-		LOG(_NORMAL_, "Failed to initialize communication, not running send thread.");
+		LOG << "Failed to initialize communication, not running send thread.\n";
 		return;
 	}
     m_sendDataThread = boost::thread(&VLPControl::SendData, this);
@@ -198,7 +198,7 @@ double VLPControl::FormatBlock(const unsigned char* arr, size_t size, Func func)
 template <typename T>
 bool VLPControl::ToByteArray(T num, unsigned char* ret, size_t size) const {
     if (ret == nullptr) {
-        LOG(_ERROR_, "nullptr");
+        ERRLOG << "nullptr\n";
         return false;
     }
     // drop the right-most bytes and convert to new right most byte. after the loop - the bytes will be reversed
@@ -229,18 +229,17 @@ void VLPControl::printPacketData(const VLPDataPacket& packet) const {
     auto defFunc = [](double num) -> double {return num; };
 
     for (auto const& block : packet.dataBlocks) {
-        LOG(_NORMAL_, "Azimuth: " + std::to_string(FormatBlock(block.azimuth, sizeof(block.azimuth), azimuthFunc)));
+        LOG << "Azimuth: " << FormatBlock(block.azimuth, sizeof(block.azimuth), azimuthFunc) << "\n";
         int i = 0;
         for (auto const& channel : block.dataRecords) {
             std::stringstream ss;
             ss << "  Distance " << i++ << ": "  << FormatBlock(channel.distance, sizeof(channel.distance), distanceFunc);
-            //ss << "  Reflectivity: " << channel.reflectivity;
-            LOG(_NORMAL_, ss.str());
+            // ss << "  Reflectivity: " << channel.reflectivity;
+            LOG << ss.str() << "\n";
         }
-        LOG(_NORMAL_, "\n");
+        LOG << "\n";
     }
-    LOG(_DEBUG_, "Return mode: " + VLPConfig::retModeToStr.find((VLPConfig::ReturnMode)packet.factory[0])->second);
-    LOG(_DEBUG_, "Data source: " + VLPConfig::dataSourceToStr.find((VLPConfig::DataSource)packet.factory[1])->second);
-    LOG(_NORMAL_, "*********** Simulation time: " + 
-        std::to_string(FormatBlock(packet.timeStamp, sizeof(packet.timeStamp), tsFunc)) + " *********************");
+    DBGLOG << "Return mode: " << VLPConfig::retModeToStr.find((VLPConfig::ReturnMode)packet.factory[0])->second << "\n";
+    DBGLOG << "Data source: " << VLPConfig::dataSourceToStr.find((VLPConfig::DataSource)packet.factory[1])->second << "\n";
+    LOG << "*********** Simulation time: " << FormatBlock(packet.timeStamp, sizeof(packet.timeStamp), tsFunc) << " *********************\n";
 }
