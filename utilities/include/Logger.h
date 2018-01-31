@@ -91,10 +91,6 @@ public:
     inline Logger& operator << (const T& msg) {
         std::stringstream ss;
         ss << msg;
-        std::string message = ss.str();
-        if (m_tmpLevel == _ERROR_) {
-            message = MarkMessageWithColor(message, RED);
-        }
         PrintToFile(m_tmpLevel, ss.str());
         PrintToScreen(m_tmpLevel, ss.str());
         return *this;

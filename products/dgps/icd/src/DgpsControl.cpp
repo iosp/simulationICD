@@ -74,11 +74,11 @@ void DgpsControl::SendBestPosData(const DgpsData& data) {
 	SendBuffer(m_BestPosBuffer);
 }
 
-void DgpsControl::SendBuffer(const std::string& buffer) const {
+void DgpsControl::SendBuffer(const char* buffer) const {
 	bool allSent = false;
 	while (!allSent) {
-		int bytesSent =	m_comm->SendData(buffer);
-		allSent = (bytesSent >= buffer.length());
+		int bytesSent =	m_comm->SendData(buffer, sizeof(buffer));
+		allSent = (bytesSent >= sizeof(buffer));
 		if (!allSent) {
 			ERRLOG << "Couldn't send all buffer data. Retrying...\n";
 		}

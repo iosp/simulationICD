@@ -88,7 +88,7 @@ VelodyneData* VLPControl::GetData() {
 void VLPControl::SendPacket(const VLPDataPacket& packet) const {
     char buf[sizeof(VLPDataPacket)]{};
     memcpy(buf, &packet, sizeof(packet));
-    m_comm->SendData(buf);
+    m_comm->SendData(buf, sizeof(buf));
 }
 
 void VLPControl::SendData() const {

@@ -28,7 +28,7 @@ public:
      * @sizeOfData - data size to send
      * @return num of bytes that has been sent
      */ 
-    virtual int SendData(const std::string& buffer) const = 0;
+    virtual int SendData(const char* buffer, size_t sizeOfData) const = 0;
 };
 
 

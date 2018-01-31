@@ -21,7 +21,7 @@ public:
     ~UDPCommunication() = default;
 
     bool Init() override;
-    int SendData(const std::string& buffer) const override;
+    int SendData(const char* buffer, size_t sizeOfData) const override;
 };
 
 

@@ -15,7 +15,7 @@
 #include "DgpsData.h"
 #include "DgpsStructs.h"
 
-static const int BUFFER_SIZE = 100;
+static const int BUFFER_SIZE = 1000;
 
 class ICommunication; // forward declaration
  
@@ -40,7 +40,7 @@ private:
 
     void SendBestPosData(const DgpsData& data);
 
-    void SendBuffer(const std::string& buffer) const;
+    void SendBuffer(const char* buffer) const;
 
     void FillBestVel(const DgpsData& data);
 
