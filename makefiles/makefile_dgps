@@ -4,24 +4,24 @@ LDFLAGS = -shared
 
 COMP_DIR = ../comp
 
-TARGET_DGPS = $(COMP_DIR)/libdgps.so
+TARGET = $(COMP_DIR)/libdgps.so
 
 EX_LIBS = -lboost_system -lboost_thread
 
 STAT_DIR = $(COMP_DIR)/statlibs
 
-STAT_DGPS_LIBS_BASE_NAMES = dgpsicd \
+STAT_LIBS_BASE_NAMES = dgpsicd \
 							dgpswrapper \
 							utils
 
-STAT_DGPS_LIBS = $(addprefix -l, $(STAT_DGPS_LIBS_BASE_NAMES))
+STAT_LIBS = $(addprefix -l, $(STAT_LIBS_BASE_NAMES))
 
-_STAT_DGPS_LIB_DEPS = $(addprefix $(STAT_DIR)/lib, $(STAT_DGPS_LIBS_BASE_NAMES))
-STAT_DGPS_LIB_DEPS = $(addsuffix .a, $(_STAT_DGPS_LIB_DEPS))
+_STAT_LIB_DEPS = $(addprefix $(STAT_DIR)/lib, $(STAT_LIBS_BASE_NAMES))
+STAT_LIB_DEPS = $(addsuffix .a, $(_STAT_LIB_DEPS))
 
 SUBDIRS = ../utilities ../products/dgps
 
-all: createdirs compdirs $(TARGET_DGPS)
+all: createdirs compdirs $(TARGET)
 
 # create required directories
 createdirs:
@@ -34,8 +34,8 @@ compdirs:
 		$(MAKE) -C $$dir; \
 	done
 
-$(TARGET_DGPS):  $(STAT_DGPS_LIB_DEPS)
-	$(CC) $(LDFLAGS) -L$(STAT_DIR) -o $@ -Wl,-whole-archive $(STAT_DGPS_LIBS) -Wl,-no-whole-archive $(EX_LIBS)
+$(TARGET): $(STAT_LIB_DEPS)
+	$(CC) $(LDFLAGS) -L$(STAT_DIR) -o $@ -Wl,-whole-archive $(STAT_LIBS) -Wl,-no-whole-archive $(EX_LIBS)
 
 .PHONY: all clean
 
@@ -43,4 +43,4 @@ clean:
 	for dir in $(SUBDIRS); do \
 		$(MAKE) -C $$dir clean; \
 	done
-	$(RM) $(STAT_DGPS_LIB_DEPS) $(TARGET_DGPS)
+	$(RM) $(STAT_LIB_DEPS) $(TARGET)
