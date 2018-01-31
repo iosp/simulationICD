@@ -1,0 +1,46 @@
+CC = g++
+
+LDFLAGS = -shared
+
+COMP_DIR = ../comp
+
+TARGET_DGPS = $(COMP_DIR)/libdgps.so
+
+EX_LIBS = -lboost_system -lboost_thread
+
+STAT_DIR = $(COMP_DIR)/statlibs
+
+STAT_DGPS_LIBS_BASE_NAMES = dgpsicd \
+							dgpswrapper \
+							utils
+
+STAT_DGPS_LIBS = $(addprefix -l, $(STAT_DGPS_LIBS_BASE_NAMES))
+
+_STAT_DGPS_LIB_DEPS = $(addprefix $(STAT_DIR)/lib, $(STAT_DGPS_LIBS_BASE_NAMES))
+STAT_DGPS_LIB_DEPS = $(addsuffix .a, $(_STAT_DGPS_LIB_DEPS))
+
+SUBDIRS = ../utilities ../products/dgps
+
+all: createdirs compdirs $(TARGET_DGPS)
+
+# create required directories
+createdirs:
+	mkdir -p $(COMP_DIR)
+	mkdir -p $(STAT_DIR)
+
+# compile all sub directories
+compdirs:
+	for dir in $(SUBDIRS); do \
+		$(MAKE) -C $$dir; \
+	done
+
+$(TARGET_DGPS):  $(STAT_DGPS_LIB_DEPS)
+	$(CC) $(LDFLAGS) -L$(STAT_DIR) -o $@ -Wl,-whole-archive $(STAT_DGPS_LIBS) -Wl,-no-whole-archive $(EX_LIBS)
+
+.PHONY: all clean
+
+clean:
+	for dir in $(SUBDIRS); do \
+		$(MAKE) -C $$dir clean; \
+	done
+	$(RM) $(STAT_DGPS_LIB_DEPS) $(TARGET_DGPS)
