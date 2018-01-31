@@ -54,7 +54,6 @@ void DgpsControl::SendThreadMethod() {
 		m_dgpsData_mutex.unlock();
 		
 		if (hasValue) {
-			LOG << "Going to send data: " << data.GetLatitude() << "\n";
 			SendBestVelData(data);
 			SendBestPosData(data);
 		}
@@ -66,18 +65,18 @@ void DgpsControl::SendThreadMethod() {
 
 void DgpsControl::SendBestVelData(const DgpsData& data) {
 	FillBestVel(data);
-	SendBuffer(m_BestVelBuffer);	
+	SendBuffer(m_BestVelBuffer, sizeof(m_BestVelBuffer));	
 }
 
 void DgpsControl::SendBestPosData(const DgpsData& data) {
 	FillBestPos(data);
-	SendBuffer(m_BestPosBuffer);
+	SendBuffer(m_BestPosBuffer, sizeof(m_BestPosBuffer));
 }
 
-void DgpsControl::SendBuffer(const char* buffer) const {
+void DgpsControl::SendBuffer(const char* buffer, int sizeOfData) const {
 	bool allSent = false;
 	while (!allSent) {
-		int bytesSent =	m_comm->SendData(buffer, sizeof(buffer));
+		int bytesSent =	m_comm->SendData(buffer, sizeOfData);
 		allSent = (bytesSent >= sizeof(buffer));
 		if (!allSent) {
 			ERRLOG << "Couldn't send all buffer data. Retrying...\n";

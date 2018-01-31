@@ -57,7 +57,6 @@ void Tester::TestVLP() {
 
 void Tester::TestDgps() {
     using namespace boost::posix_time;
-
     DgpsWrapper* dgps = CreateDgpsObject();
     RunDgps(dgps);
     for (auto i : boost::irange(0, 1000000)) {
@@ -67,10 +66,9 @@ void Tester::TestDgps() {
         SendDgpsData(dgps);
         usleep(100000);
     }
-    
-
-    DeleteDgpsObject(dgps);
-    dgps = nullptr;
+  
+    // DeleteDgpsObject(dgps);
+    // dgps = nullptr;
 }
 
 Tester::Tester() {

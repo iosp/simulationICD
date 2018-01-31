@@ -40,7 +40,7 @@ private:
 
     void SendBestPosData(const DgpsData& data);
 
-    void SendBuffer(const char* buffer) const;
+    void SendBuffer(const char* buffer, int sizeOfData) const;
 
     void FillBestVel(const DgpsData& data);
 
