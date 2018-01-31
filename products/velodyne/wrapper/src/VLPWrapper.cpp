@@ -1,8 +1,8 @@
 
 #include "VLPWrapper.h"
 #include "VLPConfig.h"
-#include "VLPCommunication16.h"
-#include "VLPCommunication32.h"
+#include "VLP16Control.h"
+#include "VLP32Control.h"
 
 VLPWrapper::VLPWrapper(const std::string& ipAddress, const std::string& port, int resolution,
         int returnMode, int dataSource, int sensorFrequency, int velType) {
@@ -10,10 +10,10 @@ VLPWrapper::VLPWrapper(const std::string& ipAddress, const std::string& port, in
         VLPConfig::DataSource(dataSource), sensorFrequency);
     // create the required object
     if (velType == 16) {
-        m_icd = new VLPCommunication16(vlpConfig);
+        m_icd = new VLP16Control(vlpConfig);
     }
     else {
-        m_icd = new VLPCommunication32(vlpConfig);
+        m_icd = new VLP32Control(vlpConfig);
     }
 }
 
@@ -39,7 +39,7 @@ void VLPWrapper::SetAzimuth(double azimuth){
 }
 
 void VLPWrapper::SetTimeStamp(int timeStamp) {
-     m_data.SetDurationAfterLastHour(boost::posix_time::microseconds(timeStamp));
+     m_data.SetSimTime(boost::posix_time::microseconds(timeStamp));
 }
 
 void VLPWrapper::SetChannel(double distance, short reflectivity) {
@@ -50,5 +50,5 @@ void VLPWrapper::ClearCurrentData() {
     m_currChannels.clear();
     m_data.SetChannels(VelodyneData::VLPBlock::t_channel_data());
     m_data.SetAzimuth(0);
-    m_data.SetDurationAfterLastHour(boost::posix_time::microseconds(0));
+    m_data.SetSimTime(boost::posix_time::microseconds(0));
 }

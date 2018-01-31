@@ -9,7 +9,7 @@ VLPWrapper* CreateVLPObject(short ip1, short ip2, short ip3, short ip4, int port
 
 void DeleteVLPObject(VLPWrapper* pVlp) {delete pVlp;}
 
-void Run(VLPWrapper* pVlp) { pVlp->Run();}
+void RunVLP(VLPWrapper* pVlp) { pVlp->Run();}
 
 void SetAzimuth(VLPWrapper* pVlp, double azimuth){ pVlp->SetAzimuth(azimuth); }
 
@@ -17,4 +17,4 @@ void SetTimeStamp(VLPWrapper* pVlp, int timeStamp) { pVlp->SetTimeStamp(timeStam
 
 void SetChannel(VLPWrapper* pVlp, double distance, short reflectivity) { pVlp->SetChannel(distance, reflectivity); }
 
-void SendData(VLPWrapper* pVlp) { pVlp->SetData(); }
+void SendVLPData(VLPWrapper* pVlp) { pVlp->SetData(); }

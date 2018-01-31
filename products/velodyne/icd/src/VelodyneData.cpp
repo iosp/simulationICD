@@ -12,6 +12,6 @@ VelodyneData::VelodyneData(const std::vector<VLPBlock>& data) : m_data(data){
     
 }
 
-VelodyneData::VLPBlock::VLPBlock(double azimuth, const t_channel_data& channels, const boost::posix_time::time_duration& durationAfterLastHour) :
-    m_azimuth(azimuth), m_channels(channels), m_durationAfterLastHour(durationAfterLastHour) {
+VelodyneData::VLPBlock::VLPBlock(double azimuth, const t_channel_data& channels, const boost::posix_time::time_duration& simTime) :
+    m_azimuth(azimuth), m_channels(channels), m_simTime(simTime) {
 }

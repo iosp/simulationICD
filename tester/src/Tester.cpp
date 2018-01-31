@@ -6,6 +6,8 @@
 
 #include "Tester.h"
 #include "VLPPluginAPI.h"
+#include "DgpsPluginAPI.h"
+#include "Logger.h"
 #include <boost/range/irange.hpp> // boost::irange
 #include <boost/date_time/posix_time/posix_time.hpp> // boost::posix_time::ptime
 
@@ -33,6 +35,7 @@ static const std::string IP_ADDRESS = "192.168.1.77";
 
 void Tester::TestVLP() {
     VLPWrapper* vlp = CreateVLPObject(192, 168, 1, 77, 2368, 200, 37, 22, 10, 16);
+    DeleteVLPObject(vlp);
     // VelodyneData::Resolution res = VLPCommunication::_RES02_;
     // double realRes = (res / 1000.0);
     // int vecSize = 360 / realRes;
@@ -52,7 +55,22 @@ void Tester::TestVLP() {
     // delete vlp;
 }
 
+void Tester::TestDgps() {
+    using namespace boost::posix_time;
+    DgpsWrapper* dgps = CreateDgpsObject();
+    RunDgps(dgps);
+    for (auto i : boost::irange(0, 1000000)) {
+        time_duration td =  microsec_clock::local_time() - from_time_t(0);
+        DgpsData data(31.771959,35.217018,10,10,10,10, td);
+        SetDgpsData(dgps, data);
+        SendDgpsData(dgps);
+        usleep(100000);
+    }
+  
+    // DeleteDgpsObject(dgps);
+    // dgps = nullptr;
+}
 
 Tester::Tester() {
-    TestVLP();
+    TestDgps();
 }

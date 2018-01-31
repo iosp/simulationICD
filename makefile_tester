@@ -2,42 +2,45 @@ CC = g++
 
 CFLAGS = -std=c++0x -fPIC -O -g
 
-TARGET = comp/vlp
+TARGET = comp/icd
 
-LIBS = -lboost_system -lboost_thread
+EX_LIBS = -lboost_system -lboost_thread
 
-INC_DIR_NAME = include
-OBJ_DIR = obj
+MAIN_INCLUDES = -Itester/include -Iutilities/include
 
-INC_ICD = products/velodyne/icd/$(INC_DIR_NAME)
-INC_WRAPPER = products/velodyne/wrapper/$(INC_DIR_NAME)
-INC_UTILS = utilities/$(INC_DIR_NAME)
-INC_TESTER = tester/$(INC_DIR_NAME)
+STAT_DIR = comp/statlibs
 
-INC_FILES = $(wildcard $(INC_ICD)/*.h) $(wildcard $(INC_WRAPPER)/*.h) $(wildcard $(INC_UTILS)/*.h) $(wildcard $(INC_TESTER)/*.h)
-INCLUDES = -I$(INC_ICD) -I$(INC_WRAPPER) -I$(INC_UTILS) -I$(INC_TESTER)
+STAT_LIBS_BASE_NAMES = velicd \
+						vlpwrapper \
+						dgpsicd \
+						dgpswrapper \
+						utils \
+						tester
 
-# Change suffix to .o
-_OBJ = $(addsuffix .o,$(basename $(INC_FILES)))
-# Change suffix directory to obj
-OBJ = main.o ${subst $(INC_DIR_NAME),$(OBJ_DIR),$(_OBJ)}
+STAT_LIBS = $(addprefix -l, $(STAT_LIBS_BASE_NAMES))
+
+_STAT_LIB_DEPS = $(addprefix $(STAT_DIR)/lib, $(STAT_LIBS_BASE_NAMES))
+STAT_LIB_DEPS = $(addsuffix .a, $(_STAT_LIB_DEPS))
+
 SUBDIRS = utilities products tester
 
 all: createdirs compdirs $(TARGET)
 
 createdirs:
 	mkdir -p comp
+	mkdir -p $(STAT_DIR)
 
 compdirs:
 	for dir in $(SUBDIRS); do \
 		$(MAKE) -C $$dir; \
 	done
 
-$(TARGET): $(OBJ)
-	$(CC) -o $@ $(OBJ) $(LIBS)
+# compilation
+$(TARGET): main.o $(STAT_LIB_DEPS)
+	$(CC) -L$(STAT_DIR) -o $@ main.o -Wl,-whole-archive $(STAT_LIBS) -Wl,-no-whole-archive $(EX_LIBS)
 
 main.o : main.cpp
-	$(CC) $(CFLAGS) -c $^ $(INCLUDES) 
+	$(CC) $(CFLAGS) -c $^ $(MAIN_INCLUDES)
 
 .PHONY: all clean
 
@@ -45,4 +48,4 @@ clean:
 	for dir in $(SUBDIRS); do \
 		$(MAKE) -C $$dir clean; \
 	done
-	$(RM) $(TARGET)
+	$(RM) $(STAT_DIR)/*.a $(TARGET) *.o

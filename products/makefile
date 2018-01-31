@@ -1,4 +1,4 @@
-SUBDIRS = velodyne
+SUBDIRS = velodyne dgps
 
 all:
 	for dir in $(SUBDIRS); do \

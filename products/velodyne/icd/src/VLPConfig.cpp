@@ -23,7 +23,7 @@ VLPConfig::VLPConfig(const std::string& ipAddress, const std::string& port, Reso
              m_ipAddress(ipAddress), m_port(port), m_horizontalResolution(horizontalResolution),
               m_returnMode(returnMode), m_dataSource(dataSource), m_sensorFrequency(sensorFrequency) {
     m_realHorizontalResolution = m_horizontalResolution / 1000.0;
-    LOG(_NORMAL_, toString());
+    LOG << toString() << "\n";
 }
 
 std::string VLPConfig::toString() {

@@ -9,6 +9,7 @@
 
 #include <sys/stat.h> // mode_t
 #include <string>
+#include <boost/date_time/posix_time/posix_time.hpp> // boost::posix_time::ptime
 
 namespace Utilities {
     double dmod(double num, double mod);
@@ -23,6 +24,14 @@ namespace Utilities {
     std::string GetFormattedTime(const std::string& format);
 
     void PrintToFile(const std::string& fileName, const std::string& text);
+
+    /**
+     * Sleep this time: maxTimeToSleep - (current_time - startTime). NOTE: sleep time is in microseconds!
+     * @param startTime - start time of the sample
+     * @param maxTimeToSleep - maximum time to sleep
+     * @return string of the desired format time
+     */ 
+    void SleepForRestTime(boost::posix_time::ptime startTime, int maxTimeToSleep);
 }
 
 #endif // UTILITIES_H
