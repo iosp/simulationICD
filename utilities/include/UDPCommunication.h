@@ -10,6 +10,7 @@
 */
 
 #include "ICommunication.h"
+#include <string>
 
 class UDPCommunication : public ICommunication{
 private:
@@ -21,7 +22,7 @@ public:
     ~UDPCommunication() = default;
 
     bool Init() override;
-    int SendData(const char* buffer, size_t sizeOfData) const override;
+    int SendData(const char* buffer, int sizeOfData) const override;
 };
 
 

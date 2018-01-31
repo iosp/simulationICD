@@ -33,7 +33,7 @@ bool RSCommunication::Init() {
     return true;
 }
 
-int RSCommunication::SendData(const char* buffer, size_t sizeOfData) const {
+int RSCommunication::SendData(const char* buffer, int sizeOfData) const {
 	int n = m_port->write_some(boost::asio::buffer(buffer, sizeOfData));
     return n;
 }

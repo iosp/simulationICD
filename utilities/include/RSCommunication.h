@@ -12,6 +12,7 @@
 #include <boost/asio.hpp> // boost::asio::io_service
 #include <boost/asio/serial_port.hpp>
 #include "ICommunication.h"
+#include <string>
 
 typedef boost::shared_ptr<boost::asio::serial_port> serial_port_ptr;
 
@@ -29,7 +30,7 @@ public:
     ~RSCommunication() = default;
 
     bool Init() override;
-    int SendData(const char* buffer, size_t sizeOfData) const override;
+    int SendData(const char* buffer, int sizeOfData) const override;
 };
 
 

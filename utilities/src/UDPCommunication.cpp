@@ -18,7 +18,7 @@ bool UDPCommunication::Init() {
     return true;
 }
 
-int UDPCommunication::SendData(const char* buffer, size_t sizeOfData) const {
+int UDPCommunication::SendData(const char* buffer, int sizeOfData) const {
     using namespace boost::asio;
 
     boost::asio::io_service io_service;

@@ -8,8 +8,6 @@
 * Date: 25.01.18
 */
 
-#include <string>
-
 class ICommunication {
 public:
     
@@ -28,7 +26,7 @@ public:
      * @sizeOfData - data size to send
      * @return num of bytes that has been sent
      */ 
-    virtual int SendData(const char* buffer, size_t sizeOfData) const = 0;
+    virtual int SendData(const char* buffer, int sizeOfData) const = 0;
 };
 
 
