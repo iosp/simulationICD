@@ -3,7 +3,7 @@
 
 // Functions that can be used by the plugin
 extern "C" {
-    DgpsWrapper* CreateDgpsObject();
+    DgpsWrapper* CreateDgpsObject(const char* portName, int baudRate);
 
     void DeleteDgpsObject(DgpsWrapper* pObj);
 

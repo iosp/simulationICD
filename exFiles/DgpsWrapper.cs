@@ -6,7 +6,7 @@ public class DgpsWrapper : IDisposable {
 	const String DLL_LOCATION = "libdgps";
 
 	[DllImport (DLL_LOCATION)]
-	private static extern IntPtr CreateDgpsObject();
+	private static extern IntPtr CreateDgpsObject(string portName, ip baudRate);
 
 	[DllImport (DLL_LOCATION)]
 	private static extern void DeleteDgpsObject(IntPtr pVlp);
@@ -28,8 +28,8 @@ public class DgpsWrapper : IDisposable {
 
 	private IntPtr m_nativeObject;
 
-	public DgpsWrapper() {
-		this.m_nativeObject = CreateVLPObject();
+	public DgpsWrapper(string portName, ip baudRate) {
+		this.m_nativeObject = CreateVLPObject(portName, baudRate);
 	}
 
 	~DgpsWrapper() {Dispose(false);}

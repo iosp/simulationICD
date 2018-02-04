@@ -1,11 +1,8 @@
 
 #include "DgpsPluginAPI.h"
 
-static const std::string DEV_TTY = "/dev/ttyUSB0";
-static const int BAUD_RATE = 115200;
-
-DgpsWrapper* CreateDgpsObject() {
-    return new DgpsWrapper(DEV_TTY, BAUD_RATE);
+DgpsWrapper* CreateDgpsObject(const char* portName, int baudRate) {
+    return new DgpsWrapper(portName, baudRate);
 }
 
 void DeleteDgpsObject(DgpsWrapper* pObj) {delete pObj;}
