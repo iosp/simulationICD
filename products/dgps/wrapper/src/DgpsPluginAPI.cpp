@@ -1,4 +1,12 @@
 
+
+/*
+* DgpsPluginAPI.h
+* API for external tools that need to use DGPS
+* Author: Binyamin Appelbaum
+* Date: 23.01.18
+*/
+
 #include "DgpsPluginAPI.h"
 
 DgpsWrapper* CreateDgpsObject(const char* portName, int baudRate) {

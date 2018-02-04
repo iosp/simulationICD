@@ -1,9 +1,18 @@
+#ifndef VLPWRAPPER_H
+#define VLPWRAPPER_H
+
+/*
+* VLPWrapper.h
+* Wrapper fpr velodyne ICD
+* Author: Binyamin Appelbaum
+* Date: 04.01.18
+*/
 
 #include "VelodyneData.h"
 #include "IWrapper.h"
 
 /**
- * VLPWrapper holds a pointer to VLPCommunication, and temporary data.
+ * VLPWrapper holds a pointer to VLPControl, and temporary data.
  * Once the object is created - the pointer is assigned (new).
  * m_data holds the temporary data of the user, and m_currChannles holds the temporary channels that the user saved.
  * When the user calls "SetData" - we take the data that we aggregated until now and send it (set it) to VLP pointer.
@@ -57,3 +66,5 @@ public:
     void SetChannel(double distance, short reflectivity);
 
 };
+
+#endif // VLPWRAPPER_H

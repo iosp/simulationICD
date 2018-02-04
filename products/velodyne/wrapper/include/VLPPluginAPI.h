@@ -1,3 +1,12 @@
+#ifndef VLPPLUGIN_H
+#define VLPPLUGIN_H
+
+/*
+* VLPPluginAPI.h
+* API for external tools that need to use VLP
+* Author: Binyamin Appelbaum
+* Date: 04.01.18
+*/
 
 #include "VLPWrapper.h"
 
@@ -18,3 +27,5 @@ extern "C" {
 
     void SendVLPData(VLPWrapper* pVlp);
 }
+
+#endif // VLPPLUGIN_H

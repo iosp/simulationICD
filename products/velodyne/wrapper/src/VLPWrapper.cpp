@@ -1,4 +1,11 @@
 
+/*
+* VLPWrapper.cpp
+* Wrapper fpr velodyne ICD
+* Author: Binyamin Appelbaum
+* Date: 04.01.18
+*/
+
 #include "VLPWrapper.h"
 #include "VLPConfig.h"
 #include "VLP16Control.h"

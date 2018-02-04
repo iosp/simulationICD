@@ -1,3 +1,12 @@
+#ifndef DGPSWRAPPER_H
+#define DGPSWRAPPER_H
+
+/*
+* DgpsWrapper.h
+* Wrapper for DGPS
+* Author: Binyamin Appelbaum
+* Date: 23.01.18
+*/
 
 #include "DgpsData.h"
 #include "IWrapper.h"
@@ -34,3 +43,5 @@ public:
 
     void SetTimeStamp(int timeStamp);
 };
+
+#endif // DGPSWRAPPER_H

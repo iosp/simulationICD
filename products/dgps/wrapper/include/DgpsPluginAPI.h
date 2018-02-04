@@ -1,3 +1,12 @@
+#ifndef DGPSPLUGINAPI_H
+#define DGPSPLUGINAPI_H
+
+/*
+* DgpsPluginAPI.h
+* API for external tools that need to use DGPS
+* Author: Binyamin Appelbaum
+* Date: 23.01.18
+*/
 
 #include "DgpsWrapper.h"
 
@@ -17,3 +26,5 @@ extern "C" {
 
     void SetDgpsTimeStamp(DgpsWrapper* pVlp, int timeStamp);
 }
+
+#endif // DGPSPLUGINAPI_H

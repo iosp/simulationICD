@@ -1,4 +1,11 @@
 
+/*
+* VLPPluginAPI.cpp
+* API for external tools that need to use VLP
+* Author: Binyamin Appelbaum
+* Date: 04.01.18
+*/
+
 #include "VLPPluginAPI.h"
 
 VLPWrapper* CreateVLPObject(const char* ip, const char* port, int resolution,

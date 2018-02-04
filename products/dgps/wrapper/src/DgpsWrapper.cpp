@@ -1,3 +1,9 @@
+/*
+* DgpsWrapper.cpp
+* Wrapper for DGPS
+* Author: Binyamin Appelbaum
+* Date: 23.01.18
+*/
 
 #include "DgpsWrapper.h"
 #include "DgpsControl.h"
