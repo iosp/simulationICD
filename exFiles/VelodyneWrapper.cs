@@ -6,7 +6,7 @@ public class VelodyneWrapper : IDisposable {
 	const String DLL_LOCATION = "libvlp";
 
 	[DllImport (DLL_LOCATION)]
-	private static extern IntPtr CreateVLPObject(short ip1, short ip2, short ip3, short ip4, int port, int resolution,
+	private static extern IntPtr CreateVLPObject(string ip, string port, int resolution,
     	int returnMode, int dataSource, int sensorFrequency, int velType);
 
 	[DllImport (DLL_LOCATION)]
@@ -29,9 +29,9 @@ public class VelodyneWrapper : IDisposable {
 
 	private IntPtr m_nativeObject;
 
-	public VelodyneWrapper(short ip1, short ip2, short ip3, short ip4, int port, int resolution,
+	public VelodyneWrapper(string ip, string port, int resolution,
     	int returnMode, int dataSource, int sensorFrequency, int velType) {
-			this.m_nativeObject = CreateVLPObject(ip1, ip2, ip3, ip4, port, resolution, returnMode, dataSource, sensorFrequency, velType);
+			this.m_nativeObject = CreateVLPObject(ip, port, resolution, returnMode, dataSource, sensorFrequency, velType);
 	}
 
 	~VelodyneWrapper() {Dispose(false);}
@@ -58,7 +58,7 @@ public class VelodyneWrapper : IDisposable {
 	}
 
 	public void SetTimeStamp(int timeStamp) {
-		SetTimeStamp(this.m_nativeObject, timeStamp);
+		SetVLPTimeStamp(this.m_nativeObject, timeStamp);
 	}
 
 	public void SetChannel(double distance, short reflectivity) {

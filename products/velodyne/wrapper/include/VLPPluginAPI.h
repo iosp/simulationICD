@@ -3,7 +3,7 @@
 
 // Functions that can be used by the plugin
 extern "C" {
-    VLPWrapper* CreateVLPObject(short ip1, short ip2, short ip3, short ip4, int port, int resolution,
+    VLPWrapper* CreateVLPObject(const char* ip, const char* port, int resolution,
         int returnMode, int dataSource, int sensorFrequency, int velType);
 
     void DeleteVLPObject(VLPWrapper* pVlp);

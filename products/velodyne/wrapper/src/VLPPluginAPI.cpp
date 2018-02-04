@@ -1,10 +1,9 @@
 
 #include "VLPPluginAPI.h"
 
-VLPWrapper* CreateVLPObject(short ip1, short ip2, short ip3, short ip4, int port, int resolution,
+VLPWrapper* CreateVLPObject(const char* ip, const char* port, int resolution,
     int returnMode, int dataSource, int sensorFrequency, int velType) {
-    std::string ipAddress = std::to_string(ip1) + "." + std::to_string(ip2) + "." + std::to_string(ip3) + "." + std::to_string(ip4);
-    return new VLPWrapper(ipAddress, std::to_string(port), resolution, returnMode, dataSource, sensorFrequency, velType);
+    return new VLPWrapper(ip, port, resolution, returnMode, dataSource, sensorFrequency, velType);
 }
 
 void DeleteVLPObject(VLPWrapper* pVlp) {delete pVlp;}
