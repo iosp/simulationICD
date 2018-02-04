@@ -12,6 +12,7 @@
 #include <string>
 #include <map>
 #include <sstream>
+#include <cstring> // strrchr
 
 enum LogLevel {_NONE_ = -1, _DEBUG_, _NORMAL_, _ERROR_, _ALWAYS_};
 

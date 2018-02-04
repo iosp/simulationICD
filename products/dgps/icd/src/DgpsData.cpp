@@ -9,8 +9,8 @@
 #include "DgpsData.h"
 
 DgpsData::DgpsData(double latitude, double longitude, double altitude, 
-    double horizontalSpeed, double verticalSpeed, double velocityAzimuth, const boost::posix_time::time_duration& simTime) :
-    m_latitude(latitude), m_longitude(longitude), m_altitude(altitude), m_horizontalSpeed(horizontalSpeed), m_verticalSpeed(verticalSpeed),
-    m_velocityAzimuth(velocityAzimuth), m_simTime(simTime){
+                double latSpeed, double longSpeed, double altAzimuth, const boost::posix_time::time_duration& simTime) :
+    m_latitude(latitude), m_longitude(longitude), m_altitude(altitude), m_latSpeed(latSpeed), m_longSpeed(longSpeed),
+    m_altAzimuth(altAzimuth), m_simTime(simTime){
     
 }

@@ -12,7 +12,7 @@ extern "C" {
 
     void SetAzimuth(VLPWrapper* pVlp, double azimuth);
 
-    void SetTimeStamp(VLPWrapper* pVlp, int timeStamp);
+    void SetVLPTimeStamp(VLPWrapper* pVlp, int timeStamp);
 
     void SetChannel(VLPWrapper* pVlp, double distance, short reflectivity);
 

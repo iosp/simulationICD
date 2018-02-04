@@ -11,5 +11,9 @@ extern "C" {
 
     void SendDgpsData(DgpsWrapper* pOb);
 
-    void SetDgpsData(DgpsWrapper* pOb, const DgpsData& data);
+    void SetPosition(DgpsWrapper* pObj, double latitude, double longitude, double altitude);
+
+    void SetVelocities(DgpsWrapper* pObj, double latSpeed, double longSpeed, double altAzimuth);
+
+    void SetDgpsTimeStamp(DgpsWrapper* pVlp, int timeStamp);
 }

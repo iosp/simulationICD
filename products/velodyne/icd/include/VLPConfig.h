@@ -64,7 +64,7 @@ public:
         return m_sensorFrequency;
     }
 
-    std::string toString();
+    std::string toString() const;
 
 };
 

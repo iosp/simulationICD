@@ -12,6 +12,7 @@
 #include <boost/thread.hpp> // boost::thread
 #include <boost/lockfree/queue.hpp>
 #include "IICD.h"
+#include "DgpsConfig.h"
 #include "DgpsData.h"
 #include "DgpsStructs.h"
 
@@ -23,6 +24,8 @@ class DgpsControl : public IICD<DgpsData> {
 private:
     // connection protocol to use 
     ICommunication* m_comm;
+    // configuration values
+    DgpsConfig m_dgpsConfig;
     // time to sleep between every packet send
     int m_sleepTimeBetweenEverySend;
     // holds thread method of send data
@@ -59,7 +62,7 @@ private:
     unsigned int CalcBlockCRC32(unsigned int ulCount, unsigned char* data) const;
 
 public:
-    DgpsControl();
+    DgpsControl(const DgpsConfig& dgpsConfig);
 
     virtual ~DgpsControl();
 
