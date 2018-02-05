@@ -12,11 +12,9 @@
 
 static const int HEADER_LEN = 28;
 static const int TIME_BETWEEN_EVERY_SEND = 50000;
-static const int BAUD_RATE = 115200;
-static const std::string DEV_TTY = "/dev/ttyUSB0";
 
-DgpsControl::DgpsControl() {
-	m_comm = new RSCommunication(DEV_TTY, BAUD_RATE);
+DgpsControl::DgpsControl(const DgpsConfig& dgpsConfig) : m_dgpsConfig(dgpsConfig) {
+	m_comm = new RSCommunication(m_dgpsConfig.GetPortName(), m_dgpsConfig.GetBaudRate());
 	m_sleepTimeBetweenEverySend = TIME_BETWEEN_EVERY_SEND;
 }
 
@@ -93,10 +91,10 @@ void DgpsControl::FillBestVel(const DgpsData& data) {
 	msg.vel_type = E_POSITION_OR_VELOCITY_TYPE::E_POSITION_OR_VELOCITY_TYPE_OMNISTAR_HP;
 	msg.latency = 0.250;
 	msg.age = 4.000;
-	msg.hor_spd = data.GetHorizontalSpeed();
-	msg.trk_gnd = data.GetVelocityAzimuth();
+	msg.hor_spd = data.GetLatSpeed();
+	msg.trk_gnd = data.GetLongSpeed();
 
-	msg.vert_spd = data.GetVerticalSpeed();
+	msg.vert_spd = data.GetAltAzimuth();
 	msg.Four_Float_Reserved = 0;
 
 	//CRC will calculate after copy data to the buffer

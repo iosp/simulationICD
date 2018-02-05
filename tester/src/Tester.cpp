@@ -11,9 +11,6 @@
 #include <boost/range/irange.hpp> // boost::irange
 #include <boost/date_time/posix_time/posix_time.hpp> // boost::posix_time::ptime
 
-static const std::string PORT = "2368";
-static const std::string IP_ADDRESS = "192.168.1.77";
-
 // std::vector<VLPCommunication::VLPData> generateData(VLPCommunication::Resolution res, int vecSize, int numOfChannels) {
 //     using namespace boost::posix_time;
     
@@ -34,7 +31,10 @@ static const std::string IP_ADDRESS = "192.168.1.77";
 
 
 void Tester::TestVLP() {
-    VLPWrapper* vlp = CreateVLPObject(192, 168, 1, 77, 2368, 200, 37, 22, 10, 16);
+    static const std::string PORT = "2368";
+    static const std::string IP_ADDRESS = "192.168.1.77";
+
+    VLPWrapper* vlp = CreateVLPObject(IP_ADDRESS.c_str(), PORT.c_str(), 200, 37, 22, 10, 16);
     DeleteVLPObject(vlp);
     // VelodyneData::Resolution res = VLPCommunication::_RES02_;
     // double realRes = (res / 1000.0);
@@ -57,12 +57,17 @@ void Tester::TestVLP() {
 
 void Tester::TestDgps() {
     using namespace boost::posix_time;
-    DgpsWrapper* dgps = CreateDgpsObject();
+
+    static const std::string DEV_TTY = "/dev/ttyUSB0";
+    static const int BAUD_RATE = 115200;
+
+    DgpsWrapper* dgps = CreateDgpsObject(DEV_TTY.c_str(), BAUD_RATE);
     RunDgps(dgps);
     for (auto i : boost::irange(0, 1000000)) {
         time_duration td =  microsec_clock::local_time() - from_time_t(0);
-        DgpsData data(31.771959,35.217018,10,10,10,10, td);
-        SetDgpsData(dgps, data);
+        SetPosition(dgps, 31.771959, 35.217018, 10);
+        SetVelocities(dgps, 10, 10, 10);
+        SetDgpsTimeStamp(dgps, td.total_microseconds());
         SendDgpsData(dgps);
         usleep(100000);
     }

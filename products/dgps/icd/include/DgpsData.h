@@ -16,16 +16,16 @@ private:
     double m_latitude;
     double m_longitude;
     double m_altitude;
-    double m_horizontalSpeed; // horizontal speed over ground, in meters per second
-    double m_verticalSpeed; // Veritical speed , meters per seconds
-	double m_velocityAzimuth; // Actual direction of motion over ground with respect to True North, deg
+    double m_latSpeed; // horizontal speed over ground, in meters per second
+    double m_longSpeed; // Veritical speed , meters per seconds
+	double m_altAzimuth; // Actual direction of motion over ground with respect to True North, deg
     boost::posix_time::time_duration m_simTime;
 
 public:
     DgpsData() = default;
 
     DgpsData(double latitude, double longitude, double altitude, 
-                double horizontalSpeed, double verticalSpeed, double velocityAzimuth, const boost::posix_time::time_duration& simTime);
+                double latSpeed, double longSpeed, double altAzimuth, const boost::posix_time::time_duration& simTime);
     
     ~DgpsData() = default;
 
@@ -33,28 +33,56 @@ public:
         return m_latitude;
     }
 
+    void SetLatitude(double latitude) {
+        m_latitude = latitude;
+    }
+
     double GetLongitude() const {
         return m_longitude;
+    }
+
+    void SetLongitude(double longitude) {
+        m_longitude = longitude;
     }
 
     double GetAltitude() const {
         return m_altitude;
     }
 
-    double GetHorizontalSpeed() const {
-        return m_horizontalSpeed;
+    void SetAltitude(double altitude) {
+        m_altitude = altitude;
     }
 
-    double GetVerticalSpeed() const {
-        return m_verticalSpeed;
+    double GetLatSpeed() const {
+        return m_latSpeed;
     }
 
-    double GetVelocityAzimuth() const {
-        return m_velocityAzimuth;
+    void SetLatSpeed(double latSpeed) {
+        m_latSpeed = latSpeed;
+    }
+
+    double GetLongSpeed() const {
+        return m_longSpeed;
+    }
+
+    void SetLongSpeed(double longSpeed) {
+        m_longSpeed = longSpeed;
+    }
+
+    double GetAltAzimuth() const {
+        return m_altAzimuth;
+    }
+    
+    void SetAltAzimuth(double altAzimuth) {
+        m_altAzimuth = altAzimuth;
     }
 
     const boost::posix_time::time_duration& GetSimTime() const {
         return m_simTime;
+    }
+
+    void SetSimTime(const boost::posix_time::time_duration& simTime){
+        m_simTime = simTime;
     }
 };
 

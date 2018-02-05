@@ -1,9 +1,18 @@
+#ifndef DGPSPLUGINAPI_H
+#define DGPSPLUGINAPI_H
+
+/*
+* DgpsPluginAPI.h
+* API for external tools that need to use DGPS
+* Author: Binyamin Appelbaum
+* Date: 23.01.18
+*/
 
 #include "DgpsWrapper.h"
 
 // Functions that can be used by the plugin
 extern "C" {
-    DgpsWrapper* CreateDgpsObject();
+    DgpsWrapper* CreateDgpsObject(const char* portName, int baudRate);
 
     void DeleteDgpsObject(DgpsWrapper* pObj);
 
@@ -11,5 +20,11 @@ extern "C" {
 
     void SendDgpsData(DgpsWrapper* pOb);
 
-    void SetDgpsData(DgpsWrapper* pOb, const DgpsData& data);
+    void SetPosition(DgpsWrapper* pObj, double latitude, double longitude, double altitude);
+
+    void SetVelocities(DgpsWrapper* pObj, double latSpeed, double longSpeed, double altAzimuth);
+
+    void SetDgpsTimeStamp(DgpsWrapper* pVlp, int timeStamp);
 }
+
+#endif // DGPSPLUGINAPI_H

@@ -1,3 +1,12 @@
+#ifndef DGPSWRAPPER_H
+#define DGPSWRAPPER_H
+
+/*
+* DgpsWrapper.h
+* Wrapper for DGPS
+* Author: Binyamin Appelbaum
+* Date: 23.01.18
+*/
 
 #include "DgpsData.h"
 #include "IWrapper.h"
@@ -14,7 +23,7 @@ private:
     void ClearCurrentData();
 
 public:
-    DgpsWrapper();
+    DgpsWrapper(const std::string& portName, int baudRate);
 
     ~DgpsWrapper();
 
@@ -28,7 +37,11 @@ public:
      */ 
     virtual void SetData() override;
 
-    void SetDgpsData(const DgpsData& data) {
-        m_data = data;
-    }
+    void SetPosition(double latitude, double longitude, double altitude);
+
+    void SetVelocities(double latSpeed, double longSpeed, double altSpeed);
+
+    void SetTimeStamp(int timeStamp);
 };
+
+#endif // DGPSWRAPPER_H

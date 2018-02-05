@@ -26,9 +26,9 @@ VLPConfig::VLPConfig(const std::string& ipAddress, const std::string& port, Reso
     LOG << toString() << "\n";
 }
 
-std::string VLPConfig::toString() {
+std::string VLPConfig::toString() const {
     std::stringstream ss;
-    ss << "Configuration is: " << std::endl <<
+    ss << "Velodyne Configuration is: " << std::endl <<
          "     ip address: |" << m_ipAddress << "|" << std::endl <<
          "     port: |" << m_port << "|" << std::endl <<
          "     horizontalResolution: " << m_horizontalResolution << std::endl <<

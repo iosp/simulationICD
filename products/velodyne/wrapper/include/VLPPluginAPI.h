@@ -1,9 +1,18 @@
+#ifndef VLPPLUGIN_H
+#define VLPPLUGIN_H
+
+/*
+* VLPPluginAPI.h
+* API for external tools that need to use VLP
+* Author: Binyamin Appelbaum
+* Date: 04.01.18
+*/
 
 #include "VLPWrapper.h"
 
 // Functions that can be used by the plugin
 extern "C" {
-    VLPWrapper* CreateVLPObject(short ip1, short ip2, short ip3, short ip4, int port, int resolution,
+    VLPWrapper* CreateVLPObject(const char* ip, const char* port, int resolution,
         int returnMode, int dataSource, int sensorFrequency, int velType);
 
     void DeleteVLPObject(VLPWrapper* pVlp);
@@ -12,9 +21,11 @@ extern "C" {
 
     void SetAzimuth(VLPWrapper* pVlp, double azimuth);
 
-    void SetTimeStamp(VLPWrapper* pVlp, int timeStamp);
+    void SetVLPTimeStamp(VLPWrapper* pVlp, int timeStamp);
 
     void SetChannel(VLPWrapper* pVlp, double distance, short reflectivity);
 
     void SendVLPData(VLPWrapper* pVlp);
 }
+
+#endif // VLPPLUGIN_H
