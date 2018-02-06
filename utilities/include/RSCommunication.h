@@ -20,6 +20,7 @@ class RSCommunication : public ICommunication {
 private:
     // shared ptr of the port
     serial_port_ptr m_port;
+    boost::asio::io_service m_io_service;
     // baud rate of the RS communication
     int m_baudRate;
     // tty device number
@@ -27,7 +28,7 @@ private:
 
 public:
     RSCommunication(const std::string& tty, int baudRate);
-    ~RSCommunication() = default;
+    ~RSCommunication();
 
     bool Init() override;
     int SendData(const char* buffer, int sizeOfData) const override;

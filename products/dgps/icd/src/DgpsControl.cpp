@@ -11,7 +11,7 @@
 #include "RSCommunication.h"
 
 static const int HEADER_LEN = 28;
-static const int TIME_BETWEEN_EVERY_SEND = 50000;
+static const int TIME_BETWEEN_EVERY_SEND = 1e+6; // microseconds
 
 DgpsControl::DgpsControl(const DgpsConfig& dgpsConfig) : m_dgpsConfig(dgpsConfig) {
 	m_comm = new RSCommunication(m_dgpsConfig.GetPortName(), m_dgpsConfig.GetBaudRate());
@@ -52,6 +52,7 @@ void DgpsControl::SendThreadMethod() {
 		m_dgpsData_mutex.unlock();
 		
 		if (hasValue) {
+			DBGLOG << "Going to send data. longitude: " << data.GetLongitude() << ". latitude: " << data.GetLatitude() << "\n";
 			SendBestVelData(data);
 			SendBestPosData(data);
 		}

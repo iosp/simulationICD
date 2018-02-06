@@ -35,7 +35,7 @@ private:
     // Data
     char m_BestVelBuffer[BUFFER_SIZE]{};
     char m_BestPosBuffer[BUFFER_SIZE]{};
-    boost::lockfree::queue<DgpsData, boost::lockfree::capacity<100> > m_dgpsDataCollection;
+    boost::lockfree::queue<DgpsData, boost::lockfree::capacity<1> > m_dgpsDataCollection;
 
     void SendThreadMethod();
 
