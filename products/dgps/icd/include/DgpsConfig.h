@@ -11,26 +11,28 @@
 
 #include <string>
 
+class ConfigurationINI; // forward declaration
+
 class DgpsConfig {
 private:
-    std::string m_portName;
-    int m_baudRate;
+    ConfigurationINI* m_dgpsConf;
+
+    static const std::string PORT_NAME_KEY;
+    static const std::string PORT_NAME_DEF_VAL;
+
+    static const std::string BAUD_RATE_KEY;
+    static const std::string BAUD_RATE_DEF_VAL;
+
+    void SetConfDefaultValues();
 
 public:
-    DgpsConfig() = default;
-    DgpsConfig(const std::string& portName, int baudRate);
+    DgpsConfig(const std::string& confFilePath);
 
-    virtual ~DgpsConfig() = default;
+    virtual ~DgpsConfig();
 
-    const std::string& GetPortName() const {
-        return m_portName;
-    }
+    std::string GetPortName() const;
 
-    int GetBaudRate() const {
-        return m_baudRate;
-    }
-
-    std::string toString() const;
+    int GetBaudRate() const;
 
 };
 

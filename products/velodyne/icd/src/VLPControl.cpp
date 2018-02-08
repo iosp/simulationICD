@@ -8,30 +8,32 @@
 #include "VLPControl.h"
 #include "Logger.h"
 #include "Helper.h"
-#include "VLPConfig.h"
 #include "UDPCommunication.h"
+#include "VLPConfig.h"
 
 #include <boost/range/irange.hpp> // boost::irange
+#include <boost/assign.hpp> // boost::assign::map_list_of
 
 static const int DISTANCE_MULT = 500;
 static const int AZIMUTH_MULT = 100;
 static const unsigned long HOUR_TO_MICRO_SEC = 360 * SECOND_TO_MICROSECOND;
 
-
-VLPControl::VLPControl(const VLPConfig& vlpConfig) : m_vlpConfig(vlpConfig) {
+VLPControl::VLPControl(const std::string& confFilePath) {
+	m_vlpConf = new VLPConfig(confFilePath);
     InitVelodyneData();
     // transmittion frequency is the degrees*10 / <degrees range of packet>
-    size_t transmissionFrequency = (m_vlpConfig.GetSensorFrequency() * DEGREES) /
-                                    (m_vlpConfig.GetRealHorizontalResolution() * 2*NUM_OF_VLP_DATA_BLOCKS);
-    // sleep time is 1/transmission time * 1000 (milliseconds) * 1000 (to microseconds)
-    m_sleepTimeBetweenEverySend = SECOND_TO_MICROSECOND / transmissionFrequency;
-    m_comm = new UDPCommunication(m_vlpConfig.GetIpAddress(), m_vlpConfig.GetPort());
+    size_t transmissionFrequency = (m_vlpConf->GetSensorFrequency() * DEGREES) /
+                                    (m_vlpConf->GetHorizontalResolution() * 2*NUM_OF_VLP_DATA_BLOCKS);
+    m_comm = new UDPCommunication(m_vlpConf->GetIpAddress(), m_vlpConf->GetPort());
+	m_sleepTimeBetweenEverySend = SECOND_TO_MICROSECOND / transmissionFrequency;
 }
 
 VLPControl::~VLPControl() {
     m_sendDataThread.interrupt();
     delete m_comm;
+    delete m_vlpConf;
 }
+
 
 void VLPControl::VLPDataPacket::InitVLPDataPacket() {
     std::fill_n(dataBlocks, NUM_OF_VLP_DATA_BLOCKS, VLPDataBlock());
@@ -39,7 +41,7 @@ void VLPControl::VLPDataPacket::InitVLPDataPacket() {
 }
 
 void VLPControl::InitVelodyneData() {
-    int numOfColumns = (DEGREES / m_vlpConfig.GetRealHorizontalResolution());
+    int numOfColumns = (DEGREES / m_vlpConf->GetHorizontalResolution());
     for (int i : boost::irange(0,numOfColumns)) {
        m_velodyneData.push_back(VelodyneData::VLPBlock(0, VelodyneData::VLPBlock::t_channel_data(), boost::posix_time::microseconds(0)));
     }
@@ -74,7 +76,7 @@ void VLPControl::SetData(const VelodyneData& data) {
             continue;
         }
         // index is (angle / resolution) + 0.5 - to round up
-        double index = block.GetAzimuth() / m_vlpConfig.GetRealHorizontalResolution() + 0.5f; // HANDLE CASTING!!
+        double index = block.GetAzimuth() / m_vlpConf->GetHorizontalResolution() + 0.5f; // HANDLE CASTING!!
         m_velodyneData[index] = block;
         m_velodyneDataMutex.unlock();
     }
@@ -103,7 +105,7 @@ void VLPControl::SendData() const {
     while (true) {
         int dataIndex = 0;
         // run over m_velodyneData
-        while (dataIndex < (DEGREES / m_vlpConfig.GetRealHorizontalResolution())) {
+        while (dataIndex < (DEGREES / m_vlpConf->GetHorizontalResolution())) {
             // send packet when it contains the required number of blocks
             if (packetIndex == NUM_OF_VLP_DATA_BLOCKS) {
                 SendPacket(packet);
@@ -146,8 +148,8 @@ void VLPControl::FillTimeStamp(VLPDataPacket& packet, int dataIndex) const {
 }
 
 void VLPControl::FillFactory(VLPDataPacket& packet) const {
-    packet.factory[0] = m_vlpConfig.GetReturnMode();
-    packet.factory[1] = m_vlpConfig.GetDataSource();    
+    packet.factory[0] = m_vlpConf->GetReturnMode();
+    packet.factory[1] = m_vlpConf->GetDataSource();    
 }
 
 void VLPControl::FillAzimuth(VLPDataPacket& packet, int dataIndex, int packetIndex) const {

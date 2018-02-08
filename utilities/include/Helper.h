@@ -16,6 +16,8 @@ namespace Utilities {
 
     bool MakeDirectory(const std::string& dirName, mode_t mode);
 
+    std::string GetHomeDir();
+
     /**
      * Get current time with specific format
      * @param format - the format to get the time (for instance "%Y_%m_%d_%H_%M_%S" is 2017_11_27_14_37_43)

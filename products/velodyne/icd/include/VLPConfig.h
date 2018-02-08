@@ -12,7 +12,7 @@
 #include <string>
 #include <map>
 
-static const int SENSOR_FREQ = 10;
+class ConfigurationINI; // forward declaration
 
 class VLPConfig {
 public:
@@ -24,48 +24,46 @@ public:
     static const std::map<DataSource, std::string> dataSourceToStr;
 
 private:
-    std::string m_ipAddress;
-    std::string m_port;
-    Resolution m_horizontalResolution;
-    double m_realHorizontalResolution;
-    ReturnMode m_returnMode;
-    DataSource m_dataSource;
-    int m_sensorFrequency;
+    ConfigurationINI* m_vlpConf;
+
+    static const std::string IP_ADDRESS_KEY;
+    static const std::string IP_ADDRESS_DEF_VAL;
+
+    static const std::string PORT_KEY;
+    static const std::string PORT_DEF_VAL;
+
+    static const std::string HORIZONTAL_RES_KEY;
+    static const std::string HORIZONTAL_RES_DEF_VAL;
+
+    static const std::string RETURN_MODE_KEY;
+    static const std::string RETURN_MODE_DEF_VAL;
+
+    static const std::string DATA_SOURCE_KEY;
+    static const std::string DATA_SOURCE_DEF_VAL;
+
+    static const std::string SENSOR_FREQ_KEY;
+    static const std::string SENSOR_FREQ_KEY_DEF_VAL;
+
+    void SetConfDefaultValues();
+
+    bool ValidateConfiguration() const;
 
 public:
-    VLPConfig() = default;
-    VLPConfig(const std::string& ipAddress, const std::string& port, Resolution horizontalResolution = _RES02_,
-        ReturnMode returnMode = _STRONGEST_, DataSource dataSource = _VLP16_,
-            int sensorFrequency = SENSOR_FREQ);
+    VLPConfig(const std::string& confFilePath);
 
-    virtual ~VLPConfig() = default;
+    virtual ~VLPConfig();
 
-    const std::string& GetIpAddress() const {
-        return m_ipAddress;
-    }
+    std::string GetIpAddress() const;
 
-    const std::string& GetPort() const {
-        return m_port;
-    }
+    std::string GetPort() const;
 
-    double GetRealHorizontalResolution() const {
-        return m_realHorizontalResolution;
-    }
+    double GetHorizontalResolution() const;
 
-    ReturnMode GetReturnMode() const {
-        return m_returnMode;
-    }
+    ReturnMode GetReturnMode() const;
 
-    DataSource GetDataSource() const {
-        return m_dataSource;
-    }
+    DataSource GetDataSource() const;
 
-    int GetSensorFrequency() const {
-        return m_sensorFrequency;
-    }
-
-    std::string toString() const;
-
+    int GetSensorFrequency() const;
 };
 
 

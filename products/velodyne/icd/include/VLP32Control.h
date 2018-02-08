@@ -23,7 +23,7 @@ protected:
     virtual int DataIndexIncrement() const;
 
 public:
-    VLP32Control(const VLPConfig& vlpConfig);
+    VLP32Control(const std::string& confFilePath);
     ~VLP32Control() = default;
 };
 

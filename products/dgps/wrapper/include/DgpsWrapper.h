@@ -23,7 +23,7 @@ private:
     void ClearCurrentData();
 
 public:
-    DgpsWrapper(const std::string& portName, int baudRate);
+    DgpsWrapper(const std::string& confFilePath);
 
     ~DgpsWrapper();
 

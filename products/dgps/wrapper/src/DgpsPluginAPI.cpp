@@ -9,8 +9,8 @@
 
 #include "DgpsPluginAPI.h"
 
-DgpsWrapper* CreateDgpsObject(const char* portName, int baudRate) {
-    return new DgpsWrapper(portName, baudRate);
+DgpsWrapper* CreateDgpsObject(const char* confFilePath) {
+    return new DgpsWrapper(confFilePath);
 }
 
 void DeleteDgpsObject(DgpsWrapper* pObj) {delete pObj;}
