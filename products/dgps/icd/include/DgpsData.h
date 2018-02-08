@@ -84,6 +84,8 @@ public:
     void SetSimTime(const boost::posix_time::time_duration& simTime){
         m_simTime = simTime;
     }
+
+    std::string toString() const;
 };
 
 

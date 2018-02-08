@@ -12,11 +12,21 @@
 RSCommunication::RSCommunication(const std::string& tty, int baudRate) : m_tty(tty), m_baudRate(baudRate) {
 }
 
+RSCommunication::~RSCommunication() {
+	if (m_port) {
+		m_port->cancel();
+		m_port->close();
+		m_port.reset();
+	}
+
+    m_io_service.stop();
+    m_io_service.reset();
+}
+
 bool RSCommunication::Init() {
-    boost::asio::io_service io_service;
     boost::system::error_code ec;
 
-    m_port = serial_port_ptr(new boost::asio::serial_port(io_service));
+    m_port = serial_port_ptr(new boost::asio::serial_port(m_io_service));
     m_port->open(m_tty.c_str(), ec);
  
     if (!m_port->is_open()) {
@@ -34,6 +44,11 @@ bool RSCommunication::Init() {
 }
 
 int RSCommunication::SendData(const char* buffer, int sizeOfData) const {
+    if (!m_port) {
+        ERRLOG << "port is nullptr!\n";
+        return -1;
+    } 
 	int n = m_port->write_some(boost::asio::buffer(buffer, sizeOfData));
+    DBGLOG << "Sent: " << n << " bytes\n";
     return n;
 }

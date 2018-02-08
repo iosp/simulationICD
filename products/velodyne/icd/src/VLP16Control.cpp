@@ -7,7 +7,7 @@
 
 #include "VLP16Control.h"
 
-VLP16Control::VLP16Control(const VLPConfig& vlpConfig) : VLPControl(vlpConfig) {
+VLP16Control::VLP16Control(const std::string& confFilePath) : VLPControl(confFilePath) {
 }
 
 void VLP16Control::FillDataRecords(VLPDataPacket& packet, int dataIndex, int packetIndex) const {

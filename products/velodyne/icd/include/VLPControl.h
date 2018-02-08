@@ -15,7 +15,6 @@
 #include <boost/thread.hpp> // boost::thread, mutex
 #include "IICD.h"
 #include "VelodyneData.h"
-#include "VLPConfig.h"
 
 static const int DEGREES = 360;
 static const int SECOND_TO_MICROSECOND  = 1e6;
@@ -23,6 +22,7 @@ static const int NUM_OF_VLP_DATA_CHANNELS_IN_BLOCK = 32;
 static const int NUM_OF_VLP_DATA_BLOCKS = 12;
 
 class ICommunication; // forward declaration
+class VLPConfig; // forward declaration
 
 class VLPControl : public IICD<VelodyneData> {
 protected:
@@ -54,13 +54,13 @@ protected:
     */
     ICommunication* m_comm;
     /**
+     * VLP configuration values
+     */ 
+    VLPConfig* m_vlpConf;
+    /**
      * velodyne data to save on process  
     */
     std::vector<VelodyneData::VLPBlock> m_velodyneData;
-    /**
-     * VLP configuration values
-     */ 
-    VLPConfig m_vlpConfig;
     /**
      * time to sleep between every packet send
     */
@@ -73,6 +73,7 @@ protected:
      * mutex to save velodyne data
      */ 
     mutable boost::mutex m_velodyneDataMutex;
+    
     /**
      * Send data via UDP socket
      */
@@ -213,11 +214,8 @@ protected:
     void printPacketData(const VLPDataPacket& packet) const;
 
 public:
-    /**
-     * Ctor
-     * @param vlpConfig - struct of VLPConfig
-     */ 
-    VLPControl(const VLPConfig& vlpConfig);
+
+    VLPControl(const std::string& confFilePath);
     virtual ~VLPControl();
 
     /**
@@ -235,10 +233,6 @@ public:
      * Run VLP send data thread
      */ 
     virtual void Run() override;
-
-    virtual const VLPConfig& GetConfig() const {
-        return m_vlpConfig;
-    }
 
     static void printVelData(const std::vector<VelodyneData::VLPBlock>& velData);
 

@@ -12,12 +12,12 @@
 #include <iostream>
 
 const std::map<LogLevel, std::string> Logger::m_logLevelToStr = boost::assign::map_list_of(_DEBUG_, "D")(_NORMAL_, "N")(_ERROR_, "E")(_ALWAYS_, "A");
-const std::string Logger::DEF_LOG_DIR_NAME = "/var/log/icd/";
+const std::string Logger::DEF_LOG_DIR_NAME = "/icd/";
 
 
 Logger::Logger(LogLevel screenLogLevel/* = _NORMAL_*/, LogLevel fileLogLevel /** = _NORMAL_ */) :
      m_screenLogLevel(screenLogLevel), m_fileLogLevel(fileLogLevel){
-        m_logDirName = DEF_LOG_DIR_NAME;
+        m_logDirName = Utilities::GetHomeDir() + DEF_LOG_DIR_NAME;
         Utilities::MakeDirectory(m_logDirName, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
         m_logFileName = m_logDirName + "icd_" + Utilities::GetFormattedTime("%Y_%m_%d_%H_%M_%S") + ".log";
 }

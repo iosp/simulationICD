@@ -12,20 +12,20 @@
 #include <boost/thread.hpp> // boost::thread
 #include <boost/lockfree/queue.hpp>
 #include "IICD.h"
-#include "DgpsConfig.h"
 #include "DgpsData.h"
 #include "DgpsStructs.h"
 
 static const int BUFFER_SIZE = 1000;
 
 class ICommunication; // forward declaration
- 
+class DgpsConfig; // forward declaration
+
 class DgpsControl : public IICD<DgpsData> {
 private:
     // connection protocol to use 
     ICommunication* m_comm;
-    // configuration values
-    DgpsConfig m_dgpsConfig;
+    // configuration parser
+    DgpsConfig* m_dgpsConf;
     // time to sleep between every packet send
     int m_sleepTimeBetweenEverySend;
     // holds thread method of send data
@@ -35,7 +35,7 @@ private:
     // Data
     char m_BestVelBuffer[BUFFER_SIZE]{};
     char m_BestPosBuffer[BUFFER_SIZE]{};
-    boost::lockfree::queue<DgpsData, boost::lockfree::capacity<100> > m_dgpsDataCollection;
+    boost::lockfree::queue<DgpsData, boost::lockfree::capacity<1> > m_dgpsDataCollection;
 
     void SendThreadMethod();
 
@@ -62,7 +62,7 @@ private:
     unsigned int CalcBlockCRC32(unsigned int ulCount, unsigned char* data) const;
 
 public:
-    DgpsControl(const DgpsConfig& dgpsConfig);
+    DgpsControl(const std::string& confFilePath);
 
     virtual ~DgpsControl();
 

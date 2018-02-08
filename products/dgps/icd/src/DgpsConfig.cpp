@@ -7,19 +7,38 @@
 * 
 */
 
-#include <sstream>
 #include "DgpsConfig.h"
 #include "Logger.h"
+#include "ConfigurationINI.h"
+#include <sstream>
 
-DgpsConfig::DgpsConfig(const std::string& portName, int baudRate) :
-             m_portName(portName), m_baudRate(baudRate) {
-    LOG << toString() << "\n";
+const std::string DgpsConfig::PORT_NAME_KEY = "PORT_NAME";
+const std::string DgpsConfig::PORT_NAME_DEF_VAL = "/dev/ttyUSB0";
+const std::string DgpsConfig::BAUD_RATE_KEY = "BAUD_RATE";
+const std::string DgpsConfig::BAUD_RATE_DEF_VAL = "115200";
+
+DgpsConfig::DgpsConfig(const std::string& confFilePath) {
+    m_dgpsConf = new ConfigurationINI(confFilePath);
+    SetConfDefaultValues();
+    m_dgpsConf->ParseConfFile();
+
+    LOG << "Dgps configuration is:\n" << m_dgpsConf->toString() << "\n";
+
 }
 
-std::string DgpsConfig::toString() const {
-    std::stringstream ss;
-    ss << "Dgps Configuration is: " << std::endl <<
-         "     port name: |" << m_portName << "|" << std::endl <<
-         "     baud rate: " << m_baudRate;
-    return ss.str();
+DgpsConfig::~DgpsConfig() {
+    delete m_dgpsConf;
+}
+
+void DgpsConfig::SetConfDefaultValues() {
+	m_dgpsConf->SetValue(PORT_NAME_KEY, PORT_NAME_DEF_VAL);
+	m_dgpsConf->SetValue(BAUD_RATE_KEY, BAUD_RATE_DEF_VAL);
+}
+
+std::string DgpsConfig::GetPortName() const {
+    return m_dgpsConf->GetValue(PORT_NAME_KEY);
+}
+
+int DgpsConfig::GetBaudRate() const {
+    return std::stoi(m_dgpsConf->GetValue(BAUD_RATE_KEY));
 }

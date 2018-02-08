@@ -7,21 +7,10 @@
 */
 
 #include "VLPWrapper.h"
-#include "VLPConfig.h"
 #include "VLP16Control.h"
-#include "VLP32Control.h"
 
-VLPWrapper::VLPWrapper(const std::string& ipAddress, const std::string& port, int resolution,
-        int returnMode, int dataSource, int sensorFrequency, int velType) {
-    VLPConfig vlpConfig(ipAddress, port, VLPConfig::Resolution(resolution), VLPConfig::ReturnMode(returnMode),
-        VLPConfig::DataSource(dataSource), sensorFrequency);
-    // create the required object
-    if (velType == 16) {
-        m_icd = new VLP16Control(vlpConfig);
-    }
-    else {
-        m_icd = new VLP32Control(vlpConfig);
-    }
+VLPWrapper::VLPWrapper(const std::string& confFilePath) {
+    m_icd = new VLP16Control(confFilePath);
 }
 
 VLPWrapper::~VLPWrapper(){

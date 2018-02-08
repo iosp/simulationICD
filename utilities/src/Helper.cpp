@@ -7,9 +7,20 @@
 #include "Helper.h"
 #include <sstream>
 #include <fstream>
+#include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
 
 bool Utilities::MakeDirectory(const std::string& dirName, mode_t mode) {
     return (mkdir(dirName.c_str(), mode) == 0);
+}
+
+std::string Utilities::GetHomeDir() {
+    const char *homedir = nullptr;
+    if ((homedir = getenv("HOME")) == nullptr) {
+        homedir = getpwuid(getuid())->pw_dir;
+    }
+    return (std::string)homedir;
 }
 
 double Utilities::dmod(double num, double mod) {

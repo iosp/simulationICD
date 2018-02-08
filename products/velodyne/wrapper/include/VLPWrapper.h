@@ -35,8 +35,7 @@ private:
     void ClearCurrentData();
 
 public:
-    VLPWrapper(const std::string& ipAddress, const std::string& port, int resolution,
-        int returnMode, int dataSource, int sensorFrequency, int velType);
+    VLPWrapper(const std::string& confFilePath);
 
     ~VLPWrapper();
 

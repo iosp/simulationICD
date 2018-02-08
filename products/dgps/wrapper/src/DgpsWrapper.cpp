@@ -9,9 +9,8 @@
 #include "DgpsControl.h"
 
 
-DgpsWrapper::DgpsWrapper(const std::string& portName, int baudRate) {
-    DgpsConfig config(portName, baudRate);
-    m_icd = new DgpsControl(config);
+DgpsWrapper::DgpsWrapper(const std::string& confFilePath) {
+    m_icd = new DgpsControl(confFilePath);
 }
 
 DgpsWrapper::~DgpsWrapper(){

@@ -9,17 +9,20 @@
 #include "Logger.h"
 #include "Helper.h"
 #include "RSCommunication.h"
+#include "DgpsConfig.h"
 
 static const int HEADER_LEN = 28;
-static const int TIME_BETWEEN_EVERY_SEND = 50000;
+static const int TIME_BETWEEN_EVERY_SEND = 1e+6; // microseconds
 
-DgpsControl::DgpsControl(const DgpsConfig& dgpsConfig) : m_dgpsConfig(dgpsConfig) {
-	m_comm = new RSCommunication(m_dgpsConfig.GetPortName(), m_dgpsConfig.GetBaudRate());
+DgpsControl::DgpsControl(const std::string& confFilePath) {
+	m_dgpsConf = new DgpsConfig(confFilePath);
+	m_comm = new RSCommunication(m_dgpsConf->GetPortName(), m_dgpsConf->GetBaudRate());
 	m_sleepTimeBetweenEverySend = TIME_BETWEEN_EVERY_SEND;
 }
 
 DgpsControl::~DgpsControl() {
 	m_sendDataThread.interrupt();
+	delete m_dgpsConf;
 	delete m_comm;
 }
 
@@ -52,6 +55,7 @@ void DgpsControl::SendThreadMethod() {
 		m_dgpsData_mutex.unlock();
 		
 		if (hasValue) {
+			DBGLOG << "Going to send data: " << data.toString() << "\n";
 			SendBestVelData(data);
 			SendBestPosData(data);
 		}
