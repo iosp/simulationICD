@@ -7,9 +7,10 @@
 
 #include <fstream>
 #include <sstream>
+#include <boost/algorithm/string.hpp> // trim
 #include "ConfigurationINI.h"
 #include "Logger.h"
- #include <boost/algorithm/string.hpp> // trim
+
 
 static const std::string DELIMITER = "=";
 

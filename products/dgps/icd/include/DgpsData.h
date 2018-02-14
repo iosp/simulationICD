@@ -6,7 +6,6 @@
 * Represents the data that is passed between the ICD and the user of the lib
 * Author: Binyamin Appelbaum
 * Date: 15.01.18
-* 
 */
 
 #include <boost/date_time/posix_time/posix_time.hpp> // boost::posix_time::time_duration

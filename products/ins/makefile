@@ -1,4 +1,4 @@
-SUBDIRS = velodyne dgps ins
+SUBDIRS = icd wrapper
 
 all:
 	for dir in $(SUBDIRS); do \
