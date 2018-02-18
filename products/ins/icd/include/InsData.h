@@ -16,34 +16,34 @@ private:
     boost::posix_time::time_duration m_utcTime;
 
     // members for INS navigation data message
-    float m_altitude;
-    float m_latitude;
-    float m_longitude;
-    float m_azimuth;
-    float m_pitch;
-    float m_roll;
-    float m_azimuthRate;
-    float m_northVelocity;
-    float m_eastVelocity;
-    float m_downVelocity;
-    float m_distanceTraveled;
-    float m_odometerDistance;
+    float m_altitude = 0;
+    float m_latitude = 0;
+    float m_longitude = 0;
+    float m_azimuth = 0;
+    float m_pitch = 0;
+    float m_roll = 0;
+    float m_azimuthRate = 0;
+    float m_northVelocity = 0;
+    float m_eastVelocity = 0;
+    float m_downVelocity = 0;
+    float m_distanceTraveled = 0;
+    float m_odometerDistance = 0;
     bool m_motionDetected;
     // members for INS internal GPS
-    short m_gpsFom;
-    short m_numOfSatelites;
+    short m_gpsFom = 0;
+    short m_numOfSatelites = 0;
     // members for errors estimation message
-    float m_horizontalError;
-    float m_verticalError;
-    float m_northingError;
-    float m_eastingError;
-    float m_altitudeError;
-    float m_northVelocityError;
-    float m_eastVelocityError;
-    float m_downVelocityError;
-    float m_azimuthErrorEstimation;
-    float m_pitchErrorEstimation;
-    float m_rollErrorEstimation;
+    float m_horizontalError = 0;
+    float m_verticalError = 0;
+    float m_northingError = 0;
+    float m_eastingError = 0;
+    float m_altitudeError = 0;
+    float m_northVelocityError = 0;
+    float m_eastVelocityError = 0;
+    float m_downVelocityError = 0;
+    float m_azimuthErrorEstimation = 0;
+    float m_pitchErrorEstimation = 0;
+    float m_rollErrorEstimation = 0;
 
 
 public:
@@ -52,6 +52,8 @@ public:
     InsData(const boost::posix_time::time_duration& simTime);
     
     ~InsData() = default;
+
+    InsData& operator = (const InsData& other);
 
     const boost::posix_time::time_duration& GetSimTime() const {
         return m_simTime;

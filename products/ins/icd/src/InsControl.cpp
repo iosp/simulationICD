@@ -36,8 +36,6 @@ void InsControl::SendThreadMethod(const t_message& message) {
 	boost::posix_time::ptime startTime = boost::posix_time::microsec_clock::local_time();
 	
 	while (true) {
-		m_insData_mutex.lock();
-		DBGLOG << "Going to send data: " << m_data.toString() << "\n";
 		// extract data from the message
 		auto insMessage = message.first;
 		auto comm = message.second;
@@ -46,6 +44,8 @@ void InsControl::SendThreadMethod(const t_message& message) {
 			ERRLOG << "Failed to initialize communication, not running send thread.\n";
 			return;
 		}
+		m_insData_mutex.lock();
+		DBGLOG << "Going to send data: " << m_data.toString() << "\n";
 		// fill message data
 		insMessage->FillMessage(m_data);
 		m_insData_mutex.unlock();
@@ -77,7 +77,6 @@ void InsControl::Run() {
 	for (auto message : m_messages) {
 		m_messagesThreads.push_back(std::make_shared<boost::thread>(&InsControl::SendThreadMethod, this, message));
 	}
-	
 }
 
 InsData* InsControl::GetData() {

@@ -12,12 +12,11 @@
 #include "DgpsConfig.h"
 
 static const int HEADER_LEN = 28;
-static const int TIME_BETWEEN_EVERY_SEND = 1e+6; // microseconds
 
 DgpsControl::DgpsControl(const std::string& confFilePath) {
 	m_dgpsConf = new DgpsConfig(confFilePath);
 	m_comm = new RSCommunication(m_dgpsConf->GetPortName(), m_dgpsConf->GetBaudRate());
-	m_sleepTimeBetweenEverySend = TIME_BETWEEN_EVERY_SEND;
+	m_sleepTimeBetweenEverySend = (1e7 / m_dgpsConf->GetHertz()); // TODO - check this change!!
 }
 
 DgpsControl::~DgpsControl() {

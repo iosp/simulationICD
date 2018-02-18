@@ -23,7 +23,7 @@ void InsWrapper::Run() {
 
 void InsWrapper::SetData() {
     m_icd->SetData(m_data);
-    // ClearCurrentData();
+    // ClearCurrentData(); TODO think about it!
 }
 
 void InsWrapper::ClearCurrentData() {

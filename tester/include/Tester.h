@@ -11,6 +11,7 @@
 class Tester {
     void TestVLP();
     void TestDgps();
+    void TestIns();
     void TestConf();
 public:
     Tester();

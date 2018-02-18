@@ -18,8 +18,8 @@ DgpsData::DgpsData(double latitude, double longitude, double altitude,
 
 std::string DgpsData::toString() const {
     std::stringstream ss;
-    ss << "Latitude: " << m_latitude << ". Longitude: " << m_longitude << ". Altitude: " << m_altitude << "\n" <<
-        "Lat speed: " << m_latSpeed << ". Long speed: " << m_longSpeed << ". Alt Azimuth: " << m_altAzimuth << "\n" <<
+    ss << "Latitude: " << m_latitude << ". Longitude: " << m_longitude << ". Altitude: " << m_altitude << std::endl <<
+        "Lat speed: " << m_latSpeed << ". Long speed: " << m_longSpeed << ". Alt Azimuth: " << m_altAzimuth << std::endl <<
         "Simulation time: " << m_simTime;
     
     return ss.str();

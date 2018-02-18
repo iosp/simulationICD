@@ -7,14 +7,15 @@
 #include "Tester.h"
 #include "VLPPluginAPI.h"
 #include "DgpsPluginAPI.h"
+#include "InsPluginAPI.h"
 #include "Logger.h"
 #include "ConfigurationINI.h"
 #include <boost/range/irange.hpp> // boost::irange
 #include <boost/date_time/posix_time/posix_time.hpp> // boost::posix_time::ptime
 
-void Tester::TestVLP() {
-    using namespace boost::posix_time;
+using namespace boost::posix_time;
 
+void Tester::TestVLP() {
     VLPWrapper* vlp = CreateVLPObject("/home/robil/vlp.conf");
     RunVLP(vlp);
     double counter = 0;
@@ -35,8 +36,6 @@ void Tester::TestVLP() {
 }
 
 void Tester::TestDgps() {
-    using namespace boost::posix_time;
-
     // static const std::string DEV_TTY = "/dev/ttyUSB0";
     // static const int BAUD_RATE = 115200;
 
@@ -55,6 +54,29 @@ void Tester::TestDgps() {
     // dgps = nullptr;
 }
 
+void Tester::TestIns() {
+    InsWrapper* ins = CreateInsObject("/home/robil/ins.conf");
+    RunIns(ins);
+    for (auto i : boost::irange(0, 1000000)) {
+        time_duration td =  microsec_clock::local_time() - from_time_t(0);
+        SetInsTimeStamps(ins, td.total_microseconds(), td.total_microseconds());
+        SetInsPose(ins, 0, 31.771959, 35.217018);
+        SetInsOrientation(ins, i % 360, 0, 0);
+        SetInsAzimuthRate(ins, 0);
+        SetInsVelocity(ins, i % 100, i % 100, i % 100);
+        SetInsDistances(ins, 0, 0);
+        SetInsMotionDetected(ins, true);
+        SetInsInternalGpsFields(ins, 0, 4);
+        SetInsDirectionErrors(ins, 0,0,0,0,0);
+        SetInsVelocityErrors(ins, 0,0,0);
+        SetInsOrientationErrors(ins, 0,0,0);
+
+        SendInsData(ins);
+        usleep(100000);
+    }
+
+}
+
 void Tester::TestConf() {
     ConfigurationINI conf("/home/robil/test.conf");
     LOG << conf.GetValue("hello") << "\n";
@@ -67,4 +89,5 @@ Tester::Tester() {
     // TestVLP();
     // TestDgps();
     // TestConf();
+    TestIns();
 }
