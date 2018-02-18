@@ -9,7 +9,6 @@
 #include "UDPCommunication.h"
 #include "Logger.h"
 #include <boost/asio.hpp> // boost::asio::io_service
-#include <boost/lexical_cast.hpp>
 
 UDPCommunication::UDPCommunication(const std::string& ipAddress, const std::string& port) : m_port(port), m_ipAddress(ipAddress) {
 }
@@ -24,8 +23,7 @@ int UDPCommunication::SendData(const char* buffer, int sizeOfData) const {
     boost::asio::io_service io_service;
     ip::udp::socket socket(io_service);
     socket.open(ip::udp::v4());
-    ip::udp::endpoint remote_endpoint = ip::udp::endpoint(ip::address::from_string(m_ipAddress),
-         boost::lexical_cast<int>(m_port));
+    ip::udp::endpoint remote_endpoint = ip::udp::endpoint(ip::address::from_string(m_ipAddress), std::stoi(m_port));
     // set the ip address of the configuration
     remote_endpoint.address(ip::address::from_string(m_ipAddress));
     boost::system::error_code err;
