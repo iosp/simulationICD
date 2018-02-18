@@ -9,9 +9,7 @@
 #include "InsData.h"
 #include "InsStructs.h"
 
-static const int TTS_INTERNAL_GPS_MESSAGE = 1e7;
-
-InternalGPSMessage::InternalGPSMessage() : InsMessage(TTS_INTERNAL_GPS_MESSAGE) {
+InternalGPSMessage::InternalGPSMessage(int hertz) : InsMessage(hertz) {
 
 }
 
@@ -55,6 +53,6 @@ void InternalGPSMessage::FillMessage(const InsData& data) {
 
 void InternalGPSMessage::FillHeader(/* out */ INS_HEADER& header) const {
 	header.Unit_Code = 0x3C;
-	strncpy((char*)header.Operation_Code, "\x3C\x82", 2);
+	strncpy((char*)header.Operation_Code, "\x3C\x82", 2); // 0x3C82
 	header.Length = sizeof(INS_Internal_GPS) - sizeof(INS_HEADER);
 }

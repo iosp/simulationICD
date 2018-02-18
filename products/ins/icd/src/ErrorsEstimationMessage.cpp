@@ -9,9 +9,7 @@
 #include "InsData.h"
 #include "InsStructs.h"
 
-static const int TTS_ERRORS_ESTIMATION_MESSAGE = 1e7;
-
-ErrorsEstimationMessage::ErrorsEstimationMessage() : InsMessage(TTS_ERRORS_ESTIMATION_MESSAGE) {
+ErrorsEstimationMessage::ErrorsEstimationMessage(int hertz) : InsMessage(hertz) {
 
 }
 
@@ -51,6 +49,6 @@ void ErrorsEstimationMessage::FillMessage(const InsData& data) {
 
 void ErrorsEstimationMessage::FillHeader(/* out */ INS_HEADER& header) const {
 	header.Unit_Code = 0x3C;
-	strncpy((char*)header.Operation_Code, "\x3C\x83", 2);
+	strncpy((char*)header.Operation_Code, "\x3C\x83", 2); // 0x3C83
 	header.Length = sizeof(INS_Error_Estimation_Message) - sizeof(INS_HEADER);
 }

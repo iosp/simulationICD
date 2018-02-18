@@ -15,10 +15,13 @@ protected:
 	virtual void FillHeader(/* out */ INS_HEADER& header) const override;
 	
 public:
-	NavigationDataMessage();
+
+	NavigationDataMessage(int hertz);
+	
 	virtual ~NavigationDataMessage() = default;
 
 	virtual void FillMessage(const InsData& data) override;
+
 };
 
 #endif // NAVIGATIONDATAMESSAGE_H

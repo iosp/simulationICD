@@ -9,9 +9,7 @@
 #include "InsData.h"
 #include "InsStructs.h"
 
-static const int TTS_STATUS_MESSAGE = 1e7;
-
-StatusMessage::StatusMessage() : InsMessage(TTS_STATUS_MESSAGE) {
+StatusMessage::StatusMessage(int hertz) : InsMessage(hertz) {
 
 }
 
@@ -51,6 +49,6 @@ void StatusMessage::FillMessage(const InsData& data) {
 
 void StatusMessage::FillHeader(/* out */ INS_HEADER& header) const {
 	header.Unit_Code = 0x3C;
-	strncpy((char*)header.Operation_Code, "\x3C\x09", 2);
+	strncpy((char*)header.Operation_Code, "\x3C\x09", 2); // 0x3C09
 	header.Length = sizeof(INS_Status_Message) - sizeof(INS_HEADER);
 }

@@ -9,9 +9,7 @@
 #include "InsData.h"
 #include "InsStructs.h"
 
-static const int TTS_NAVIGATION_DATA_MESSAGE = 1e7 / 50;
-
-NavigationDataMessage::NavigationDataMessage() : InsMessage(TTS_NAVIGATION_DATA_MESSAGE) {
+NavigationDataMessage::NavigationDataMessage(int hertz) : InsMessage(hertz) {
 
 }
 
@@ -56,6 +54,6 @@ void NavigationDataMessage::FillMessage(const InsData& data) {
 
 void NavigationDataMessage::FillHeader(/* out */ INS_HEADER& header) const {
 	header.Unit_Code = 0x3C;
-	strncpy((char*)header.Operation_Code, "\x3C\x80", 2);
+	strncpy((char*)header.Operation_Code, "\x3C\x80", 2); // 0x3C80
 	header.Length = sizeof(INS_Navigation_Data_Message) - sizeof(INS_HEADER);
 }

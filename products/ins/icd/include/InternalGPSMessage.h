@@ -15,10 +15,13 @@ protected:
 	virtual void FillHeader(/* out */ INS_HEADER& header) const override;
 	
 public:
-	InternalGPSMessage();
+
+	InternalGPSMessage(int hertz);
+
 	virtual ~InternalGPSMessage() = default;
 
 	virtual void FillMessage(const InsData& data) override;
+
 };
 
 #endif // INTERNALGPSMESSAGE_H

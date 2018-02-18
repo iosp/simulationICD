@@ -23,9 +23,9 @@ class DgpsConfig; // forward declaration
 class DgpsControl : public IICD<DgpsData> {
 private:
     // connection protocol to use 
-    ICommunication* m_comm;
+    ICommunication* m_comm = nullptr;
     // configuration parser
-    DgpsConfig* m_dgpsConf;
+    DgpsConfig* m_dgpsConf = nullptr;
     // time to sleep between every packet send
     int m_sleepTimeBetweenEverySend;
     // holds thread method of send data
@@ -34,7 +34,7 @@ private:
     
     // Data
     char m_BestVelBuffer[BUFFER_SIZE]{};
-    char m_BestPosBuffer[BUFFER_SIZE]{};
+    char m_BestPosBuffer[BUFFER_SIZE]{}; // TODO separate messages from this class
     boost::lockfree::queue<DgpsData, boost::lockfree::capacity<1> > m_dgpsDataCollection;
 
     void SendThreadMethod();

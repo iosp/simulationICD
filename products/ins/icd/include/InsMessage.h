@@ -17,16 +17,26 @@ static const int TIME_MULTIPLY = std::pow(2, 12) * std::pow(10, -6);
 static const int VEL_MULTIPLY = std::pow(2, 8);
 
 class InsData;
+class ICommunication; // forward declaration
 
 class InsMessage {
 protected:
+
 	int m_sleepTimeBetweenEverySend;
+
 	char m_buffer[BUFFER_SIZE]{0};
 
 	virtual void FillHeader(/* out */ INS_HEADER& header) const = 0;
 
+	void GetDataValidityBitfield(char* buffer, size_t bufferSize) const;
+
+	void GetSystemStatusBitfield(char* buffer, size_t bufferSize) const;
+
+	void GetSystemAlertBitfield(char* buffer, size_t bufferSize) const;
+
 public:
-	InsMessage(int sleepTimeBetweenEverySend);
+	InsMessage(int hertz);
+
 	virtual ~InsMessage() = default;
 
 	int GetSleepTimeBetweenEverySend() const {
@@ -35,13 +45,7 @@ public:
 
 	virtual void FillMessage(const InsData& data) = 0;
 
-
-	void GetDataValidityBitfield(char* buffer, size_t bufferSize) const;
-
-	void GetSystemStatusBitfield(char* buffer, size_t bufferSize) const;
-
-	void GetSystemAlertBitfield(char* buffer, size_t bufferSize) const;
-
+	void SendMessage(ICommunication* comm) const;
 };
 
 #endif // INSMESSAGE_H

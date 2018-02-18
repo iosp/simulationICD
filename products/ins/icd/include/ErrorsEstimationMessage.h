@@ -12,10 +12,13 @@
 
 class ErrorsEstimationMessage : public InsMessage {
 protected:
+
 	virtual void FillHeader(/* out */ INS_HEADER& header) const override;
 	
 public:
-	ErrorsEstimationMessage();
+
+	ErrorsEstimationMessage(int hertz);
+
 	virtual ~ErrorsEstimationMessage() = default;
 
 	virtual void FillMessage(const InsData& data) override;

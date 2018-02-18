@@ -15,10 +15,11 @@ protected:
 	virtual void FillHeader(/* out */ INS_HEADER& header) const override;
 	
 public:
-	StatusMessage();
+	StatusMessage(int hertz);
 	virtual ~StatusMessage() = default;
 
 	virtual void FillMessage(const InsData& data) override;
+
 };
 
 #endif // STATUSMESSAGE_H
