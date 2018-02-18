@@ -2,7 +2,7 @@ CC = g++
 
 CFLAGS = -std=c++0x -fPIC -O -g
 
-TARGET = ../../../comp/statlibs/libdinsicd.a
+TARGET = ../../../comp/statlibs/libinsicd.a
 
 OBJ_DIR = obj
 
