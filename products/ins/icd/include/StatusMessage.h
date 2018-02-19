@@ -18,7 +18,9 @@ protected:
 	virtual int GetMessageSize() const override;
 	
 public:
+
 	StatusMessage(int hertz);
+
 	virtual ~StatusMessage() = default;
 
 	virtual void FillMessage(const InsData& data) override;

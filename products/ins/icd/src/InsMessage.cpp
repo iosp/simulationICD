@@ -15,7 +15,7 @@ InsMessage::InsMessage(int hertz) {
 		ERRLOG << "Invalid hertz argument for INS message\n";
 		return;
 	}
-	m_sleepTimeBetweenEverySend = 1e7 / hertz;
+	m_sleepTimeBetweenEverySend = 1e6 / hertz;
 }
 
 void InsMessage::GetDataValidityBitfield(char* buffer, size_t bufferSize) const {
