@@ -28,6 +28,8 @@ protected:
 
 	virtual void FillHeader(/* out */ INS_HEADER& header) const = 0;
 
+	virtual int GetMessageSize() const = 0;
+
 	void GetDataValidityBitfield(char* buffer, size_t bufferSize) const;
 
 	void GetSystemStatusBitfield(char* buffer, size_t bufferSize) const;

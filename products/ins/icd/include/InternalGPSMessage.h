@@ -12,7 +12,10 @@
 
 class InternalGPSMessage : public InsMessage {
 protected:
+
 	virtual void FillHeader(/* out */ INS_HEADER& header) const override;
+
+	virtual int GetMessageSize() const override;
 	
 public:
 

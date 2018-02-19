@@ -13,6 +13,7 @@ class Tester {
     void TestDgps();
     void TestIns();
     void TestConf();
+    void TestTCP();
 public:
     Tester();
     ~Tester() = default;

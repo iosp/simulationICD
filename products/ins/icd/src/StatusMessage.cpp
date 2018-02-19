@@ -52,3 +52,7 @@ void StatusMessage::FillHeader(/* out */ INS_HEADER& header) const {
 	strncpy((char*)header.Operation_Code, "\x3C\x09", 2); // 0x3C09
 	header.Length = sizeof(INS_Status_Message) - sizeof(INS_HEADER);
 }
+
+int StatusMessage::GetMessageSize() const {
+	return sizeof(INS_Status_Message);
+}

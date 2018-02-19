@@ -52,3 +52,7 @@ void ErrorsEstimationMessage::FillHeader(/* out */ INS_HEADER& header) const {
 	strncpy((char*)header.Operation_Code, "\x3C\x83", 2); // 0x3C83
 	header.Length = sizeof(INS_Error_Estimation_Message) - sizeof(INS_HEADER);
 }
+
+int ErrorsEstimationMessage::GetMessageSize() const {
+	return sizeof(INS_Error_Estimation_Message);
+}

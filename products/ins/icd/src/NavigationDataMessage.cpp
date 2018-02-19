@@ -57,3 +57,7 @@ void NavigationDataMessage::FillHeader(/* out */ INS_HEADER& header) const {
 	strncpy((char*)header.Operation_Code, "\x3C\x80", 2); // 0x3C80
 	header.Length = sizeof(INS_Navigation_Data_Message) - sizeof(INS_HEADER);
 }
+
+int NavigationDataMessage::GetMessageSize() const {
+	return sizeof(INS_Navigation_Data_Message);
+}

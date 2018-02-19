@@ -56,3 +56,7 @@ void InternalGPSMessage::FillHeader(/* out */ INS_HEADER& header) const {
 	strncpy((char*)header.Operation_Code, "\x3C\x82", 2); // 0x3C82
 	header.Length = sizeof(INS_Internal_GPS) - sizeof(INS_HEADER);
 }
+
+int InternalGPSMessage::GetMessageSize() const {
+	return sizeof(INS_Internal_GPS);
+}

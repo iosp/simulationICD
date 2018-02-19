@@ -80,5 +80,5 @@ void InsMessage::GetSystemAlertBitfield(char* buffer, size_t bufferSize) const {
 }
 
 void InsMessage::SendMessage(ICommunication* comm) const {
-	comm->SendData(m_buffer, sizeof(m_buffer));
+	comm->SendData(m_buffer, GetMessageSize());
 }

@@ -48,12 +48,10 @@ private:
 
 public:
     InsData() = default;
-
-    InsData(const boost::posix_time::time_duration& simTime);
     
     ~InsData() = default;
 
-    InsData& operator = (const InsData& other);
+    // InsData& operator = (const InsData& other);
 
     const boost::posix_time::time_duration& GetSimTime() const {
         return m_simTime;
