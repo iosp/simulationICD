@@ -6,7 +6,7 @@
 */
 
 #include "DgpsControl.h"
-#include "Logger.h"
+#include "LoggerProxy.h"
 #include "Helper.h"
 #include "RSCommunication.h"
 #include "DgpsConfig.h"

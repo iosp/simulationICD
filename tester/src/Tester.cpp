@@ -8,7 +8,7 @@
 #include "VLPPluginAPI.h"
 #include "DgpsPluginAPI.h"
 #include "InsPluginAPI.h"
-#include "Logger.h"
+#include "LoggerProxy.h"
 #include "ConfigurationINI.h"
 #include "TCPCommunication.h"
 #include <boost/range/irange.hpp> // boost::irange

@@ -5,7 +5,7 @@
 */
 
 #include "Tester.h"
-#include "Logger.h"
+#include "LoggerProxy.h"
 #include <sstream>
 #include <boost/date_time/posix_time/posix_time.hpp>
 

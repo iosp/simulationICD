@@ -8,7 +8,7 @@
 */
 
 #include "DgpsConfig.h"
-#include "Logger.h"
+#include "LoggerProxy.h"
 #include "ConfigurationINI.h"
 #include <sstream>
 

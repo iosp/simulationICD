@@ -7,7 +7,7 @@
 */
 
 #include "UDPCommunication.h"
-#include "Logger.h"
+#include "LoggerProxy.h"
 #include <boost/asio.hpp> // boost::asio::io_service
 
 UDPCommunication::UDPCommunication(const std::string& ipAddress, const std::string& port) : m_port(port), m_ipAddress(ipAddress) {
@@ -27,6 +27,7 @@ int UDPCommunication::SendData(const char* buffer, int sizeOfData) const {
     // set the ip address of the configuration
     remote_endpoint.address(ip::address::from_string(m_ipAddress));
     boost::system::error_code err;
+    DBGLOG << "UDP server is going to write buffer with size: " << sizeOfData << "\n";
     socket.send_to(boost::asio::buffer(buffer, sizeOfData), remote_endpoint, 0, err);
     if (err.value() != boost::system::errc::success) {
         ERRLOG << "Failed to send packet. " << err.message() << "\n";

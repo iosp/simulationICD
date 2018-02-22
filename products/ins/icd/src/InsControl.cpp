@@ -13,7 +13,7 @@
 #include "ErrorsEstimationMessage.h"
 #include "UDPCommunication.h"
 #include "TCPCommunication.h"
-#include "Logger.h"
+#include "LoggerProxy.h"
 #include "Helper.h"
 
 

@@ -7,7 +7,7 @@
 */
 
 #include "TCPCommunication.h"
-#include "Logger.h"
+#include "LoggerProxy.h"
 #include <boost/asio.hpp> // boost::asio::io_service
 
 TCPCommunication::TCPCommunication(const std::string& ipAddress, const std::string& port) : m_port(port), m_ipAddress(ipAddress) {
@@ -37,6 +37,7 @@ int TCPCommunication::SendData(const char* buffer, int sizeOfData) const {
         boost::system::error_code ignored_error;
 
         // writing the message for current time
+        DBGLOG << "TCP server is going to write buffer with size: " << sizeOfData << "\n";
         boost::asio::write(socket, boost::asio::buffer(buffer, sizeOfData), ignored_error);
     }
     catch (std::exception& e) {

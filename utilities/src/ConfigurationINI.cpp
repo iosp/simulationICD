@@ -9,7 +9,7 @@
 #include <sstream>
 #include <boost/algorithm/string.hpp> // trim
 #include "ConfigurationINI.h"
-#include "Logger.h"
+#include "LoggerProxy.h"
 
 
 static const std::string DELIMITER = "=";

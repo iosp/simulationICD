@@ -7,7 +7,7 @@
 */
 
 #include "RSCommunication.h"
-#include "Logger.h"
+#include "LoggerProxy.h"
 
 RSCommunication::RSCommunication(const std::string& tty, int baudRate) : m_tty(tty), m_baudRate(baudRate) {
 }

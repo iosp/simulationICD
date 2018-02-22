@@ -8,7 +8,7 @@
 #include "InsMessage.h"
 #include "InsStructs.h"
 #include "ICommunication.h"
-#include "Logger.h"
+#include "LoggerProxy.h"
 
 InsMessage::InsMessage(int hertz) {
 	if (hertz == 0) {

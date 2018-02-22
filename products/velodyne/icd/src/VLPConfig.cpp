@@ -8,7 +8,7 @@
 */
 
 #include "VLPConfig.h"
-#include "Logger.h"
+#include "LoggerProxy.h"
 #include "ConfigurationINI.h"
 #include <boost/assign.hpp> // boost::assign::map_list_of
 

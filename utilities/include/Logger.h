@@ -3,7 +3,7 @@
 
 /*
 * Logger.h
-* Control log s
+* Control logs
 * Author: Binyamin Appelbaum
 * Date: 27.11.17
 * 
@@ -13,6 +13,7 @@
 #include <map>
 #include <sstream>
 #include <cstring> // strrchr
+#include <mutex>
 
 enum LogLevel {_NONE_ = -1, _DEBUG_, _NORMAL_, _ERROR_, _ALWAYS_};
 
@@ -21,10 +22,10 @@ enum LogLevel {_NONE_ = -1, _DEBUG_, _NORMAL_, _ERROR_, _ALWAYS_};
 #define RED COL_PREFIX"31m"
 
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__) // print only file name, without path
-#define LOG Logger::GetInstance()(_NORMAL_, __FILENAME__, __func__, __LINE__)
-#define ERRLOG Logger::GetInstance()(_ERROR_, __FILENAME__, __func__, __LINE__)
-#define DBGLOG Logger::GetInstance()(_DEBUG_, __FILENAME__, __func__, __LINE__)
-#define ALWLOG Logger::GetInstance()(_ALWAYS_, __FILENAME__, __func__, __LINE__)
+#define LOG LoggerProxy<std::mutex>(Logger::GetInstance(), Logger::GetLockObject(), _NORMAL_, __FILENAME__, __func__, __LINE__)
+#define ERRLOG LoggerProxy<std::mutex>(Logger::GetInstance(), Logger::GetLockObject(), _ERROR_, __FILENAME__, __func__, __LINE__)
+#define DBGLOG LoggerProxy<std::mutex>(Logger::GetInstance(), Logger::GetLockObject(), _DEBUG_, __FILENAME__, __func__, __LINE__)
+#define ALWLOG LoggerProxy<std::mutex>(Logger::GetInstance(), Logger::GetLockObject(), _ALWAYS_, __FILENAME__, __func__, __LINE__)
 
 class Logger {
 private:
@@ -73,28 +74,31 @@ private:
 
 public:
     static Logger& GetInstance();
-    /**
-     * operator () of class Logger
-     * @param level -log level of the message (debug/normal/etc)
-     * @param sourceFile - the cpp file that the message came from
-     * @param funcName - function name that the nessage came from
-     * @param lineNumber - the line where the message came from
-     * @return instance of Logger class
-     */ 
-    Logger& operator () (LogLevel level, const std::string& sourceFile, const std::string& funcName, int lineNumber);
+
+    static std::mutex& GetLockObject();
 
     /**
-     * operator << of class Logger - implementation of template function must be on header file
-     * @param message - the message body to print
-     * @return instance of Logger class
-     */     
+     * Write a message to destinations
+     */ 
     template <typename T>
-    inline Logger& operator << (const T& msg) {
+    inline void Write(const T& msg) {
         std::stringstream ss;
         ss << msg;
         PrintToFile(m_tmpLevel, ss.str());
         PrintToScreen(m_tmpLevel, ss.str());
-        return *this;
+    }
+
+    /**
+     * Write data of the message to log
+     * @param level -log level of the message (debug/normal/etc)
+     * @param sourceFile - the cpp file that the message came from
+     * @param funcName - function name that the nessage came from
+     * @param lineNumber - the line where the message came from
+     */ 
+    void WriteMsgPrefix(LogLevel level, const std::string& sourceFile, const std::string& funcName, int lineNumber);
+
+    void SetTmpLevel(LogLevel level) {
+        m_tmpLevel = level;
     }
 };
 

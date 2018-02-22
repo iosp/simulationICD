@@ -27,15 +27,12 @@ Logger& Logger::GetInstance() {
     return l;
 }
 
-Logger& Logger::operator () (LogLevel level, const std::string& sourceFile, const std::string& funcName, int lineNumber) {
+void Logger::WriteMsgPrefix(LogLevel level, const std::string& sourceFile, const std::string& funcName, int lineNumber) {
     std::stringstream ss;
     ss << Utilities::GetFormattedTime("%d.%m.%y %H:%M:%S") << "::" << sourceFile << "(" << lineNumber << ")::" <<
             funcName << "::(*" << m_logLevelToStr.find(level)->second << "*) ";
-    // save current level of the log (for the << operator)
-    m_tmpLevel = level;
     PrintToFile(level, ss.str());
     PrintToScreen(level, ss.str());
-    return *this;
 }
 
 void Logger::PrintToFile(LogLevel level, const std::string& message) const {
@@ -61,4 +58,10 @@ std::string Logger::MarkMessageWithColor(const T& message, const std::string& co
     std::stringstream ss;
     ss << color << message << RESET_COL;
     return ss.str();
+}
+
+
+std::mutex& Logger::GetLockObject() {
+    static std::mutex lockObj;
+    return lockObj;
 }
