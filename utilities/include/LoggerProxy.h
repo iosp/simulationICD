@@ -22,11 +22,10 @@ public:
 
     }
 
-
     LoggerProxy(Logger& logger, TLockObject& lockObj,
         LogLevel level, const std::string& sourceFile, const std::string& funcName, int lineNumber) : m_logger(logger), m_lockGuard(lockObj) {
         m_logger.SetTmpLevel(level);
-        m_logger.WriteMsgPrefix(level, sourceFile, funcName, lineNumber);
+        m_logger.Write(level, sourceFile, funcName, lineNumber);
     }
 
     template <typename T>

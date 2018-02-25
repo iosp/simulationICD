@@ -9,13 +9,12 @@
 * 
 */
 
+#include "LogConfig.h" // LogLevel
 #include <string>
 #include <map>
 #include <sstream>
 #include <cstring> // strrchr
 #include <mutex>
-
-enum LogLevel {_NONE_ = -1, _DEBUG_, _NORMAL_, _ERROR_, _ALWAYS_};
 
 #define COL_PREFIX "\033["
 #define RESET_COL COL_PREFIX"0m"
@@ -29,9 +28,11 @@ enum LogLevel {_NONE_ = -1, _DEBUG_, _NORMAL_, _ERROR_, _ALWAYS_};
 
 class Logger {
 private:
-    Logger(LogLevel screenLogLevel = _NORMAL_, LogLevel fileLogLevel = _NORMAL_);
+    Logger() = default;
     Logger(const Logger&) = default;
-    ~Logger() = default;
+    ~Logger();
+
+    LogConfig* m_logConf = nullptr;
 
     /**
      * temporary level of the current message
@@ -48,11 +49,13 @@ private:
     /**
      * log destination file name
      */ 
-    std::string m_logFileName;
+    std::string m_logFilePath;
     /**
      * log directory
      */ 
-    std::string m_logDirName;
+    std::string m_logDirPath;
+
+    void Init();
     /**
      * Print message to log file
      * @param message - string of the desired message to print
@@ -66,11 +69,6 @@ private:
 
     template <typename T>
     std::string MarkMessageWithColor(const T& message, const std::string& color) const;
-
-    static const std::string DEF_LOG_DIR_NAME;
-
-    static const std::map<LogLevel, std::string> m_logLevelToStr;
-
 
 public:
     static Logger& GetInstance();
@@ -95,7 +93,7 @@ public:
      * @param funcName - function name that the nessage came from
      * @param lineNumber - the line where the message came from
      */ 
-    void WriteMsgPrefix(LogLevel level, const std::string& sourceFile, const std::string& funcName, int lineNumber);
+    void Write(LogLevel level, const std::string& sourceFile, const std::string& funcName, int lineNumber);
 
     void SetTmpLevel(LogLevel level) {
         m_tmpLevel = level;
