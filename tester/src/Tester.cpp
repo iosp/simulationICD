@@ -17,7 +17,7 @@
 using namespace boost::posix_time;
 
 void Tester::TestVLP() {
-    VLPWrapper* vlp = CreateVLPObject("/home/robil/vlp.conf");
+    VLPWrapper* vlp = CreateVLPObject("/home/robil/confFiles/vlp.conf");
     RunVLP(vlp);
     double counter = 0;
 
@@ -37,7 +37,7 @@ void Tester::TestVLP() {
 }
 
 void Tester::TestDgps() {
-    DgpsWrapper* dgps = CreateDgpsObject("/home/robil/dgps.conf");
+    DgpsWrapper* dgps = CreateDgpsObject("/home/robil/confFiles/dgps.conf");
     RunDgps(dgps);
     for (auto i : boost::irange(0, 1000000)) {
         time_duration td =  microsec_clock::local_time() - from_time_t(0);
@@ -53,7 +53,7 @@ void Tester::TestDgps() {
 }
 
 void Tester::TestIns() {
-    InsWrapper* ins = CreateInsObject("/home/robil/ins.conf");
+    InsWrapper* ins = CreateInsObject("/home/robil/confFiles/ins.conf");
     RunIns(ins);
     for (auto i : boost::irange(0, 1000000)) {
         time_duration td =  microsec_clock::local_time() - from_time_t(0);
@@ -79,6 +79,8 @@ void Tester::TestIns() {
 }
 
 void Tester::TestTCP() {
+    TCPCommunication* t = new TCPCommunication("172.23.40.92", "50013");
+    t->SendData("hello world", sizeof("hello world"));
 
 }
 void Tester::TestConf() {
@@ -93,6 +95,6 @@ Tester::Tester() {
     // TestVLP();
     // TestDgps();
     // TestConf();
-    TestIns();
+    // TestIns();
     TestTCP();
 }

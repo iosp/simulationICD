@@ -15,7 +15,7 @@ Logger::~Logger() {
 }
 
 void Logger::Init() {
-    m_logConf = new LogConfig(Utilities::GetHomeDir() + "/log.conf");
+    m_logConf = new LogConfig(Utilities::GetHomeDir() + "/confFiles/log.conf");
     m_screenLogLevel = m_logConf->GetScreenLogLevel();
     m_fileLogLevel = m_logConf->GetFileLogLevel();
     m_logDirPath = Utilities::GetHomeDir() + "/" + m_logConf->GetLogDirName() + "/";
