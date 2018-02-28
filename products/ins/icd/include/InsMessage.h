@@ -13,7 +13,7 @@
 #include "InsStructs.h"
 
 static const int BUFFER_SIZE = 1000;
-static const int TIME_MULTIPLY = std::pow(2, 12) * std::pow(10, -6);
+static const int TIME_MULTIPLY = std::pow(2, 12);
 static const int VEL_MULTIPLY = std::pow(2, 8);
 
 class InsData;

@@ -8,6 +8,7 @@
 #include "ErrorsEstimationMessage.h"
 #include "InsData.h"
 #include "InsStructs.h"
+#include <cstring>  // memset, memcpy
 
 ErrorsEstimationMessage::ErrorsEstimationMessage(int hertz) : InsMessage(hertz) {
 
@@ -17,8 +18,8 @@ void ErrorsEstimationMessage::FillMessage(const InsData& data) {
 	INS_Error_Estimation_Message msg;
 
 	FillHeader(msg.Header);
-	msg.Time_From_Startup = data.GetSimTime().total_microseconds() * TIME_MULTIPLY;
-	msg.UTC_Time = data.GetSimTime().total_microseconds() * TIME_MULTIPLY;
+	msg.Time_From_Startup = data.GetSimTime() * TIME_MULTIPLY;
+	msg.UTC_Time = data.GetUtcTime() * TIME_MULTIPLY;
 	msg.Horizontal_Error_CEP = data.GetHorizontalError() * 10;
 	msg.Vertical_Error_PE = data.GetVerticalError() * 10;
 	msg.Northing_Error = data.GetNorthingError() * 10;

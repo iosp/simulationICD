@@ -31,8 +31,8 @@ void InsWrapper::ClearCurrentData() {
 }
 
  void InsWrapper::SetTimeStamps(int simTime, int utcTime) {
-      m_data.SetSimTime(boost::posix_time::microseconds(simTime));
-      m_data.SetUtcTime(boost::posix_time::microseconds(utcTime));
+      m_data.SetSimTime(simTime);
+      m_data.SetUtcTime(utcTime);
  }
 
 // INS navigation data message

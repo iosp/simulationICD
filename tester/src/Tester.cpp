@@ -53,12 +53,14 @@ void Tester::TestDgps() {
 }
 
 void Tester::TestIns() {
+    boost::posix_time::ptime startTime = boost::posix_time::microsec_clock::local_time();
     InsWrapper* ins = CreateInsObject("/home/robil/confFiles/ins.conf");
     RunIns(ins);
     for (auto i : boost::irange(0, 1000000)) {
-        time_duration td =  microsec_clock::local_time() - from_time_t(0);
-        SetInsTimeStamps(ins, td.total_microseconds(), td.total_microseconds());
-        
+        boost::posix_time::ptime currTime = boost::posix_time::microsec_clock::local_time();
+        int simTime = (currTime - startTime).total_seconds();
+        // int utcTime = 
+        SetInsTimeStamps(ins, simTime, simTime);
         SetInsPose(ins, 0, 31.771959, 35.217018);
         SetInsOrientation(ins, i % 360, 0, 0);
         SetInsAzimuthRate(ins, 0);
@@ -79,8 +81,10 @@ void Tester::TestIns() {
 }
 
 void Tester::TestTCP() {
-    TCPCommunication* t = new TCPCommunication("172.23.40.92", "50013");
-    t->SendData("hello world", sizeof("hello world"));
+    // TCPCommunication* t = new TCPCommunication("172.23.40.92", "50013");
+    // t->SendData("hello world", sizeof("hello world"));
+
+    // delete t;
 
 }
 void Tester::TestConf() {
@@ -95,6 +99,6 @@ Tester::Tester() {
     // TestVLP();
     // TestDgps();
     // TestConf();
-    // TestIns();
-    TestTCP();
+    TestIns();
+    //estTCP();
 }

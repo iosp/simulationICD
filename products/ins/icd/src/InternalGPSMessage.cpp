@@ -8,6 +8,7 @@
 #include "InternalGPSMessage.h"
 #include "InsData.h"
 #include "InsStructs.h"
+#include <cstring> // memset, memcpy
 
 InternalGPSMessage::InternalGPSMessage(int hertz) : InsMessage(hertz) {
 
@@ -16,8 +17,8 @@ InternalGPSMessage::InternalGPSMessage(int hertz) : InsMessage(hertz) {
 void InternalGPSMessage::FillMessage(const InsData& data) {
 	INS_Internal_GPS msg;
 	FillHeader(msg.Header);
-	msg.Time_From_Startup = data.GetSimTime().total_microseconds() * TIME_MULTIPLY;
-	msg.UTC_Time = data.GetSimTime().total_microseconds() * TIME_MULTIPLY;
+	msg.Time_From_Startup = data.GetSimTime() * TIME_MULTIPLY;
+	msg.UTC_Time = data.GetUtcTime() * TIME_MULTIPLY;
 	msg.GPS_FOM = data.GetGpsFom();
 	msg.Num_Of_Satelites_In_Nav_Sol = data.GetNumOfSatelites();
 

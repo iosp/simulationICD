@@ -9,8 +9,8 @@
 #include "EchoMessage.h"
 #include "InsData.h"
 #include "InsStructs.h"
-#include "ICommunication.h" // comm->SendData
 #include "LoggerProxy.h"
+#include <cstring> // memset, memcpy
 
 StatusMessage::StatusMessage(int hertz) : InsMessage(hertz) {
 	m_echoMessage = new EchoMessage(hertz);
@@ -25,8 +25,8 @@ void StatusMessage::FillMessage(const InsData& data) {
 	char tmpBuffer[10]{0};
 	INS_Status_Message msg;
 	FillHeader(msg.Header);
-	msg.Time_From_Startup = data.GetSimTime().total_microseconds() * TIME_MULTIPLY;
-	msg.UTC_Time = data.GetUtcTime().total_microseconds() * TIME_MULTIPLY;
+	msg.Time_From_Startup = data.GetSimTime() * TIME_MULTIPLY;
+	msg.UTC_Time = data.GetUtcTime() * TIME_MULTIPLY;
 	msg.Align_Time_CountDown = 60;
 	
 	GetDataValidityBitfield(tmpBuffer, 10);

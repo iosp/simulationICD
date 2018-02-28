@@ -8,6 +8,7 @@
 #include "EchoMessage.h"
 #include "InsData.h"
 #include "InsStructs.h"
+#include <cstring>  // memset, memcpy
 
 EchoMessage::EchoMessage(int hertz) : InsMessage(hertz) {
 

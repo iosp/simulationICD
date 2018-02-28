@@ -8,6 +8,7 @@
 #include "NavigationDataMessage.h"
 #include "InsData.h"
 #include "InsStructs.h"
+#include <cstring>  // memset, memcpy
 
 NavigationDataMessage::NavigationDataMessage(int hertz) : InsMessage(hertz) {
 
@@ -17,8 +18,8 @@ void NavigationDataMessage::FillMessage(const InsData& data) {
 	INS_Navigation_Data_Message msg;
 	
 	FillHeader(msg.Header);
-	msg.Time_From_Startup = data.GetSimTime().total_microseconds() * TIME_MULTIPLY;
-	msg.UTC_Time = data.GetUtcTime().total_microseconds() * TIME_MULTIPLY;
+	msg.Time_From_Startup = data.GetSimTime() * TIME_MULTIPLY;
+	msg.UTC_Time = data.GetUtcTime() * TIME_MULTIPLY;
 	msg.Altitude = (data.GetAltitude() * 10); // other side multiply by 0.1
 	msg.Geo_Latitude = (data.GetLatitude() * 1e7); // other side multiply by 0.0000001
 	msg.Geo_Longitude = (data.GetLongitude() * 1e7); // other side multiply by 0.0000001

@@ -8,12 +8,12 @@
 * Date: 11.02.18
 */
 
-#include <boost/date_time/posix_time/posix_time.hpp> // boost::posix_time::time_duration
+#include <string>
 
 class InsData {
 private:
-    boost::posix_time::time_duration m_simTime;
-    boost::posix_time::time_duration m_utcTime;
+    int m_simTime;
+    int m_utcTime;
 
     // members for INS navigation data message
     float m_altitude = 0;
@@ -53,19 +53,19 @@ public:
 
     // InsData& operator = (const InsData& other);
 
-    const boost::posix_time::time_duration& GetSimTime() const {
+    int GetSimTime() const {
         return m_simTime;
     }
 
-    void SetSimTime(const boost::posix_time::time_duration& simTime) {
+    void SetSimTime(int simTime) {
         m_simTime = simTime;
     }
 
-    const boost::posix_time::time_duration& GetUtcTime() const {
+    int GetUtcTime() const {
         return m_utcTime;
     }
 
-    void SetUtcTime(const boost::posix_time::time_duration& utcTime) {
+    void SetUtcTime(int utcTime) {
         m_utcTime = utcTime;
     }
 
