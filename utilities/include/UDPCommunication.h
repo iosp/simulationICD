@@ -22,7 +22,7 @@ public:
     ~UDPCommunication() = default;
 
     bool Init() override;
-    int SendData(const char* buffer, int sizeOfData) const override;
+    int SendData(const char* buffer, int sizeOfData) override;
 };
 
 

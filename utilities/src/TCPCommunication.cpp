@@ -10,38 +10,34 @@
 #include "LoggerProxy.h"
 #include <boost/asio.hpp> // boost::asio::io_service
 
-TCPCommunication::TCPCommunication(const std::string& ipAddress, const std::string& port) : m_port(port), m_ipAddress(ipAddress) {
+TCPCommunication::TCPCommunication(const std::string& ipAddress, const std::string& port, boost::asio::io_service& io_service) : 
+    m_port(port), m_ipAddress(ipAddress), m_socket(new tcp::socket(io_service)), m_acceptor(io_service, tcp::endpoint(tcp::v4(), std::stoi(port))) {
+    try {
+        m_acceptor.accept(*m_socket);
+    }
+    catch (std::exception& e) {
+       ERRLOG << e.what() << "\n";
+    }
 }
 
 bool TCPCommunication::Init() {
     return true;
 }
 
-int TCPCommunication::SendData(const char* buffer, int sizeOfData) const {
+int TCPCommunication::SendData(const char* buffer, int sizeOfData) {
     using namespace boost::asio;
     using boost::asio::ip::tcp;
 
     try {
-        // Any program that uses asio need to have at least one io_service object
-        boost::asio::io_service io_service;
-
-        // acceptor object needs to be created to listen for new connections
-        tcp::acceptor acceptor(io_service, tcp::endpoint(tcp::v4(), std::stoi(m_port)));
-
-        // creates a socket
-        tcp::socket socket(io_service);
-
-        // wait and listen
-        acceptor.accept(socket);
-
-        boost::system::error_code ignored_error;
-
         // writing the message for current time
-        DBGLOG << "TCP server is going to write buffer with size: " << sizeOfData << "\n";
-        boost::asio::write(socket, boost::asio::buffer(buffer, sizeOfData), ignored_error);
+        LOG << "TCP server is going to write buffer with size: " << sizeOfData << "\n";
+        boost::asio::write(*m_socket, boost::asio::buffer(buffer, sizeOfData));
     }
     catch (std::exception& e) {
-       LOG << e.what() << "\n";
+       ERRLOG << e.what() << "\n";
+       return 0;
     }
+
+    return sizeOfData;
 
 }
