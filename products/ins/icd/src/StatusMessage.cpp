@@ -1,4 +1,4 @@
-/*InsMesssage
+/*
 * StatusMessage.cpp
 * INS status message to send
 * Author: Binyamin Appelbaum
@@ -6,11 +6,19 @@
 */
 
 #include "StatusMessage.h"
+#include "EchoMessage.h"
 #include "InsData.h"
 #include "InsStructs.h"
+#include "ICommunication.h" // comm->SendData
+#include "LoggerProxy.h"
 
 StatusMessage::StatusMessage(int hertz) : InsMessage(hertz) {
+	m_echoMessage = new EchoMessage(hertz);
+	m_echoMessage->FillMessage(InsData());
+}
 
+StatusMessage::~StatusMessage() {
+	delete m_echoMessage;
 }
 
 void StatusMessage::FillMessage(const InsData& data) {
@@ -55,4 +63,9 @@ void StatusMessage::FillHeader(/* out */ INS_HEADER& header) const {
 
 int StatusMessage::GetMessageSize() const {
 	return sizeof(INS_Status_Message);
+}
+
+void StatusMessage::SendMessage(ICommunication* comm) const {
+	m_echoMessage->SendMessage(comm);
+	InsMessage::SendMessage(comm);
 }

@@ -17,23 +17,27 @@ typedef int				Int32;
 typedef unsigned int	UInt32;
 typedef float			Single;
 
-typedef struct {
+struct INS_HEADER {
 	Byte 		Unit_Code;
 	Byte		Operation_Code[2];
 	UInt16		Length;
-} INS_HEADER;
+} __attribute__((packed));
 
-typedef enum {
+typedef enum  : char {
 	ZONETYPE_EXTENDED = 0x00,	// IDF extended zone type
 	ZONETYPE_NORMAL =	0x01	// Normal zone type
 } E_INS_ZoneType; // determining the zone type
 
-typedef enum {
+typedef enum : char {
 	GEOID_EGM96 = 	0x01,
 	GEOID_EGM08 = 	0x02
 } E_INS_Geoid;
 
-typedef struct {
+struct INS_Echo_Message {
+	INS_HEADER		Header;
+} __attribute__((packed)); 
+
+struct INS_Status_Message {
 	INS_HEADER		Header;
 	UInt32			Time_From_Startup;		// mission time. Units: seconds
 	UInt32			UTC_Time;				// in seconds
@@ -50,9 +54,9 @@ typedef struct {
 	Byte			Error_Table_Bitfield[4];
 	UInt16			System_Internal_Bits_Bitfield[20];
 	Byte			Spare[12]; 					// NULLS
-} INS_Status_Message;
+} __attribute__((packed));
 
-typedef struct {
+struct INS_Navigation_Data_Message {
 	INS_HEADER		Header;
 	UInt32			Time_From_Startup;		// mission time. Units: seconds
 	UInt32			UTC_Time;				// in seconds
@@ -83,22 +87,22 @@ typedef struct {
 	Int16			Reserved_Hull_Pitch; 	// mils
 	Int16			Reserved_Hull_Roll;		// mils
 	Byte			Spare[6];				// nulls
-} INS_Navigation_Data_Message;
+} __attribute__((packed));
 
 
-typedef struct {
+struct S_INS_GPSStatus {
 	Byte 			dummy; 					// maintenance purpose only
-} S_INS_GPSStatus; // Used to indicate on the status of the GPS card
+} __attribute__((packed)); // Used to indicate on the status of the GPS card
 
-typedef struct {
+struct S_INS_GPSNav{
 	Byte			dummy[2]; 				// maintenance purpose only
-} S_INS_GPSNav; // Used to indicate on the operation models of the GPS card
+}  __attribute__((packed)); // Used to indicate on the operation models of the GPS card
 
-typedef struct {
+struct S_INS_GPSErrorBITs{
 	Byte			dummy[4]; 				// maintenance purpose only
-} S_INS_GPSErrorBITs; // Used to indicate on the BITs(Built in Test) of the GPS card
+}  __attribute__((packed)); // Used to indicate on the BITs(Built in Test) of the GPS card
 
-typedef struct {
+struct INS_Internal_GPS {
 	INS_HEADER			Header;
 	UInt32				Time_From_Startup;		// mission time. Units: seconds
 	UInt32				UTC_Time;				// in seconds
@@ -129,10 +133,10 @@ typedef struct {
 	UInt16				Reserved_A2DLevel;
 	UInt16				Reserved_RFImmun;
 	Byte				Spare[12];				// nulls
-} INS_Internal_GPS;
+} __attribute__((packed));
 
 
-typedef struct {
+struct INS_Error_Estimation_Message {
 	INS_HEADER			Header;
 	UInt32				Time_From_Startup;		// mission time. Units: seconds
 	UInt32				UTC_Time;				// in seconds
@@ -158,6 +162,6 @@ typedef struct {
 	UInt16				Bias_Acc_X_Error;		//
 	UInt16				Bias_Acc_Y_Error;		// 
 	UInt16				Bias_Acc_Z_Error;		//
-} INS_Error_Estimation_Message;
+}  __attribute__((packed));
 
 #endif // INSTRUCTS_H

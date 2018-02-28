@@ -10,7 +10,13 @@
 
 #include "InsMessage.h"
 
+class EchoMessage;
+
 class StatusMessage : public InsMessage {
+private:
+
+	EchoMessage* m_echoMessage;
+
 protected:
 
 	virtual void FillHeader(/* out */ INS_HEADER& header) const override;
@@ -21,9 +27,11 @@ public:
 
 	StatusMessage(int hertz);
 
-	virtual ~StatusMessage() = default;
+	virtual ~StatusMessage();
 
 	virtual void FillMessage(const InsData& data) override;
+
+	virtual void SendMessage(ICommunication* comm) const override;
 
 };
 

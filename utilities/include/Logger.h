@@ -21,6 +21,10 @@
 #define RED COL_PREFIX"31m"
 
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__) // print only file name, without path
+/** while using LOG macro - we are creating a temporary instance of LoggerProxy that gets the logger and a mutex as arguments
+ * to the Ctor. operator << of LoogerProxy returns the same instance, and the result is sequence write of the line to the log 
+ * In the end of the line - LoggerProxy instance is destroyed (because it is a temporary variable) and the mutex is released
+*/ 
 #define LOG LoggerProxy<std::mutex>(Logger::GetInstance(), Logger::GetLockObject(), _NORMAL_, __FILENAME__, __func__, __LINE__)
 #define ERRLOG LoggerProxy<std::mutex>(Logger::GetInstance(), Logger::GetLockObject(), _ERROR_, __FILENAME__, __func__, __LINE__)
 #define DBGLOG LoggerProxy<std::mutex>(Logger::GetInstance(), Logger::GetLockObject(), _DEBUG_, __FILENAME__, __func__, __LINE__)
@@ -77,6 +81,7 @@ public:
 
     /**
      * Write a message to destinations
+     * @param msg - the message to write
      */ 
     template <typename T>
     inline void Write(const T& msg) {

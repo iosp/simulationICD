@@ -47,7 +47,7 @@ public:
 
 	virtual void FillMessage(const InsData& data) = 0;
 
-	void SendMessage(ICommunication* comm) const;
+	virtual void SendMessage(ICommunication* comm) const;
 };
 
 #endif // INSMESSAGE_H

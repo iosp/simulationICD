@@ -9,14 +9,14 @@
 #include <sstream>
 #include <boost/date_time/posix_time/posix_time.hpp>
 
-int main() {
+int main(int argc, char* argv[]) {
     std::stringstream ss;
-    ss << "********************* starting " << __FILE__ << ". Time: " << boost::posix_time::microsec_clock::local_time() << " ******************" << std::endl;
+    ss << "********************* starting " << argv[0] << ". Time: " << boost::posix_time::microsec_clock::local_time() << " ******************" << std::endl;
     ALWLOG << ss.str();
 
     Tester t;
 
     ss.str("");
-    ss << "********************* Ending " << __FILE__ << ". Time: " << boost::posix_time::microsec_clock::local_time() << std::endl;
+    ss << "********************* Ending " << argv[0] << ". Time: " << boost::posix_time::microsec_clock::local_time() << std::endl;
     ALWLOG << ss.str();
 }

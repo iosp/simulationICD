@@ -13,7 +13,7 @@
 #include <sstream>
 
 const std::string InsConfig::STATUS_MSG_IP_ADDRESS_KEY = "STATUS_MSG_IP";
-const std::string InsConfig::STATUS_MSG_IP_ADDRESS_DEF_VAL = "132.4.5.60";
+const std::string InsConfig::STATUS_MSG_IP_ADDRESS_DEF_VAL = "132.4.5.10";
 const std::string InsConfig::STATUS_MSG_PORT_KEY = "STATUS_MSG_PORT";
 const std::string InsConfig::STATUS_MSG_PORT_DEF_VAL = "2001";
 const std::string InsConfig::STATUS_MSG_HZ_KEY = "STATUS_MSG_HERTZ";
