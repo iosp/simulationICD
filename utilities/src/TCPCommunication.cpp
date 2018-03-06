@@ -30,7 +30,7 @@ int TCPCommunication::SendData(const char* buffer, int sizeOfData) {
 
     try {
         // writing the message for current time
-        LOG << "TCP server is going to write buffer with size: " << sizeOfData << "\n";
+        DBGLOG << "TCP server is going to write buffer with size: " << sizeOfData << "\n";
         boost::asio::write(*m_socket, boost::asio::buffer(buffer, sizeOfData));
     }
     catch (std::exception& e) {
