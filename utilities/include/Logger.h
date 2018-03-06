@@ -51,9 +51,13 @@ private:
      */ 
     LogLevel m_fileLogLevel;
     /**
-     * log destination file name
+     * log destination current file name
      */ 
     std::string m_logFilePath;
+    /**
+     * basic log destination name (log file path is the basic + "_x" or basic only)
+     */
+    std::string m_basicLogFilePath; 
     /**
      * log directory
      */ 
@@ -64,7 +68,7 @@ private:
      * Print message to log file
      * @param message - string of the desired message to print
      */ 
-    void PrintToFile(LogLevel level, const std::string& message) const;
+    void PrintToFile(LogLevel level, const std::string& message);
     /**
      * Print message to stdout (screen)
      * @param message - string of the desired message to print

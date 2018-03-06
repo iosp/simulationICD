@@ -10,6 +10,8 @@
 #include "Logger.h"
 #include "Helper.h"
 
+static const long MAX_FILE_SIZE = 209715200; // 200 MB
+
 Logger::~Logger() {
     delete m_logConf;
 }
@@ -21,11 +23,14 @@ void Logger::Init() {
     m_logDirPath = Utilities::GetHomeDir() + "/" + m_logConf->GetLogDirName() + "/";
     Utilities::MakeDirectory(m_logDirPath, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
     m_logFilePath = m_logDirPath + "icd_" + Utilities::GetFormattedTime("%Y_%m_%d_%H_%M_%S") + ".log";
+    m_basicLogFilePath = m_logFilePath;
 }
 
 Logger& Logger::GetInstance() {
     static bool isInitialized = false;
     static Logger l;
+    // we need to make GetInstance method like this - because initializing logger on the ctor - may cause infinite loop.
+    // see https://stackoverflow.com/questions/48927570/constructors-infinite-cycle-in-cpp
     if (!isInitialized) {
         isInitialized = true;
         l.Init();
@@ -41,8 +46,13 @@ void Logger::Write(LogLevel level, const std::string& sourceFile, const std::str
     PrintToScreen(level, ss.str());
 }
 
-void Logger::PrintToFile(LogLevel level, const std::string& message) const {
+void Logger::PrintToFile(LogLevel level, const std::string& message) {
+    static int suffix = 1;
     if (level >= m_fileLogLevel) {
+        // if current file size is over the limit - create new file with new suffix
+        if (Utilities::GetFileSize(m_logFilePath) > MAX_FILE_SIZE) {
+            m_logFilePath = m_basicLogFilePath + "_" + std::to_string(suffix++);
+        }
         Utilities::PrintToFile(m_logFilePath, message);
     }
 }
