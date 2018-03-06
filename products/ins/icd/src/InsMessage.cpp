@@ -1,4 +1,4 @@
-/*m_buffer
+/*
 * InsMessage.cpp
 * Ins message to send
 * Author: Binyamin Appelbaum

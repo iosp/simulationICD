@@ -9,19 +9,6 @@
 * 
 */
 
-const double PI = 3.141592653589793238463;
-
-#define Rad2Mills 6400/(2*PI)
-#define Deg2Pi 1/180
-#define Rad2Degs PI/180
-#define DEG2RAD (PI/180)
-
-#define TIME_INTERVAL_100HZ 0.01
-#define TIME_INTERVAL_50HZ 0.02
-#define TIME_INTERVAL_20HZ 0.05
-#define TIME_INTERVAL_10HZ 0.1
-#define TIME_INTERVAL_1HZ 1
-
 #define CRC32_POLYNOMIAL 0xEDB88320L
 
 
@@ -153,7 +140,7 @@ typedef struct {
 	unsigned char                                   TWO_BIT_RESERVED; //
 } SIGNAL_USED_MASK_STRUCT;
 
-/* HEADER_STRUCT */
+/* DGPS_HEADER */
 typedef struct {
 	char                                            Sync; //
 	char                                            Sync1; //
@@ -171,11 +158,11 @@ typedef struct {
 	unsigned int                                   Receiver_Status; //
 	unsigned short                                  Two_Byte_Reserved; //
 	unsigned short                                  Receiver_SW_Version; //
-} HEADER_STRUCT;
+} DGPS_HEADER;
 
 /* BESTVEL */
 typedef struct {
-	HEADER_STRUCT                                   HEADER; // Log header
+	DGPS_HEADER                                  	HEADER; // Log header
 	E_SOLUTION_STATUS                               sol_stat; // Solution status
 	E_POSITION_OR_VELOCITY_TYPE                     vel_type; // Velocity type
 	float                                           latency; // measure of the latency in the velocity time tag in seconds
@@ -189,7 +176,7 @@ typedef struct {
 
 /* BESTPOS */
 typedef struct {
-	HEADER_STRUCT                                   HEADER; // Log header
+	DGPS_HEADER                                   	HEADER; // Log header
 	E_SOLUTION_STATUS                               sol_stat; // Solution status
 	E_POSITION_OR_VELOCITY_TYPE                     pos_type; // Position type
 	double                                          lat_Dgps; //

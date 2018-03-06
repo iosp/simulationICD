@@ -11,8 +11,10 @@
 #include "InternalGPSMessage.h"
 #include "ErrorsEstimationMessage.h"
 #include "EchoMessage.h"
+#include "BestVelMessage.h"
+#include "BestPosMessage.h"
 
-InsMessage* MessageFactory::CreateMessage(InsMsgType msgType, int hertz) {
+IMessage<InsData>* MessageFactory::CreateMessage(InsMsgType msgType, int hertz) {
 	InsMessage* msg = nullptr;
 	switch (msgType) {
 		case _STATUS_MSG_: {
@@ -33,6 +35,23 @@ InsMessage* MessageFactory::CreateMessage(InsMsgType msgType, int hertz) {
 		}
 		case _ECHO_MSG_: {
 			msg = new EchoMessage(hertz);
+			break;
+		}
+		default:
+			break;
+	}
+	return msg;
+}
+
+IMessage<DgpsData>* MessageFactory::CreateMessage(DgpsMsgType msgType, int hertz) {
+	DgpsMessage* msg = nullptr;
+	switch (msgType) {
+		case _BEST_POS_: {
+			msg = new BestPosMessage(hertz);
+			break;
+		}
+		case _BEST_VEL_: {
+			msg = new BestVelMessage(hertz);
 			break;
 		}
 		default:
