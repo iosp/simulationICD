@@ -79,6 +79,6 @@ void InsMessage::GetSystemAlertBitfield(char* buffer, size_t bufferSize) const {
 	snprintf(buffer, bufferSize, "%c%c%c%c%c%c%c%c%c%c", A1, A2, A3, A4, A5, A6, A7, A8, A9, A10);
 }
 
-void InsMessage::SendMessage(ICommunication* comm) const {
-	comm->SendData(m_buffer, GetMessageSize());
+int InsMessage::SendMessage(ICommunication* comm) const {
+	return comm->SendData(m_buffer, GetMessageSize());
 }

@@ -10,15 +10,10 @@
 
 #include "InsMessage.h"
 
-class EchoMessage;
-
 class StatusMessage : public InsMessage {
-private:
-
-	EchoMessage* m_echoMessage;
-
 protected:
-
+	// InsMessage* m_echoMessage; - currently (5/3/18) preprocessor doesn't read echo message
+	
 	virtual void FillHeader(/* out */ INS_HEADER& header) const override;
 
 	virtual int GetMessageSize() const override;
@@ -31,7 +26,7 @@ public:
 
 	virtual void FillMessage(const InsData& data) override;
 
-	virtual void SendMessage(ICommunication* comm) const override;
+	virtual int SendMessage(ICommunication* comm) const override;
 
 };
 

@@ -53,8 +53,8 @@ void InternalGPSMessage::FillMessage(const InsData& data) {
 }
 
 void InternalGPSMessage::FillHeader(/* out */ INS_HEADER& header) const {
-	header.Unit_Code = 0x3C;
-	strncpy((char*)header.Operation_Code, "\x3C\x82", 2); // 0x3C82
+	header.Unit_Code = 0x3c;
+	strncpy((char*)header.Operation_Code, "\x82\x3c", 2); // 0x3C82 - reverse from ICD 
 	header.Length = sizeof(INS_Internal_GPS) - sizeof(INS_HEADER);
 }
 

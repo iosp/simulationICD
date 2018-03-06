@@ -54,8 +54,8 @@ void NavigationDataMessage::FillMessage(const InsData& data) {
 }
 
 void NavigationDataMessage::FillHeader(/* out */ INS_HEADER& header) const {
-	header.Unit_Code = 0x3C;
-	strncpy((char*)header.Operation_Code, "\x3C\x80", 2); // 0x3C80
+	header.Unit_Code = 0x3c;
+	strncpy((char*)header.Operation_Code, "\x80\x3c", 2); // 0x3C80 - reverse from ICD 
 	header.Length = sizeof(INS_Navigation_Data_Message) - sizeof(INS_HEADER);
 }
 

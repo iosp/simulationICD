@@ -6,19 +6,20 @@
 */
 
 #include "StatusMessage.h"
-#include "EchoMessage.h"
 #include "InsData.h"
 #include "InsStructs.h"
 #include "LoggerProxy.h"
 #include <cstring> // memset, memcpy
+// #include "MessageFactory.h"
 
 StatusMessage::StatusMessage(int hertz) : InsMessage(hertz) {
-	m_echoMessage = new EchoMessage(hertz);
-	m_echoMessage->FillMessage(InsData());
+	// currently (5/3/18) preprocessor doesn't read echo message
+	// m_echoMessage = MessageFactory::CreateMessage(_ECHO_MSG_, hertz);
+	// m_echoMessage->FillMessage(InsData());
 }
 
 StatusMessage::~StatusMessage() {
-	delete m_echoMessage;
+	// delete m_echoMessage;
 }
 
 void StatusMessage::FillMessage(const InsData& data) {
@@ -56,8 +57,8 @@ void StatusMessage::FillMessage(const InsData& data) {
 }
 
 void StatusMessage::FillHeader(/* out */ INS_HEADER& header) const {
-	header.Unit_Code = 0x3C;
-	strncpy((char*)header.Operation_Code, "\x3C\x09", 2); // 0x3C09
+	header.Unit_Code = 0x3c;
+	strncpy((char*)header.Operation_Code, "\x09\x3c", 2); // 0x093c - reverse from ICD 
 	header.Length = sizeof(INS_Status_Message) - sizeof(INS_HEADER);
 }
 
@@ -65,7 +66,7 @@ int StatusMessage::GetMessageSize() const {
 	return sizeof(INS_Status_Message);
 }
 
-void StatusMessage::SendMessage(ICommunication* comm) const {
-	m_echoMessage->SendMessage(comm);
-	InsMessage::SendMessage(comm);
+int StatusMessage::SendMessage(ICommunication* comm) const {
+	// m_echoMessage->SendMessage(comm); currently (5/3/18) preprocessor doesn't read echo message
+	return InsMessage::SendMessage(comm);
 }

@@ -49,8 +49,8 @@ void ErrorsEstimationMessage::FillMessage(const InsData& data) {
 }
 
 void ErrorsEstimationMessage::FillHeader(/* out */ INS_HEADER& header) const {
-	header.Unit_Code = 0x3C;
-	strncpy((char*)header.Operation_Code, "\x3C\x83", 2); // 0x3C83
+	header.Unit_Code = 0x3c;
+	strncpy((char*)header.Operation_Code, "\x83\x3c", 2); // 0x3C80 - reverse from ICD 
 	header.Length = sizeof(INS_Error_Estimation_Message) - sizeof(INS_HEADER);
 }
 

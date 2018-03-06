@@ -21,7 +21,7 @@ void EchoMessage::FillMessage(const InsData& data) {
 }
 
 void EchoMessage::FillHeader(/* out */ INS_HEADER& header) const {
-	header.Unit_Code = 0x3C;
+	header.Unit_Code = 0x3c;
 	strncpy((char*)header.Operation_Code, "\x00\x00", 2); // 0x0000
 	header.Length = 0;
 }

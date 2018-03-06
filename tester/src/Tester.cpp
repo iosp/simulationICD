@@ -58,8 +58,8 @@ void Tester::TestIns() {
     RunIns(ins);
     for (auto i : boost::irange(0, 1000000)) {
         boost::posix_time::ptime currTime = boost::posix_time::microsec_clock::local_time();
-        int simTime = (currTime - startTime).total_seconds();
-        // int utcTime = 
+        // int simTime = (currTime - startTime).total_seconds();
+        int simTime = i;
         SetInsTimeStamps(ins, simTime, simTime);
         SetInsPose(ins, 0, 31.771959, 35.217018);
         SetInsOrientation(ins, i % 360, 0, 0);
