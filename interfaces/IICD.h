@@ -9,7 +9,7 @@
 * 
 */
 
-template <class T>
+template <class TData>
 class IICD {
 public:
     IICD() = default;
@@ -19,12 +19,12 @@ public:
     /**
      * Set Data on ICD commonication object
      */ 
-    virtual void SetData(const T& data) = 0;
+    virtual void SetData(const TData& data) = 0;
 
     /**
      * Get Data from ICD commonication object
      */ 
-    virtual T* GetData() = 0;
+    virtual TData* GetData() = 0;
 
     /**
      * Run ICD comminication, this is the operation point of the ICD
