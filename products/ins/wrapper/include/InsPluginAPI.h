@@ -23,7 +23,7 @@ extern "C" {
     void SetInsTimeStamps(InsWrapper* pObj, int simTime, int utcTime);
 
     // INS navigation data message
-    void SetInsPose(InsWrapper* pObj, float altitude, float longitude, float latitude);
+    void SetInsPose(InsWrapper* pObj, float latitude, float longitude, float altitude);
 
     void SetInsOrientation(InsWrapper* pObj, float azimuth, float pitch, float roll);
 

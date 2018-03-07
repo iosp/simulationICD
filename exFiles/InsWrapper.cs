@@ -21,7 +21,7 @@ public class InsWrapper : IDisposable {
 	private static extern void SetInsTimeStamps(IntPtr pObj, int simTime, int utcTime);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern void SetInsPose(IntPtr pObj, float altitude, float longitude, float latitude);
+	private static extern void SetInsPose(IntPtr pObj, float latitude, float longitude, float altitude);
 
 	[DllImport (DLL_LOCATION)]
 	private static extern void SetInsOrientation(IntPtr pObj, float azimuth, float pitch, float roll);
@@ -85,8 +85,8 @@ public class InsWrapper : IDisposable {
 	}
 
     // INS navigation data message
-    public void SetPose(float altitude, float longitude, float latitude) {
-		SetInsPose(this.m_nativeObject, altitude, longitude, latitude);
+    public void SetPose(float latitude, float longitude, float altitude) {
+		SetInsPose(this.m_nativeObject, latitude, longitude, altitude);
 	}
 
     public void SetOrientation(float azimuth, float pitch, float roll) {

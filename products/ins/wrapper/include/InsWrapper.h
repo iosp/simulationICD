@@ -40,7 +40,7 @@ public:
     void SetTimeStamps(int simTime, int utcTime);
 
     // INS navigation data message
-    void SetPose(float altitude, float longitude, float latitude);
+    void SetPose(float latitude, float longitude, float altitude);
 
     void SetOrientation(float azimuth, float pitch, float roll);
 

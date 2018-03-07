@@ -61,7 +61,7 @@ void Tester::TestIns() {
         // int simTime = (currTime - startTime).total_seconds();
         int simTime = i;
         SetInsTimeStamps(ins, simTime, simTime);
-        SetInsPose(ins, 0, 31.771959, 35.217018);
+        SetInsPose(ins, 35.217018, 0, 31.771959);
         SetInsOrientation(ins, i % 360, 0, 0);
         SetInsAzimuthRate(ins, 0);
         SetInsVelocity(ins, i % 100, i % 100, i % 100);

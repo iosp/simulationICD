@@ -36,7 +36,7 @@ void InsWrapper::ClearCurrentData() {
  }
 
 // INS navigation data message
-void InsWrapper::SetPose(float altitude, float longitude, float latitude) {
+void InsWrapper::SetPose(float latitude, float longitude, float altitude) {
     m_data.SetAltitude(altitude);
     m_data.SetLongitude(longitude);
     m_data.SetLatitude(latitude);
