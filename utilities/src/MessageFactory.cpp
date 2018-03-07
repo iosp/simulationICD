@@ -15,7 +15,7 @@
 #include "BestPosMessage.h"
 
 IMessage<InsData>* MessageFactory::CreateMessage(InsMsgType msgType, int hertz) {
-	InsMessage* msg = nullptr;
+	IMessage<InsData>* msg = nullptr;
 	switch (msgType) {
 		case _STATUS_MSG_: {
 			msg = new StatusMessage(hertz);
@@ -44,7 +44,7 @@ IMessage<InsData>* MessageFactory::CreateMessage(InsMsgType msgType, int hertz) 
 }
 
 IMessage<DgpsData>* MessageFactory::CreateMessage(DgpsMsgType msgType, int hertz) {
-	DgpsMessage* msg = nullptr;
+	IMessage<DgpsData>* msg = nullptr;
 	switch (msgType) {
 		case _BEST_POS_: {
 			msg = new BestPosMessage(hertz);

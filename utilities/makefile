@@ -16,8 +16,8 @@ INTERFACE_INC_DIR = ../interfaces
 
 INCLUDES = -I$(INC_DIR) \
 			-I$(INTERFACE_INC_DIR) \
-			-I../products/ins/icd/include/ \ # message factory
-			-I../products/dgps/icd/include/  # message factory
+			-I../products/ins/icd/include/ \
+			-I../products/dgps/icd/include/ 
 # take all h files on include dir
 DEPS = $(wildcard $(INC_DIR)/*.h) \
 		$(wildcard $(INTERFACE_INC_DIR)/*.h)
