@@ -30,7 +30,7 @@ void InsWrapper::ClearCurrentData() {
     m_data = InsData();
 }
 
- void InsWrapper::SetTimeStamps(int simTime, int utcTime) {
+ void InsWrapper::SetTimeStamps(float simTime, float utcTime) {
       m_data.SetSimTime(simTime);
       m_data.SetUtcTime(utcTime);
  }

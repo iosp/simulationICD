@@ -37,7 +37,7 @@ public:
      */ 
     virtual void SetData() override;
 
-    void SetTimeStamps(int simTime, int utcTime);
+    void SetTimeStamps(float simTime, float utcTime);
 
     // INS navigation data message
     void SetPose(float latitude, float longitude, float altitude);

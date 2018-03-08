@@ -12,8 +12,8 @@
 
 class InsData {
 private:
-    int m_simTime;
-    int m_utcTime;
+    float m_simTime;
+    float m_utcTime;
 
     // members for INS navigation data message
     float m_altitude = 0;
@@ -53,19 +53,19 @@ public:
 
     // InsData& operator = (const InsData& other);
 
-    int GetSimTime() const {
+    float GetSimTime() const {
         return m_simTime;
     }
 
-    void SetSimTime(int simTime) {
+    void SetSimTime(float simTime) {
         m_simTime = simTime;
     }
 
-    int GetUtcTime() const {
+    float GetUtcTime() const {
         return m_utcTime;
     }
 
-    void SetUtcTime(int utcTime) {
+    void SetUtcTime(float utcTime) {
         m_utcTime = utcTime;
     }
 

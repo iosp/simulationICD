@@ -18,7 +18,7 @@ public class InsWrapper : IDisposable {
 	private static extern void SendInsData(IntPtr pObj);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern void SetInsTimeStamps(IntPtr pObj, int simTime, int utcTime);
+	private static extern void SetInsTimeStamps(IntPtr pObj, float simTime, float utcTime);
 
 	[DllImport (DLL_LOCATION)]
 	private static extern void SetInsPose(IntPtr pObj, float latitude, float longitude, float altitude);
@@ -80,7 +80,7 @@ public class InsWrapper : IDisposable {
 		SendInsData(this.m_nativeObject);
 	}
 
-	public void SetTimeStamps(int simTime, int utcTime) {
+	public void SetTimeStamps(float simTime, float utcTime) {
 		SetInsTimeStamps(this.m_nativeObject, simTime, utcTime);
 	}
 

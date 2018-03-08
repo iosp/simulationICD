@@ -19,7 +19,7 @@ void RunIns(InsWrapper* pObj) { pObj->Run(); }
 
 void SendInsData(InsWrapper* pObj) { pObj->SetData(); }
 
-void SetInsTimeStamps(InsWrapper* pObj, int simTime, int utcTime) {
+void SetInsTimeStamps(InsWrapper* pObj, float simTime, float utcTime) {
     pObj->SetTimeStamps(simTime, utcTime);
 }
 

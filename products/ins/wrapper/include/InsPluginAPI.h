@@ -20,7 +20,7 @@ extern "C" {
 
     void SendInsData(InsWrapper* pObj);
 
-    void SetInsTimeStamps(InsWrapper* pObj, int simTime, int utcTime);
+    void SetInsTimeStamps(InsWrapper* pObj, float simTime, float utcTime);
 
     // INS navigation data message
     void SetInsPose(InsWrapper* pObj, float latitude, float longitude, float altitude);
