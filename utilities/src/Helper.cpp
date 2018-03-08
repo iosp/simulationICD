@@ -5,10 +5,14 @@
 */
 
 #include "Helper.h"
+#include "LoggerProxy.h"
 #include <sstream>
 #include <fstream>
 #include <unistd.h>
 #include <sys/types.h>
+#include <signal.h>
+#include <stdlib.h>
+#include <stdio.h>
 #include <pwd.h>
 
 /******************************************************** File System **********************************************************/
@@ -68,4 +72,19 @@ void Utilities::SleepForRestTime(boost::posix_time::ptime startTime, int maxTime
 	if (sleepTime > 0) {
 		usleep(sleepTime);
 	}
+}
+
+void StopHandler(int s){
+    LOG << "User pressed ctrl + c, process is stopped\n";
+    exit(1); 
+}
+
+void Utilities::AddStopHandler() {
+    struct sigaction sigIntHandler;
+
+   sigIntHandler.sa_handler = StopHandler;
+   sigemptyset(&sigIntHandler.sa_mask);
+   sigIntHandler.sa_flags = 0;
+
+   sigaction(SIGINT, &sigIntHandler, NULL);
 }

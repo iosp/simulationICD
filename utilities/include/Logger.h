@@ -32,7 +32,7 @@
 
 class Logger {
 private:
-    Logger() = default;
+    Logger();
     Logger(const Logger&) = default;
     ~Logger();
 

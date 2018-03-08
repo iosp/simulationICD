@@ -66,6 +66,11 @@ namespace Utilities {
      * @return string of the desired format time
      */ 
     void SleepForRestTime(boost::posix_time::ptime startTime, int maxTimeToSleep);
+
+    /**
+     * Add ctrl+c handler to process
+     */ 
+    void AddStopHandler();
 }
 
 #endif // UTILITIES_H
