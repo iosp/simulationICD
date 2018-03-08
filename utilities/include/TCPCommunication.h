@@ -20,10 +20,9 @@ private:
     std::string m_ipAddress;
     std::string m_port;
     std::shared_ptr<tcp::socket> m_socket;
-    tcp::acceptor m_acceptor;
 
 public:
-    TCPCommunication(const std::string& ipAddress, const std::string& port, boost::asio::io_service& io_service);
+    TCPCommunication(const std::string& ipAddress, const std::string& port);
     ~TCPCommunication() = default;
 
     bool Init() override;

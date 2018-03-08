@@ -10,17 +10,22 @@
 #include "LoggerProxy.h"
 #include <boost/asio.hpp> // boost::asio::io_service
 
-TCPCommunication::TCPCommunication(const std::string& ipAddress, const std::string& port, boost::asio::io_service& io_service) : 
-    m_port(port), m_ipAddress(ipAddress), m_socket(new tcp::socket(io_service)), m_acceptor(io_service, tcp::endpoint(tcp::v4(), std::stoi(port))) {
-    try {
-        m_acceptor.accept(*m_socket);
-    }
-    catch (std::exception& e) {
-       ERRLOG << e.what() << "\n";
-    }
+TCPCommunication::TCPCommunication(const std::string& ipAddress, const std::string& port) : 
+    m_port(port), m_ipAddress(ipAddress){
+
 }
 
 bool TCPCommunication::Init() {
+    try {
+        boost::asio::io_service io_service;
+        m_socket = std::make_shared<tcp::socket>(io_service);
+        tcp::acceptor acceptor(io_service, tcp::endpoint(tcp::v4(), std::stoi(m_port)));
+        acceptor.accept(*m_socket);
+    }
+    catch (std::exception& e) {
+       ERRLOG << e.what() << "\n";
+       return false;
+    }
     return true;
 }
 

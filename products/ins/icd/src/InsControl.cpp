@@ -63,9 +63,8 @@ void InsControl::SetData(const InsData& data) {
 
 void InsControl::Run() {
 	// create the messages
-	boost::asio::io_service io_service;
 	m_messages.push_back(t_message(MessageFactory::CreateMessage(_STATUS_MSG_, m_insConf->GetStatusMsgHz()),
-									 new TCPCommunication(m_insConf->GetStatusMsgIpAddress(), m_insConf->GetStatusMsgPort(), io_service)));
+									 new TCPCommunication(m_insConf->GetStatusMsgIpAddress(), m_insConf->GetStatusMsgPort())));
 	m_messages.push_back(t_message(MessageFactory::CreateMessage(_NAVIGATION_DATA_MSG_, m_insConf->GetNavigationDataMsgHz()),
 									 new UDPCommunication(m_insConf->GetNavigationDataMsgIpAddress(), m_insConf->GetNavigationDataMsgPort())));
 	m_messages.push_back(t_message(MessageFactory::CreateMessage(_INTERNAL_GPS_MSG, m_insConf->GetInternalGPSMsgHz()),

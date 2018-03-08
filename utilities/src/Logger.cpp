@@ -11,7 +11,7 @@
 #include "Helper.h"
 
 static const long MAX_FILE_SIZE = 209715200; // 200 MB
-
+// TODO - handle ctrl+c 
 Logger::~Logger() {
     delete m_logConf;
 }
