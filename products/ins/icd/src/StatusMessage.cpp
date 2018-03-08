@@ -7,7 +7,6 @@
 
 #include "StatusMessage.h"
 #include "InsData.h"
-#include "InsStructs.h"
 #include "LoggerProxy.h"
 #include <cstring> // memset, memcpy
 // #include "MessageFactory.h"

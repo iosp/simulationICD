@@ -9,8 +9,6 @@
 #include "InsData.h"
 #include <sstream>
 
-#define ASSIGN_IF_NOT_ZERO(val, def) (val != 0 ? val : def) 
-
 std::string InsData::toString() const {
     std::stringstream ss;
 

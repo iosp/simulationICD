@@ -7,7 +7,6 @@
 
 #include "InternalGPSMessage.h"
 #include "InsData.h"
-#include "InsStructs.h"
 #include <cstring> // memset, memcpy
 
 InternalGPSMessage::InternalGPSMessage(int hertz) : InsMessage(hertz) {

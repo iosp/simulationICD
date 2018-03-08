@@ -7,7 +7,6 @@
 
 #include "ErrorsEstimationMessage.h"
 #include "InsData.h"
-#include "InsStructs.h"
 #include <cstring>  // memset, memcpy
 
 ErrorsEstimationMessage::ErrorsEstimationMessage(int hertz) : InsMessage(hertz) {

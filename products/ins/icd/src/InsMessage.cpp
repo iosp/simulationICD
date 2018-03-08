@@ -6,7 +6,6 @@
 */
 
 #include "InsMessage.h"
-#include "InsStructs.h"
 #include "ICommunication.h"
 #include "LoggerProxy.h"
 

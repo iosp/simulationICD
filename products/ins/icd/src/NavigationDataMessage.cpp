@@ -7,7 +7,6 @@
 
 #include "NavigationDataMessage.h"
 #include "InsData.h"
-#include "InsStructs.h"
 #include <cstring>  // memset, memcpy
 
 NavigationDataMessage::NavigationDataMessage(int hertz) : InsMessage(hertz) {
