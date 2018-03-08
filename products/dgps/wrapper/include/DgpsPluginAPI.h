@@ -24,7 +24,7 @@ extern "C" {
 
     void SetVelocities(DgpsWrapper* pObj, double latSpeed, double longSpeed, double altAzimuth);
 
-    void SetDgpsTimeStamp(DgpsWrapper* pVlp, int timeStamp);
+    void SetDgpsTimeStamp(DgpsWrapper* pVlp, float timeStamp);
 }
 
 #endif // DGPSPLUGINAPI_H

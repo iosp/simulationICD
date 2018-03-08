@@ -33,8 +33,8 @@ void DgpsWrapper::SetVelocities(double latSpeed, double longSpeed, double altAzi
     m_data.SetAltAzimuth(altAzimuth);
 }
 
-void DgpsWrapper::SetTimeStamp(int timeStamp) {
-    m_data.SetSimTime(boost::posix_time::microseconds(timeStamp));
+void DgpsWrapper::SetTimeStamp(float timeStamp) {
+    m_data.SetSimTime(timeStamp);
 }
 
 void DgpsWrapper::SetData() {

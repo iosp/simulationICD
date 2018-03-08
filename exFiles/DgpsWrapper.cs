@@ -24,7 +24,7 @@ public class DgpsWrapper : IDisposable {
 	private static extern void SetVelocities(IntPtr pObj, double latSpeed, double longSpeed, double altAzimuth);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern void SetDgpsTimeStamp(IntPtr pObj, int timeStamp);
+	private static extern void SetDgpsTimeStamp(IntPtr pObj, float timeStamp);
 
 	private IntPtr m_nativeObject;
 
@@ -59,7 +59,7 @@ public class DgpsWrapper : IDisposable {
 		SetVelocities(this.m_nativeObject, latSpeed, longSpeed, altAzimuth);
 	}
 
-	public void SetTimeStamp(int timeStamp) {
+	public void SetTimeStamp(float timeStamp) {
 		SetDgpsTimeStamp(this.m_nativeObject, timeStamp);
 	}
 
