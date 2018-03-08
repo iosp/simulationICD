@@ -6,10 +6,9 @@
 * Represents the data that is passed between the ICD and the user of the lib
 * Author: Binyamin Appelbaum
 * Date: 15.01.18
-* 
 */
 
-#include <boost/date_time/posix_time/posix_time.hpp> // boost::posix_time::time_duration
+#include <string>
 
 class DgpsData {
 private:
@@ -19,13 +18,10 @@ private:
     double m_latSpeed; // horizontal speed over ground, in meters per second
     double m_longSpeed; // Veritical speed , meters per seconds
 	double m_altAzimuth; // Actual direction of motion over ground with respect to True North, deg
-    boost::posix_time::time_duration m_simTime;
+    float m_simTime;
 
 public:
     DgpsData() = default;
-
-    DgpsData(double latitude, double longitude, double altitude, 
-                double latSpeed, double longSpeed, double altAzimuth, const boost::posix_time::time_duration& simTime);
     
     ~DgpsData() = default;
 
@@ -77,11 +73,11 @@ public:
         m_altAzimuth = altAzimuth;
     }
 
-    const boost::posix_time::time_duration& GetSimTime() const {
+    float GetSimTime() const {
         return m_simTime;
     }
 
-    void SetSimTime(const boost::posix_time::time_duration& simTime){
+    void SetSimTime(float simTime){
         m_simTime = simTime;
     }
 

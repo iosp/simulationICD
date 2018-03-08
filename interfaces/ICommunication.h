@@ -26,7 +26,7 @@ public:
      * @sizeOfData - data size to send
      * @return num of bytes that has been sent
      */ 
-    virtual int SendData(const char* buffer, int sizeOfData) const = 0;
+    virtual int SendData(const char* buffer, int sizeOfData) = 0;
 };
 
 

@@ -8,7 +8,7 @@
 */
 
 #include "DgpsConfig.h"
-#include "Logger.h"
+#include "LoggerProxy.h"
 #include "ConfigurationINI.h"
 #include <sstream>
 
@@ -16,6 +16,8 @@ const std::string DgpsConfig::PORT_NAME_KEY = "PORT_NAME";
 const std::string DgpsConfig::PORT_NAME_DEF_VAL = "/dev/ttyUSB0";
 const std::string DgpsConfig::BAUD_RATE_KEY = "BAUD_RATE";
 const std::string DgpsConfig::BAUD_RATE_DEF_VAL = "115200";
+const std::string DgpsConfig::HERTZ_KEY = "HERTZ";
+const std::string DgpsConfig::HERTZ_DEF_VAL = "10";
 
 DgpsConfig::DgpsConfig(const std::string& confFilePath) {
     m_dgpsConf = new ConfigurationINI(confFilePath);
@@ -41,4 +43,8 @@ std::string DgpsConfig::GetPortName() const {
 
 int DgpsConfig::GetBaudRate() const {
     return std::stoi(m_dgpsConf->GetValue(BAUD_RATE_KEY));
+}
+
+int DgpsConfig::GetHertz() const {
+    return std::stoi(m_dgpsConf->GetValue(HERTZ_KEY));
 }

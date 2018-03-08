@@ -1,7 +1,8 @@
 MAKE = make -f
 
 MAKEFILES = makefile_vel \
-			makefile_dgps
+			makefile_dgps \
+			makefile_ins
 
 all: compprods
 

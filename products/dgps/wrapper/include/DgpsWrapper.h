@@ -41,7 +41,7 @@ public:
 
     void SetVelocities(double latSpeed, double longSpeed, double altSpeed);
 
-    void SetTimeStamp(int timeStamp);
+    void SetTimeStamp(float timeStamp);
 };
 
 #endif // DGPSWRAPPER_H

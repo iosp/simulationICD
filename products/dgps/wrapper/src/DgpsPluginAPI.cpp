@@ -27,6 +27,6 @@ void SetVelocities(DgpsWrapper* pObj, double latSpeed, double longSpeed, double 
     pObj->SetVelocities(latSpeed, longSpeed, altAzimuth);
 }
 
-void SetDgpsTimeStamp(DgpsWrapper* pObj, int timeStamp) {
+void SetDgpsTimeStamp(DgpsWrapper* pObj, float timeStamp) {
     pObj->SetTimeStamp(timeStamp);
 }

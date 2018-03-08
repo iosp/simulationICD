@@ -8,6 +8,7 @@ There are several directories on this project:
 4. utilities - Logger, helper, etc - to use in the project
 5. comp - the compilation products (exe, lib, but not obj files) are located here.
 6. exFiles - external files that are not compile with the project
+7. makefiles - all the main makefiles of the project (makefile for each product, main makefile, tester makefile)
 
 If you want to run velodyne ICD, you need to:
 1. use libvlp.so on comp directory - copy to the plugin pull of your project (if there is).  

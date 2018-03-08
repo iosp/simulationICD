@@ -7,7 +7,7 @@
 */
 
 #include "RSCommunication.h"
-#include "Logger.h"
+#include "LoggerProxy.h"
 
 RSCommunication::RSCommunication(const std::string& tty, int baudRate) : m_tty(tty), m_baudRate(baudRate) {
 }
@@ -43,7 +43,7 @@ bool RSCommunication::Init() {
     return true;
 }
 
-int RSCommunication::SendData(const char* buffer, int sizeOfData) const {
+int RSCommunication::SendData(const char* buffer, int sizeOfData) {
     if (!m_port) {
         ERRLOG << "port is nullptr!\n";
         return -1;

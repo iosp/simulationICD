@@ -17,6 +17,8 @@ STAT_LIBS_BASE_NAMES = velicd \
 						vlpwrapper \
 						dgpsicd \
 						dgpswrapper \
+						insicd \
+						inswrapper \
 						utils \
 						tester
 

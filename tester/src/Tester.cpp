@@ -7,15 +7,17 @@
 #include "Tester.h"
 #include "VLPPluginAPI.h"
 #include "DgpsPluginAPI.h"
-#include "Logger.h"
+#include "InsPluginAPI.h"
+#include "LoggerProxy.h"
 #include "ConfigurationINI.h"
+#include "TCPCommunication.h"
 #include <boost/range/irange.hpp> // boost::irange
 #include <boost/date_time/posix_time/posix_time.hpp> // boost::posix_time::ptime
 
-void Tester::TestVLP() {
-    using namespace boost::posix_time;
+using namespace boost::posix_time;
 
-    VLPWrapper* vlp = CreateVLPObject("/home/robil/vlp.conf");
+void Tester::TestVLP() {
+    VLPWrapper* vlp = CreateVLPObject("/home/robil/confFiles/vlp.conf");
     RunVLP(vlp);
     double counter = 0;
 
@@ -35,12 +37,7 @@ void Tester::TestVLP() {
 }
 
 void Tester::TestDgps() {
-    using namespace boost::posix_time;
-
-    // static const std::string DEV_TTY = "/dev/ttyUSB0";
-    // static const int BAUD_RATE = 115200;
-
-    DgpsWrapper* dgps = CreateDgpsObject("/home/robil/dgps.conf");
+    DgpsWrapper* dgps = CreateDgpsObject("/home/robil/confFiles/dgps.conf");
     RunDgps(dgps);
     for (auto i : boost::irange(0, 1000000)) {
         time_duration td =  microsec_clock::local_time() - from_time_t(0);
@@ -55,6 +52,41 @@ void Tester::TestDgps() {
     // dgps = nullptr;
 }
 
+void Tester::TestIns() {
+    boost::posix_time::ptime startTime = boost::posix_time::microsec_clock::local_time();
+    InsWrapper* ins = CreateInsObject("/home/robil/confFiles/ins.conf");
+    RunIns(ins);
+    for (auto i : boost::irange(0, 1000000)) {
+        boost::posix_time::ptime currTime = boost::posix_time::microsec_clock::local_time();
+        // int simTime = (currTime - startTime).total_seconds();
+        int simTime = i;
+        SetInsTimeStamps(ins, simTime, simTime);
+        SetInsPose(ins, 35.217018, 0, 31.771959);
+        SetInsOrientation(ins, i % 360, 0, 0);
+        SetInsAzimuthRate(ins, 0);
+        SetInsVelocity(ins, i % 100, i % 100, i % 100);
+        SetInsDistances(ins, 0, 0);
+        SetInsMotionDetected(ins, true);
+       
+        SetInsInternalGpsFields(ins, 0, 4);
+        
+        SetInsDirectionErrors(ins, 0,0,0,0,0);
+        SetInsVelocityErrors(ins, 0,0,0);
+        SetInsOrientationErrors(ins, 0,0,0);
+
+        SendInsData(ins);
+        usleep(100000);
+    }
+
+}
+
+void Tester::TestTCP() {
+    // TCPCommunication* t = new TCPCommunication("172.23.40.92", "50013");
+    // t->SendData("hello world", sizeof("hello world"));
+
+    // delete t;
+
+}
 void Tester::TestConf() {
     ConfigurationINI conf("/home/robil/test.conf");
     LOG << conf.GetValue("hello") << "\n";
@@ -67,4 +99,6 @@ Tester::Tester() {
     // TestVLP();
     // TestDgps();
     // TestConf();
+    TestIns();
+    //estTCP();
 }

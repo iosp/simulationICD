@@ -6,7 +6,7 @@
 */
 
 #include "VLPControl.h"
-#include "Logger.h"
+#include "LoggerProxy.h"
 #include "Helper.h"
 #include "UDPCommunication.h"
 #include "VLPConfig.h"
