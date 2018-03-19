@@ -72,49 +72,49 @@ void InsConfig::SetConfDefaultValues() {
 }
 
 std::string InsConfig::GetStatusMsgIpAddress() const {
-    return m_insConf->GetValue(STATUS_MSG_IP_ADDRESS_KEY);
+    return m_insConf->GetValue<std::string>(STATUS_MSG_IP_ADDRESS_KEY);
 }
 
 std::string InsConfig::GetStatusMsgPort() const {
-    return m_insConf->GetValue(STATUS_MSG_PORT_KEY);
+    return m_insConf->GetValue<std::string>(STATUS_MSG_PORT_KEY);
 }
 
 int InsConfig::GetStatusMsgHz() const {
-    return std::stoi(m_insConf->GetValue(STATUS_MSG_HZ_KEY));
+    return m_insConf->GetValue<int>(STATUS_MSG_HZ_KEY);
 }
 
 std::string InsConfig::GetNavigationDataMsgIpAddress() const {
-    return m_insConf->GetValue(NAVIGATION_DATA_MSG_IP_ADDRESS_KEY);
+    return m_insConf->GetValue<std::string>(NAVIGATION_DATA_MSG_IP_ADDRESS_KEY);
 }
 
 std::string InsConfig::GetNavigationDataMsgPort() const {
-    return m_insConf->GetValue(NAVIGATION_DATA_MSG_PORT_KEY);
+    return m_insConf->GetValue<std::string>(NAVIGATION_DATA_MSG_PORT_KEY);
 }
 
 int InsConfig::GetNavigationDataMsgHz() const {
-    return std::stoi(m_insConf->GetValue(NAVIGATION_DATA_MSG_HZ_KEY));
+    return m_insConf->GetValue<int>(NAVIGATION_DATA_MSG_HZ_KEY);
 }
 
 std::string InsConfig::GetInternalGPSMsgIpAddress() const {
-    return m_insConf->GetValue(INTERNAL_GPS_MSG_IP_ADDRESS_KEY);
+    return m_insConf->GetValue<std::string>(INTERNAL_GPS_MSG_IP_ADDRESS_KEY);
 }
 
 std::string InsConfig::GetInternalGPSMsgPort() const {
-    return m_insConf->GetValue(INTERNAL_GPS_MSG_PORT_KEY);
+    return m_insConf->GetValue<std::string>(INTERNAL_GPS_MSG_PORT_KEY);
 }
 
 int InsConfig::GetInternalGPSMsgHz() const {
-    return std::stoi(m_insConf->GetValue(INTERNAL_GPS_MSG_HZ_KEY));
+    return m_insConf->GetValue<int>(INTERNAL_GPS_MSG_HZ_KEY);
 }
 
 std::string InsConfig::GetErrorsEstimationMsgIpAddress() const {
-    return m_insConf->GetValue(ERRORS_ESTIMATION_MSG_IP_ADDRESS_KEY);
+    return m_insConf->GetValue<std::string>(ERRORS_ESTIMATION_MSG_IP_ADDRESS_KEY);
 }
 
 std::string InsConfig::GetErrorsEstimationMsgPort() const {
-    return m_insConf->GetValue(ERRORS_ESTIMATION_MSG_PORT_KEY);
+    return m_insConf->GetValue<std::string>(ERRORS_ESTIMATION_MSG_PORT_KEY);
 }
 
 int InsConfig::GetErrorsEstimationMsgHz() const {
-    return std::stoi(m_insConf->GetValue(ERRORS_ESTIMATION_MSG_HZ_KEY));
+    return m_insConf->GetValue<int>(ERRORS_ESTIMATION_MSG_HZ_KEY);
 }

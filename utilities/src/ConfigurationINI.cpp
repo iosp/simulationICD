@@ -9,15 +9,13 @@
 #include <sstream>
 #include <boost/algorithm/string.hpp> // trim
 #include "ConfigurationINI.h"
-#include "LoggerProxy.h"
-
-
-static const std::string DELIMITER = "=";
 
 ConfigurationINI::ConfigurationINI(const std::string& filePath) : m_filePath(filePath) {
 }
 
 void ConfigurationINI::ParseConfFile() {
+    static const std::string DELIMITER = "=";
+
     std::ifstream confFile(m_filePath.c_str());
     if (!confFile.is_open()) {
         ERRLOG << "Failed to open file: " << m_filePath << "\n";
@@ -37,16 +35,6 @@ void ConfigurationINI::ParseConfFile() {
         boost::trim(key); // ignore white spaces
         boost::trim(value); // ignore white spaces
         SetValue(key, value);
-    }
-}
-
-std::string ConfigurationINI::GetValue(const std::string& key) const {
-    if (m_confMap.find(key) != m_confMap.end()) {
-        return m_confMap.find(key)->second;
-    }
-    else {
-        ERRLOG << "Key " << key << " does not exist on map!\n";
-        return std::string();
     }
 }
 

@@ -45,7 +45,7 @@ void LogConfig::SetConfDefaultValues() {
 }
 
 LogLevel LogConfig::GetLevelEnumByKey(const std::string& key) const {
-    std::string val = m_logConf->GetValue(key);
+    std::string val = m_logConf->GetValue<std::string>(key);
     auto enumIt = m_logLevelToStr.right.find(val);
     if (enumIt != m_logLevelToStr.right.end()) {
         return enumIt->second;
@@ -64,5 +64,5 @@ LogLevel LogConfig::GetFileLogLevel() const {
 }
 
 std::string LogConfig::GetLogDirName() const {
-    return m_logConf->GetValue(LOG_DIR_NAME_KEY);
+    return m_logConf->GetValue<std::string>(LOG_DIR_NAME_KEY);
 }
