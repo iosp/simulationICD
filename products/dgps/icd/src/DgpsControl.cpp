@@ -10,7 +10,8 @@
 #include "Helper.h"
 #include "RSCommunication.h"
 #include "DgpsConfig.h"
-#include "MessageFactory.h"
+#include "BestVelMessage.h"
+#include "BestPosMessage.h"
 
 DgpsControl::DgpsControl(const std::string& confFilePath) {
 	m_dgpsConf = new DgpsConfig(confFilePath);
@@ -31,8 +32,8 @@ void DgpsControl::Run() {
 		ERRLOG << "Failed to initialize communication, not running send thread.\n";
 		return;
 	}
-	m_messages.push_back(MessageFactory::CreateMessage(_BEST_POS_, m_dgpsConf->GetHertz()));
-	m_messages.push_back(MessageFactory::CreateMessage(_BEST_VEL_, m_dgpsConf->GetHertz()));
+	m_messages.push_back(new BestPosMessage(m_dgpsConf->GetHertz()));
+	m_messages.push_back(new BestVelMessage(m_dgpsConf->GetHertz()));
 
 	m_sendDataThread = boost::thread(&DgpsControl::SendThreadMethod, this);
 }
