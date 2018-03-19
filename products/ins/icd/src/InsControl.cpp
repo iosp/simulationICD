@@ -11,7 +11,11 @@
 #include "UDPCommunication.h"
 #include "TCPCommunication.h"
 #include "LoggerProxy.h"
-#include "MessageFactory.h"
+#include "StatusMessage.h"
+#include "NavigationDataMessage.h"
+#include "InternalGPSMessage.h"
+#include "ErrorsEstimationMessage.h"
+#include "EchoMessage.h"
 #include "Helper.h"
 
 
@@ -63,13 +67,13 @@ void InsControl::SetData(const InsData& data) {
 
 void InsControl::Run() {
 	// create the messages
-	m_messages.push_back(t_message(MessageFactory::CreateMessage(_STATUS_MSG_, m_insConf->GetStatusMsgHz()),
+	m_messages.push_back(t_message(new StatusMessage(m_insConf->GetStatusMsgHz()),
 									 new TCPCommunication(m_insConf->GetStatusMsgIpAddress(), m_insConf->GetStatusMsgPort())));
-	m_messages.push_back(t_message(MessageFactory::CreateMessage(_NAVIGATION_DATA_MSG_, m_insConf->GetNavigationDataMsgHz()),
+	m_messages.push_back(t_message(new NavigationDataMessage(m_insConf->GetNavigationDataMsgHz()),
 									 new UDPCommunication(m_insConf->GetNavigationDataMsgIpAddress(), m_insConf->GetNavigationDataMsgPort())));
-	m_messages.push_back(t_message(MessageFactory::CreateMessage(_INTERNAL_GPS_MSG, m_insConf->GetInternalGPSMsgHz()),
+	m_messages.push_back(t_message(new InternalGPSMessage(m_insConf->GetInternalGPSMsgHz()),
 									 new UDPCommunication(m_insConf->GetInternalGPSMsgIpAddress(), m_insConf->GetInternalGPSMsgPort())));
-	m_messages.push_back(t_message(MessageFactory::CreateMessage(_ERROR_ESTIMATION_MSG, m_insConf->GetErrorsEstimationMsgHz()),
+	m_messages.push_back(t_message(new ErrorsEstimationMessage(m_insConf->GetErrorsEstimationMsgHz()),
 									 new UDPCommunication(m_insConf->GetErrorsEstimationMsgIpAddress(), m_insConf->GetErrorsEstimationMsgPort())));
 	// create threads with messages 
 	for (auto message : m_messages) {
