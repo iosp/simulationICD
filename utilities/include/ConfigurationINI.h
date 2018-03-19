@@ -36,7 +36,7 @@ public:
     template <class T>
     T GetValue(const std::string& key) const {
         std::string strVal;
-        T retVal;
+        T retVal{}; // in case the retVal cannot have some value - it has an initialized value of the type (0 for int/double/etc, "" for string)
         // find value in map
         if (m_confMap.find(key) != m_confMap.end()) {
             strVal = m_confMap.find(key)->second;
