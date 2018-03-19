@@ -35,6 +35,7 @@ DgpsConfig::~DgpsConfig() {
 void DgpsConfig::SetConfDefaultValues() {
 	m_dgpsConf->SetValue(PORT_NAME_KEY, PORT_NAME_DEF_VAL);
 	m_dgpsConf->SetValue(BAUD_RATE_KEY, BAUD_RATE_DEF_VAL);
+    m_dgpsConf->SetValue(HERTZ_KEY, HERTZ_DEF_VAL);
 }
 
 std::string DgpsConfig::GetPortName() const {
@@ -42,7 +43,7 @@ std::string DgpsConfig::GetPortName() const {
 }
 
 int DgpsConfig::GetBaudRate() const {
-    return std::stoi(m_dgpsConf->GetValue(BAUD_RATE_KEY));
+    return std::stoi(m_dgpsConf->GetValue(BAUD_RATE_KEY)); // TODO handle wrong values!!
 }
 
 int DgpsConfig::GetHertz() const {
