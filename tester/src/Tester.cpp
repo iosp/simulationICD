@@ -89,10 +89,10 @@ void Tester::TestTCP() {
 }
 void Tester::TestConf() {
     ConfigurationINI conf("/home/robil/test.conf");
-    LOG << conf.GetValue("hello") << "\n";
-    LOG << conf.GetValue("hi") << "\n";
-    LOG << conf.GetValue("David") << "\n";
-    LOG << conf.GetValue("day") << "\n";
+    LOG << conf.GetValue<std::string>("hello") << "\n";
+    LOG << conf.GetValue<std::string>("hi") << "\n";
+    LOG << conf.GetValue<std::string>("David") << "\n";
+    LOG << conf.GetValue<std::string>("day") << "\n";
 }
 
 Tester::Tester() {

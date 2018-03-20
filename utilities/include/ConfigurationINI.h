@@ -10,6 +10,8 @@
 
 #include <string>
 #include <map>
+#include <boost/lexical_cast.hpp>
+#include "LoggerProxy.h"
 
 /**
  * Configuration class of key-value
@@ -31,7 +33,28 @@ public:
     void ParseConfFile();
 
     // Get value from map configuration
-    std::string GetValue(const std::string& key) const;
+    template <class T>
+    T GetValue(const std::string& key) const {
+        std::string strVal;
+        T retVal{}; // in case the retVal cannot have some value - it has an initialized value of the type (0 for int/double/etc, "" for string)
+        // find value in map
+        if (m_confMap.find(key) != m_confMap.end()) {
+            strVal = m_confMap.find(key)->second;
+        }
+        else {
+            ERRLOG << "Key " << key << " does not exist on map!\n";
+            return retVal;
+        }
+
+        // convert the value to the required type
+        try {
+            retVal = boost::lexical_cast<T>(strVal);
+        }
+        catch (const boost::bad_lexical_cast& e) {
+            ERRLOG << e.what() << "\n";
+        }
+        return retVal;
+    }
 
     // set value in map configuration
     void SetValue(const std::string& key, const std::string& val);

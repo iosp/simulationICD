@@ -75,25 +75,25 @@ bool VLPConfig::ValidateConfiguration() const {
 
 
 std::string VLPConfig::GetIpAddress() const {
-    return m_vlpConf->GetValue(IP_ADDRESS_KEY);
+    return m_vlpConf->GetValue<std::string>(IP_ADDRESS_KEY);
 }
 
 std::string VLPConfig::GetPort() const {
-    return m_vlpConf->GetValue(PORT_KEY);
+    return m_vlpConf->GetValue<std::string>(PORT_KEY);
 }
 
 double VLPConfig::GetHorizontalResolution() const {
-    return std::stod(m_vlpConf->GetValue(HORIZONTAL_RES_KEY));
+    return m_vlpConf->GetValue<double>(HORIZONTAL_RES_KEY);
 }
 
 VLPConfig::ReturnMode VLPConfig::GetReturnMode() const {
-    return (ReturnMode)std::stoi(m_vlpConf->GetValue(RETURN_MODE_KEY));
+    return (ReturnMode)m_vlpConf->GetValue<int>(RETURN_MODE_KEY);
 }
 
 VLPConfig::DataSource VLPConfig::GetDataSource() const {
-    return (DataSource)std::stoi(m_vlpConf->GetValue(DATA_SOURCE_KEY));
+    return (DataSource)m_vlpConf->GetValue<int>(DATA_SOURCE_KEY);
 }
 
 int VLPConfig::GetSensorFrequency() const {
-    return std::stoi(m_vlpConf->GetValue(SENSOR_FREQ_KEY));
+    return m_vlpConf->GetValue<int>(SENSOR_FREQ_KEY);
 }
