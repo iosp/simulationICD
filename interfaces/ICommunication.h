@@ -27,8 +27,11 @@ public:
      * @return num of bytes that has been sent
      */ 
     virtual int SendData(const char* buffer, int sizeOfData) = 0;
-
-    virtual void GetData(char* buffer) = 0;
+    /**
+     * Get data via protocol
+     * @param buffer - the data to get - output
+     */ 
+    virtual void GetData(/* out */ char* buffer) = 0;
 };
 
 

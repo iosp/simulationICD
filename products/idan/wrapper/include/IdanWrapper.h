@@ -33,8 +33,49 @@ public:
 
     virtual void GetData() override;
 
-    unsigned char GetShutDownCmd();
-   
+    /********************************* HLC Primary *************************************************/
+    unsigned char GetHLCPShutDownCmd() const;
+
+    unsigned char GetHLCPEmergencyCmd() const;
+
+    unsigned char GetHLCPSteerCmdMsb() const;
+
+    unsigned char GetHLCPSteerCmdLsb() const;
+
+    unsigned char GetHLCPGasCmdMsb() const;
+
+    unsigned char GetHLCPGasCmdLsb() const;
+
+    /********************************* HLC Secondary *************************************************/
+    unsigned char GetHLCSShutDownCmd() const;
+    
+    bool IsHLCSRoadLightsApplied() const;
+
+    bool IsHLCSHighBeamApplied() const;
+
+    bool IsHLCSLightsCutoffApplied() const;
+
+    bool IsHLCSParkingLightApplied() const;
+
+    bool IsHLCSKeySwitchApplied() const;
+
+    bool IsHLCSMotorStarterApplied() const;
+
+    bool IsHLCSHornApplied() const;
+
+    bool IsHLCSLeftTurnSignalApplied() const;
+
+    bool IsHLCSRightTurnSignalApplied() const;
+
+    bool IsHLCSHazardsApplied() const;
+
+    unsigned char GetHLCSGear() const;
+
+    unsigned char GetHLCSParkingBrake() const;
+
+    unsigned char GetHLCSEmergencyCmd() const;
+
+    unsigned char GetHLCSSacsOnCmd() const;
 };
 
 #endif // IDANWRAPPER_H

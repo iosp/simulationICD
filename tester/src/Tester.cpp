@@ -104,8 +104,11 @@ void Tester::TestIdan() {
     RunIdan(idan);
     sleep(5);
     GetIdanData(idan);
-    auto ret = GetShutDownCmd(idan);
-    LOG << "ret is: " << ret << "\n";
+    auto ret = GetHLCPShutDownCmd(idan);
+    
+    char buf[100]{};
+    sprintf(buf, "0x%x", ret);
+    LOG << "ret is: " << buf << "\n";
 }
 
 void Tester::TestConf() {

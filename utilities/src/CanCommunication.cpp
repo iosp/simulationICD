@@ -22,39 +22,7 @@ CanCommunication::~CanCommunication() {
 }
 
 bool CanCommunication::Init() {
-	// return InitGet() && InitSend();
-	// InitSend();
-	struct sockaddr_can addr;
-	struct ifreq ifr;
-
-	if ((m_getSocket = socket(PF_CAN, SOCK_RAW, CAN_RAW)) < 0) {
-		ERRLOG << "Error while opening socket\n";
-		return false;
-	}
-
-	strcpy(ifr.ifr_name, m_interfaceName.c_str());
-	ioctl(m_getSocket, SIOCGIFINDEX, &ifr);
-
-	addr.can_family = AF_CAN;
-	addr.can_ifindex = ifr.ifr_ifindex; 
-
-	if (bind(m_getSocket, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
-		ERRLOG << "Error in socket bind\n" ;
-		return false;
-	}
-
-	int setflag = setflag|O_NONBLOCK;
-	int ret = fcntl(m_getSocket, F_SETFL,setflag);
-	int getflag = fcntl(m_getSocket ,F_GETFL,0);
-
-	can_err_mask_t err_mask = CAN_ERR_TX_TIMEOUT |CAN_ERR_BUSOFF;
-	ret = setsockopt(m_getSocket , SOL_CAN_RAW, CAN_RAW_ERR_FILTER, &err_mask, sizeof(err_mask));
-	if (ret != 0) {
-		ERRLOG << "setsockopt fail\n";
-    }
-
-	LOG << "using " << m_interfaceName << " to read\n";
-    return true;
+	return InitGet() /*&& InitSend()*/;
 }
 
 bool CanCommunication::InitGet() {
@@ -121,7 +89,7 @@ void CanCommunication::GetData(char* buffer) {
     
     int nbytes = read(m_getSocket, &frame, sizeof(frame));
     if (nbytes > 0) {
-		LOG << "read " << nbytes << " bytes from sockets\n";
+		DBGLOG << "read " << nbytes << " bytes from sockets\n";
         if (frame.can_id & CAN_ERR_FLAG) {
             ERRLOG << "error frame\n";
         }

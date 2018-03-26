@@ -29,7 +29,10 @@ public:
      * Set the accumolative data on ICD object
      */ 
     virtual void SetData() = 0;
-
+    
+    /**
+     * Get the accumolative data tp ICD object
+     */ 
     virtual void GetData() = 0;
 
     /**
