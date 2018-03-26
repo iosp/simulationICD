@@ -23,6 +23,7 @@ public:
 
     bool Init() override;
     int SendData(const char* buffer, int sizeOfData) override;
+    virtual void GetData(char* buffer) override {}
 };
 
 

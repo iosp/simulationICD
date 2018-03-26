@@ -30,6 +30,8 @@ public:
      */ 
     virtual void SetData() = 0;
 
+    virtual void GetData() = 0;
+
     /**
      * Call run method of ICD object
      */ 

@@ -81,7 +81,7 @@ void InsControl::Run() {
 	}
 }
 
-InsData* InsControl::GetData() {
+InsData InsControl::GetData() {
 	ERRLOG << "This function is not implemented!\n";
-    return nullptr;
+    return InsData();
 }

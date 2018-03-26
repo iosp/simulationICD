@@ -39,7 +39,7 @@ public:
 
 	virtual void SetData(const InsData& data) override;
 
-    virtual InsData* GetData() override;
+    virtual InsData GetData() override;
 
     virtual void Run() override;
 };

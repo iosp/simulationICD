@@ -50,7 +50,7 @@ public:
     /**
      * This function is implemented with nullptr return
      */ 
-    virtual DgpsData* GetData() override;
+    virtual DgpsData GetData() override;
 
     /**
      * Run send data thread

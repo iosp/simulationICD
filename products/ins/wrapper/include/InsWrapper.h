@@ -62,6 +62,8 @@ public:
 
     void SetOrientationErrors(float azimuthErrorEstimation, float pitchErrorEstimation, float rollErrorEstimation);
 
+    virtual void GetData() override {}
+
 };
 
 #endif // INSWRAPPER_H

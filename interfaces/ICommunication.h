@@ -27,6 +27,8 @@ public:
      * @return num of bytes that has been sent
      */ 
     virtual int SendData(const char* buffer, int sizeOfData) = 0;
+
+    virtual void GetData(char* buffer) = 0;
 };
 
 

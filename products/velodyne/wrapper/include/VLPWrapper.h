@@ -64,6 +64,8 @@ public:
      */ 
     void SetChannel(double distance, short reflectivity);
 
+    virtual void GetData() override {}
+
 };
 
 #endif // VLPWRAPPER_H

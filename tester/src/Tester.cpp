@@ -8,16 +8,18 @@
 #include "VLPPluginAPI.h"
 #include "DgpsPluginAPI.h"
 #include "InsPluginAPI.h"
+#include "IdanPluginAPI.h"
 #include "LoggerProxy.h"
 #include "ConfigurationINI.h"
 #include "TCPCommunication.h"
+#include "CanCommunication.h"
 #include <boost/range/irange.hpp> // boost::irange
 #include <boost/date_time/posix_time/posix_time.hpp> // boost::posix_time::ptime
 
 using namespace boost::posix_time;
 
 void Tester::TestVLP() {
-    VLPWrapper* vlp = CreateVLPObject("/home/robil/confFiles/vlp.conf");
+    VLPWrapper* vlp = CreateVLPObject("/home/robil/simConfigs/vlp.conf");
     RunVLP(vlp);
     double counter = 0;
 
@@ -37,7 +39,7 @@ void Tester::TestVLP() {
 }
 
 void Tester::TestDgps() {
-    DgpsWrapper* dgps = CreateDgpsObject("/home/robil/confFiles/dgps.conf");
+    DgpsWrapper* dgps = CreateDgpsObject("/home/robil/simConfigs/dgps.conf");
     RunDgps(dgps);
     for (auto i : boost::irange(0, 1000000)) {
         time_duration td =  microsec_clock::local_time() - from_time_t(0);
@@ -54,7 +56,7 @@ void Tester::TestDgps() {
 
 void Tester::TestIns() {
     boost::posix_time::ptime startTime = boost::posix_time::microsec_clock::local_time();
-    InsWrapper* ins = CreateInsObject("/home/robil/confFiles/ins.conf");
+    InsWrapper* ins = CreateInsObject("/home/robil/simConfigs/ins.conf");
     RunIns(ins);
     for (auto i : boost::irange(0, 1000000)) {
         boost::posix_time::ptime currTime = boost::posix_time::microsec_clock::local_time();
@@ -87,6 +89,25 @@ void Tester::TestTCP() {
     // delete t;
 
 }
+
+void Tester::TestCAN() {
+    CanCommunication* c = new CanCommunication("vscan0");
+    char buffer[100]{};
+    c->Init();
+    c->SendData(buffer, 100);
+    c->GetData(buffer);
+    delete c;
+}
+
+void Tester::TestIdan() {
+    IdanWrapper* idan = CreateIdanObject("/home/robil/simConfigs/idan.conf");
+    RunIdan(idan);
+    sleep(5);
+    GetIdanData(idan);
+    auto ret = GetShutDownCmd(idan);
+    LOG << "ret is: " << ret << "\n";
+}
+
 void Tester::TestConf() {
     ConfigurationINI conf("/home/robil/test.conf");
     LOG << conf.GetValue<std::string>("hello") << "\n";
@@ -99,6 +120,8 @@ Tester::Tester() {
     // TestVLP();
     // TestDgps();
     // TestConf();
-    TestIns();
-    //estTCP();
+    // TestIns();
+    // TestCAN();
+    TestIdan();
+    //TestTCP();
 }

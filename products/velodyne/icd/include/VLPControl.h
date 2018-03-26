@@ -227,7 +227,7 @@ public:
     /**
      * This function is implemented with nullptr return
      */ 
-    virtual VelodyneData* GetData() override;
+    virtual VelodyneData GetData() override;
 
     /**
      * Run VLP send data thread

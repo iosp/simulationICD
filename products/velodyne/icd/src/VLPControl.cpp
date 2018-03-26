@@ -82,9 +82,9 @@ void VLPControl::SetData(const VelodyneData& data) {
     }
 }
 
-VelodyneData* VLPControl::GetData() {
+VelodyneData VLPControl::GetData() {
     ERRLOG << "This function is not implemented!\n";
-    return nullptr;
+    return VelodyneData();
 }
 
 void VLPControl::SendPacket(const VLPDataPacket& packet) const {
