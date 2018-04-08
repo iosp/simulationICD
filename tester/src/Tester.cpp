@@ -102,13 +102,19 @@ void Tester::TestCAN() {
 void Tester::TestIdan() {
     IdanWrapper* idan = CreateIdanObject("/home/robil/simConfigs/idan.conf");
     RunIdan(idan);
-    sleep(5);
-    GetIdanData(idan);
-    auto ret = GetHLCPShutDownCmd(idan);
-    
-    char buf[100]{};
-    sprintf(buf, "0x%x", ret);
-    LOG << "ret is: " << buf << "\n";
+
+    while (true) {
+        GetIdanData(idan);
+        auto steerPose = GetHLCPSteerCmd(idan);
+        auto gasPose = GetHLCPGasCmd(idan);
+        
+        SetIdanPrimSteerPos(idan, steerPose);
+        SetIdanPrimGasPos(idan, gasPose);
+        SendIdanData(idan);
+        usleep(2000);
+    }
+    DeleteIdanObject(idan);
+    // Check send by IdanControl
 }
 
 void Tester::TestConf() {

@@ -29,25 +29,21 @@ public:
 
     virtual void Run() override;
 
-    virtual void SetData() override {}
+    virtual void SetData() override;
 
     virtual void GetData() override;
 
     /********************************* HLC Primary *************************************************/
-    unsigned char GetHLCPShutDownCmd() const;
+    bool HasHLCPShutDownCmd() const;
 
-    unsigned char GetHLCPEmergencyCmd() const;
+    bool HasHLCPEmergencyCmd() const;
 
-    unsigned char GetHLCPSteerCmdMsb() const;
+    int GetHLCPSteerCmd() const;
 
-    unsigned char GetHLCPSteerCmdLsb() const;
-
-    unsigned char GetHLCPGasCmdMsb() const;
-
-    unsigned char GetHLCPGasCmdLsb() const;
+    int GetHLCPGasCmd() const;
 
     /********************************* HLC Secondary *************************************************/
-    unsigned char GetHLCSShutDownCmd() const;
+    bool HasHLCSShutDownCmd() const;
     
     bool IsHLCSRoadLightsApplied() const;
 
@@ -69,13 +65,65 @@ public:
 
     bool IsHLCSHazardsApplied() const;
 
-    unsigned char GetHLCSGear() const;
+    std::string GetHLCSGear() const;
 
-    unsigned char GetHLCSParkingBrake() const;
+    bool IsHLCSParkingBrakeReleased() const;
 
-    unsigned char GetHLCSEmergencyCmd() const;
+    bool HasHLCSEmergencyCmd() const;
 
-    unsigned char GetHLCSSacsOnCmd() const;
+    bool HasHLCSSacsOnCmd() const;
+
+    /************************************************* IDAN Primary ********************************************/
+    void SetIdanPrimSteerPos(int steerPose);
+
+    void SetIdanPrimGasPos(int gasPose);
+
+    /************************************************* IDAN Secondary Report ********************************************/
+	
+    void SetIdanSecRepRoadLights(bool roadLights); 
+
+    void SetIdanSecRepHighBeam(bool highBeam);
+
+    void SetIdanSecRepLightsCutoff(bool lightsCutoff) ;
+
+    void SetIdanSecRepKeySwitch(bool keySwitch);
+
+    void SetIdanSecRepHorn(bool horn);
+
+    void SetIdanSecRepLeftTurnSignal(bool leftTurnSignal);
+
+    void SetIdanSecRepRightTurnSignal(bool rightTurnSignal);
+
+    void SetIdanSecRepHazards(bool hazards);
+
+    void SetIdanSecRepRequestedGear(const std::string& requestedGear);
+
+    void SetIdanSecRepActualGear(const std::string& actualGear);
+
+    void SetIdanSecRepParkingBrake(const std::string& parkingBrake);
+
+    void SetIdanSecRepRpm(float rpm);
+
+    void SetIdanSecRepVelocity(float velocity);
+
+    /************************************************* IDAN Secondary Sensor ********************************************/
+    
+    void SetIdanSecSenEngineTemp(float engineTemp);
+
+    void SetIdanSecSenOilPress(float oilPress);
+
+    void SetIdanSecSenFuelLevel(float fuelLevel);
+
+    void SetIdanSecSenAlternatorVoltage(float alternatorVoltage);
+
+    void SetIdanSecSenBackupBattVoltage(float backupBattVoltage);
+
+    void SetIdanSecSenBatterySumUp(int batterySumUp);
+
+    void SetIdanSecSenAirPressFront(float airPressFront);
+
+    void SetIdanSecSenAirPressRear(float airPressRear);
+
 };
 
 #endif // IDANWRAPPER_H

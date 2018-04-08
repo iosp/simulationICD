@@ -17,46 +17,42 @@ IdanWrapper::~IdanWrapper(){
     delete m_icd;
 }
 
-void IdanWrapper::Run() {
+void IdanWrapper::IdanWrapper::Run() {
     m_icd->Run();
 }
 
-void IdanWrapper::GetData() {
+void IdanWrapper::IdanWrapper::GetData() {
     m_data = m_icd->GetData();
 }
 
-void IdanWrapper::ClearCurrentData() {
+void IdanWrapper::SetData() {
+    m_icd->SetData(m_data);
+}
+
+void IdanWrapper::IdanWrapper::ClearCurrentData() {
     m_data = IdanData();
 }
 
 /********************************* HLC Primary *************************************************/
-unsigned char IdanWrapper::GetHLCPShutDownCmd() const {
-    return m_data.GetHLCPShutDownCmd();
+bool IdanWrapper::HasHLCPShutDownCmd() const {
+    return m_data.HasHLCPShutDownCmd();
 }
 
-unsigned char IdanWrapper::GetHLCPEmergencyCmd() const {
-    return m_data.GetHLCPEmergencyCmd();
+bool IdanWrapper::HasHLCPEmergencyCmd() const {
+    return m_data.HasHLCPEmergencyCmd();
 }
 
-unsigned char IdanWrapper::GetHLCPSteerCmdMsb() const {
-    return m_data.GetHLCPSteerCmdMsb();
+int IdanWrapper::GetHLCPSteerCmd() const {
+    return m_data.GetHLCPSteerCmd();
 }
 
-unsigned char IdanWrapper::GetHLCPSteerCmdLsb() const {
-    return m_data.GetHLCPSteerCmdLsb();
-}
-
-unsigned char IdanWrapper::GetHLCPGasCmdMsb() const {
-    return m_data.GetHLCPGasCmdMsb();
-}
-
-unsigned char IdanWrapper::GetHLCPGasCmdLsb() const {
-    return m_data.GetHLCPGasCmdLsb();
+int IdanWrapper::GetHLCPGasCmd() const {
+    return m_data.GetHLCPGasCmd();
 }
 
 /********************************* HLC Secondary *************************************************/
-unsigned char IdanWrapper::GetHLCSShutDownCmd() const {
-    return m_data.GetHLCSShutDownCmd();
+bool IdanWrapper::HasHLCSShutDownCmd() const {
+    return m_data.HasHLCSShutDownCmd();
 }
 
 bool IdanWrapper::IsHLCSRoadLightsApplied() const {
@@ -99,18 +95,115 @@ bool IdanWrapper::IsHLCSHazardsApplied() const {
     return m_data.IsHLCSHazardsApplied();
 }
 
-unsigned char IdanWrapper::GetHLCSGear() const {
+std::string IdanWrapper::GetHLCSGear() const {
     return m_data.GetHLCSGear();
 }
 
-unsigned char IdanWrapper::GetHLCSParkingBrake() const {
-    return m_data.GetHLCSParkingBrake();
+bool IdanWrapper::IsHLCSParkingBrakeReleased() const {
+    return m_data.IsHLCSParkingBrakeReleased();
 }
 
-unsigned char IdanWrapper::GetHLCSEmergencyCmd() const {
-    return m_data.GetHLCSEmergencyCmd();
+bool IdanWrapper::HasHLCSEmergencyCmd() const {
+    return m_data.HasHLCSEmergencyCmd();
 }
 
-unsigned char IdanWrapper::GetHLCSSacsOnCmd() const {
-    return m_data.GetHLCSSacsOnCmd();
+bool IdanWrapper::HasHLCSSacsOnCmd() const {
+    return m_data.HasHLCSSacsOnCmd();
 }
+
+/************************************************* IDAN Primary ********************************************/
+void IdanWrapper::SetIdanPrimSteerPos(int steerPose) {
+    m_data.SetIdanPrimSteerPos(steerPose);
+}
+
+void IdanWrapper::SetIdanPrimGasPos(int gasPose) {
+    m_data.SetIdanPrimGasPos(gasPose);
+}
+
+/************************************************* IDAN Secondary Report ********************************************/
+
+void IdanWrapper::SetIdanSecRepRoadLights(bool roadLights) {
+    m_data.SetIdanSecRepRoadLights(roadLights);
+} 
+
+void IdanWrapper::SetIdanSecRepHighBeam(bool highBeam) {
+    m_data.SetIdanSecRepHighBeam(highBeam);
+} 
+
+void IdanWrapper::SetIdanSecRepLightsCutoff(bool lightsCutoff) {
+    m_data.SetIdanSecRepLightsCutoff(lightsCutoff);
+} 
+
+void IdanWrapper::SetIdanSecRepKeySwitch(bool keySwitch) {
+    m_data.SetIdanSecRepKeySwitch(keySwitch);
+} 
+
+void IdanWrapper::SetIdanSecRepHorn(bool horn) {
+    m_data.SetIdanSecRepHorn(horn);
+} 
+
+void IdanWrapper::SetIdanSecRepLeftTurnSignal(bool leftTurnSignal) {
+    m_data.SetIdanSecRepLeftTurnSignal(leftTurnSignal);
+} 
+
+void IdanWrapper::SetIdanSecRepRightTurnSignal(bool rightTurnSignal) {
+    m_data.SetIdanSecRepRightTurnSignal(rightTurnSignal);
+} 
+
+void IdanWrapper::SetIdanSecRepHazards(bool hazards) {
+    m_data.SetIdanSecRepHazards(hazards);
+} 
+
+void IdanWrapper::SetIdanSecRepRequestedGear(const std::string& requestedGear) {
+    m_data.SetIdanSecRepRequestedGear(requestedGear);
+} 
+
+void IdanWrapper::SetIdanSecRepActualGear(const std::string& actualGear) {
+    m_data.SetIdanSecRepActualGear(actualGear);
+} 
+
+void IdanWrapper::SetIdanSecRepParkingBrake(const std::string& parkingBrake) {
+    m_data.SetIdanSecRepParkingBrake(parkingBrake);
+} 
+
+void IdanWrapper::SetIdanSecRepRpm(float rpm) {
+    m_data.SetIdanSecRepRpm(rpm);
+} 
+
+void IdanWrapper::SetIdanSecRepVelocity(float velocity) {
+    m_data.SetIdanSecRepVelocity(velocity);
+} 
+
+/************************************************* IDAN Secondary Sensor ********************************************/
+
+void IdanWrapper::SetIdanSecSenEngineTemp(float engineTemp) {
+    m_data.SetIdanSecSenEngineTemp(engineTemp);
+} 
+
+void IdanWrapper::SetIdanSecSenOilPress(float oilPress) {
+    m_data.SetIdanSecSenOilPress(oilPress);
+} 
+
+void IdanWrapper::SetIdanSecSenFuelLevel(float fuelLevel) {
+    m_data.SetIdanSecSenFuelLevel(fuelLevel);
+} 
+
+void IdanWrapper::SetIdanSecSenAlternatorVoltage(float alternatorVoltage) {
+    m_data.SetIdanSecSenAlternatorVoltage(alternatorVoltage);
+} 
+
+void IdanWrapper::SetIdanSecSenBackupBattVoltage(float backupBattVoltage) {
+    m_data.SetIdanSecSenBackupBattVoltage(backupBattVoltage);
+} 
+
+void IdanWrapper::SetIdanSecSenBatterySumUp(int batterySumUp) {
+    m_data.SetIdanSecSenBatterySumUp(batterySumUp);
+} 
+
+void IdanWrapper::SetIdanSecSenAirPressFront(float airPressFront) {
+    m_data.SetIdanSecSenAirPressFront(airPressFront);
+} 
+
+void IdanWrapper::SetIdanSecSenAirPressRear(float airPressRear) {
+    m_data.SetIdanSecSenAirPressRear(airPressRear);
+} 

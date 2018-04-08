@@ -18,23 +18,21 @@ extern "C" {
 
     void RunIdan(IdanWrapper* pObj);
 
+    void SendIdanData(IdanWrapper* pObj);
+
     void GetIdanData(IdanWrapper* pObj);
 
     /********************************* HLC Primary *************************************************/
-    unsigned char GetHLCPShutDownCmd(IdanWrapper* pObj);
+    bool HasHLCPShutDownCmd(IdanWrapper* pObj);
 
-    unsigned char GetHLCPEmergencyCmd(IdanWrapper* pObj);
+    bool HasHLCPEmergencyCmd(IdanWrapper* pObj);
 
-    unsigned char GetHLCPSteerCmdMsb(IdanWrapper* pObj);
+    int GetHLCPSteerCmd(IdanWrapper* pObj);
 
-    unsigned char GetHLCPSteerCmdLsb(IdanWrapper* pObj);
-
-    unsigned char GetHLCPGasCmdMsb(IdanWrapper* pObj);
-
-    unsigned char GetHLCPGasCmdLsb(IdanWrapper* pObj);
+    int GetHLCPGasCmd(IdanWrapper* pObj);
 
     /********************************* HLC Secondary *************************************************/
-    unsigned char GetHLCSShutDownCmd(IdanWrapper* pObj);
+    bool HasHLCSShutDownCmd(IdanWrapper* pObj);
     
     bool IsHLCSRoadLightsApplied(IdanWrapper* pObj);
 
@@ -56,13 +54,64 @@ extern "C" {
 
     bool IsHLCSHazardsApplied(IdanWrapper* pObj);
 
-    unsigned char GetHLCSGear(IdanWrapper* pObj);
+    const char* GetHLCSGear(IdanWrapper* pObj);
 
-    unsigned char GetHLCSParkingBrake(IdanWrapper* pObj);
+    bool IsHLCSParkingBrakeReleased(IdanWrapper* pObj);
 
-    unsigned char GetHLCSEmergencyCmd(IdanWrapper* pObj);
+    bool HasHLCSEmergencyCmd(IdanWrapper* pObj);
 
-    unsigned char GetHLCSSacsOnCmd(IdanWrapper* pObj);
+    bool HasHLCSSacsOnCmd(IdanWrapper* pObj);
+
+   /************************************************* IDAN Primary ********************************************/
+    void SetIdanPrimSteerPos(IdanWrapper* obj, int steerPose);
+
+    void SetIdanPrimGasPos(IdanWrapper* obj, int gasPose);
+
+    /************************************************* IDAN Secondary Report ********************************************/
+	
+    void SetIdanSecRepRoadLights(IdanWrapper* obj, bool roadLights); 
+
+    void SetIdanSecRepHighBeam(IdanWrapper* obj, bool highBeam);
+
+    void SetIdanSecRepLightsCutoff(IdanWrapper* obj, bool lightsCutoff) ;
+
+    void SetIdanSecRepKeySwitch(IdanWrapper* obj, bool keySwitch);
+
+    void SetIdanSecRepHorn(IdanWrapper* obj, bool horn);
+
+    void SetIdanSecRepLeftTurnSignal(IdanWrapper* obj, bool leftTurnSignal);
+
+    void SetIdanSecRepRightTurnSignal(IdanWrapper* obj, bool rightTurnSignal);
+
+    void SetIdanSecRepHazards(IdanWrapper* obj, bool hazards);
+
+    void SetIdanSecRepRequestedGear(IdanWrapper* obj, const char* requestedGear);
+
+    void SetIdanSecRepActualGear(IdanWrapper* obj, const char* actualGear);
+
+    void SetIdanSecRepParkingBrake(IdanWrapper* obj, const char* parkingBrake);
+
+    void SetIdanSecRepRpm(IdanWrapper* obj, float rpm);
+
+    void SetIdanSecRepVelocity(IdanWrapper* obj, float velocity);
+
+    /************************************************* IDAN Secondary Sensor ********************************************/
+    
+    void SetIdanSecSenEngineTemp(IdanWrapper* obj, float engineTemp);
+
+    void SetIdanSecSenOilPress(IdanWrapper* obj, float oilPress);
+
+    void SetIdanSecSenFuelLevel(IdanWrapper* obj, float fuelLevel);
+
+    void SetIdanSecSenAlternatorVoltage(IdanWrapper* obj, float alternatorVoltage);
+
+    void SetIdanSecSenBackupBattVoltage(IdanWrapper* obj, float backupBattVoltage);
+
+    void SetIdanSecSenBatterySumUp(IdanWrapper* obj, int batterySumUp);
+
+    void SetIdanSecSenAirPressFront(IdanWrapper* obj, float airPressFront);
+
+    void SetIdanSecSenAirPressRear(IdanWrapper* obj, float airPressRear);
 }
 
 #endif // IDANPLUGINAPI_H

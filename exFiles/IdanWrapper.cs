@@ -2,9 +2,9 @@
 using System;
 using System.Runtime.InteropServices;
 
-public class IdanWrapper : IDisposable {
+public class IntPtr: IDisposable {
 	const String DLL_LOCATION = "libidan";
-
+	// TODO add conersion map
 	[DllImport (DLL_LOCATION)]
 	private static extern IntPtr CreateIdanObject(string confFilePath);
 
@@ -15,30 +15,27 @@ public class IdanWrapper : IDisposable {
 	private static extern void RunIdan(IntPtr pObj);
 
 	[DllImport (DLL_LOCATION)]
+	private static extern void SendIdanData(IntPtr pObj);
+
+	[DllImport (DLL_LOCATION)]
 	private static extern void GetIdanData(IntPtr pObj);
 
 /***************************************************** HLC Primary *********************************************** */
 	[DllImport (DLL_LOCATION)]
-	private static extern byte GetHLCPShutDownCmd(IntPtr pObj);
+	private static extern bool HasHLCPShutDownCmd(IntPtr pObj);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern byte GetHLCPEmergencyCmd(IntPtr pObj);
+	private static extern bool HasHLCPEmergencyCmd(IntPtr pObj);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern byte GetHLCPSteerCmdMsb(IntPtr pObj);
+	private static extern int GetHLCPSteerCmd(IntPtr pObj);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern byte GetHLCPSteerCmdLsb(IntPtr pObj);
-
-	[DllImport (DLL_LOCATION)]
-	private static extern byte GetHLCPGasCmdMsb(IntPtr pObj);
-
-	[DllImport (DLL_LOCATION)]
-	private static extern byte GetHLCPGasCmdLsb(IntPtr pObj);
+	private static extern int GetHLCPGasCmd(IntPtr pObj);
 
 /********************************* HLC Secondary ***********************************************************/
 	[DllImport (DLL_LOCATION)]
-	private static extern byte GetHLCSShutDownCmd(IntPtr pObj);
+	private static extern bool HasHLCSShutDownCmd(IntPtr pObj);
 
 	[DllImport (DLL_LOCATION)]
 	private static extern bool IsHLCSRoadLightsApplied(IntPtr pObj);
@@ -71,26 +68,99 @@ public class IdanWrapper : IDisposable {
 	private static extern bool IsHLCSHazardsApplied(IntPtr pObj);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern byte GetHLCSGear(IntPtr pObj);
+	private static extern string GetHLCSGear(IntPtr pObj);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern byte GetHLCSParkingBrake(IntPtr pObj);
+	private static extern bool IsHLCSParkingBrakeReleased(IntPtr pObj);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern byte GetHLCSEmergencyCmd(IntPtr pObj);
+	private static extern bool HasHLCSEmergencyCmd(IntPtr pObj);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern byte GetHLCSSacsOnCmd(IntPtr pObj);
+	private static extern bool HasHLCSSacsOnCmd(IntPtr pObj);
 
+   /************************************************* IDAN Primary ********************************************/
+    [DllImport (DLL_LOCATION)]
+	private static extern void SetIdanPrimSteerPos(IntPtr pObj, int steerPose);
+
+    [DllImport (DLL_LOCATION)]
+	private static extern void SetIdanPrimGasPos(IntPtr pObj, int gasPose);
+
+    /************************************************* IDAN Secondary Report ********************************************/
+	
+    [DllImport (DLL_LOCATION)]
+	private static extern void SetIdanSecRepRoadLights(IntPtr pObj, bool roadLights); 
+
+    [DllImport (DLL_LOCATION)]
+	private static extern void SetIdanSecRepHighBeam(IntPtr pObj, bool highBeam);
+
+    [DllImport (DLL_LOCATION)]
+	private static extern void SetIdanSecRepLightsCutoff(IntPtr pObj, bool lightsCutoff) ;
+
+    [DllImport (DLL_LOCATION)]
+	private static extern void SetIdanSecRepKeySwitch(IntPtr pObj, bool keySwitch);
+
+    [DllImport (DLL_LOCATION)]
+	private static extern void SetIdanSecRepHorn(IntPtr pObj, bool horn);
+
+    [DllImport (DLL_LOCATION)]
+	private static extern void SetIdanSecRepLeftTurnSignal(IntPtr pObj, bool leftTurnSignal);
+
+    [DllImport (DLL_LOCATION)]
+	private static extern void SetIdanSecRepRightTurnSignal(IntPtr pObj, bool rightTurnSignal);
+
+    [DllImport (DLL_LOCATION)]
+	private static extern void SetIdanSecRepHazards(IntPtr pObj, bool hazards);
+
+    [DllImport (DLL_LOCATION)]
+	private static extern void SetIdanSecRepRequestedGear(IntPtr pObj, string requestedGear);
+
+    [DllImport (DLL_LOCATION)]
+	private static extern void SetIdanSecRepActualGear(IntPtr pObj, string actualGear);
+
+    [DllImport (DLL_LOCATION)]
+	private static extern void SetIdanSecRepParkingBrake(IntPtr pObj, string parkingBrake);
+
+    [DllImport (DLL_LOCATION)]
+	private static extern void SetIdanSecRepRpm(IntPtr pObj, float rpm);
+
+    [DllImport (DLL_LOCATION)]
+	private static extern void SetIdanSecRepVelocity(IntPtr pObj, float velocity);
+
+    /************************************************* IDAN Secondary Sensor ********************************************/
+    
+    [DllImport (DLL_LOCATION)]
+	private static extern void SetIdanSecSenEngineTemp(IntPtr pObj, float engineTemp);
+
+    [DllImport (DLL_LOCATION)]
+	private static extern void SetIdanSecSenOilPress(IntPtr pObj, float oilPress);
+
+    [DllImport (DLL_LOCATION)]
+	private static extern void SetIdanSecSenFuelLevel(IntPtr pObj, float fuelLevel);
+
+    [DllImport (DLL_LOCATION)]
+	private static extern void SetIdanSecSenAlternatorVoltage(IntPtr pObj, float alternatorVoltage);
+
+    [DllImport (DLL_LOCATION)]
+	private static extern void SetIdanSecSenBackupBattVoltage(IntPtr pObj, float backupBattVoltage);
+
+    [DllImport (DLL_LOCATION)]
+	private static extern void SetIdanSecSenBatterySumUp(IntPtr pObj, int batterySumUp);
+
+    [DllImport (DLL_LOCATION)]
+	private static extern void SetIdanSecSenAirPressFront(IntPtr pObj, float airPressFront);
+
+    [DllImport (DLL_LOCATION)]
+	private static extern void SetIdanSecSenAirPressRear(IntPtr pObj, float airPressRear);
 
 
 	private IntPtr m_nativeObject;
 
-	public IdanWrapper(string confFilePath) {
+	public IntPtrstring confFilePath) {
 		this.m_nativeObject = CreateIdanObject(confFilePath);
 	}
 
-	~IdanWrapper() {Dispose(false);}
+	~IntPtr) {Dispose(false);}
 	
 	public void Dispose() { Dispose(true);}
 
@@ -109,38 +179,34 @@ public class IdanWrapper : IDisposable {
 		RunIdan(this.m_nativeObject);
 	}
 
+	public void SendData() {
+		SendIdanData(this.m_nativeObject);
+	}
+
 	public void GetData() {
 		GetIdanData(this.m_nativeObject);
 	}
 
 /***************************************************** HLC Primary *********************************************** */
-	public byte GetHLCPShutDownCmd() {
-		return GetHLCPShutDownCmd(this.m_nativeObject);
+	public bool HasHLCPShutDownCmd() {
+		return HasHLCPShutDownCmd(this.m_nativeObject);
 	}
 
-	public byte GetHLCPEmergencyCmd() {
-		return GetHLCPEmergencyCmd(this.m_nativeObject);
+	public bool HasHLCPEmergencyCmd() {
+		return HasHLCPEmergencyCmd(this.m_nativeObject);
 	}
 
-	public byte GetHLCPSteerCmdMsb() {
-		return GetHLCPSteerCmdMsb(this.m_nativeObject);
+	public int GetHLCPSteerCmd() {
+		return GetHLCPSteerCmd(this.m_nativeObject);
 	}
 
-	public byte GetHLCPSteerCmdLsb() {
-		return GetHLCPSteerCmdLsb(this.m_nativeObject);
-	}
-
-	public byte GetHLCPGasCmdMsb() {
-		return GetHLCPGasCmdMsb(this.m_nativeObject);
-	}
-
-	public byte GetHLCPGasCmdLsb() {
-		return GetHLCPGasCmdLsb(this.m_nativeObject);
+	public int GetHLCPGasCmd() {
+		return GetHLCPGasCmd(this.m_nativeObject);
 	}
 
 /********************************* HLC Secondary ***********************************************************/
-	public byte GetHLCSShutDownCmd() {
-		return GetHLCSShutDownCmd(this.m_nativeObject);
+	public bool HasHLCSShutDownCmd() {
+		return HasHLCSShutDownCmd(this.m_nativeObject);
 	}
 
 	public bool IsHLCSRoadLightsApplied() {
@@ -187,15 +253,111 @@ public class IdanWrapper : IDisposable {
 		return GetHLCSGear(this.m_nativeObject);
 	}
 
-	public byte GetHLCSParkingBrake() {
-		return GetHLCSParkingBrake(this.m_nativeObject);
+	public bool IsHLCSParkingBrakeReleased() {
+		return IsHLCSParkingBrakeReleased(this.m_nativeObject);
 	}
 
-	public byte GetHLCSEmergencyCmd() {
-		return GetHLCSEmergencyCmd(this.m_nativeObject);
+	public bool HasHLCSEmergencyCmd() {
+		return HasHLCSEmergencyCmd(this.m_nativeObject);
 	}
 
-	public byte GetHLCSSacsOnCmd() {
-		return GetHLCSSacsOnCmd(this.m_nativeObject);
+	public bool HasHLCSSacsOnCmd() {
+		return HasHLCSSacsOnCmd(this.m_nativeObject);
+	}
+
+   /************************************************* IDAN Primary ********************************************/
+    public void SetIdanPrimSteerPos(int steerPose) {
+		SetIdanPrimSteerPos(this.m_nativeObject, steerPose);
+	}
+
+	public void SetIdanPrimGasPos(int steerPose) {
+		SetIdanPrimGasPos(this.m_nativeObject, gasPose);
+	}
+
+    /************************************************* IDAN Secondary Report ********************************************/
+	public void SetIdanSecRepRoadLights(int roadLights) {
+		SetIdanSecRepRoadLights(this.m_nativeObject, roadLights);
+	}
+
+	public void SetIdanSecRepHighBeam(int highBeam) {
+		SetIdanSecRepHighBeam(this.m_nativeObject, highBeam);
+	}
+
+	public void SetIdanSecRepLightsCutoff(int lightsCutoff) {
+		SetIdanSecRepLightsCutoff(this.m_nativeObject, lightsCutoff);
+	}
+
+	public void SetIdanSecRepKeySwitch(int keySwitch) {
+		SetIdanSecRepKeySwitch(this.m_nativeObject, keySwitch);
+	}
+
+	public void SetIdanSecRepHorn(int horn) {
+		SetIdanSecRepHorn(this.m_nativeObject, horn);
+	}
+
+	public void SetIdanSecRepLeftTurnSignal(int leftTurnSignal) {
+		SetIdanSecRepLeftTurnSignal(this.m_nativeObject, leftTurnSignal);
+	}
+
+	public void SetIdanSecRepRightTurnSignal(int rightTurnSignal) {
+		SetIdanSecRepRightTurnSignal(this.m_nativeObject, rightTurnSignal);
+	}
+
+	public void SetIdanSecRepHazards(int hazards) {
+		SetIdanSecRepHazards(this.m_nativeObject, hazards);
+	}
+
+	public void SetIdanSecRepRequestedGear(int requestedGear) {
+		SetIdanSecRepRequestedGear(this.m_nativeObject, requestedGear);
+	}
+
+	public void SetIdanSecRepActualGear(int actualGear) {
+		SetIdanSecRepActualGear(this.m_nativeObject, actualGear);
+	}
+
+	public void SetIdanSecRepParkingBrake(int parkingBrake) {
+		SetIdanSecRepParkingBrake(this.m_nativeObject, parkingBrake);
+	}
+
+	public void SetIdanSecRepRpm(int rpm) {
+		SetIdanSecRepRpm(this.m_nativeObject, rpm);
+	}
+
+	public void SetIdanSecRepVelocity(int velocity) {
+		SetIdanSecRepVelocity(this.m_nativeObject, velocity);
+	}
+
+    /************************************************* IDAN Secondary Sensor ********************************************/
+    
+    public void SetIdanSecSenEngineTemp(float engineTemp) {
+		SetIdanSecRepVelocity(this.m_nativeObject, engineTemp);
+	}
+
+    public void SetIdanSecSenOilPress(float oilPress) {
+		SetIdanSecRepVelocity(this.m_nativeObject, oilPress);
+	}
+
+    public void SetIdanSecSenFuelLevel(float fuelLevel) {
+		SetIdanSecRepVelocity(this.m_nativeObject, fuelLevel);
+	}
+
+    public void SetIdanSecSenAlternatorVoltage(float alternatorVoltage) {
+		SetIdanSecRepVelocity(this.m_nativeObject, alternatorVoltage);
+	}
+
+    public void SetIdanSecSenBackupBattVoltage(float backupBattVoltage) {
+		SetIdanSecRepVelocity(this.m_nativeObject, backupBattVoltage);
+	}
+
+    public void SetIdanSecSenBatterySumUp(int batterySumUp) {
+		SetIdanSecRepVelocity(this.m_nativeObject, batterySumUp);
+	}
+
+    public void SetIdanSecSenAirPressFront(float airPressFront) {
+		SetIdanSecRepVelocity(this.m_nativeObject, airPressFront);
+	}
+
+    public void SetIdanSecSenAirPressRear(float airPressRear) {
+		SetIdanSecRepVelocity(this.m_nativeObject, airPressRear);
 	}
 }

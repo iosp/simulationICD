@@ -28,12 +28,12 @@ public:
     ~InsWrapper();
 
     /**
-     * Calls vlp->run
+     * Calls icd->icd
      */ 
     virtual void Run() override;
 
     /**
-     * Take the temporary data and set it to vlp
+     * Take the temporary data and set it to icd
      */ 
     virtual void SetData() override;
 

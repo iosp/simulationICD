@@ -22,7 +22,7 @@ CanCommunication::~CanCommunication() {
 }
 
 bool CanCommunication::Init() {
-	return InitGet() /*&& InitSend()*/;
+	return InitGet() && InitSend();
 }
 
 bool CanCommunication::InitGet() {
@@ -98,21 +98,10 @@ void CanCommunication::GetData(char* buffer) {
             memcpy(buffer + 4, &frame.can_dlc, sizeof(frame.can_dlc));
             memcpy(buffer + 8, &frame.data, sizeof(frame.data));
         }
-    }
+	}
 }
 
 int CanCommunication::SendData(const char* buffer, int sizeOfData) {
-    struct can_frame frame;
-    frame.can_id  = 0x123;
-	frame.can_dlc = 8;
-	frame.data[0] = 0x1;
-	frame.data[1] = 0x2;
-	frame.data[2] = 0x3;
-	frame.data[3] = 0x4;
-	frame.data[4] = 0x5;
-	frame.data[5] = 0x6;
-	frame.data[6] = 0x7;
-	frame.data[7] = 0x8;	
-    int nbytes = write(m_sendSocket, &frame, sizeof(struct can_frame));
+    int nbytes = write(m_sendSocket, buffer, sizeOfData);
     return nbytes;
 }
