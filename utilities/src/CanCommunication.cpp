@@ -102,6 +102,10 @@ void CanCommunication::GetData(char* buffer) {
 }
 
 int CanCommunication::SendData(const char* buffer, int sizeOfData) {
-    int nbytes = write(m_sendSocket, buffer, sizeOfData);
+	struct can_frame frame;
+	memcpy(&frame.can_id, buffer, sizeof(frame.can_id));
+	memcpy(&frame.can_dlc, buffer + 4, sizeof(frame.can_dlc));
+	memcpy(&frame.data, buffer + 8, sizeof(frame.data));
+    int nbytes = write(m_sendSocket, &frame, sizeof(struct can_frame));
     return nbytes;
 }
