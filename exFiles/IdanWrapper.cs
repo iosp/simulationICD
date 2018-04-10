@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 public class IntPtr: IDisposable {
 	const String DLL_LOCATION = "libidan";
-	// TODO add conersion map
+	
 	[DllImport (DLL_LOCATION)]
 	private static extern IntPtr CreateIdanObject(string confFilePath);
 
@@ -112,12 +112,14 @@ public class IntPtr: IDisposable {
     [DllImport (DLL_LOCATION)]
 	private static extern void SetIdanSecRepHazards(IntPtr pObj, bool hazards);
 
+	// gear map: "R"= reverse, "N" = neutral, D1, D2, D3, D4, D5, "PROG"= in progress
     [DllImport (DLL_LOCATION)]
 	private static extern void SetIdanSecRepRequestedGear(IntPtr pObj, string requestedGear);
 
     [DllImport (DLL_LOCATION)]
 	private static extern void SetIdanSecRepActualGear(IntPtr pObj, string actualGear);
 
+	// parking map: "R"= released, "E" = engaged, "P" = in progress
     [DllImport (DLL_LOCATION)]
 	private static extern void SetIdanSecRepParkingBrake(IntPtr pObj, string parkingBrake);
 
