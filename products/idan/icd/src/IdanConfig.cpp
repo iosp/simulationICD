@@ -14,6 +14,10 @@
 
 const std::string IdanConfig::INTERFACE_NAME_KEY = "IFACE_NAME";
 const std::string IdanConfig::INTERFACE_NAME_DEF_VAL = "vcan0";
+const std::string IdanConfig::IS_VIRTUAL_INTERFACE_KEY = "IS_VIRTUAL_INTERFACE";
+const std::string IdanConfig::IS_VIRTUAL_INTERFACE_DEF_VAL = "0";
+const std::string IdanConfig::CAN_BAUD_RATE_KEY = "CAN_BAUD_RATE";
+const std::string IdanConfig::CAN_BAUD_RATE_DEF_VAL = "500000";
 const std::string IdanConfig::HLC_HERTZ_KEY = "HLC_HERTZ";
 const std::string IdanConfig::HLC_HERTZ_DEF_VAL = "50";
 const std::string IdanConfig::IDAN_PRIM_HERTZ_KEY = "IDAN_PRIM_HERTZ";
@@ -38,6 +42,8 @@ IdanConfig::~IdanConfig() {
 
 void IdanConfig::SetConfDefaultValues() {
 	m_idanConf->SetValue(INTERFACE_NAME_KEY, INTERFACE_NAME_DEF_VAL);
+    m_idanConf->SetValue(IS_VIRTUAL_INTERFACE_KEY, IS_VIRTUAL_INTERFACE_DEF_VAL);
+    m_idanConf->SetValue(CAN_BAUD_RATE_KEY, CAN_BAUD_RATE_DEF_VAL);
     m_idanConf->SetValue(HLC_HERTZ_KEY, HLC_HERTZ_DEF_VAL);
     m_idanConf->SetValue(IDAN_PRIM_HERTZ_KEY, IDAN_PRIM_HERTZ_DEF_VAL);
     m_idanConf->SetValue(IDAN_SEC_REP_HERTZ_KEY, IDAN_SEC_REP_HERTZ_DEF_VAL);
@@ -46,6 +52,10 @@ void IdanConfig::SetConfDefaultValues() {
 
 std::string IdanConfig::GetInterfaceName() const {
     return m_idanConf->GetValue<std::string>(INTERFACE_NAME_KEY);
+}
+
+int IdanConfig::GetBaudRate() const {
+    return m_idanConf->GetValue<int>(CAN_BAUD_RATE_KEY);
 }
 
 int IdanConfig::GetHLCHertz() const {
@@ -62,4 +72,8 @@ int IdanConfig::GetIdanSecRepHertz() const {
 
 int IdanConfig::GetIdanSecSenHertz() const {
     return m_idanConf->GetValue<int>(IDAN_SEC_SEN_HERTZ_KEY);
+}
+
+bool IdanConfig::IsVirtualInterface() const {
+    return m_idanConf->GetValue<bool>(IS_VIRTUAL_INTERFACE_KEY);
 }

@@ -19,6 +19,10 @@ private:
 
     static const std::string INTERFACE_NAME_KEY;
     static const std::string INTERFACE_NAME_DEF_VAL;
+    static const std::string IS_VIRTUAL_INTERFACE_KEY;
+    static const std::string IS_VIRTUAL_INTERFACE_DEF_VAL;
+    static const std::string CAN_BAUD_RATE_KEY;
+    static const std::string CAN_BAUD_RATE_DEF_VAL;
 
     static const std::string HLC_HERTZ_KEY;
     static const std::string HLC_HERTZ_DEF_VAL;
@@ -40,6 +44,8 @@ public:
 
     std::string GetInterfaceName() const;
 
+    int GetBaudRate() const;
+
     int GetHLCHertz() const;
 
     int GetIdanPrimHertz() const;
@@ -47,6 +53,8 @@ public:
     int GetIdanSecRepHertz() const;
 
     int GetIdanSecSenHertz() const;
+
+    bool IsVirtualInterface() const;
 };
 
 

@@ -18,7 +18,7 @@
 
 IdanControl::IdanControl(const std::string& confFilePath) {
 	m_idanConf = new IdanConfig(confFilePath);
-	m_comm = new CanCommunication(m_idanConf->GetInterfaceName());
+	m_comm = new CanCommunication(m_idanConf->GetInterfaceName(), m_idanConf->GetBaudRate(), m_idanConf->IsVirtualInterface());
 }
 
 IdanControl::~IdanControl() {

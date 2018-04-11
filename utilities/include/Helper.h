@@ -68,6 +68,13 @@ namespace Utilities {
     void SleepForRestTime(boost::posix_time::ptime startTime, int maxTimeToSleep);
 
     /**
+     * Run bash command
+     * @param cmd - the command to run
+     * @return string of the command output
+     */ 
+    std::string RunSystemCmd(const std::string& cmd);
+
+    /**
      * Add ctrl+c handler to process
      */ 
     void AddStopHandler();

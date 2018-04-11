@@ -91,7 +91,7 @@ void Tester::TestTCP() {
 }
 
 void Tester::TestCAN() {
-    CanCommunication* c = new CanCommunication("vscan0");
+    CanCommunication* c = new CanCommunication("vscan0", 500000, true);
     char buffer[100]{};
     c->Init();
     c->SendData(buffer, 100);

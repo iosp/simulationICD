@@ -27,9 +27,9 @@ void IdanSecondaryReportMessage::FillMessage(const IdanData& data) {
     IDAN_SecondaryReportMsgType msg;
 
     msg.W0.Disc1 = 0;
-    msg.W0.Disc2 = 1;
-    msg.W0.Disc3 = 1;
-    msg.W0.SACSactive = 1;
+    msg.W0.Disc2 = 0;
+    msg.W0.Disc3 = 0;
+    msg.W0.SACSactive = 0;
 
     msg.W1.RoadLight = data.IsIdanSecRepRoadLightsApplied();
     msg.W1.HighBeam = data.IsIdanSecRepHighBeamApplied();
