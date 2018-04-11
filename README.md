@@ -10,11 +10,18 @@ There are several directories on this project:
 6. exFiles - external files that are not compile with the project
 7. makefiles - all the main makefiles of the project (makefile for each product, main makefile, tester makefile)
 
-If you want to run some ICD, you need to:
-a. use lib<sensor>.so on comp directory - copy to the plugin pull of your project (if there is).
-b. copy the lib to /usr/lib/ too (you may need to use "sudo" command for this).
-c. run "sudo ldconfig".
-d. copy the appropriate cs file to unity 
+Usage with Convoy project in Unity:
+1. cd ~/simulationICD/makefiles
+2. run "make"(*)
+3. cp ../comp/lib<sensor>.so ~/ConvoyUnity/Assets/Plugins/
+4. sudo cp ../comp/lib<sensor>.so /usr/lib
+5. sudo ldconfig
+6. cp /simulationICD/<sensor>Wrapper.cs ~/ConvoyUnity/Assets/Scripts/<sensor>
+7. mkdir ~/simConfigs/;
+8. cp /simulationICD/exFiles*.conf ~/simConfigs/
 
-If you want to compile the project, just cd to "makefiles" directory and run "make".
-If you want to use the tester to test your code, run "make -f makefile_tester" and the executable will be located on comp directory.
+(*) - if you want to use tester (with Tester.cpp) - run "make -f makefile_tester" and use ../comp/icd binary file.
+
+Dependencies of the project:
+1. libboost-dev
+2. libboost-thread-dev
