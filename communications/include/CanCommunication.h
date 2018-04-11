@@ -15,16 +15,23 @@
 class CanCommunication : public ICommunication {
 private:
     std::string m_interfaceName;
+    bool m_isVirtualInterface;
+    int m_baudRate;
     int m_getSocket;
     int m_sendSocket;
 
+    // initialize baud rate with system call
+    void InitBaudRate();
+    // initialize CAN to get data
+    bool InitGet();
+    // initialize CAN to send data
+    bool InitSend(); 
+
 public:
-    CanCommunication(const std::string& interfaceName);
+    CanCommunication(const std::string& interfaceName, int baudRate, bool isVirtualInterface);
     ~CanCommunication();
 
     bool Init() override;
-    bool InitGet();
-    bool InitSend();
     int SendData(const char* buffer, int sizeOfData) override;
     void GetData(char* buffer) override;
     

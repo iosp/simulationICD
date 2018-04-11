@@ -12,6 +12,7 @@ STAT_DIR = $(COMP_DIR)/statlibs
 
 STAT_LIBS_BASE_NAMES = 		idanicd \
 							idanwrapper \
+							communications \
 							utils
 
 STAT_LIBS = $(addprefix -l, $(STAT_LIBS_BASE_NAMES))
@@ -19,7 +20,9 @@ STAT_LIBS = $(addprefix -l, $(STAT_LIBS_BASE_NAMES))
 _STAT_LIB_DEPS = $(addprefix $(STAT_DIR)/lib, $(STAT_LIBS_BASE_NAMES))
 STAT_LIB_DEPS = $(addsuffix .a, $(_STAT_LIB_DEPS))
 
-SUBDIRS = ../utilities ../products/idan
+SUBDIRS = 	../utilities \
+		 	../communications \
+			../products/idan
 
 all: createdirs compdirs $(TARGET)
 

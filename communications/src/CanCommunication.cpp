@@ -13,8 +13,10 @@
 #include <fcntl.h>
 #include "CanCommunication.h"
 #include "LoggerProxy.h"
+#include "Helper.h"
 
-CanCommunication::CanCommunication(const std::string& interfaceName) : m_interfaceName(interfaceName) {
+CanCommunication::CanCommunication(const std::string& interfaceName, int baudRate, bool isVirtualInterface) 
+	: m_interfaceName(interfaceName), m_baudRate(baudRate), m_isVirtualInterface(isVirtualInterface) {
 }
 
 CanCommunication::~CanCommunication() {
@@ -22,7 +24,25 @@ CanCommunication::~CanCommunication() {
 }
 
 bool CanCommunication::Init() {
+	InitBaudRate();
 	return InitGet() && InitSend();
+}
+
+void CanCommunication::InitBaudRate() {
+	if (!m_isVirtualInterface) {
+		std::stringstream ss;
+		// set can down
+		ss << "sudo ip link set " << m_interfaceName << " down";
+		Utilities::RunSystemCmd(ss.str());
+		ss.str("");
+		// change bitrate
+		ss << "sudo ip link set " << m_interfaceName << " type can bitrate " << m_baudRate;
+		Utilities::RunSystemCmd(ss.str());
+		ss.str("");
+		// set can up
+		ss << "sudo ip link set " << m_interfaceName << " up";
+		Utilities::RunSystemCmd(ss.str());
+	}
 }
 
 bool CanCommunication::InitGet() {
