@@ -14,10 +14,10 @@ There are several directories on this project:
 Usage with Convoy project in Unity:
 1. cd ~/simulationICD/makefiles
 2. run "make"(*)
-3. cp ../comp/lib<sensor>.so ~/ConvoyUnity/Assets/Plugins/
-4. sudo cp ../comp/lib<sensor>.so /usr/lib
+3. cp ../comp/lib[SENSOR].so ~/ConvoyUnity/Assets/Plugins/
+4. sudo cp ../comp/lib[SENSOR].so /usr/lib
 5. sudo ldconfig
-6. cp /simulationICD/<sensor>Wrapper.cs ~/ConvoyUnity/Assets/Scripts/<sensor>
+6. cp /simulationICD/[SENSOR]Wrapper.cs ~/ConvoyUnity/Assets/Scripts/[SENSOR]
 7. mkdir ~/simConfigs/;
 8. cp /simulationICD/exFiles*.conf ~/simConfigs/
 
