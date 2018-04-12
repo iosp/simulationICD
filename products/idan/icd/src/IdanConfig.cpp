@@ -13,7 +13,7 @@
 #include <sstream>
 
 const std::string IdanConfig::INTERFACE_NAME_KEY = "IFACE_NAME";
-const std::string IdanConfig::INTERFACE_NAME_DEF_VAL = "vcan0";
+const std::string IdanConfig::INTERFACE_NAME_DEF_VAL = "can0";
 const std::string IdanConfig::IS_VIRTUAL_INTERFACE_KEY = "IS_VIRTUAL_INTERFACE";
 const std::string IdanConfig::IS_VIRTUAL_INTERFACE_DEF_VAL = "0";
 const std::string IdanConfig::CAN_BAUD_RATE_KEY = "CAN_BAUD_RATE";
