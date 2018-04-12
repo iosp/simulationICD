@@ -22,7 +22,7 @@ STAT_LIB_DEPS = $(addsuffix .a, $(_STAT_LIB_DEPS))
 
 SUBDIRS = 	../utilities \
 		 	../communications \
-			/products/velodyne
+			../products/velodyne
 
 all: createdirs compdirs $(TARGET)
 
