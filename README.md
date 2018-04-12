@@ -20,7 +20,7 @@ Usage with Convoy project in Unity:
 7. mkdir ~/simConfigs/;
 8. cp /simulationICD/exFiles*.conf ~/simConfigs/
 
-(*) - if you want to use tester (with Tester.cpp) - run "make -f makefile_tester" and use ../comp/icd binary file.
+(*) - if you want to use tester (with Tester.cpp) - run "make -f makefile_tester" and use ../comp/simicd binary file.
 
 Dependencies of the project:
 1. libboost-dev
