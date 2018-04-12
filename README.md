@@ -4,11 +4,12 @@ This repository includes the ICD code for simulation of sensors and platform
 There are several directories on this project:
 1. interfaces - the interfaces of the project
 2. products - the sensors that someone build. every interface includes icd directory and wrapper directory
-3. tester - utility to let someone test his code.
-4. utilities - Logger, helper, etc - to use in the project
-5. comp - the compilation products (exe, lib, but not obj files) are located here.
-6. exFiles - external files that are not compile with the project
-7. makefiles - all the main makefiles of the project (makefile for each product, main makefile, tester makefile)
+3. communications - the UDP, TCP, etc communications
+4. tester - utility to let someone test his code.
+5. utilities - Logger, helper, etc - to use in the project
+6. comp - the compilation products (exe, lib, but not obj files) are located here.
+7. exFiles - external files that are not compile with the project
+8. makefiles - all the main makefiles of the project (makefile for each product, main makefile, tester makefile)
 
 Usage with Convoy project in Unity:
 1. cd ~/simulationICD/makefiles
