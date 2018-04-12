@@ -2,7 +2,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-public class IntPtr: IDisposable {
+public class IdanWrapper: IDisposable {
 	const String DLL_LOCATION = "libidan";
 	
 	[DllImport (DLL_LOCATION)]
@@ -155,14 +155,13 @@ public class IntPtr: IDisposable {
     [DllImport (DLL_LOCATION)]
 	private static extern void SetIdanSecSenAirPressRear(IntPtr pObj, float airPressRear);
 
-
 	private IntPtr m_nativeObject;
 
-	public IntPtrstring confFilePath) {
+	public IdanWrapper(string confFilePath) {
 		this.m_nativeObject = CreateIdanObject(confFilePath);
 	}
 
-	~IntPtr) {Dispose(false);}
+	~IdanWrapper() {Dispose(false);}
 	
 	public void Dispose() { Dispose(true);}
 
@@ -251,7 +250,7 @@ public class IntPtr: IDisposable {
 		return IsHLCSHazardsApplied(this.m_nativeObject);
 	}
 
-	public byte GetHLCSGear() {
+	public string GetHLCSGear() {
 		return GetHLCSGear(this.m_nativeObject);
 	}
 
@@ -272,60 +271,60 @@ public class IntPtr: IDisposable {
 		SetIdanPrimSteerPos(this.m_nativeObject, steerPose);
 	}
 
-	public void SetIdanPrimGasPos(int steerPose) {
+	public void SetIdanPrimGasPos(int gasPose) {
 		SetIdanPrimGasPos(this.m_nativeObject, gasPose);
 	}
 
     /************************************************* IDAN Secondary Report ********************************************/
-	public void SetIdanSecRepRoadLights(int roadLights) {
+	public void SetIdanSecRepRoadLights(bool roadLights) {
 		SetIdanSecRepRoadLights(this.m_nativeObject, roadLights);
 	}
 
-	public void SetIdanSecRepHighBeam(int highBeam) {
+	public void SetIdanSecRepHighBeam(bool highBeam) {
 		SetIdanSecRepHighBeam(this.m_nativeObject, highBeam);
 	}
 
-	public void SetIdanSecRepLightsCutoff(int lightsCutoff) {
+	public void SetIdanSecRepLightsCutoff(bool lightsCutoff) {
 		SetIdanSecRepLightsCutoff(this.m_nativeObject, lightsCutoff);
 	}
 
-	public void SetIdanSecRepKeySwitch(int keySwitch) {
+	public void SetIdanSecRepKeySwitch(bool keySwitch) {
 		SetIdanSecRepKeySwitch(this.m_nativeObject, keySwitch);
 	}
 
-	public void SetIdanSecRepHorn(int horn) {
+	public void SetIdanSecRepHorn(bool horn) {
 		SetIdanSecRepHorn(this.m_nativeObject, horn);
 	}
 
-	public void SetIdanSecRepLeftTurnSignal(int leftTurnSignal) {
+	public void SetIdanSecRepLeftTurnSignal(bool leftTurnSignal) {
 		SetIdanSecRepLeftTurnSignal(this.m_nativeObject, leftTurnSignal);
 	}
 
-	public void SetIdanSecRepRightTurnSignal(int rightTurnSignal) {
+	public void SetIdanSecRepRightTurnSignal(bool rightTurnSignal) {
 		SetIdanSecRepRightTurnSignal(this.m_nativeObject, rightTurnSignal);
 	}
 
-	public void SetIdanSecRepHazards(int hazards) {
+	public void SetIdanSecRepHazards(bool hazards) {
 		SetIdanSecRepHazards(this.m_nativeObject, hazards);
 	}
 
-	public void SetIdanSecRepRequestedGear(int requestedGear) {
+	public void SetIdanSecRepRequestedGear(string requestedGear) {
 		SetIdanSecRepRequestedGear(this.m_nativeObject, requestedGear);
 	}
 
-	public void SetIdanSecRepActualGear(int actualGear) {
+	public void SetIdanSecRepActualGear(string actualGear) {
 		SetIdanSecRepActualGear(this.m_nativeObject, actualGear);
 	}
 
-	public void SetIdanSecRepParkingBrake(int parkingBrake) {
+	public void SetIdanSecRepParkingBrake(string parkingBrake) {
 		SetIdanSecRepParkingBrake(this.m_nativeObject, parkingBrake);
 	}
 
-	public void SetIdanSecRepRpm(int rpm) {
+	public void SetIdanSecRepRpm(float rpm) {
 		SetIdanSecRepRpm(this.m_nativeObject, rpm);
 	}
 
-	public void SetIdanSecRepVelocity(int velocity) {
+	public void SetIdanSecRepVelocity(float velocity) {
 		SetIdanSecRepVelocity(this.m_nativeObject, velocity);
 	}
 
