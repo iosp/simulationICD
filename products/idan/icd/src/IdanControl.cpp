@@ -74,6 +74,7 @@ void IdanControl::GetThreadMethod() {
 			m_idanData_mutex.lock();
 			message->UpdateData(m_data);
 			m_idanData_mutex.unlock();
+			// make sure the getData will be in the suitable rate
 			Utilities::SleepForRestTime(startTime, message->GetSleepTimeBetweenEverySend());
 		}
 		startTime = boost::posix_time::microsec_clock::local_time();
@@ -89,8 +90,8 @@ void IdanControl::SendThreadMethod(IdanMessageSend* message) {
 		message->FillMessage(m_data);
 		m_idanData_mutex.unlock();
 		// send the message (with the communication ptr)
-		message->SendMessage(m_comm); // TODO nutex on m_comm ?!
-
+		message->SendMessage(m_comm); // TODO mutex on m_comm ?!
+		// make sure the message will be sent in the suitable rate
 		Utilities::SleepForRestTime(startTime, message->GetSleepTimeBetweenEverySend());
 		startTime = boost::posix_time::microsec_clock::local_time();
 	}

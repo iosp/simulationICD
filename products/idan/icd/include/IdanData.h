@@ -13,28 +13,28 @@
 class IdanData {
 private:
     struct HLC_Primary {
-        bool hasShutDownCmd;
-        bool hasEmergencyCmd;
+        bool hasShutDownCmd = true;
+        bool hasEmergencyCmd = true;
         int steerCmd = 0;
         int gasCmd = 0;
     } m_HLCPrimary;
 
     struct HLC_Secondary {
-        bool hasShutDownCmd;
-        bool roadLights;
-        bool highBeam;
-        bool lightsCutoff;
-        bool parkingLight;
-        bool keySwitch;
-        bool motorStarter;
-        bool horn;
-        bool leftTurnSignal;
-        bool rightTurnSignal;
-        bool hazards;
+        bool hasShutDownCmd = true;
+        bool roadLights = true;
+        bool highBeam = true;
+        bool lightsCutoff = true;
+        bool parkingLight = true;
+        bool keySwitch = true;
+        bool motorStarter = true;
+        bool horn = true;
+        bool leftTurnSignal = true;
+        bool rightTurnSignal = true;
+        bool hazards = true;
         std::string gear;
-        bool IsParkingBrakeReleased;
-        bool hasEmergencyCmd;
-        bool HasSacsOnCmd;
+        bool IsParkingBrakeReleased = true;
+        bool hasEmergencyCmd = true;
+        bool HasSacsOnCmd = true;
     } m_HLCSecondary;
 
     struct IDAN_Primary {
@@ -43,14 +43,14 @@ private:
     } m_IDANPrimary;
 
 	struct IDAN_SecondaryReport {
-        bool roadLights;
-        bool highBeam;
-        bool lightsCutoff;
-        bool keySwitch;
-        bool horn;
-        bool leftTurnSignal;
-        bool rightTurnSignal;
-        bool hazards;
+        bool roadLights = true;
+        bool highBeam = true;
+        bool lightsCutoff = true;
+        bool keySwitch = true;
+        bool horn = true;
+        bool leftTurnSignal = true;
+        bool rightTurnSignal = true;
+        bool hazards = true;
         std::string requestedGear;
         std::string actualGear;
         std::string parkingBrake;
