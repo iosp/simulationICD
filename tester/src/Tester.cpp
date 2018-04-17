@@ -23,7 +23,7 @@ void Tester::TestVLP() {
     RunVLP(vlp);
     double counter = 0;
 
-    for (auto i : boost::irange(0, 1000000)) {
+    for (auto i : boost::irange(0, 50)) {
         for (auto j : boost::irange(0, 16)) {
             SetChannel(vlp, j, 0);
         }
@@ -41,7 +41,7 @@ void Tester::TestVLP() {
 void Tester::TestDgps() {
     DgpsWrapper* dgps = CreateDgpsObject("/home/robil/simConfigs/dgps.conf");
     RunDgps(dgps);
-    for (auto i : boost::irange(0, 1000000)) {
+    for (auto i : boost::irange(0, 20)) {
         time_duration td =  microsec_clock::local_time() - from_time_t(0);
         SetPosition(dgps, 31.771959, 35.217018, 10);
         SetVelocities(dgps, 10, 10, 10);
@@ -50,17 +50,16 @@ void Tester::TestDgps() {
         usleep(100000);
     }
   
-    // DeleteDgpsObject(dgps);
-    // dgps = nullptr;
+    DeleteDgpsObject(dgps);
+    dgps = nullptr;
 }
 
 void Tester::TestIns() {
     boost::posix_time::ptime startTime = boost::posix_time::microsec_clock::local_time();
     InsWrapper* ins = CreateInsObject("/home/robil/simConfigs/ins.conf");
     RunIns(ins);
-    for (auto i : boost::irange(0, 1000000)) {
+    for (auto i : boost::irange(0, 30)) {
         boost::posix_time::ptime currTime = boost::posix_time::microsec_clock::local_time();
-        // int simTime = (currTime - startTime).total_seconds();
         int simTime = i;
         SetInsTimeStamps(ins, simTime, simTime);
         SetInsPose(ins, 35.217018, 0, 31.771959);
@@ -80,6 +79,7 @@ void Tester::TestIns() {
         usleep(100000);
     }
 
+    DeleteInsObject(ins);
 }
 
 void Tester::TestTCP() {
@@ -103,7 +103,7 @@ void Tester::TestIdan() {
     IdanWrapper* idan = CreateIdanObject("/home/robil/simConfigs/idan.conf");
     RunIdan(idan);
 
-    while (true) {
+    for (auto i : boost::irange(0, 30)) {
         GetIdanData(idan);
         auto steerPose = GetHLCPSteerCmd(idan);
         auto gasPose = GetHLCPGasCmd(idan);
@@ -111,10 +111,10 @@ void Tester::TestIdan() {
         SetIdanPrimSteerPos(idan, steerPose);
         SetIdanPrimGasPos(idan, gasPose);
         SendIdanData(idan);
-        usleep(2000);
+        usleep(100000);
     }
+
     DeleteIdanObject(idan);
-    // Check send by IdanControl
 }
 
 void Tester::TestConf() {
@@ -129,7 +129,7 @@ Tester::Tester() {
     // TestVLP();
     // TestDgps();
     // TestConf();
-    // TestIns();
+    TestIns();
     // TestCAN();
     TestIdan();
     //TestTCP();

@@ -29,7 +29,6 @@ VLPControl::VLPControl(const std::string& confFilePath) {
 }
 
 VLPControl::~VLPControl() {
-    m_sendDataThread.interrupt();
     delete m_comm;
     delete m_vlpConf;
 }
@@ -102,32 +101,39 @@ void VLPControl::SendData() const {
     time_duration lastDuration = microseconds(0);
     ptime startTime = microsec_clock::local_time();
     // thread works until interrupt
-    while (true) {
-        int dataIndex = 0;
-        // run over m_velodyneData
-        while (dataIndex < (DEGREES / m_vlpConf->GetHorizontalResolution())) {
-            // send packet when it contains the required number of blocks
-            if (packetIndex == NUM_OF_VLP_DATA_BLOCKS) {
-                SendPacket(packet);
-                // printPacketData(packet);
-                packet.InitVLPDataPacket();
-                packetIndex = 0;
-                // calculate sleep time: (<time to sleep> - <time of the iteration>)
-                Utilities::SleepForRestTime(startTime, m_sleepTimeBetweenEverySend);
-                startTime = microsec_clock::local_time();
+    try {
+        while (true) {
+            int dataIndex = 0;
+            // run over m_velodyneData
+            while (dataIndex < (DEGREES / m_vlpConf->GetHorizontalResolution())) {
+                // send packet when it contains the required number of blocks
+                if (packetIndex == NUM_OF_VLP_DATA_BLOCKS) {
+                    SendPacket(packet);
+                    // printPacketData(packet);
+                    packet.InitVLPDataPacket();
+                    packetIndex = 0;
+                    // calculate sleep time: (<time to sleep> - <time of the iteration>)
+                    Utilities::SleepForRestTime(startTime, m_sleepTimeBetweenEverySend);
+                    startTime = microsec_clock::local_time();
+                }
+                boost::this_thread::interruption_point();
+                // critical section - try to fill a block
+                m_velodyneDataMutex.lock();
+                // fill block only if the time stamps of the blocks are valid
+                if (CanAddToPacket(lastDuration, dataIndex)) {
+                    FillBlockInPacket(dataIndex, packetIndex, packet);
+                    // take the last duration from the last cell that was inserted
+                    lastDuration = m_velodyneData[dataIndex + DataIndexIncrement() - 1].GetSimTime();
+                    packetIndex++;
+                }
+                dataIndex += DataIndexIncrement();
+                m_velodyneDataMutex.unlock();
             }
-            // critical section - try to fill a block
-            m_velodyneDataMutex.lock();
-            // fill block only if the time stamps of the blocks are valid
-            if (CanAddToPacket(lastDuration, dataIndex)) {
-                FillBlockInPacket(dataIndex, packetIndex, packet);
-                // take the last duration from the last cell that was inserted
-                lastDuration = m_velodyneData[dataIndex + DataIndexIncrement() - 1].GetSimTime();
-                packetIndex++;
-            }
-            dataIndex += DataIndexIncrement();
-            m_velodyneDataMutex.unlock();
         }
+    }
+    catch (boost::thread_interrupted&) {
+        LOG << "thread VLP interruped!\n";
+        return;
     }
 }
 

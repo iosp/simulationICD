@@ -24,7 +24,7 @@ protected:
 
 public:
     VLP16Control(const std::string& confFilePath);
-    ~VLP16Control() = default;
+    ~VLP16Control();
 };
 
 

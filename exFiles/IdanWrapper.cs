@@ -167,8 +167,8 @@ public class IdanWrapper: IDisposable {
 
     protected virtual void Dispose(bool bDisposing) {
         if (this.m_nativeObject != IntPtr.Zero) {
-            //DeleteIdanObject(this.m_nativeObject);
-             //this.m_nativeObject = IntPtr.Zero;
+            DeleteIdanObject(this.m_nativeObject);
+            this.m_nativeObject = IntPtr.Zero;
         }
 
         if (bDisposing) {

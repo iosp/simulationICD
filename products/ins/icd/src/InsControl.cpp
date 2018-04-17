@@ -45,18 +45,25 @@ void InsControl::SendThreadMethod(const t_message& message) {
 		return;
 	}
 
-	while (true) {
-		m_insData_mutex.lock();
-		DBGLOG << "Going to send data: " << m_data.toString() << "\n";
-		// fill message data
-		insMessage->FillMessage(m_data);
-		m_insData_mutex.unlock();
-		// send the message (with the communication ptr)
-		insMessage->SendMessage(comm);
+	try {
+		while (true) {
+			m_insData_mutex.lock();
+			DBGLOG << "Going to send data: " << m_data.toString() << "\n";
+			// fill message data
+			insMessage->FillMessage(m_data);
+			m_insData_mutex.unlock();
+			// send the message (with the communication ptr)
+			insMessage->SendMessage(comm);
 
-		Utilities::SleepForRestTime(startTime, insMessage->GetSleepTimeBetweenEverySend());
-		startTime = boost::posix_time::microsec_clock::local_time();
+			Utilities::SleepForRestTime(startTime, insMessage->GetSleepTimeBetweenEverySend());
+			startTime = boost::posix_time::microsec_clock::local_time();
+			boost::this_thread::interruption_point();
+		}
 	}
+	catch (boost::thread_interrupted&) {
+        LOG << "thread INS interruped!\n";
+        return;
+    } 
 }
 
 void InsControl::SetData(const InsData& data) {

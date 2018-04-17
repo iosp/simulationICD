@@ -23,6 +23,13 @@ IdanControl::IdanControl(const std::string& confFilePath) {
 
 IdanControl::~IdanControl() {
 	m_getDataThread.interrupt();
+	m_getDataThread.join();
+	for (auto th : m_messagesThreads) {
+		th->interrupt();
+	}
+	for (auto th : m_messagesThreads) {
+		th->join();
+	}
 	delete m_comm;
 	delete m_idanConf;
 	for (auto message : m_getMessages) {
@@ -65,36 +72,50 @@ IdanData IdanControl::GetData() {
 void IdanControl::GetThreadMethod() {
 	boost::posix_time::ptime startTime = boost::posix_time::microsec_clock::local_time();
 	
-	while (true) {
-		char buffer[1000]{};
-		m_comm->GetData(buffer);
-		auto message = GetMsgByID(buffer);
-		if (message) {
-			message->ParseMessage(buffer);
-			m_idanData_mutex.lock();
-			message->UpdateData(m_data);
-			m_idanData_mutex.unlock();
-			// make sure the getData will be in the suitable rate
-			Utilities::SleepForRestTime(startTime, message->GetSleepTimeBetweenEverySend());
+	try {
+		while (true) {
+			char buffer[1000]{};
+			m_comm->GetData(buffer);
+			auto message = GetMsgByID(buffer);
+			if (message) {
+				message->ParseMessage(buffer);
+				m_idanData_mutex.lock();
+				message->UpdateData(m_data);
+				m_idanData_mutex.unlock();
+				// make sure the getData will be in the suitable rate
+				Utilities::SleepForRestTime(startTime, message->GetSleepTimeBetweenEverySend());
+			}
+			startTime = boost::posix_time::microsec_clock::local_time();
+			boost::this_thread::interruption_point();
 		}
-		startTime = boost::posix_time::microsec_clock::local_time();
 	}
+	catch (boost::thread_interrupted&) {
+        LOG << "thread Idan Get interruped!\n";
+        return;
+    } 
 }
 
 void IdanControl::SendThreadMethod(IdanMessageSend* message) {
 	boost::posix_time::ptime startTime = boost::posix_time::microsec_clock::local_time();
-	while (true) {
-		m_idanData_mutex.lock();
-		DBGLOG << "Going to send data: " << m_data.toString() << "\n";
-		// fill message data
-		message->FillMessage(m_data);
-		m_idanData_mutex.unlock();
-		// send the message (with the communication ptr)
-		message->SendMessage(m_comm); // TODO mutex on m_comm ?!
-		// make sure the message will be sent in the suitable rate
-		Utilities::SleepForRestTime(startTime, message->GetSleepTimeBetweenEverySend());
-		startTime = boost::posix_time::microsec_clock::local_time();
+	try {
+		while (true) {
+			m_idanData_mutex.lock();
+			DBGLOG << "Going to send data: " << m_data.toString() << "\n";
+			// fill message data
+			message->FillMessage(m_data);
+			m_idanData_mutex.unlock();
+			// send the message (with the communication ptr)
+			message->SendMessage(m_comm); // TODO mutex on m_comm ?!
+			// make sure the message will be sent in the suitable rate
+			Utilities::SleepForRestTime(startTime, message->GetSleepTimeBetweenEverySend());
+			startTime = boost::posix_time::microsec_clock::local_time();
+			boost::this_thread::interruption_point();
+		}
 	}
+	catch (boost::thread_interrupted&) {
+        LOG << "thread Idan Send interruped!\n";
+        return;
+    } 
 }
 
 IdanMessageGet* IdanControl::GetMsgByID(const char* buffer) {

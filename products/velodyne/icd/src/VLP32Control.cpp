@@ -7,9 +7,16 @@
 
 #include "VLP32Control.h"
 
+
 VLP32Control::VLP32Control(const std::string& confFilePath) : VLPControl(confFilePath) {
 
 }
+
+VLP32Control::~VLP32Control() {
+    m_sendDataThread.interrupt();
+    m_sendDataThread.join();
+}
+
 void VLP32Control::FillDataRecords(VLPDataPacket& packet, int dataIndex, int packetIndex) const {
     auto values = MapChannels(m_velodyneData[dataIndex].GetChannels());
 

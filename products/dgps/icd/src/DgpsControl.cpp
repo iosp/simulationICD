@@ -20,6 +20,7 @@ DgpsControl::DgpsControl(const std::string& confFilePath) {
 
 DgpsControl::~DgpsControl() {
 	m_sendDataThread.interrupt();
+	m_sendDataThread.join();
 	delete m_dgpsConf;
 	delete m_comm;
 	for (auto message : m_messages) {
@@ -52,25 +53,32 @@ void DgpsControl::SetData(const DgpsData& data) {
 void DgpsControl::SendThreadMethod() {
 	boost::posix_time::ptime startTime = boost::posix_time::microsec_clock::local_time();
 	
-	while (true) {
-		DgpsData data;
-		m_dgpsData_mutex.lock();
-		bool hasValue = m_dgpsDataCollection.pop(data);
-		m_dgpsData_mutex.unlock();
-		int timeToSleep = 0;
-		
-		if (hasValue) {
-			DBGLOG << "Going to send data: " << data.toString() << "\n";
-			for (auto message : m_messages) {
-				message->FillMessage(data);
-				SendMessage(message);
-				timeToSleep = message->GetSleepTimeBetweenEverySend();
+	try {
+		while (true) {
+			DgpsData data;
+			m_dgpsData_mutex.lock();
+			bool hasValue = m_dgpsDataCollection.pop(data);
+			m_dgpsData_mutex.unlock();
+			int timeToSleep = 0;
+			
+			if (hasValue) {
+				DBGLOG << "Going to send data: " << data.toString() << "\n";
+				for (auto message : m_messages) {
+					message->FillMessage(data);
+					SendMessage(message);
+					timeToSleep = message->GetSleepTimeBetweenEverySend();
+				}
 			}
-		}
 
-		Utilities::SleepForRestTime(startTime, timeToSleep);
-		startTime = boost::posix_time::microsec_clock::local_time();
+			Utilities::SleepForRestTime(startTime, timeToSleep);
+			boost::this_thread::interruption_point();
+			startTime = boost::posix_time::microsec_clock::local_time();
+		}
 	}
+	catch (boost::thread_interrupted&) {
+        LOG << "thread DGPS interruped!\n";
+        return;
+    }
 }
 
 void DgpsControl::SendMessage(IMessage<DgpsData>* message) const {

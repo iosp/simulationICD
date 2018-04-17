@@ -38,8 +38,8 @@ public class DgpsWrapper : IDisposable {
 
     protected virtual void Dispose(bool bDisposing) {
         if (this.m_nativeObject != IntPtr.Zero) {
-            //DeleteDgpsObject(this.m_nativeObject);
-             //this.m_nativeObject = IntPtr.Zero;
+            DeleteDgpsObject(this.m_nativeObject);
+            this.m_nativeObject = IntPtr.Zero;
         }
 
         if (bDisposing) {

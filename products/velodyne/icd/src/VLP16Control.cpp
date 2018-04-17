@@ -10,6 +10,11 @@
 VLP16Control::VLP16Control(const std::string& confFilePath) : VLPControl(confFilePath) {
 }
 
+VLP16Control::~VLP16Control() {
+    m_sendDataThread.interrupt();
+    m_sendDataThread.join();
+}
+
 void VLP16Control::FillDataRecords(VLPDataPacket& packet, int dataIndex, int packetIndex) const {
     auto values = MapChannels(m_velodyneData[dataIndex].GetChannels());
 
