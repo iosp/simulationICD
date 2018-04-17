@@ -10,8 +10,9 @@ EX_LIBS = -lboost_system -lboost_thread
 
 STAT_DIR = $(COMP_DIR)/statlibs
 
-STAT_LIBS_BASE_NAMES = velicd \
+STAT_LIBS_BASE_NAMES = 		velicd \
 							vlpwrapper \
+							communications \
 							utils
 
 STAT_LIBS = $(addprefix -l, $(STAT_LIBS_BASE_NAMES))
@@ -19,7 +20,9 @@ STAT_LIBS = $(addprefix -l, $(STAT_LIBS_BASE_NAMES))
 _STAT_LIB_DEPS = $(addprefix $(STAT_DIR)/lib, $(STAT_LIBS_BASE_NAMES))
 STAT_LIB_DEPS = $(addsuffix .a, $(_STAT_LIB_DEPS))
 
-SUBDIRS = ../utilities ../products/velodyne
+SUBDIRS = 	../utilities \
+		 	../communications \
+			../products/velodyne
 
 all: createdirs compdirs $(TARGET)
 

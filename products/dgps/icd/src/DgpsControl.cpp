@@ -38,9 +38,9 @@ void DgpsControl::Run() {
 	m_sendDataThread = boost::thread(&DgpsControl::SendThreadMethod, this);
 }
 
-DgpsData* DgpsControl::GetData() {
+DgpsData DgpsControl::GetData() {
 	ERRLOG << "This function is not implemented!\n";
-    return nullptr;
+    return DgpsData();
 }
 
 void DgpsControl::SetData(const DgpsData& data) {

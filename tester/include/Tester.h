@@ -14,6 +14,8 @@ class Tester {
     void TestIns();
     void TestConf();
     void TestTCP();
+    void TestCAN();
+    void TestIdan();
 public:
     Tester();
     ~Tester() = default;

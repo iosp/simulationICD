@@ -24,7 +24,7 @@ public:
     /**
      * Get Data from ICD commonication object
      */ 
-    virtual TData* GetData() = 0;
+    virtual TData GetData() = 0;
 
     /**
      * Run ICD comminication, this is the operation point of the ICD

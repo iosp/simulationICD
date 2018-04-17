@@ -64,6 +64,8 @@ private:
     std::vector<VLPBlock> m_data;
 
 public:
+    VelodyneData() = default;
+
     VelodyneData(const std::vector<VLPBlock>& data);
     
     ~VelodyneData() = default;

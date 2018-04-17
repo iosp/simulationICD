@@ -4,7 +4,7 @@ CFLAGS = -std=c++0x -fPIC -O -g
 
 COMP_DIR = ../comp
 
-TARGET = $(COMP_DIR)/icd
+TARGET = $(COMP_DIR)/simicd
 
 EX_LIBS = -lboost_system -lboost_thread
 
@@ -19,7 +19,10 @@ STAT_LIBS_BASE_NAMES = velicd \
 						dgpswrapper \
 						insicd \
 						inswrapper \
+						idanicd \
+						idanwrapper \
 						utils \
+						communications \
 						tester
 
 STAT_LIBS = $(addprefix -l, $(STAT_LIBS_BASE_NAMES))
@@ -28,6 +31,7 @@ _STAT_LIB_DEPS = $(addprefix $(STAT_DIR)/lib, $(STAT_LIBS_BASE_NAMES))
 STAT_LIB_DEPS = $(addsuffix .a, $(_STAT_LIB_DEPS))
 
 SUBDIRS = ../utilities \
+			 ../communications \
 			../products \
 			../tester
 
