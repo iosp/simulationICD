@@ -31,11 +31,11 @@ bool HasHLCPEmergencyCmd(IdanWrapper* obj){
     return obj->HasHLCPEmergencyCmd();
 }
 
-int GetHLCPSteerCmd(IdanWrapper* obj){
+float GetHLCPSteerCmd(IdanWrapper* obj){
     return obj->GetHLCPSteerCmd();
 }
 
-int GetHLCPGasCmd(IdanWrapper* obj){
+float GetHLCPGasCmd(IdanWrapper* obj){
     return obj->GetHLCPGasCmd();
 }
 

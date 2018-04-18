@@ -15,8 +15,8 @@ private:
     struct HLC_Primary {
         bool hasShutDownCmd = true;
         bool hasEmergencyCmd = true;
-        int steerCmd = 0;
-        int gasCmd = 0;
+        float steerCmd = 0;
+        float gasCmd = 0;
     } m_HLCPrimary;
 
     struct HLC_Secondary {
@@ -93,19 +93,19 @@ public:
         m_HLCPrimary.hasEmergencyCmd = hasEmergencyCmd;
     }
 
-    int GetHLCPSteerCmd() const {
+    float GetHLCPSteerCmd() const {
         return m_HLCPrimary.steerCmd;
     }
 
-    void SetHLCPSteerCmd(int steerCmd) {
+    void SetHLCPSteerCmd(float steerCmd) {
         m_HLCPrimary.steerCmd = steerCmd;
     }
 
-    int GetHLCPGasCmd() const {
+    float GetHLCPGasCmd() const {
         return m_HLCPrimary.gasCmd;
     }
 
-    void SetHLCPGasCmd(int gasCmd) {
+    void SetHLCPGasCmd(float gasCmd) {
         m_HLCPrimary.gasCmd = gasCmd;
     }
 

@@ -28,10 +28,10 @@ public class IdanWrapper: IDisposable {
 	private static extern bool HasHLCPEmergencyCmd(IntPtr pObj);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern int GetHLCPSteerCmd(IntPtr pObj);
+	private static extern float GetHLCPSteerCmd(IntPtr pObj);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern int GetHLCPGasCmd(IntPtr pObj);
+	private static extern float GetHLCPGasCmd(IntPtr pObj);
 
 /********************************* HLC Secondary ***********************************************************/
 	[DllImport (DLL_LOCATION)]
@@ -197,11 +197,11 @@ public class IdanWrapper: IDisposable {
 		return HasHLCPEmergencyCmd(this.m_nativeObject);
 	}
 
-	public int GetHLCPSteerCmd() {
+	public float GetHLCPSteerCmd() {
 		return GetHLCPSteerCmd(this.m_nativeObject);
 	}
 
-	public int GetHLCPGasCmd() {
+	public float GetHLCPGasCmd() {
 		return GetHLCPGasCmd(this.m_nativeObject);
 	}
 

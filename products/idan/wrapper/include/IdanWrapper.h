@@ -38,9 +38,9 @@ public:
 
     bool HasHLCPEmergencyCmd() const;
 
-    int GetHLCPSteerCmd() const;
+    float GetHLCPSteerCmd() const;
 
-    int GetHLCPGasCmd() const;
+    float GetHLCPGasCmd() const;
 
     /********************************* HLC Secondary *************************************************/
     bool HasHLCSShutDownCmd() const;

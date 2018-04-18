@@ -27,9 +27,9 @@ extern "C" {
 
     bool HasHLCPEmergencyCmd(IdanWrapper* pObj);
 
-    int GetHLCPSteerCmd(IdanWrapper* pObj);
+    float GetHLCPSteerCmd(IdanWrapper* pObj);
 
-    int GetHLCPGasCmd(IdanWrapper* pObj);
+    float GetHLCPGasCmd(IdanWrapper* pObj);
 
     /********************************* HLC Secondary *************************************************/
     bool HasHLCSShutDownCmd(IdanWrapper* pObj);

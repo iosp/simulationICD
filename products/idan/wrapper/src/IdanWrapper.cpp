@@ -42,11 +42,11 @@ bool IdanWrapper::HasHLCPEmergencyCmd() const {
     return m_data.HasHLCPEmergencyCmd();
 }
 
-int IdanWrapper::GetHLCPSteerCmd() const {
+float IdanWrapper::GetHLCPSteerCmd() const {
     return m_data.GetHLCPSteerCmd();
 }
 
-int IdanWrapper::GetHLCPGasCmd() const {
+float IdanWrapper::GetHLCPGasCmd() const {
     return m_data.GetHLCPGasCmd();
 }
 
