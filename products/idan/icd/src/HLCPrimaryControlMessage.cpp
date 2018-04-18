@@ -28,8 +28,8 @@ void HLCPrimaryControlMessage::UpdateData(IdanData& data) const {
     // combine msb and lsb to one integer
     int steerCombined = (m_message.SteerCmdMsb << 8 ) | (m_message.SteerCmdLsb & 0xff);
     int gasCombined = (m_message.GasCmdMsb << 8 ) | (m_message.GasCmdLsb & 0xff);
-    float fixedSteer = float(steerCombined - 2000) / 2000;
-    float fixedGas = float(gasCombined - 2000) / 2000;
+    float fixedSteer = float(steerCombined - 2000) / 2000; // make the value to be [-1,1]
+    float fixedGas = float(gasCombined - 2000) / 2000; // make the value to be [-1,1]
     data.SetHLCPSteerCmd(fixedSteer);
     data.SetHLCPGasCmd(fixedGas);
 }
