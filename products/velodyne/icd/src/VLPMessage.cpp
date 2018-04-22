@@ -40,7 +40,6 @@ int VLPMessage::GetMessageSize() const {
 int VLPMessage::SendMessage(ICommunication* comm) const {
 	char buf[sizeof(VLPDataPacket)]{};
     memcpy(buf, &m_packet, sizeof(m_packet));
-    //printPacketData();
     return comm->SendData(buf, sizeof(buf));
 }
 
