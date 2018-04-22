@@ -18,7 +18,7 @@ public class VelodyneWrapper : IDisposable {
 	private static extern void SetAzimuth(IntPtr pVlp, double azimuth);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern void SetVLPTimeStamp(IntPtr pVlp, int timeStamp);
+	private static extern void SetVLPTimeStamp(IntPtr pVlp, float timeStamp);
 
 	[DllImport (DLL_LOCATION)]
 	private static extern void SetChannel(IntPtr pVlp, double distance, short reflectivity);
@@ -55,7 +55,7 @@ public class VelodyneWrapper : IDisposable {
 		SetAzimuth(this.m_nativeObject, azimuth);
 	}
 
-	public void SetTimeStamp(int timeStamp) {
+	public void SetTimeStamp(float timeStamp) {
 		SetVLPTimeStamp(this.m_nativeObject, timeStamp);
 	}
 

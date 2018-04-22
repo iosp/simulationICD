@@ -16,55 +16,26 @@
 #include "IICD.h"
 #include "VelodyneData.h"
 
-static const int DEGREES = 360;
-static const int SECOND_TO_MICROSECOND  = 1e6;
-static const int NUM_OF_VLP_DATA_CHANNELS_IN_BLOCK = 32;
-static const int NUM_OF_VLP_DATA_BLOCKS = 12;
-
 class ICommunication; // forward declaration
 class VLPConfig; // forward declaration
+class VLPMessage;
 
 class VLPControl : public IICD<VelodyneData> {
 protected:
     /**
-     * VLP packet that defined by Velodyne
-     */
-    class VLPDataPacket {
-    public:
-        struct VLPDataBlock {
-            struct DataChannel {
-                unsigned char distance[2]{};
-                unsigned char reflectivity{};
-            };
-    
-            short flag = 0xEEFF; // same for every block
-            unsigned char azimuth[2]{};
-            DataChannel dataRecords[NUM_OF_VLP_DATA_CHANNELS_IN_BLOCK];
-        };
-        
-        VLPDataBlock dataBlocks[NUM_OF_VLP_DATA_BLOCKS];
-        unsigned char timeStamp[4]{}; // time stamp is how much seconds passed after the last round hour
-        unsigned char factory[2]{};
-        VLPDataPacket() = default;
-        void InitVLPDataPacket();
-    };
-
-    /**
      * connection protocol to use 
     */
-    ICommunication* m_comm;
+    ICommunication* m_comm = nullptr;
     /**
      * VLP configuration values
      */ 
-    VLPConfig* m_vlpConf;
+    VLPConfig* m_vlpConf = nullptr;
+
+    VLPMessage* m_message = nullptr;
     /**
      * velodyne data to save on process  
     */
-    std::vector<VelodyneData::VLPBlock> m_velodyneData;
-    /**
-     * time to sleep between every packet send
-    */
-    int m_sleepTimeBetweenEverySend;
+    std::vector<VelodyneData> m_velodyneData;
     /**
      * thread of data send
      */ 
@@ -77,73 +48,12 @@ protected:
     /**
      * Send data via UDP socket
      */
-    void SendData() const;
-
-    /**
-     * Send packet via UDP socket
-     * @param packet - struct of VLP packet 
-     */
-    void SendPacket(const VLPDataPacket& packet) const;
+    void SendThreadMethod();
 
     /**
      * Initialize inner velodyne data 
      */
     void InitVelodyneData();
-
-    /**
-     * Fill one block in packet
-     * @param packet - struct of VLP packet
-     * @param dataIndex - the index on velodyne data vector to get the time from
-     * @param packetIndex - the index on VLP packet struct to put the data on
-     */ 
-    void FillBlockInPacket(int dataIndex, int packetIndex, VLPDataPacket& packet) const;
-
-    /**
-     * Fill time stamp on VLP packet, on dataIndex in velodyne vector
-     * @param packet - struct of VLP packet
-     * @param dataIndex - the index on velodyne data vector to get the time from
-     */ 
-    void FillTimeStamp(VLPDataPacket& packet, int dataIndex) const;
-
-    /**
-     * Fill factory field on VLP packet
-     * @param packet - struct of VLP packet
-     */
-    void FillFactory(VLPDataPacket& packet) const;
-
-    /**
-     * Fill azimuth on VLP packet (on suitable block - according to packetIndex)
-     * @param packet - struct of VLP packet
-     * @param dataIndex - the index on velodyne data vector to get the azimuth from
-     * @param packetIndex - the index on VLP packet struct to put the data on
-     */
-    void FillAzimuth(VLPDataPacket& packet, int dataIndex, int packetIndex) const;
-
-    /**
-     * Transform vector of channels to adapt Velodyne format.
-     * The method converts vector indexes ( the example is for VLP16 but works also for VLP32)
-     * Orig: 0  1  2  3  4  5  6  7  8  9  10  11  12  13  14  15
-     * New:  0  8  1  9  2  10 3 11  4  12 5   13  6   14  7   15
-     * @param channels - vector of channel pairs (distance and reflectivity)
-     * @return dataIndex - new formatted vector
-     */
-    VelodyneData::VLPBlock::t_channel_data MapChannels(const VelodyneData::VLPBlock::t_channel_data& channels) const;
-
-    /**
-     * Fill channles in specific packet in packet index
-     * @param packet - struct of VLP packet
-     * @param channels - the data of the channels
-     * @param packetIndex - the index on VLP packet struct to put the data on
-     */
-    void FillChannelsInPacket(VLPDataPacket& packet, const VelodyneData::VLPBlock::t_channel_data& channels, int packetIndex) const;
-
-    /**
-     * Fill data records on VLP packet (on suitable block - according to packetIndex)
-     * @param packet - struct of VLP packet
-     * @param dataIndex - the index on velodyne data vector to get the data from
-     * @param packetIndex - the index on VLP packet struct to put the data on
-     */
-    virtual void FillDataRecords(VLPDataPacket& packet, int dataIndex, int packetIndex) const = 0;
     
     /**
      * Check validation of VLP data
@@ -151,13 +61,7 @@ protected:
      * @param numOfRowsInColumn - number of rows expected in every column
      * @return true if data is valid and false otherwise
     */
-    virtual bool CheckDataValidation(const VelodyneData::VLPBlock& data) const;
-
-    /**
-     * Get how many rows in column on the data table
-     * @return integer of the number
-    */
-    virtual int GetNumOfrowsInColumn() const = 0;
+    bool CheckDataValidation(const VelodyneData& data) const;
 
     /**
      * Check if the last duration enables us to add the next element to the packet
@@ -165,57 +69,30 @@ protected:
      * @param dataIndex - the index on velodyne data vector to get the data from
      * @return true if the next element can be added and false O.W
     */
-    virtual bool CanAddToPacket(const boost::posix_time::time_duration& lastDuration, int dataIndex) const = 0;
+    bool CanAddToPacket(float lastDuration, int dataIndex) const;
 
     /**
      * Check if the velodyne data in specific index is all zero values
      * @param dataIndex - the index on velodyne data vector to get the data from
      * @return true if the data is zeroed and false O.W
     */
-    virtual bool IsDataZeroed(int dataIndex) const;
+    bool IsDataZeroed(int dataIndex) const;
 
     /**
-     * get a number to add in every data iteration
-     * @return integer of the number
+     * Fill Message on packet message
+     * @param dataIndex - the index on velodyne data vector to get the data from
     */
-    virtual int DataIndexIncrement() const = 0;
-
-    /**
-     * convert number to unsigned char array with HEX values of this number. the array bytes are reversed.
-     * This function works only for unsigned types!
-     * @param num - unsinged long / int / short number
-     * @param ret - return buffer
-     * @size - size of ret array
-     * @return bool - true for success, false for wrong input (ret == nullptr)
-     */ 
-    template <typename T>
-    bool ToByteArray(T num, unsigned char* ret, size_t size) const;
-
-    /**
-     * convert block of unsigned char array with HEX values to number. the array bytes are reversed.
-     * This function works only for unsigned types!
-     * @param arr - the array with HEX values
-     * @size - size of array
-     * @func - lambda function to operate on the number
-     * @return double - the original number after func operated on it
-     */ 
-    template <typename Func>
-    double FormatBlock(const unsigned char* arr, size_t size, Func func) const;
+    void FillMessage(int dataIndex);
 
     /**
      * Print vector of veclodyne data. for debug only
      */ 
     void printVelData() const;
 
-    /**
-     * Print the packet data (formatted). for debug only
-     * @param packet - VLP data packet
-     */ 
-    void printPacketData(const VLPDataPacket& packet) const;
-
 public:
 
     VLPControl(const std::string& confFilePath);
+
     virtual ~VLPControl();
 
     /**
@@ -233,9 +110,6 @@ public:
      * Run VLP send data thread
      */ 
     virtual void Run() override;
-
-    static void printVelData(const std::vector<VelodyneData::VLPBlock>& velData);
-
 };
 
 

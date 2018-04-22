@@ -21,7 +21,9 @@ protected:
 	char m_buffer[BUFFER_SIZE]{0};
 
 public:
-	IMessage() = default;
+	IMessage(int hertz) {
+		m_sleepTimeBetweenEverySend = (hertz != 0 ) ? (1e6 / hertz) : 0; 
+	}
 
 	virtual ~IMessage() = default;
 

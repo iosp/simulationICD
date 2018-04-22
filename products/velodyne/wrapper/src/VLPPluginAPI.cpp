@@ -18,7 +18,7 @@ void RunVLP(VLPWrapper* pVlp) { pVlp->Run();}
 
 void SetAzimuth(VLPWrapper* pVlp, double azimuth){ pVlp->SetAzimuth(azimuth); }
 
-void SetVLPTimeStamp(VLPWrapper* pVlp, int timeStamp) { pVlp->SetTimeStamp(timeStamp); }
+void SetVLPTimeStamp(VLPWrapper* pVlp, float timeStamp) { pVlp->SetTimeStamp(timeStamp); }
 
 void SetChannel(VLPWrapper* pVlp, double distance, short reflectivity) { pVlp->SetChannel(distance, reflectivity); }
 

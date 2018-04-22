@@ -9,12 +9,7 @@
 #include "ICommunication.h"
 #include "LoggerProxy.h"
 
-InsMessage::InsMessage(int hertz) {
-	if (hertz == 0) {
-		ERRLOG << "Invalid hertz argument for INS message\n";
-		return;
-	}
-	m_sleepTimeBetweenEverySend = 1e6 / hertz;
+InsMessage::InsMessage(int hertz) : IMessage(hertz) {
 }
 
 void InsMessage::GetDataValidityBitfield(char* buffer, size_t bufferSize) const {

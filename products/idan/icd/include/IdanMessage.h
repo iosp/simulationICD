@@ -25,7 +25,7 @@ protected:
 		return val;
 	}
 public:
-	IdanMessage() = default;
+	IdanMessage(int hertz);
 
 	virtual ~IdanMessage() = default;
 

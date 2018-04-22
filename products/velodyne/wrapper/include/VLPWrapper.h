@@ -23,11 +23,11 @@ private:
     /**
      * temporary data to aggregate
      */ 
-    VelodyneData::VLPBlock m_data;
+    VelodyneData m_data;
     /**
      * temporary channels to aggregate
      */ 
-    VelodyneData::VLPBlock::t_channel_data m_currChannels;
+    VelodyneData::t_channel_data m_currChannels;
 
     /**
      * Clear current data of the object
@@ -57,7 +57,7 @@ public:
     /**
      * Set time stamp to the temporary data
      */ 
-    void SetTimeStamp(int timeStamp);
+    void SetTimeStamp(float timeStamp);
 
     /**
      * Set channel to temporary channels

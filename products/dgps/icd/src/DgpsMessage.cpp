@@ -6,16 +6,11 @@
 */
 
 #include "DgpsMessage.h"
-#include "DgpsStructs.h"
 #include "ICommunication.h"
 #include "LoggerProxy.h"
 
-DgpsMessage::DgpsMessage(int hertz) {
-	if (hertz == 0) {
-		ERRLOG << "Invalid hertz argument for DGPS message\n";
-		return;
-	}
-	m_sleepTimeBetweenEverySend = 1e6 / hertz;
+DgpsMessage::DgpsMessage(int hertz) : IMessage(hertz) {
+
 }
 
 void DgpsMessage::FillHeader(/* out */ DGPS_HEADER& header) const {

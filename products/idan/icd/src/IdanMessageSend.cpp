@@ -9,12 +9,7 @@
 #include "LoggerProxy.h"
 #include "ICommunication.h"
 
-IdanMessageSend::IdanMessageSend(int hertz) {
-	if (hertz == 0) {
-		ERRLOG << "Invalid hertz argument for IDAN message\n";
-		return;
-	}
-	m_sleepTimeBetweenEverySend = 1e6 / hertz;
+IdanMessageSend::IdanMessageSend(int hertz) : IdanMessage(hertz) {
 }
 
 int IdanMessageSend::SendMessage(ICommunication* comm) const {

@@ -27,11 +27,12 @@ void Tester::TestVLP() {
         for (auto j : boost::irange(0, 16)) {
             SetChannel(vlp, j, 0);
         }
-        SetAzimuth(vlp, counter += 0.2);
-        time_duration td =  microsec_clock::local_time() - from_time_t(0);
-        SetVLPTimeStamp(vlp, td.total_microseconds());
+        
+        SetAzimuth(vlp, counter);
+        SetVLPTimeStamp(vlp, i);
         SendVLPData(vlp);
-        usleep(100000);
+        usleep(1000);
+        counter += 0.2;
         counter = (counter >= 360) ? 0 : counter;
     }
 

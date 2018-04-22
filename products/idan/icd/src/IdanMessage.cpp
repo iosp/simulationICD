@@ -7,3 +7,6 @@
 
 #include "IdanMessage.h"
 #include "LoggerProxy.h"
+
+IdanMessage::IdanMessage(int hertz): IMessage(hertz) {
+} 

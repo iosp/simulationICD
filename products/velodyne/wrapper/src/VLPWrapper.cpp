@@ -7,10 +7,10 @@
 */
 
 #include "VLPWrapper.h"
-#include "VLP16Control.h"
+#include "VLPControl.h"
 
 VLPWrapper::VLPWrapper(const std::string& confFilePath) {
-    m_icd = new VLP16Control(confFilePath);
+    m_icd = new VLPControl(confFilePath);
 }
 
 VLPWrapper::~VLPWrapper(){
@@ -22,11 +22,8 @@ void VLPWrapper::Run() {
 }
 
 void VLPWrapper::SetData() {
-    // assign the data, create vector in size 1 to adapt the API and clear the current data
     m_data.SetChannels(m_currChannels);
-    std::vector<VelodyneData::VLPBlock> vData(1, m_data);
-    VelodyneData data(vData);
-    m_icd->SetData(data);
+    m_icd->SetData(m_data);
     ClearCurrentData();
 }
 
@@ -34,8 +31,8 @@ void VLPWrapper::SetAzimuth(double azimuth){
      m_data.SetAzimuth(azimuth);
 }
 
-void VLPWrapper::SetTimeStamp(int timeStamp) {
-     m_data.SetSimTime(boost::posix_time::microseconds(timeStamp));
+void VLPWrapper::SetTimeStamp(float timeStamp) {
+     m_data.SetSimTime(timeStamp);
 }
 
 void VLPWrapper::SetChannel(double distance, short reflectivity) {
@@ -44,7 +41,7 @@ void VLPWrapper::SetChannel(double distance, short reflectivity) {
 
 void VLPWrapper::ClearCurrentData() {
     m_currChannels.clear();
-    m_data.SetChannels(VelodyneData::VLPBlock::t_channel_data());
+    m_data.SetChannels(VelodyneData::t_channel_data());
     m_data.SetAzimuth(0);
-    m_data.SetSimTime(boost::posix_time::microseconds(0));
+    m_data.SetSimTime(0);
 }
