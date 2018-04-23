@@ -46,7 +46,6 @@ public:
     virtual ~IdanControl();
 
     /**
-     * This function is implemented with error log
      * @param data - IdanData object
      */ 
     virtual void SetData(const IdanData& data) override;
