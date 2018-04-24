@@ -46,6 +46,6 @@ int DgpsConfig::GetBaudRate() const {
     return m_dgpsConf->GetValue<int>(BAUD_RATE_KEY);
 }
 
-int DgpsConfig::GetHertz() const {
-    return m_dgpsConf->GetValue<int>(HERTZ_KEY);
+float DgpsConfig::GetHertz() const {
+    return m_dgpsConf->GetValue<float>(HERTZ_KEY);
 }

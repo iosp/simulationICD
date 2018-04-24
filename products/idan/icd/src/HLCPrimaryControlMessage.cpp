@@ -9,7 +9,7 @@
 #include "IdanData.h"
 #include "LoggerProxy.h"
 
-HLCPrimaryControlMessage::HLCPrimaryControlMessage(int hertz) : IdanMessageGet(hertz) {
+HLCPrimaryControlMessage::HLCPrimaryControlMessage(float hertz) : IdanMessageGet(hertz) {
 }
 
 void HLCPrimaryControlMessage::ParseMessage(const char* buffer) {

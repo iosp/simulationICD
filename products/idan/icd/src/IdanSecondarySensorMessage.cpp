@@ -9,7 +9,7 @@
 #include "IdanData.h"
 #include "LoggerProxy.h"
 
-IdanSecondarySensorMessage::IdanSecondarySensorMessage(int hertz) : IdanMessageSend(hertz) {
+IdanSecondarySensorMessage::IdanSecondarySensorMessage(float hertz) : IdanMessageSend(hertz) {
 
 }
 

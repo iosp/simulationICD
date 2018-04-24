@@ -9,7 +9,7 @@
 #include "InsData.h"
 #include <cstring>  // memset, memcpy
 
-NavigationDataMessage::NavigationDataMessage(int hertz) : InsMessage(hertz) {
+NavigationDataMessage::NavigationDataMessage(float hertz) : InsMessage(hertz) {
 
 }
 

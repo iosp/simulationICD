@@ -20,7 +20,7 @@ protected:
 	
 public:
 
-	StatusMessage(int hertz);
+	StatusMessage(float hertz);
 
 	virtual ~StatusMessage();
 

@@ -11,7 +11,7 @@
 #include "LoggerProxy.h"
 #include <cstring> // memset, memcpy
 
-BestPosMessage::BestPosMessage(int hertz) : DgpsMessage(hertz) {
+BestPosMessage::BestPosMessage(float hertz) : DgpsMessage(hertz) {
 	
 }
 

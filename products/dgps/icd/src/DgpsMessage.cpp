@@ -9,7 +9,7 @@
 #include "ICommunication.h"
 #include "LoggerProxy.h"
 
-DgpsMessage::DgpsMessage(int hertz) : IMessage(hertz) {
+DgpsMessage::DgpsMessage(float hertz) : IMessage(hertz) {
 
 }
 

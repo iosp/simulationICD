@@ -9,7 +9,7 @@
 #include "InsData.h"
 #include <cstring>  // memset, memcpy
 
-EchoMessage::EchoMessage(int hertz) : InsMessage(hertz) {
+EchoMessage::EchoMessage(float hertz) : InsMessage(hertz) {
 
 }
 

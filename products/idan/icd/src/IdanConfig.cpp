@@ -58,20 +58,20 @@ int IdanConfig::GetBaudRate() const {
     return m_idanConf->GetValue<int>(CAN_BAUD_RATE_KEY);
 }
 
-int IdanConfig::GetHLCHertz() const {
-    return m_idanConf->GetValue<int>(HLC_HERTZ_KEY);
+float IdanConfig::GetHLCHertz() const {
+    return m_idanConf->GetValue<float>(HLC_HERTZ_KEY);
 }
 
-int IdanConfig::GetIdanPrimHertz() const {
-    return m_idanConf->GetValue<int>(IDAN_PRIM_HERTZ_KEY);
+float IdanConfig::GetIdanPrimHertz() const {
+    return m_idanConf->GetValue<float>(IDAN_PRIM_HERTZ_KEY);
 }
 
-int IdanConfig::GetIdanSecRepHertz() const {
-    return m_idanConf->GetValue<int>(IDAN_SEC_REP_HERTZ_KEY);
+float IdanConfig::GetIdanSecRepHertz() const {
+    return m_idanConf->GetValue<float>(IDAN_SEC_REP_HERTZ_KEY);
 }
 
-int IdanConfig::GetIdanSecSenHertz() const {
-    return m_idanConf->GetValue<int>(IDAN_SEC_SEN_HERTZ_KEY);
+float IdanConfig::GetIdanSecSenHertz() const {
+    return m_idanConf->GetValue<float>(IDAN_SEC_SEN_HERTZ_KEY);
 }
 
 bool IdanConfig::IsVirtualInterface() const {

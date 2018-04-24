@@ -15,7 +15,7 @@ const std::map<std::string, unsigned char> StrToGear =
 const std::map<std::string, unsigned char> StrToPark = 
             boost::assign::map_list_of("R", 0x01)("E",0x02)("P", 0x0D);
 
-IdanSecondaryReportMessage::IdanSecondaryReportMessage(int hertz) : IdanMessageSend(hertz) {
+IdanSecondaryReportMessage::IdanSecondaryReportMessage(float hertz) : IdanMessageSend(hertz) {
 
 }
 

@@ -9,7 +9,7 @@
 #include "InsData.h"
 #include <cstring>  // memset, memcpy
 
-ErrorsEstimationMessage::ErrorsEstimationMessage(int hertz) : InsMessage(hertz) {
+ErrorsEstimationMessage::ErrorsEstimationMessage(float hertz) : InsMessage(hertz) {
 
 }
 

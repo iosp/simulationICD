@@ -86,7 +86,7 @@ void VLPControl::Run() {
 		return;
 	}
     // transmittion frequency is the degrees*10 / <degrees range of packet>
-    int hertz = (m_vlpConf->GetSensorFrequency() * DEGREES) /
+    float hertz = (m_vlpConf->GetSensorFrequency() * DEGREES) /
                                     (m_vlpConf->GetHorizontalResolution() * 2*NUM_OF_VLP_DATA_BLOCKS);
     m_message = new VLPMessage(hertz, (int)m_vlpConf->GetReturnMode(), (int)m_vlpConf->GetDataSource());
     m_sendDataThread = boost::thread(&VLPControl::SendThreadMethod, this);

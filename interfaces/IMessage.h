@@ -21,7 +21,7 @@ protected:
 	char m_buffer[BUFFER_SIZE]{0};
 
 public:
-	IMessage(int hertz) {
+	IMessage(float hertz) {
 		m_sleepTimeBetweenEverySend = (hertz != 0 ) ? (1e6 / hertz) : 0; 
 	}
 

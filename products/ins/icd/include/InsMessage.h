@@ -31,7 +31,7 @@ protected:
 	void GetSystemAlertBitfield(char* buffer, size_t bufferSize) const;
 
 public:
-	InsMessage(int hertz);
+	InsMessage(float hertz);
 
 	virtual ~InsMessage() = default;
 

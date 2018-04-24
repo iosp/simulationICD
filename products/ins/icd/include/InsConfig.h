@@ -54,19 +54,19 @@ public:
 
     std::string GetStatusMsgIpAddress() const;
     std::string GetStatusMsgPort() const;
-    int GetStatusMsgHz() const;
+    float GetStatusMsgHz() const;
 
     std::string GetNavigationDataMsgIpAddress() const;
     std::string GetNavigationDataMsgPort() const;
-    int GetNavigationDataMsgHz() const;
+    float GetNavigationDataMsgHz() const;
 
     std::string GetInternalGPSMsgIpAddress() const;
     std::string GetInternalGPSMsgPort() const;
-    int GetInternalGPSMsgHz() const;
+    float GetInternalGPSMsgHz() const;
 
     std::string GetErrorsEstimationMsgIpAddress() const;
     std::string GetErrorsEstimationMsgPort() const;
-    int GetErrorsEstimationMsgHz() const;
+    float GetErrorsEstimationMsgHz() const;
 
 };
 

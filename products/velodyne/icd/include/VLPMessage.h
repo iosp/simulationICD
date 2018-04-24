@@ -89,11 +89,11 @@ private:
     void printPacketData() const;
 
 public:
-	VLPMessage(int hertz, int returnMode, int dataSource);
+	VLPMessage(float hertz, int returnMode, int dataSource);
 
 	virtual ~VLPMessage() = default;
 
-	virtual void FillMessage(const VelodyneData& data);
+	virtual void FillMessage(const VelodyneData& data) override;
 
 	virtual int SendMessage(ICommunication* comm) const override;
 

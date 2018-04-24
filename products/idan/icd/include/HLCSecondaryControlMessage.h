@@ -16,7 +16,7 @@ private:
 	HLC_SecondaryControlMsgType m_message;
 	
 public:
-	HLCSecondaryControlMessage(int hertz);
+	HLCSecondaryControlMessage(float hertz);
 
 	virtual ~HLCSecondaryControlMessage() = default;
 

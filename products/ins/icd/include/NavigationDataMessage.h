@@ -19,7 +19,7 @@ protected:
 	
 public:
 
-	NavigationDataMessage(int hertz);
+	NavigationDataMessage(float hertz);
 	
 	virtual ~NavigationDataMessage() = default;
 

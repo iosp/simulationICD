@@ -9,7 +9,7 @@
 #include "LoggerProxy.h"
 #include "ICommunication.h"
 
-IdanMessageSend::IdanMessageSend(int hertz) : IdanMessage(hertz) {
+IdanMessageSend::IdanMessageSend(float hertz) : IdanMessage(hertz) {
 }
 
 int IdanMessageSend::SendMessage(ICommunication* comm) const {

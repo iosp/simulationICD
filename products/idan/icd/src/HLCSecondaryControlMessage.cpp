@@ -14,7 +14,7 @@ const std::map<unsigned char, std::string> GearToStr =
 static const unsigned char PARKING_RELEASED = 0x01;
 static const unsigned char SACS_ON_VAL = 0x0B;
 
-HLCSecondaryControlMessage::HLCSecondaryControlMessage(int hertz) : IdanMessageGet(hertz) {
+HLCSecondaryControlMessage::HLCSecondaryControlMessage(float hertz) : IdanMessageGet(hertz) {
 }
 
 void HLCSecondaryControlMessage::ParseMessage(const char* buffer) {

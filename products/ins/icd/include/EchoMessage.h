@@ -19,7 +19,7 @@ protected:
 	
 public:
 
-	EchoMessage(int hertz);
+	EchoMessage(float hertz);
 
 	virtual ~EchoMessage() = default;
 

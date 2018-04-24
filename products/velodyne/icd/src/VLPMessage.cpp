@@ -16,7 +16,7 @@ static const int DISTANCE_MULT = 500;
 static const int AZIMUTH_MULT = 100;
 static const int SECOND_TO_MICROSECOND  = 1e6;
 
-VLPMessage::VLPMessage(int hertz, int returnMode, int dataSource): IMessage(hertz) {
+VLPMessage::VLPMessage(float hertz, int returnMode, int dataSource): IMessage(hertz) {
 	FillFactory(returnMode, dataSource);
 } 
 

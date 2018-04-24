@@ -8,6 +8,6 @@
 #include "IdanMessageGet.h"
 #include "LoggerProxy.h"
 
-IdanMessageGet::IdanMessageGet(int hertz) : IdanMessage(hertz) {
+IdanMessageGet::IdanMessageGet(float hertz) : IdanMessage(hertz) {
 	m_sleepTimeBetweenEverySend /= 10; // reduce time to sleep, in order to get all the messages
 }

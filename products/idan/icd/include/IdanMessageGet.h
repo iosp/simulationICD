@@ -16,7 +16,7 @@ static const unsigned char EMERGENCY_VAL = 0x0C;
 
 class IdanMessageGet : public IdanMessage {
 public:
-	IdanMessageGet(int hertz);
+	IdanMessageGet(float hertz);
 
 	virtual ~IdanMessageGet() = default;
 

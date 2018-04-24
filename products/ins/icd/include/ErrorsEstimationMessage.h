@@ -19,7 +19,7 @@ protected:
 	
 public:
 
-	ErrorsEstimationMessage(int hertz);
+	ErrorsEstimationMessage(float hertz);
 
 	virtual ~ErrorsEstimationMessage() = default;
 

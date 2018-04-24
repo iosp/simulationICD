@@ -9,7 +9,7 @@
 #include "IdanData.h"
 #include "LoggerProxy.h"
 
-IdanPrimaryMessage::IdanPrimaryMessage(int hertz) : IdanMessageSend(hertz) {
+IdanPrimaryMessage::IdanPrimaryMessage(float hertz) : IdanMessageSend(hertz) {
 
 }
 

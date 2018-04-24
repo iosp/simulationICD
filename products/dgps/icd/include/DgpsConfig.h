@@ -37,7 +37,7 @@ public:
 
     int GetBaudRate() const;
 
-    int GetHertz() const;
+    float GetHertz() const;
 };
 
 

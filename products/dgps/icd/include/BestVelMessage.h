@@ -16,7 +16,7 @@ protected:
 	E_MESSAGE_ID_INPUT_DGPS_DLV3 GetMessageID() const override;
 
 public:
-	BestVelMessage(int hertz);
+	BestVelMessage(float hertz);
 
 	virtual ~BestVelMessage() = default;
 

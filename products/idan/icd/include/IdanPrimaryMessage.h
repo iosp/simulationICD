@@ -13,7 +13,7 @@
 
 class IdanPrimaryMessage : public IdanMessageSend {
 public:
-	IdanPrimaryMessage(int hertz);
+	IdanPrimaryMessage(float hertz);
 
 	virtual ~IdanPrimaryMessage() = default;
 

@@ -9,7 +9,7 @@
 #include "ICommunication.h"
 #include "LoggerProxy.h"
 
-InsMessage::InsMessage(int hertz) : IMessage(hertz) {
+InsMessage::InsMessage(float hertz) : IMessage(hertz) {
 }
 
 void InsMessage::GetDataValidityBitfield(char* buffer, size_t bufferSize) const {

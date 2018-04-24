@@ -46,13 +46,13 @@ public:
 
     int GetBaudRate() const;
 
-    int GetHLCHertz() const;
+    float GetHLCHertz() const;
 
-    int GetIdanPrimHertz() const;
+    float GetIdanPrimHertz() const;
 
-    int GetIdanSecRepHertz() const;
+    float GetIdanSecRepHertz() const;
 
-    int GetIdanSecSenHertz() const;
+    float GetIdanSecSenHertz() const;
 
     bool IsVirtualInterface() const;
 };

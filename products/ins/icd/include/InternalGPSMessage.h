@@ -19,7 +19,7 @@ protected:
 	
 public:
 
-	InternalGPSMessage(int hertz);
+	InternalGPSMessage(float hertz);
 
 	virtual ~InternalGPSMessage() = default;
 

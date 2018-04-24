@@ -11,7 +11,7 @@
 #include <cstring> // memset, memcpy
 // #include "MessageFactory.h"
 
-StatusMessage::StatusMessage(int hertz) : InsMessage(hertz) {
+StatusMessage::StatusMessage(float hertz) : InsMessage(hertz) {
 	// currently (5/3/18) preprocessor doesn't read echo message
 	// m_echoMessage = MessageFactory::CreateMessage(_ECHO_MSG_, hertz);
 	// m_echoMessage->FillMessage(InsData());

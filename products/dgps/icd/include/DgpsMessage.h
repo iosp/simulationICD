@@ -30,7 +30,7 @@ protected:
 	virtual E_MESSAGE_ID_INPUT_DGPS_DLV3 GetMessageID() const = 0;
 
 public:
-	DgpsMessage(int hertz);
+	DgpsMessage(float hertz);
 
 	virtual ~DgpsMessage() = default;
 
