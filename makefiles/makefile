@@ -3,7 +3,8 @@ MAKE = make -f
 MAKEFILES = makefile_vel \
 			makefile_dgps \
 			makefile_ins \
-			makefile_idan
+			makefile_idan \
+			makefile_ibeo
 
 all: compprods
 
