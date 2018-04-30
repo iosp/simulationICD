@@ -9,6 +9,13 @@
 */
 
 #include <string>
+#include <bitset>
+
+static const std::bitset<8> HLC_PRIM("1");
+static const std::bitset<8> HLC_SEC("10");
+static const std::bitset<8> IDAN_PRIM("100");
+static const std::bitset<8> IDAN_SEC_REP("1000");
+static const std::bitset<8> IDAN_SEC_SEN("10000");
 
 class IdanData {
 private:
@@ -421,7 +428,7 @@ public:
     }
 
 
-    std::string toString() const;
+    std::string toString(const std::bitset<8>& message) const;
 };
 
 

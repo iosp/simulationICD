@@ -32,6 +32,8 @@ void HLCPrimaryControlMessage::UpdateData(IdanData& data) const {
     float fixedGas = float(gasCombined - 2000) / 2000; // make the value to be [-1,1]
     data.SetHLCPSteerCmd(fixedSteer);
     data.SetHLCPGasCmd(fixedGas);
+    
+    DBGLOG << "Data accepted:\n" << data.toString(HLC_PRIM);
 }
 
 t_msgID HLCPrimaryControlMessage::GetMsgID() const {

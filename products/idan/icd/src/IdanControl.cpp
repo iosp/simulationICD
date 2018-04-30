@@ -100,7 +100,7 @@ void IdanControl::SendThreadMethod(IdanMessageSend* message) {
 	try {
 		while (true) {
 			m_idanData_mutex.lock();
-			DBGLOG << "Going to send data: " << m_data.toString() << "\n";
+			DBGLOG << "Going to send data:\n" << m_data.toString(IDAN_PRIM | IDAN_SEC_REP | IDAN_SEC_SEN) << "\n";
 			// fill message data
 			message->FillMessage(m_data);
 			m_idanData_mutex.unlock();

@@ -77,6 +77,7 @@ void Utilities::SleepForRestTime(boost::posix_time::ptime startTime, int maxTime
 std::string Utilities::RunSystemCmd(const std::string& cmd) {
     std::array<char, 128> buffer;
     std::string result;
+    LOG << "Going to execute command: " << cmd << "\n";
     std::shared_ptr<FILE> pipe(popen(cmd.c_str(), "r"), pclose);
     if (!pipe) {
         LOG << "popen() failed!\n";

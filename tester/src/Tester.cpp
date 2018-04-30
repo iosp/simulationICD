@@ -104,13 +104,19 @@ void Tester::TestIdan() {
     IdanWrapper* idan = CreateIdanObject("/home/robil/simConfigs/idan.conf");
     RunIdan(idan);
 
-    for (auto i : boost::irange(0, 30)) {
+    for (auto i : boost::irange(0, 10000)) {
         GetIdanData(idan);
         auto steerPose = GetHLCPSteerCmd(idan);
         auto gasPose = GetHLCPGasCmd(idan);
+        auto beamApplied = IsHLCSHighBeamApplied(idan);
+        auto hornApplied = IsHLCSHornApplied(idan);
+        auto hlcGear = GetHLCSGear(idan);
         
         SetIdanPrimSteerPos(idan, steerPose);
         SetIdanPrimGasPos(idan, gasPose);
+        SetIdanSecRepHighBeam(idan,beamApplied);
+        SetIdanSecRepHorn(idan,hornApplied);
+        SetIdanSecRepActualGear(idan,hlcGear);
         SendIdanData(idan);
         usleep(100000);
     }
@@ -130,7 +136,7 @@ Tester::Tester() {
     // TestVLP();
     // TestDgps();
     // TestConf();
-    TestIns();
+    // TestIns();
     // TestCAN();
     TestIdan();
     //TestTCP();
