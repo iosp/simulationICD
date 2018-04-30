@@ -18,10 +18,16 @@ class IbeoMessage : public IMessage<IbeoData>{
 private:
 	int m_pointCounter = 0;
 
-	void FillPoints(SibeoScanData& msg, unsigned char layerEcho, const std::vector<double>& ranges);
+	double m_tStartAngle;
+	double m_tEndAngle;
+	double m_bStartAngle;
+	double m_bEndAngle;
+	double m_angleIncrement;
+
+	void FillPoints(SibeoScanData& msg, unsigned char layerEcho,  double startAngle, const std::vector<double>& ranges);
 
 public:
-	IbeoMessage(float hertz);
+	IbeoMessage(double hertz, double tStartAngle, double tEndAngle, double bStartAngle, double bEndAngle, double angleIncrement);
 
 	virtual ~IbeoMessage() = default;
 

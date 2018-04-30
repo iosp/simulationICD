@@ -31,7 +31,8 @@ void IbeoControl::Run() {
 		return;
 	}
 
-	m_message = new IbeoMessage(m_ibeoConf->GetHertz());
+	m_message = new IbeoMessage(m_ibeoConf->GetHertz(), m_ibeoConf->GetTStartAngle(), m_ibeoConf->GetTEndAngle(), m_ibeoConf->GetBStartAngle(),
+		m_ibeoConf->GetBEndAngle(), m_ibeoConf->GetAngleIncrement());
     m_sendDataThread = boost::thread(&IbeoControl::SendThreadMethod, this);
 }
 

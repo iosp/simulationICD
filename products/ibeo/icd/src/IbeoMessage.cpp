@@ -10,16 +10,20 @@
 #include "ICommunication.h"
 #include <boost/range/adaptor/reversed.hpp>
 
-IbeoMessage::IbeoMessage(float hertz) : IMessage(hertz) {
+static const double PI = 3.14159265359;
+static const double ANGLE_MULT = 11520 / (2*PI) ;
+IbeoMessage::IbeoMessage(double hertz, double tStartAngle, double tEndAngle, double bStartAngle, double bEndAngle, double angleIncrement) : 
+	IMessage(hertz), m_tStartAngle(tStartAngle), m_tEndAngle(tEndAngle), m_bStartAngle(bStartAngle),
+	 m_bEndAngle(bEndAngle), m_angleIncrement(angleIncrement) {
 
 }
 
-void IbeoMessage::FillPoints(SibeoScanData& msg, unsigned char layerEcho, const std::vector<double>& ranges) {
-    for (auto val : boost::adaptors::reverse(ranges)) {
+void IbeoMessage::FillPoints(SibeoScanData& msg, unsigned char layerEcho, double startAngle, const std::vector<double>& ranges) {
+	for (int i = 0; i < ranges.size(); i++) {
         msg.Point[m_pointCounter].Layer_Echo = layerEcho;
         msg.Point[m_pointCounter].Flags = 66;
-        // msg.Point[m_pointCounter].HorizontalAngel = ?;
-        msg.Point[m_pointCounter].RadialDistance = (unsigned short)(val*100);
+        msg.Point[m_pointCounter].HorizontalAngel = (short)( (startAngle + m_angleIncrement * i) * ANGLE_MULT);
+        msg.Point[m_pointCounter].RadialDistance = (unsigned short)(ranges[ranges.size() - i] * 100);
         msg.Point[m_pointCounter].EchoPulseWidth = 120;
         m_pointCounter++;
     }
@@ -48,9 +52,9 @@ void IbeoMessage::FillMessage(const IbeoData& data) {
 	msg.Scan.ScanEndTimeDOWN = data.GetSimTime();
 	msg.Scan.ScanEndTimeUP = data.GetSimTime();
 
-	msg.Scan.AngelsTicks = 11520; //(0.0023);
-	// msg.Scan.StartAngel = ?;
-	// msg.Scan.EndAngel = ?;
+	msg.Scan.AnglesTicks = 11520; //(0.0023);
+	msg.Scan.StartAngle = (short)(std::max(m_tStartAngle, m_bStartAngle) * ANGLE_MULT);
+	msg.Scan.EndAngle = (short)(std::min(m_tEndAngle, m_bEndAngle) * ANGLE_MULT);
 
 	msg.Scan.ScanPoints = data.GetRangeB1().size() + data.GetRangeB2().size() + data.GetRangeT1().size() + data.GetRangeT2().size();
 	msg.Scan.PositionYaw = 0; //Reserved
@@ -60,14 +64,16 @@ void IbeoMessage::FillMessage(const IbeoData& data) {
 	msg.Scan.PositionY = 0; //Reserved
 	msg.Scan.Reserved = 0; //Reserved
 
+	msg.Point = new IbeoScanPoint[data.GetNumOfPoints()];
     m_pointCounter = 0;
 
-	FillPoints(msg, 0, data.GetRangeB2());
-	FillPoints(msg, 1, data.GetRangeB1());
-	FillPoints(msg, 2, data.GetRangeT1());
-	FillPoints(msg, 3, data.GetRangeT2());
+	FillPoints(msg, 0, m_bStartAngle, data.GetRangeB2());
+	FillPoints(msg, 1, m_bStartAngle, data.GetRangeB1());
+	FillPoints(msg, 2, m_tStartAngle, data.GetRangeT1());
+	FillPoints(msg, 3, m_tStartAngle, data.GetRangeT2());
 
     memcpy(m_buffer, &msg, sizeof(SibeoScanData));
+	delete msg.Point;
 }
 
 int IbeoMessage::SendMessage(ICommunication* comm) const {

@@ -27,6 +27,19 @@ private:
     static const std::string HERTZ_KEY;
     static const std::string HERTZ_DEF_VAL;
 
+    static const std::string T_START_ANGLE_KEY;
+    static const std::string T_START_ANGLE_DEF_VAL;
+    static const std::string T_END_ANGLE_KEY;
+    static const std::string T_END_ANGLE_DEF_VAL;
+
+    static const std::string B_START_ANGLE_KEY;
+    static const std::string B_START_ANGLE_DEF_VAL;
+    static const std::string B_END_ANGLE_KEY;
+    static const std::string B_END_ANGLE_DEF_VAL;
+
+    static const std::string ANGLE_INCREMENT_KEY;
+    static const std::string ANGLE_INCREMENT_DEF_VAL;
+    
     void SetConfDefaultValues();
 
 public:
@@ -39,6 +52,16 @@ public:
     std::string GetPort() const;
 
     float GetHertz() const;
+
+    double GetTStartAngle() const;
+
+    double GetTEndAngle() const;
+
+    double GetBStartAngle() const;
+
+    double GetBEndAngle() const;
+
+    double GetAngleIncrement() const;
 
 };
 

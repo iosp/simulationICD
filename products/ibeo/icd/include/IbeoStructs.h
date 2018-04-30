@@ -21,7 +21,7 @@ typedef struct
 	 unsigned int      	time_up;	// NTP64    in seconds
 	 unsigned int      	time_down;  // NTP64   after the floathing point
 
-}ibeoScanDataHeader;
+} ibeoScanDataHeader;
 
 typedef struct
 {
@@ -31,7 +31,7 @@ typedef struct
 	unsigned short  	RadialDistance;
 	unsigned short  	EchoPulseWidth;
 	unsigned short  	Reserved;
-}IbeoScanPoint;
+} IbeoScanPoint;
 
 typedef struct
 {
@@ -42,9 +42,9 @@ typedef struct
 	 unsigned int    	ScanStratTimeUP;		// NTP64   in seconds
 	 unsigned int    	ScanEndTimeDOWN;
 	 unsigned int    	ScanEndTimeUP;
-	 unsigned short   	AngelsTicks;
-	 short			  	StartAngel;
-	 short		      	EndAngel;
+	 unsigned short   	AnglesTicks;
+	 short			  	StartAngle;
+	 short		      	EndAngle;
 	 unsigned short   	ScanPoints;
 	 short			  	PositionYaw;
 	 short			  	PositionPitch;
@@ -53,30 +53,7 @@ typedef struct
 	 short			  	PositionY;
 	 short			  	PositionZ;
 	 unsigned short   	Reserved;
-}IbeoScanHeader;
-
-
-typedef struct
-{
-	 unsigned short   	ScanNumber;
-	 unsigned short   	ScannerStatus;
-	 unsigned short	  	SyncPhaseOffset;
-	 unsigned int    	ScanStratTimeDOWN;	// NTP64   after the floathing point
-	 unsigned int    	ScanStratTimeUP;		// NTP64   in seconds
-	 unsigned int	    ScanEndTimeDOWN;
-	 unsigned int   	ScanEndTimeUP;
-	 unsigned short   	AngelsTicks;
-	 short			  	StartAngel;
-	 short		      	EndAngel;
-	 unsigned short   	ScanPoints;
-	 short			  	PositionYaw;
-	 short			  	PositionPitch;
-	 short            	PositionRoll;
-	 short			  	PositionX;
-	 short			  	PositionY;
-	 short			  	PositionZ;
-	 unsigned short   	Reserved;
-}IbeoScanHeaderTEST;
+} IbeoScanHeader;
 
 typedef struct
 {
@@ -90,6 +67,6 @@ typedef struct
 	ibeoScanDataHeader  Header;
 	unsigned short commandID;
 //	unsigned short reserved;
-}ReplayMSG;
+} ReplayMSG;
 
 #endif
