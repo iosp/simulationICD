@@ -41,5 +41,5 @@ void IdanPrimaryMessage::FillMessage(const IdanData& data) {
 }
 
 t_msgID IdanPrimaryMessage::GetMsgID() const {
-    return 0x60;
+    return IDAN_PRIM_ID;
 }

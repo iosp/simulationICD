@@ -8,6 +8,7 @@
 #include "IdanSecondaryReportMessage.h"
 #include "IdanData.h"
 #include "LoggerProxy.h"
+#include "Helper.h" // GetValFromMap
 #include <boost/assign.hpp> // boost::assign::map_list_of
 
 const std::map<std::string, unsigned char> StrToGear = 
@@ -41,10 +42,10 @@ void IdanSecondaryReportMessage::FillMessage(const IdanData& data) {
     msg.W2.RightTurn = data.IsIdanSecRepRightTurnSignalApplied();
     msg.W2.Hazard = data.IsIdanSecRepHazardsApplied();
 
-    msg.W3.ActualGear = GetValFromMap(StrToGear, data.GetIdanSecRepActualGear(), (unsigned char) 0x03); // def val: Nuetral
-    msg.W3.ReqGear = GetValFromMap(StrToGear, data.GetIdanSecRepRequestedGear(), (unsigned char)0x0E); // def val: Unknown
+    msg.W3.ActualGear = Utilities::GetValFromMap(StrToGear, data.GetIdanSecRepActualGear(), (unsigned char) 0x03); // def val: Nuetral
+    msg.W3.ReqGear = Utilities::GetValFromMap(StrToGear, data.GetIdanSecRepRequestedGear(), (unsigned char)0x0E); // def val: Unknown
 
-    msg.ParkingBreak = GetValFromMap(StrToPark, data.GetIdanSecRepParkingBrake(), (unsigned char)0x02); // def val : Engaged
+    msg.ParkingBreak = Utilities::GetValFromMap(StrToPark, data.GetIdanSecRepParkingBrake(), (unsigned char)0x02); // def val : Engaged
     msg.RPMmsb = (((int)data.GetIdanSecRepRpm() >> 8) & 0xff);
     msg.RPMlsb = ((int)data.GetIdanSecRepRpm() & 0xff);
     msg.Velocity = (int)data.GetIdanSecRepVelocity();
@@ -53,5 +54,5 @@ void IdanSecondaryReportMessage::FillMessage(const IdanData& data) {
 }
 
 t_msgID IdanSecondaryReportMessage::GetMsgID() const {
-    return 0x80;
+    return IDAN_SEC_REP_ID;
 }

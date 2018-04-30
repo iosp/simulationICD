@@ -11,11 +11,11 @@
 #include <string>
 #include <bitset>
 
-static const std::bitset<8> HLC_PRIM("1");
-static const std::bitset<8> HLC_SEC("10");
-static const std::bitset<8> IDAN_PRIM("100");
-static const std::bitset<8> IDAN_SEC_REP("1000");
-static const std::bitset<8> IDAN_SEC_SEN("10000");
+static const std::bitset<8> HLC_PRIM_BIT("1");
+static const std::bitset<8> HLC_SEC_BIT("10");
+static const std::bitset<8> IDAN_PRIM_BIT("100");
+static const std::bitset<8> IDAN_SEC_REP_BIT("1000");
+static const std::bitset<8> IDAN_SEC_SEN_BIT("10000");
 
 class IdanData {
 private:

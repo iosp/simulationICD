@@ -33,9 +33,9 @@ void HLCPrimaryControlMessage::UpdateData(IdanData& data) const {
     data.SetHLCPSteerCmd(fixedSteer);
     data.SetHLCPGasCmd(fixedGas);
     
-    DBGLOG << "Data accepted:\n" << data.toString(HLC_PRIM);
+    DBGLOG << "Data accepted: " << data.toString(HLC_PRIM_BIT);
 }
 
 t_msgID HLCPrimaryControlMessage::GetMsgID() const {
-    return 0x50;
+    return HLC_PRIM_ID;
 }

@@ -33,5 +33,5 @@ void IdanSecondarySensorMessage::FillMessage(const IdanData& data) {
 }
 
 t_msgID IdanSecondarySensorMessage::GetMsgID() const {
-    return 0x81;
+    return IDAN_SEC_SEN_ID;
 }

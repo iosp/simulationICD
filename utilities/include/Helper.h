@@ -87,6 +87,14 @@ namespace Utilities {
         return dest.u;
     }
 
+    // get appropriate val from m by the key
+	template <class T, class U>
+	U GetValFromMap(const std::map<T, U>& m, const T& key, const U& defVal) {
+		auto it = m.find(key);
+		auto val = (it != m.end() ? it->second : defVal);
+		return val;
+	}
+
     /**
      * Add ctrl+c handler to process
      */ 

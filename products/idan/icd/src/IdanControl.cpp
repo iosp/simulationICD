@@ -15,6 +15,11 @@
 #include "IdanPrimaryMessage.h"
 #include "IdanSecondaryReportMessage.h"
 #include "IdanSecondarySensorMessage.h"
+#include <boost/assign.hpp> // boost::assign::map_list_of
+
+const std::map<t_msgID, std::bitset<8> > MsgIdToBit = 
+            boost::assign::map_list_of(HLC_PRIM_ID, HLC_PRIM_BIT)(HLC_SEC_ID, HLC_SEC_BIT)(IDAN_PRIM_ID, IDAN_PRIM_BIT)
+									  (IDAN_SEC_REP_ID, IDAN_SEC_REP_BIT)(IDAN_SEC_SEN_ID, IDAN_SEC_SEN_BIT);
 
 IdanControl::IdanControl(const std::string& confFilePath) {
 	m_idanConf = new IdanConfig(confFilePath);
@@ -100,7 +105,7 @@ void IdanControl::SendThreadMethod(IdanMessageSend* message) {
 	try {
 		while (true) {
 			m_idanData_mutex.lock();
-			DBGLOG << "Going to send data:\n" << m_data.toString(IDAN_PRIM | IDAN_SEC_REP | IDAN_SEC_SEN) << "\n";
+			DBGLOG << "Going to send data:\n" << m_data.toString(Utilities::GetValFromMap(MsgIdToBit, message->GetMsgID(), std::bitset<8>())) << "\n";
 			// fill message data
 			message->FillMessage(m_data);
 			m_idanData_mutex.unlock();

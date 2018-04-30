@@ -11,14 +11,15 @@
 
 std::string IdanData::toString(const std::bitset<8>& message) const {
     std::stringstream ss;
+    ss << std::endl;
 
-    if ((message & HLC_PRIM).any()) {
-        ss << std::endl << "***** HLC Primary *****" << std::endl <<
+    if ((message & HLC_PRIM_BIT).any()) {
+        ss << "***** HLC Primary *****" << std::endl <<
             "hasShutDownCmd: " << m_HLCPrimary.hasShutDownCmd << ", hasEmergencyCmd: " << m_HLCPrimary.hasEmergencyCmd << 
             ", steerCmd: " << m_HLCPrimary.steerCmd << ", gasCmd: " << m_HLCPrimary.gasCmd << std::endl;
     }
 
-    if ((message & HLC_SEC).any()) {
+    if ((message & HLC_SEC_BIT).any()) {
         ss << "***** HLC Secondary *****" << std::endl << 
             "hasShutDownCmd: " << m_HLCSecondary.hasShutDownCmd << ", roadLights: " << m_HLCSecondary.roadLights << 
             ", highBeam: " << m_HLCSecondary.highBeam << ", lightsCutoff: " << m_HLCSecondary.lightsCutoff << 
@@ -30,12 +31,12 @@ std::string IdanData::toString(const std::bitset<8>& message) const {
             ", HasSacsOnCmd: " << m_HLCSecondary.HasSacsOnCmd << std::endl;
     }
 
-    if ((message & IDAN_PRIM).any()) {
+    if ((message & IDAN_PRIM_BIT).any()) {
         ss << "***** IDAN Primary *****" << std::endl << 
         "steerPose: " << m_IDANPrimary.steerPose << ", gasPose: " << m_IDANPrimary.gasPose << std::endl;
     }
 
-    if ((message & IDAN_SEC_REP).any()) {
+    if ((message & IDAN_SEC_REP_BIT).any()) {
         ss << "***** IDAN Secondary Report *****" << std::endl << 
             "roadLights: " << m_IDANSecondaryReport.roadLights << ", highBeam: " << m_IDANSecondaryReport.highBeam << 
             ", lightsCutoff: " << m_IDANSecondaryReport.lightsCutoff << ", keySwitch: " << m_IDANSecondaryReport.keySwitch << 
@@ -47,7 +48,7 @@ std::string IdanData::toString(const std::bitset<8>& message) const {
     }
 
 
-    if ((message & IDAN_SEC_SEN).any()) {
+    if ((message & IDAN_SEC_SEN_BIT).any()) {
         ss << "***** IDAN Secondary Sensor *****" << std::endl << 
             ", engineTemp: " << m_IDANSecondarySensor.engineTemp << ", oilPress: " << m_IDANSecondarySensor.oilPress << 
             ", fuelLevel: " << m_IDANSecondarySensor.fuelLevel << ", alternatorVoltage: " << m_IDANSecondarySensor.alternatorVoltage <<

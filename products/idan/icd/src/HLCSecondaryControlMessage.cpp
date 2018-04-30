@@ -8,6 +8,7 @@
 #include "HLCSecondaryControlMessage.h"
 #include "IdanData.h"
 #include "LoggerProxy.h"
+#include "Helper.h" // GetValFromMap
 #include <boost/assign.hpp> // boost::assign::map_list_of
 
 const std::map<unsigned char, std::string> GearToStr = 
@@ -54,14 +55,14 @@ void HLCSecondaryControlMessage::UpdateData(IdanData& data) const {
 	data.SetHLCSRightTurnSignal(m_message.W2.RightTurnSig);
 	data.SetHLCSHazards(m_message.W2.Hazards);
 
-	data.SetHLCSGear(GetValFromMap(GearToStr, m_message.Gear, (std::string)"N")); // def val: Nuetral);
+	data.SetHLCSGear(Utilities::GetValFromMap(GearToStr, m_message.Gear, (std::string)"N")); // def val: Nuetral);
 	data.SetHLCSParkingBrake(m_message.ParkingBrake == PARKING_RELEASED);
 	data.SetHLCSEmergencyCmd(m_message.EmergencyCmd == EMERGENCY_VAL);
 	data.SetHLCSSacsOnCmd(m_message.SacsOnCmd == SACS_ON_VAL);
 
-	DBGLOG << "Data accepted:\n" << data.toString(HLC_SEC);
+	DBGLOG << "Data accepted: " << data.toString(HLC_SEC_BIT);
 }
 
 t_msgID HLCSecondaryControlMessage::GetMsgID() const {
-    return 0x70;
+    return HLC_SEC_ID;
 }
