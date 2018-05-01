@@ -17,6 +17,7 @@
 #include "IdanSecondarySensorMessage.h"
 #include <boost/assign.hpp> // boost::assign::map_list_of
 
+// map message ID to bitwise representation, for toString method
 const std::map<t_msgID, std::bitset<8> > MsgIdToBit = 
             boost::assign::map_list_of(HLC_PRIM_ID, HLC_PRIM_BIT)(HLC_SEC_ID, HLC_SEC_BIT)(IDAN_PRIM_ID, IDAN_PRIM_BIT)
 									  (IDAN_SEC_REP_ID, IDAN_SEC_REP_BIT)(IDAN_SEC_SEN_ID, IDAN_SEC_SEN_BIT);
