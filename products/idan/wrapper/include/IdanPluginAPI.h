@@ -77,6 +77,8 @@ extern "C" {
 
     void SetIdanSecRepKeySwitch(IdanWrapper* obj, bool keySwitch);
 
+    void SetIdanSecRepMotorStarter(IdanWrapper* obj, bool motorStarter);
+
     void SetIdanSecRepHorn(IdanWrapper* obj, bool horn);
 
     void SetIdanSecRepLeftTurnSignal(IdanWrapper* obj, bool leftTurnSignal);

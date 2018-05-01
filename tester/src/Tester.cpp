@@ -106,17 +106,34 @@ void Tester::TestIdan() {
 
     for (auto i : boost::irange(0, 10000)) {
         GetIdanData(idan);
-        auto steerPose = GetHLCPSteerCmd(idan);
-        auto gasPose = GetHLCPGasCmd(idan);
-        auto beamApplied = IsHLCSHighBeamApplied(idan);
-        auto hornApplied = IsHLCSHornApplied(idan);
-        auto hlcGear = GetHLCSGear(idan);
+
+        SetIdanPrimSteerPos(idan, GetHLCPSteerCmd(idan));
+        SetIdanPrimGasPos(idan, GetHLCPGasCmd(idan));
         
-        SetIdanPrimSteerPos(idan, steerPose);
-        SetIdanPrimGasPos(idan, gasPose);
-        SetIdanSecRepHighBeam(idan,beamApplied);
-        SetIdanSecRepHorn(idan,hornApplied);
-        SetIdanSecRepActualGear(idan,hlcGear);
+        SetIdanSecRepRoadLights(idan, IsHLCSRoadLightsApplied(idan));
+        SetIdanSecRepHighBeam(idan, IsHLCSHighBeamApplied(idan));
+        SetIdanSecRepLightsCutoff(idan, IsHLCSLightsCutoffApplied(idan));
+        SetIdanSecRepKeySwitch(idan, IsHLCSKeySwitchApplied(idan));
+        SetIdanSecRepMotorStarter(idan, IsHLCSMotorStarterApplied(idan));
+        SetIdanSecRepHorn(idan, IsHLCSHornApplied(idan));
+        SetIdanSecRepLeftTurnSignal(idan, IsHLCSLeftTurnSignalApplied(idan));
+        SetIdanSecRepRightTurnSignal(idan, IsHLCSRightTurnSignalApplied(idan));
+        SetIdanSecRepHazards(idan, IsHLCSHazardsApplied(idan));
+        SetIdanSecRepRequestedGear(idan, GetHLCSGear(idan));
+        SetIdanSecRepActualGear(idan, GetHLCSGear(idan));
+        SetIdanSecRepParkingBrake(idan, IsHLCSParkingBrakeReleased(idan) ? "R" : "E");
+        // SetIdanSecRepRpm(idan, 0);
+        // SetIdanSecRepVelocity(idan, 0);
+
+        SetIdanSecSenEngineTemp(idan, 90);
+        SetIdanSecSenOilPress(idan, 50);
+        SetIdanSecSenFuelLevel(idan, 100);
+        SetIdanSecSenAlternatorVoltage(idan, 25.2);
+        SetIdanSecSenBackupBattVoltage(idan, 25.2);
+        SetIdanSecSenBatterySumUp(idan, 0);
+        SetIdanSecSenAirPressFront(idan, 100);
+        SetIdanSecSenAirPressRear(idan, 100);
+
         SendIdanData(idan);
         usleep(100000);
     }

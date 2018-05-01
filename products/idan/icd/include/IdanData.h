@@ -54,6 +54,7 @@ private:
         bool highBeam = true;
         bool lightsCutoff = true;
         bool keySwitch = true;
+        bool motorStarter = true;
         bool horn = true;
         bool leftTurnSignal = true;
         bool rightTurnSignal = true;
@@ -287,6 +288,14 @@ public:
 
     void SetIdanSecRepKeySwitch(bool keySwitch) {
         m_IDANSecondaryReport.keySwitch = keySwitch;
+    }
+
+    bool IsIdanSecRepMotorStarterApplied() const {
+        return m_IDANSecondaryReport.motorStarter;
+    }
+
+    void SetIdanSecRepMotorStarter(bool motorStarter) {
+        m_IDANSecondaryReport.motorStarter = motorStarter;
     }
 
     bool IsIdanSecRepHornApplied() const {

@@ -20,7 +20,7 @@ int IdanSecondarySensorMessage::GetMessageSize() const {
 void IdanSecondarySensorMessage::FillMessage(const IdanData& data) {
     IDAN_SecondarySensorsMsgType msg;
 
-    msg.EngineTemp = (int)data.GetIdanSecSenEngineTemp(); // TODO add -40??
+    msg.EngineTemp = (int)data.GetIdanSecSenEngineTemp() + 40;
     msg.OilPress = (int)data.GetIdanSecSenOilPress();
     msg.FuelLevel = (int)data.GetIdanSecSenFuelLevel();
     msg.AlternatorVoltage = (int)(data.GetIdanSecSenAlternatorVoltage() * 5);

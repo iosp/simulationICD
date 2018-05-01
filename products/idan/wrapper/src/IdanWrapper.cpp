@@ -138,6 +138,10 @@ void IdanWrapper::SetIdanSecRepKeySwitch(bool keySwitch) {
     m_data.SetIdanSecRepKeySwitch(keySwitch);
 } 
 
+void IdanWrapper::SetIdanSecRepMotorStarter(bool motorStarter) {
+    m_data.SetIdanSecRepMotorStarter(motorStarter);
+}
+
 void IdanWrapper::SetIdanSecRepHorn(bool horn) {
     m_data.SetIdanSecRepHorn(horn);
 } 

@@ -88,6 +88,8 @@ public:
 
     void SetIdanSecRepKeySwitch(bool keySwitch);
 
+    void SetIdanSecRepMotorStarter(bool motorStarter);
+
     void SetIdanSecRepHorn(bool horn);
 
     void SetIdanSecRepLeftTurnSignal(bool leftTurnSignal);

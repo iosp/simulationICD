@@ -127,6 +127,10 @@ void SetIdanSecRepKeySwitch(IdanWrapper* obj, bool keySwitch) {
     obj->SetIdanSecRepKeySwitch(keySwitch);
 }
 
+void SetIdanSecRepMotorStarter(IdanWrapper* obj, bool motorStarter) {
+    obj->SetIdanSecRepMotorStarter(motorStarter);
+}
+
 void SetIdanSecRepHorn(IdanWrapper* obj, bool horn) {
     obj->SetIdanSecRepHorn(horn);
 }

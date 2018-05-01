@@ -100,6 +100,9 @@ public class IdanWrapper: IDisposable {
     [DllImport (DLL_LOCATION)]
 	private static extern void SetIdanSecRepKeySwitch(IntPtr pObj, bool keySwitch);
 
+	[DllImport (DLL_LOCATION)]
+	private static extern void SetIdanSecRepMotorStarter(IntPtr pObj, bool motorStarter)
+
     [DllImport (DLL_LOCATION)]
 	private static extern void SetIdanSecRepHorn(IntPtr pObj, bool horn);
 
@@ -290,6 +293,10 @@ public class IdanWrapper: IDisposable {
 
 	public void SetIdanSecRepKeySwitch(bool keySwitch) {
 		SetIdanSecRepKeySwitch(this.m_nativeObject, keySwitch);
+	}
+
+	public void SetIdanSecRepMotorStarter(bool motorStarter) {
+		SetIdanSecRepMotorStarter(this.m_nativeObject, keySwitch);
 	}
 
 	public void SetIdanSecRepHorn(bool horn) {

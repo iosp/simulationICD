@@ -37,6 +37,7 @@ void IdanSecondaryReportMessage::FillMessage(const IdanData& data) {
     msg.W1.LightCutoff = data.IsIdanSecRepLightsCutoffApplied();
 
     msg.W2.KeySwitch = data.IsIdanSecRepKeySwitchApplied();
+    msg.W2.MotorStarter = data.IsIdanSecRepMotorStarterApplied();
     msg.W2.Horn = data.IsIdanSecRepHornApplied();
     msg.W2.LeftTurn = data.IsIdanSecRepLeftTurnSignalApplied();
     msg.W2.RightTurn = data.IsIdanSecRepRightTurnSignalApplied();
