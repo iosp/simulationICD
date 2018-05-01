@@ -60,3 +60,7 @@ void InternalGPSMessage::FillHeader(/* out */ INS_HEADER& header) const {
 int InternalGPSMessage::GetMessageSize() const {
 	return sizeof(INS_Internal_GPS);
 }
+
+std::bitset<8> InternalGPSMessage::GetMsgBitID() const {
+	return INS_INTERNAL_BIT;
+}

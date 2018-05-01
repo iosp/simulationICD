@@ -12,15 +12,16 @@
 #include <boost/thread.hpp> // boost::thread
 #include "IICD.h"
 #include "InsData.h"
-#include "IMessage.h"
 
-class InsConfig; // forward declaration
-class ICommunication; // forward declaration
+// forward declarations
+class InsMessage;
+class InsConfig; 
+class ICommunication;
 
 class InsControl : public IICD<InsData>
 {
 private:
-	typedef std::pair<IMessage<InsData> *, ICommunication*> t_message;
+	typedef std::pair<InsMessage*, ICommunication*> t_message;
 
 	InsConfig* m_insConf = nullptr;
 	InsData m_data;

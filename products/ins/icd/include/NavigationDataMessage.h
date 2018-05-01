@@ -25,6 +25,8 @@ public:
 
 	virtual void FillMessage(const InsData& data) override;
 
+	virtual std::bitset<8> GetMsgBitID() const override;
+	
 };
 
 #endif // NAVIGATIONDATAMESSAGE_H

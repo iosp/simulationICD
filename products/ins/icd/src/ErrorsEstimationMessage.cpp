@@ -56,3 +56,7 @@ void ErrorsEstimationMessage::FillHeader(/* out */ INS_HEADER& header) const {
 int ErrorsEstimationMessage::GetMessageSize() const {
 	return sizeof(INS_Error_Estimation_Message);
 }
+
+std::bitset<8> ErrorsEstimationMessage::GetMsgBitID() const {
+	return INS_ERR_EST_BIT;
+}

@@ -16,7 +16,7 @@ protected:
 	virtual void FillHeader(/* out */ INS_HEADER& header) const override;
 
 	virtual int GetMessageSize() const override;
-	
+		
 public:
 
 	InternalGPSMessage(float hertz);
@@ -25,6 +25,7 @@ public:
 
 	virtual void FillMessage(const InsData& data) override;
 
+	virtual std::bitset<8> GetMsgBitID() const override;
 };
 
 #endif // INTERNALGPSMESSAGE_H

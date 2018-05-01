@@ -69,3 +69,7 @@ int StatusMessage::SendMessage(ICommunication* comm) const {
 	// m_echoMessage->SendMessage(comm); currently (5/3/18) preprocessor doesn't read echo message
 	return InsMessage::SendMessage(comm);
 }
+
+std::bitset<8> StatusMessage::GetMsgBitID() const {
+	return INS_STATUS_BIT;
+}

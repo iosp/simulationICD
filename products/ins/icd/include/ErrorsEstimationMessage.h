@@ -24,6 +24,8 @@ public:
 	virtual ~ErrorsEstimationMessage() = default;
 
 	virtual void FillMessage(const InsData& data) override;
+
+	virtual std::bitset<8> GetMsgBitID() const override;
 };
 
 #endif // ERRORSESTIMATIONMESSAGE_H

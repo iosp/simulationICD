@@ -9,6 +9,12 @@
 */
 
 #include <string>
+#include <bitset>
+
+static const std::bitset<8> INS_NAV_BIT("1");
+static const std::bitset<8> INS_INTERNAL_BIT("10");
+static const std::bitset<8> INS_ERR_EST_BIT("100");
+static const std::bitset<8> INS_STATUS_BIT("1000");
 
 class InsData {
 private:
@@ -277,7 +283,7 @@ public:
         m_rollErrorEstimation = rollErrorEstimation;
     }
 
-    std::string toString() const;
+    std::string toString(const std::bitset<8>& message) const;
 };
 
 

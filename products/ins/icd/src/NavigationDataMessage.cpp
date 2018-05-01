@@ -61,3 +61,7 @@ void NavigationDataMessage::FillHeader(/* out */ INS_HEADER& header) const {
 int NavigationDataMessage::GetMessageSize() const {
 	return sizeof(INS_Navigation_Data_Message);
 }
+
+std::bitset<8> NavigationDataMessage::GetMsgBitID() const {
+	return INS_NAV_BIT;
+}

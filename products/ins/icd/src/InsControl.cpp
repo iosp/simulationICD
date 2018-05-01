@@ -15,7 +15,6 @@
 #include "NavigationDataMessage.h"
 #include "InternalGPSMessage.h"
 #include "ErrorsEstimationMessage.h"
-#include "EchoMessage.h"
 #include "Helper.h"
 
 
@@ -48,7 +47,7 @@ void InsControl::SendThreadMethod(const t_message& message) {
 	try {
 		while (true) {
 			m_insData_mutex.lock();
-			DBGLOG << "Going to send data: " << m_data.toString() << "\n";
+			DBGLOG << "Going to send data: " << m_data.toString(insMessage->GetMsgBitID()) << "\n";
 			// fill message data
 			insMessage->FillMessage(m_data);
 			m_insData_mutex.unlock();

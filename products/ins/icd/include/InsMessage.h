@@ -8,10 +8,12 @@
 * Date: 14.02.18
 */
 
-#include <stdio.h> // size_t
-#include <cmath> // pow
+
 #include "InsStructs.h"
 #include "IMessage.h"
+#include <bitset>
+#include <stdio.h> // size_t
+#include <cmath> // pow
 
 static const int TIME_MULTIPLY = std::pow(2, 12);
 static const int VEL_MULTIPLY = std::pow(2, 8);
@@ -38,6 +40,9 @@ public:
 	virtual void FillMessage(const InsData& data) = 0;
 
 	virtual int SendMessage(ICommunication* comm) const override;
+
+	// Get ID (basically for toString method of InsData)
+	virtual std::bitset<8> GetMsgBitID() const = 0;
 };
 
 #endif // INSMESSAGE_H
