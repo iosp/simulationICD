@@ -44,5 +44,4 @@ int TCPCommunication::SendData(const char* buffer, int sizeOfData) {
     }
 
     return sizeOfData;
-
 }

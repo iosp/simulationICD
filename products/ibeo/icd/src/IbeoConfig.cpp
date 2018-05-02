@@ -16,13 +16,13 @@ const std::string IbeoConfig::PORT_DEF_VAL = "12002";
 const std::string IbeoConfig::HERTZ_KEY = "HERTZ";
 const std::string IbeoConfig::HERTZ_DEF_VAL = "12.5";
 const std::string IbeoConfig::T_START_ANGLE_KEY = "T_START_ANGLE";
-const std::string IbeoConfig::T_START_ANGLE_DEF_VAL;
+const std::string IbeoConfig::T_START_ANGLE_DEF_VAL = "10";
 const std::string IbeoConfig::T_END_ANGLE_KEY = "T_END_ANGLE";
-const std::string IbeoConfig::T_END_ANGLE_DEF_VAL;
+const std::string IbeoConfig::T_END_ANGLE_DEF_VAL = "20";
 const std::string IbeoConfig::B_START_ANGLE_KEY = "B_START_ANGLE";
-const std::string IbeoConfig::B_START_ANGLE_DEF_VAL;
+const std::string IbeoConfig::B_START_ANGLE_DEF_VAL = "10";
 const std::string IbeoConfig::B_END_ANGLE_KEY = "B_END_ANGLE";
-const std::string IbeoConfig::B_END_ANGLE_DEF_VAL;
+const std::string IbeoConfig::B_END_ANGLE_DEF_VAL = "20";
 const std::string IbeoConfig::ANGLE_INCREMENT_KEY = "ANGLE_INCREMENT";
 const std::string IbeoConfig::ANGLE_INCREMENT_DEF_VAL = "0.4";
 
