@@ -9,6 +9,7 @@
 #include "DgpsPluginAPI.h"
 #include "InsPluginAPI.h"
 #include "IdanPluginAPI.h"
+#include "IbeoPluginAPI.h"
 #include "LoggerProxy.h"
 #include "ConfigurationINI.h"
 #include "TCPCommunication.h"
@@ -141,6 +142,17 @@ void Tester::TestIdan() {
     DeleteIdanObject(idan);
 }
 
+void Tester::TestIbeo() {
+    IbeoWrapper* ibeo = CreateIbeoObject("/home/robil/simConfigs/ibeo.conf");
+    RunIbeo(ibeo);
+
+    while (true) {
+        sleep(1);
+    }
+
+    DeleteIbeoObject(ibeo);
+}
+
 void Tester::TestConf() {
     ConfigurationINI conf("/home/robil/test.conf");
     LOG << conf.GetValue<std::string>("hello") << "\n";
@@ -155,6 +167,7 @@ Tester::Tester() {
     // TestConf();
     // TestIns();
     // TestCAN();
-    TestIdan();
+    // TestIdan();
+    TestIbeo();
     //TestTCP();
 }

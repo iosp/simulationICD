@@ -104,3 +104,11 @@ void Utilities::AddStopHandler() {
 
    sigaction(SIGINT, &sigIntHandler, NULL);
 }
+
+Utilities::FunctionLogWrapper::FunctionLogWrapper(const std::string& funcName) : m_funcName(funcName) {
+    DBGLOG << "Enter " << m_funcName << "\n";
+}
+
+Utilities::FunctionLogWrapper::~FunctionLogWrapper(){
+    DBGLOG << "Exit " << m_funcName << "\n";
+}

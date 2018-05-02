@@ -94,11 +94,20 @@ namespace Utilities {
 		auto val = (it != m.end() ? it->second : defVal);
 		return val;
 	}
-
+   
     /**
      * Add ctrl+c handler to process
      */ 
     void AddStopHandler();
+
+    // For logging and debugging
+    class FunctionLogWrapper {
+    private:
+        std::string m_funcName;
+    public:
+        FunctionLogWrapper(const std::string& funcName);
+        ~FunctionLogWrapper();
+    };
 }
 
 #endif // UTILITIES_H
