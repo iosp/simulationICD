@@ -14,12 +14,12 @@
 class IbeoData {
 private:
 
-    int m_numOfPoints;
+    int m_numOfPoints = 0;
     std::vector<double> m_rangeB1;
     std::vector<double> m_rangeB2;
     std::vector<double> m_rangeT1;
     std::vector<double> m_rangeT2;
-    float m_simTime;
+    float m_simTime = 0;
 
 public:
     IbeoData() = default;

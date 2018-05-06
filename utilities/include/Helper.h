@@ -75,7 +75,7 @@ namespace Utilities {
     std::string RunSystemCmd(const std::string& cmd);
 
     template <typename T>
-    T littleEndianToBig(T u) {
+    T LittleEndianToBig(T u) {
         union {
             T u;
             unsigned char u8[sizeof(T)];

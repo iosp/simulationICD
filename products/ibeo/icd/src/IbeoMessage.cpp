@@ -32,13 +32,13 @@ void IbeoMessage::FillPoints(SibeoScanData& msg, unsigned char layerEcho, double
 void IbeoMessage::FillMessage(const IbeoData& data) {
 	SibeoScanData msg;
 
-    msg.Header.MagicWord = Utilities::littleEndianToBig<int>(0xaffec0c2);//0xc2c0feaf;
+    msg.Header.MagicWord = Utilities::LittleEndianToBig<int>(0xaffec0c2);//0xc2c0feaf;
 	msg.Header.SizePreviousMessage = 0;
-	msg.Header.SizeCurrentMessage = Utilities::littleEndianToBig<unsigned int>((sizeof(SibeoScanData) + 
+	msg.Header.SizeCurrentMessage = Utilities::LittleEndianToBig<unsigned int>((sizeof(SibeoScanData) + 
                                     (data.GetNumOfPoints()*sizeof(IbeoScanPoint))) - sizeof(ibeoScanDataHeader));
 
 	msg.Header.DeviceID = 0;
-	msg.Header.DataType = Utilities::littleEndianToBig<unsigned short>(0x2202);
+	msg.Header.DataType = Utilities::LittleEndianToBig<unsigned short>(0x2202);
 	msg.Header.time_up = 0;	// NTP64
 	msg.Header.time_down = 0;  // NTP64
 	msg.Header.Reserved = 0; //Reserved
