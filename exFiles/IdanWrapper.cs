@@ -81,10 +81,10 @@ public class IdanWrapper: IDisposable {
 
    /************************************************* IDAN Primary ********************************************/
     [DllImport (DLL_LOCATION)]
-	private static extern void SetIdanPrimSteerPos(IntPtr pObj, int steerPose);
+	private static extern void SetIdanPrimSteerPos(IntPtr pObj, float steerPose);
 
     [DllImport (DLL_LOCATION)]
-	private static extern void SetIdanPrimGasPos(IntPtr pObj, int gasPose);
+	private static extern void SetIdanPrimGasPos(IntPtr pObj, float gasPose);
 
     /************************************************* IDAN Secondary Report ********************************************/
 	

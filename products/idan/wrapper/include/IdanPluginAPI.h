@@ -63,9 +63,9 @@ extern "C" {
     bool HasHLCSSacsOnCmd(IdanWrapper* pObj);
 
    /************************************************* IDAN Primary ********************************************/
-    void SetIdanPrimSteerPos(IdanWrapper* obj, int steerPose);
+    void SetIdanPrimSteerPos(IdanWrapper* obj, float steerPose);
 
-    void SetIdanPrimGasPos(IdanWrapper* obj, int gasPose);
+    void SetIdanPrimGasPos(IdanWrapper* obj, float gasPose);
 
     /************************************************* IDAN Secondary Report ********************************************/
 	

@@ -112,11 +112,11 @@ bool IdanWrapper::HasHLCSSacsOnCmd() const {
 }
 
 /************************************************* IDAN Primary ********************************************/
-void IdanWrapper::SetIdanPrimSteerPos(int steerPose) {
+void IdanWrapper::SetIdanPrimSteerPos(float steerPose) {
     m_data.SetIdanPrimSteerPos(steerPose);
 }
 
-void IdanWrapper::SetIdanPrimGasPos(int gasPose) {
+void IdanWrapper::SetIdanPrimGasPos(float gasPose) {
     m_data.SetIdanPrimGasPos(gasPose);
 }
 

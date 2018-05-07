@@ -74,9 +74,9 @@ public:
     bool HasHLCSSacsOnCmd() const;
 
     /************************************************* IDAN Primary ********************************************/
-    void SetIdanPrimSteerPos(int steerPose);
+    void SetIdanPrimSteerPos(float steerPose);
 
-    void SetIdanPrimGasPos(int gasPose);
+    void SetIdanPrimGasPos(float gasPose);
 
     /************************************************* IDAN Secondary Report ********************************************/
 	

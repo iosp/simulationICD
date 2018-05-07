@@ -101,11 +101,11 @@ bool HasHLCSSacsOnCmd(IdanWrapper* obj){
 }
 
 /************************************************* IDAN Primary ********************************************/
-void SetIdanPrimSteerPos(IdanWrapper* obj, int steerPose) {
+void SetIdanPrimSteerPos(IdanWrapper* obj, float steerPose) {
     obj->SetIdanPrimSteerPos(steerPose);
 }
 
-void SetIdanPrimGasPos(IdanWrapper* obj, int gasPose) {
+void SetIdanPrimGasPos(IdanWrapper* obj, float gasPose) {
     obj->SetIdanPrimGasPos(gasPose);
 }
 

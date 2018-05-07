@@ -45,8 +45,8 @@ private:
     } m_HLCSecondary;
 
     struct IDAN_Primary {
-        int steerPose = 0;
-        int gasPose = 0;
+        float steerPose = 0;
+        float gasPose = 0;
     } m_IDANPrimary;
 
 	struct IDAN_SecondaryReport {
@@ -240,19 +240,19 @@ public:
     }
 
     /************************************************* IDAN Primary ********************************************/
-    int GetIdanPrimSteerPos() const {
+    float GetIdanPrimSteerPos() const {
         return m_IDANPrimary.steerPose;
     }
 
-    void SetIdanPrimSteerPos(int steerPose) {
+    void SetIdanPrimSteerPos(float steerPose) {
         m_IDANPrimary.steerPose = steerPose;
     }
 
-    int GetIdanPrimGasPos() const {
+    float GetIdanPrimGasPos() const {
         return m_IDANPrimary.gasPose;
     }
 
-    void SetIdanPrimGasPos(int gasPose) {
+    void SetIdanPrimGasPos(float gasPose) {
         m_IDANPrimary.gasPose = gasPose;
     }
 
