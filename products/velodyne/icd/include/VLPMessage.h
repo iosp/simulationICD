@@ -19,13 +19,21 @@ static const int DEGREES = 360;
 class VLPMessage : public IMessage<VelodyneData>{
 private:
 	VLPDataPacket m_packet;
-	int m_packetIndex = 0;
+
+    int m_packetIndex = 0;
 
     /**
-     * Fill time stamp on VLP packet
-     * @param data - velodyne data to fill
+     * Take every blocks[i] channels (i % 2 == 1) and combine it with blocks[i-1] channels.
+     * @param blocks - the blocks to combine
+     * @return combined vector (0,1,2,3,4,5 => 01, 23, 45)
      */ 
-    void FillTimeStamp(const VelodyneData& data);
+    std::vector<VelodyneData::VelodyneBlock> CombineBlocks(const std::vector<VelodyneData::VelodyneBlock>& blocks) const;
+    
+    /**
+     * Fill time stamp on VLP packet
+     * @param timeStamp - time stamp data to fill
+     */ 
+    void FillTimeStamp(float timeStamp);
 
     /**
      * Fill factory field on VLP packet
@@ -36,9 +44,15 @@ private:
 
     /**
      * Fill azimuth on VLP packet
-     * @param data - velodyne data to fill
+     * @param azimuth - azimuth data to fill
      */
-    void FillAzimuth(const VelodyneData& data);
+    void FillAzimuth(float azimuth);
+
+    /**
+     * Fill channles in on the packet
+     * @param channels - the data of the channels
+     */
+    void FillChannels(const VelodyneData::t_channel_data& channels);
 
     /**
      * Transform vector of channels to adapt Velodyne format.
@@ -50,17 +64,7 @@ private:
      */
     VelodyneData::t_channel_data MapChannels(const VelodyneData::t_channel_data& channels) const;
 
-    /**
-     * Fill channles in specific packet in packet index
-     * @param channels - the data of the channels
-     */
-    void FillChannelsInPacket(const VelodyneData::t_channel_data& channels);
 
-    /**
-     * Fill data records on VLP packet
-     * @param data - velodyne data to fill
-     */
-    virtual void FillDataRecords(const VelodyneData& data);
 	/**
      * convert number to unsigned char array with HEX values of this number. the array bytes are reversed.
      * This function works only for unsigned types!
@@ -98,8 +102,6 @@ public:
 	virtual int SendMessage(ICommunication* comm) const override;
 
 	virtual int GetMessageSize() const override;
-
-	bool IsReadyToSend() const;
 
     void InitMessage();
 };

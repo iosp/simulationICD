@@ -20,24 +20,25 @@
 using namespace boost::posix_time;
 
 void Tester::TestVLP() {
-    VLPWrapper* vlp = CreateVLPObject("/home/robil/simConfigs/vlp.conf");
-    RunVLP(vlp);
-    double counter = 0;
+    VLPWrapper* vlp = VLPCreateObject("/home/robil/simConfigs/vlp.conf");
+    double azimuth = 0;
 
-    for (auto i : boost::irange(0, 50)) {
-        for (auto j : boost::irange(0, 16)) {
-            SetChannel(vlp, j, 0);
+    for (auto i : boost::irange(0, 10000)) {
+        for (auto j : boost::irange(0, 24)) {
+            for (auto k : boost::irange(0, 16)) {
+                VLPSetChannel(vlp, k, 0);
+            }
+            VLPSetAzimuth(vlp, azimuth);
+            VLPSetTimeStamp(vlp, i);
+            VLPCloseBlock(vlp);
+            usleep(1000);
+            azimuth += 0.2;
+            azimuth = (azimuth >= 360) ? 0 : azimuth;
         }
-        
-        SetAzimuth(vlp, counter);
-        SetVLPTimeStamp(vlp, i);
-        SendVLPData(vlp);
-        usleep(1000);
-        counter += 0.2;
-        counter = (counter >= 360) ? 0 : counter;
+        VLPSendData(vlp);
     }
 
-    DeleteVLPObject(vlp);
+    VLPDeleteObject(vlp);
 }
 
 void Tester::TestDgps() {
@@ -162,12 +163,12 @@ void Tester::TestConf() {
 }
 
 Tester::Tester() {
-    // TestVLP();
+    TestVLP();
     // TestDgps();
     // TestConf();
     // TestIns();
     // TestCAN();
     // TestIdan();
-    TestIbeo();
+    // TestIbeo();
     //TestTCP();
 }

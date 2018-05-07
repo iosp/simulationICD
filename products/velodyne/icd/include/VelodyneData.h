@@ -14,42 +14,52 @@
 
 class VelodyneData {
 public:  typedef std::vector<std::pair<double, short> > t_channel_data;
+public: 
+    class VelodyneBlock {
+    private:
+        double m_azimuth;
+        t_channel_data m_channels;
+        float m_simTime;
+    public:
+        double GetAzimuth() const {
+            return m_azimuth;
+        }
+        
+        void SetAzimuth(double azimuth) {
+            m_azimuth = azimuth;
+        }
+
+        const t_channel_data& GetChannels() const {
+            return m_channels;
+        }
+
+        void SetChannels(const t_channel_data& channels) {
+            m_channels = channels;
+        }
+
+        float GetSimTime() const {
+            return m_simTime;
+        }
+
+        void SetSimTime(float simTime) {
+            m_simTime = simTime;
+        }
+    };
 
 private:
-    double m_azimuth;
-    t_channel_data m_channels;
-    float m_simTime;
+    std::vector<VelodyneBlock> m_blocks;
 
 public:
     VelodyneData() = default;
 
-    VelodyneData(double azimuth, const t_channel_data& channels, float simTime);
-
     ~VelodyneData() = default;
 
-    double GetAzimuth() const {
-        return m_azimuth;
-    }
-    
-    void SetAzimuth(double azimuth) {
-        m_azimuth = azimuth;
+    void AddBlock(const VelodyneBlock& block);
+
+    const std::vector<VelodyneBlock>& GetBlocks() const {
+        return m_blocks;
     }
 
-    const t_channel_data& GetChannels() const {
-        return m_channels;
-    }
-
-    void SetChannels(const t_channel_data& channels) {
-        m_channels = channels;
-    }
-
-    float GetSimTime() const {
-        return m_simTime;
-    }
-
-    void SetSimTime(float simTime) {
-        m_simTime = simTime;
-    }
 
      std::string toString() const;
 };

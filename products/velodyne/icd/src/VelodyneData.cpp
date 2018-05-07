@@ -9,18 +9,20 @@
 #include "VelodyneData.h"
 #include <sstream>
 
-VelodyneData::VelodyneData(double azimuth, const t_channel_data& channels, float simTime) : m_azimuth(azimuth), 
-        m_channels(channels), m_simTime(simTime) {
-
+void VelodyneData::AddBlock(const VelodyneBlock& block) {
+    m_blocks.push_back(block);
 }
 
- std::string VelodyneData::toString() const {
+std::string VelodyneData::toString() const {
     std::stringstream ss;
-    ss << "Azimuth: " << m_azimuth << std::endl;
-    for (auto const& channel : m_channels) {
-        ss << "(" << channel.first << "," << channel.second << ") ";
+    ss << std::endl;
+    for (auto const& block : m_blocks) {
+        ss << "Azimuth: " << block.GetAzimuth() << std::endl;
+        for (auto const& channel : block.GetChannels()) {
+            ss << "(" << channel.first << "," << channel.second << ") ";
+        }
+        ss << std::endl << "Simulation time: " << block.GetSimTime() << std::endl;
     }
-    ss << std::endl << "Simulation time: " << m_simTime;
-    
+   
     return ss.str();
  }

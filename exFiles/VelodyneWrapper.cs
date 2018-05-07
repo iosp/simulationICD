@@ -6,30 +6,30 @@ public class VelodyneWrapper : IDisposable {
 	const String DLL_LOCATION = "libvlp";
 
 	[DllImport (DLL_LOCATION)]
-	private static extern IntPtr CreateVLPObject(string confFilePath);
+	private static extern IntPtr VLPCreateObject(string confFilePath);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern void DeleteVLPObject(IntPtr pVlp);
+	private static extern void VLPDeleteObject(IntPtr pVlp);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern void RunVLP(IntPtr pVlp);
+	private static extern void VLPSetAzimuth(IntPtr pVlp, double azimuth);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern void SetAzimuth(IntPtr pVlp, double azimuth);
+	private static extern void VLPSetTimeStamp(IntPtr pVlp, float timeStamp);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern void SetVLPTimeStamp(IntPtr pVlp, float timeStamp);
+	private static extern void VLPSetChannel(IntPtr pVlp, double distance, short reflectivity);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern void SetChannel(IntPtr pVlp, double distance, short reflectivity);
+	private static extern void VLPCloseBlock(IntPtr pVlp);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern void SendVLPData(IntPtr pVlp);
+	private static extern void VLPSendData(IntPtr pVlp);
 
 	private IntPtr m_nativeObject;
 
 	public VelodyneWrapper(string confFilePath) {
-			this.m_nativeObject = CreateVLPObject(confFilePath);
+			this.m_nativeObject = VLPCreateObject(confFilePath);
 	}
 
 	~VelodyneWrapper() {Dispose(false);}
@@ -38,7 +38,7 @@ public class VelodyneWrapper : IDisposable {
 
     protected virtual void Dispose(bool bDisposing) {
         if (this.m_nativeObject != IntPtr.Zero) {
-            DeleteVLPObject(this.m_nativeObject);
+            VLPDeleteObject(this.m_nativeObject);
             this.m_nativeObject = IntPtr.Zero;
         }
 
@@ -47,23 +47,23 @@ public class VelodyneWrapper : IDisposable {
         }
     }
 
-	public void Run() {
-		RunVLP(this.m_nativeObject);
-	}
-
 	public void SetAzimuth(double azimuth) {
-		SetAzimuth(this.m_nativeObject, azimuth);
+		VLPSetAzimuth(this.m_nativeObject, azimuth);
 	}
 
 	public void SetTimeStamp(float timeStamp) {
-		SetVLPTimeStamp(this.m_nativeObject, timeStamp);
+		VLPSetTimeStamp(this.m_nativeObject, timeStamp);
 	}
 
 	public void SetChannel(double distance, short reflectivity) {
-		SetChannel(this.m_nativeObject, distance, reflectivity);
+		VLPSetChannel(this.m_nativeObject, distance, reflectivity);
+	}
+
+	public void CloseBlock() {
+		VLPCloseBlock(this.m_nativeObject);
 	}
 
 	public void SendData() {
-		SendVLPData(this.m_nativeObject);
+		VLPSendData(this.m_nativeObject);
 	}
 }

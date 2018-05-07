@@ -21,16 +21,35 @@ VLPMessage::VLPMessage(float hertz, int returnMode, int dataSource): IMessage(he
 } 
 
 void VLPMessage::FillMessage(const VelodyneData& data) {
-	if (m_packetIndex == 0) {
-		FillTimeStamp(data);
-	}
-	FillAzimuth(data);
-	FillDataRecords(data);
-	m_packetIndex++;
+	// convert data from 24*16 to 12*32
+    auto blocks = CombineBlocks(data.GetBlocks());
+    // Fill timestamp of the first
+    FillTimeStamp(blocks[0].GetSimTime());
+     // for every block: fill azimuth, fill data records
+    for (const auto& block : blocks) {
+        FillAzimuth(block.GetAzimuth());
+        FillChannels(block.GetChannels());
+        m_packetIndex++;
+    }
 }
 
-bool VLPMessage::IsReadyToSend() const {
-	return m_packetIndex == NUM_OF_VLP_DATA_BLOCKS;
+std::vector<VelodyneData::VelodyneBlock> VLPMessage::CombineBlocks(const std::vector<VelodyneData::VelodyneBlock>& origBlocks) const {
+    std::vector<VelodyneData::VelodyneBlock> combinedBlocks;
+    VelodyneData::VelodyneBlock currBlock;
+    for (int i = 0; i < origBlocks.size(); i++) {
+        if ((i % 2) == 0) {
+            currBlock = origBlocks[i];
+        }
+        else {
+            auto channels = currBlock.GetChannels();
+            auto additionalChannels = origBlocks[i].GetChannels();
+            channels.insert(channels.end(), additionalChannels.begin(), additionalChannels.end());
+            currBlock.SetChannels(channels);
+            combinedBlocks.push_back(currBlock);
+            currBlock = VelodyneData::VelodyneBlock();
+        }
+    }
+    return combinedBlocks;
 }
 
 int VLPMessage::GetMessageSize() const {
@@ -54,32 +73,23 @@ void VLPMessage::FillFactory(int returnMode, int dataSource) {
     m_packet.factory[1] = dataSource;    
 }
 
-void VLPMessage::FillTimeStamp(const VelodyneData& data) {
-    // reduce hours from the time stamp (time stamp is how much time passed after the last round hour)
-    unsigned long microseconds = data.GetSimTime() * 1e6; // TODO check the exact time stamp to send
+void VLPMessage::FillTimeStamp(float timeStamp) {
+    // TODO check the exact time stamp to send
+    unsigned long microseconds = timeStamp * 1e6; 
     ToByteArray((unsigned long)microseconds, m_packet.timeStamp, sizeof(m_packet.timeStamp));
 }
 
-void VLPMessage::FillAzimuth(const VelodyneData& data) {
+void VLPMessage::FillAzimuth(float azimuth) {
     // convert the angle * 100 (in order to save double information) to array on the suitable block of the packet
-    ToByteArray((unsigned int) (data.GetAzimuth() * AZIMUTH_MULT),
+    ToByteArray((unsigned int) (azimuth * AZIMUTH_MULT),
         m_packet.dataBlocks[m_packetIndex].azimuth, sizeof(m_packet.dataBlocks[m_packetIndex].azimuth));
 }
 
-void VLPMessage::FillDataRecords(const VelodyneData& data) {
-    VelodyneData::t_channel_data first16Elem(data.GetChannels().begin(), data.GetChannels().begin() + 16);
-    VelodyneData::t_channel_data last16Elem(data.GetChannels().begin() + 16, data.GetChannels().end());
-    auto values = MapChannels(first16Elem);
-    auto additionalValues = MapChannels(last16Elem);
-    values.insert(values.end(), additionalValues.begin(), additionalValues.end());
-
-    FillChannelsInPacket(values);
-}
-
-void VLPMessage::FillChannelsInPacket(const VelodyneData::t_channel_data& channels) {
-    for (auto i : boost::irange<size_t>(0, channels.size())) {
+void VLPMessage::FillChannels(const VelodyneData::t_channel_data& channels) {
+    auto fixedChannels = MapChannels(channels);
+    for (auto i : boost::irange<size_t>(0, fixedChannels.size())) {
          // convert the distance * 500 (in order to save double information) to array on the suitable block of the packet
-        ToByteArray((unsigned int)(channels[i].first * DISTANCE_MULT), 
+        ToByteArray((unsigned int)(fixedChannels[i].first * DISTANCE_MULT), 
             m_packet.dataBlocks[m_packetIndex].dataRecords[i].distance, sizeof(m_packet.dataBlocks[m_packetIndex].dataRecords[i].distance));
     }
 }

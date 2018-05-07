@@ -8,18 +8,30 @@
 
 #include "VLPPluginAPI.h"
 
-VLPWrapper* CreateVLPObject(const char* confFilePath) {
+VLPWrapper* VLPCreateObject(const char* confFilePath) {
     return new VLPWrapper(confFilePath);
 }
 
-void DeleteVLPObject(VLPWrapper* pVlp) {delete pVlp;}
+void VLPDeleteObject(VLPWrapper* pObj) {
+    delete pObj;
+}
 
-void RunVLP(VLPWrapper* pVlp) { pVlp->Run();}
+void VLPSetAzimuth(VLPWrapper* pObj, double azimuth) {
+    pObj->SetAzimuth(azimuth);
+}
 
-void SetAzimuth(VLPWrapper* pVlp, double azimuth){ pVlp->SetAzimuth(azimuth); }
+void VLPSetTimeStamp(VLPWrapper* pObj, float timeStamp) {
+    pObj->SetTimeStamp(timeStamp);
+}
 
-void SetVLPTimeStamp(VLPWrapper* pVlp, float timeStamp) { pVlp->SetTimeStamp(timeStamp); }
+void VLPSetChannel(VLPWrapper* pObj, double distance, short reflectivity) {
+    pObj->SetChannel(distance, reflectivity);
+}
 
-void SetChannel(VLPWrapper* pVlp, double distance, short reflectivity) { pVlp->SetChannel(distance, reflectivity); }
+void VLPCloseBlock(VLPWrapper* pObj) {
+    pObj->CloseBlock();
+}
 
-void SendVLPData(VLPWrapper* pVlp) { pVlp->SetData(); }
+void VLPSendData(VLPWrapper* pObj) {
+    pObj->SetData();
+}
