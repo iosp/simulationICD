@@ -11,9 +11,6 @@
 #include "UDPCommunication.h"
 #include "LoggerProxy.h"
 
-#include <boost/range/irange.hpp> // boost::irange
-#include <boost/assign.hpp> // boost::assign::map_list_of
-
 VLPControl::VLPControl(const std::string& confFilePath) {
 	m_vlpConf = new VLPConfig(confFilePath);
     float hertz = (m_vlpConf->GetSensorFrequency() * DEGREES) /
@@ -32,7 +29,7 @@ VLPControl::~VLPControl() {
 }
 
 bool VLPControl::CheckDataValidation(const VelodyneData& data) const {
-    if (data.GetBlocks().size() != 24) {
+    if (data.GetBlocks().size() != (NUM_OF_VLP_DATA_BLOCKS * 2)) {
         ERRLOG << "Number of blocks is not valid: " << data.GetBlocks().size() << "\n";
         return false;
     }
@@ -45,7 +42,7 @@ bool VLPControl::CheckDataValidation(const VelodyneData& data) const {
             return false;
         }
         // check that the data size corresponds to the number of columns
-        if (block.GetChannels().size() != 16) {
+        if (block.GetChannels().size() != (NUM_OF_VLP_DATA_CHANNELS_IN_BLOCK / 2)) {
             ERRLOG << "Channels size is not valid: " << block.GetChannels().size() << "\n";
             return false;
         }
