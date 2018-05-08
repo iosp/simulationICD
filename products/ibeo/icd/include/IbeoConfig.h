@@ -10,14 +10,12 @@
 */
 
 #include <string>
-#include <map>
+#include "ProdConfig.h"
 
 class ConfigurationINI; // forward declaration
 
-class IbeoConfig {
+class IbeoConfig : public ProdConfig {
 private:
-    ConfigurationINI* m_ibeoConf;
-
     static const std::string IP_ADDRESS_KEY;
     static const std::string IP_ADDRESS_DEF_VAL;
 
@@ -40,12 +38,15 @@ private:
     static const std::string ANGLE_INCREMENT_KEY;
     static const std::string ANGLE_INCREMENT_DEF_VAL;
     
-    void SetConfDefaultValues();
+protected:
+    virtual void SetConfDefaultValues() override;
+
+    virtual std::string GetProdName() const override;
 
 public:
     IbeoConfig(const std::string& confFilePath);
 
-    virtual ~IbeoConfig();
+    virtual ~IbeoConfig(){}
 
     std::string GetIpAddress() const;
 

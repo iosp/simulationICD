@@ -41,80 +41,76 @@ const std::string InsConfig::ERRORS_ESTIMATION_MSG_HZ_KEY = "ERRORS_ESTIMATION_M
 const std::string InsConfig::ERRORS_ESTIMATION_MSG_HZ_DEF_VAL = "1";
 
 InsConfig::InsConfig(const std::string& confFilePath) {
-    m_insConf = new ConfigurationINI(confFilePath);
-    SetConfDefaultValues();
-    m_insConf->ParseConfFile();
-
-    LOG << "INS configuration is:\n" << m_insConf->toString() << "\n";
-
-}
-
-InsConfig::~InsConfig() {
-    delete m_insConf;
+    m_confFilePath = confFilePath;
+    Init();
 }
 
 void InsConfig::SetConfDefaultValues() {
-    m_insConf->SetValue(STATUS_MSG_IP_ADDRESS_KEY, STATUS_MSG_IP_ADDRESS_DEF_VAL);
-    m_insConf->SetValue(STATUS_MSG_PORT_KEY, STATUS_MSG_PORT_DEF_VAL);
-    m_insConf->SetValue(STATUS_MSG_HZ_KEY, STATUS_MSG_HZ_DEF_VAL);
+    m_conf->SetValue(STATUS_MSG_IP_ADDRESS_KEY, STATUS_MSG_IP_ADDRESS_DEF_VAL);
+    m_conf->SetValue(STATUS_MSG_PORT_KEY, STATUS_MSG_PORT_DEF_VAL);
+    m_conf->SetValue(STATUS_MSG_HZ_KEY, STATUS_MSG_HZ_DEF_VAL);
 
-    m_insConf->SetValue(NAVIGATION_DATA_MSG_IP_ADDRESS_KEY, NAVIGATION_DATA_MSG_IP_ADDRESS_DEF_VAL);
-    m_insConf->SetValue(NAVIGATION_DATA_MSG_PORT_KEY, NAVIGATION_DATA_MSG_PORT_DEF_VAL);
-    m_insConf->SetValue(NAVIGATION_DATA_MSG_HZ_KEY, NAVIGATION_DATA_MSG_HZ_DEF_VAL);
+    m_conf->SetValue(NAVIGATION_DATA_MSG_IP_ADDRESS_KEY, NAVIGATION_DATA_MSG_IP_ADDRESS_DEF_VAL);
+    m_conf->SetValue(NAVIGATION_DATA_MSG_PORT_KEY, NAVIGATION_DATA_MSG_PORT_DEF_VAL);
+    m_conf->SetValue(NAVIGATION_DATA_MSG_HZ_KEY, NAVIGATION_DATA_MSG_HZ_DEF_VAL);
 
-    m_insConf->SetValue(INTERNAL_GPS_MSG_IP_ADDRESS_KEY, INTERNAL_GPS_MSG_IP_ADDRESS_DEF_VAL);
-    m_insConf->SetValue(INTERNAL_GPS_MSG_PORT_KEY, INTERNAL_GPS_MSG_PORT_DEF_VAL);
-    m_insConf->SetValue(INTERNAL_GPS_MSG_HZ_KEY, INTERNAL_GPS_MSG_HZ_DEF_VAL);
+    m_conf->SetValue(INTERNAL_GPS_MSG_IP_ADDRESS_KEY, INTERNAL_GPS_MSG_IP_ADDRESS_DEF_VAL);
+    m_conf->SetValue(INTERNAL_GPS_MSG_PORT_KEY, INTERNAL_GPS_MSG_PORT_DEF_VAL);
+    m_conf->SetValue(INTERNAL_GPS_MSG_HZ_KEY, INTERNAL_GPS_MSG_HZ_DEF_VAL);
 
-    m_insConf->SetValue(ERRORS_ESTIMATION_MSG_IP_ADDRESS_KEY, ERRORS_ESTIMATION_MSG_IP_ADDRESS_DEF_VAL);
-    m_insConf->SetValue(ERRORS_ESTIMATION_MSG_PORT_KEY, ERRORS_ESTIMATION_MSG_PORT_DEF_VAL);
-    m_insConf->SetValue(ERRORS_ESTIMATION_MSG_HZ_KEY, ERRORS_ESTIMATION_MSG_HZ_DEF_VAL);
+    m_conf->SetValue(ERRORS_ESTIMATION_MSG_IP_ADDRESS_KEY, ERRORS_ESTIMATION_MSG_IP_ADDRESS_DEF_VAL);
+    m_conf->SetValue(ERRORS_ESTIMATION_MSG_PORT_KEY, ERRORS_ESTIMATION_MSG_PORT_DEF_VAL);
+    m_conf->SetValue(ERRORS_ESTIMATION_MSG_HZ_KEY, ERRORS_ESTIMATION_MSG_HZ_DEF_VAL);
+}
+
+std::string InsConfig::GetProdName() const {
+    return "INS";
 }
 
 std::string InsConfig::GetStatusMsgIpAddress() const {
-    return m_insConf->GetValue<std::string>(STATUS_MSG_IP_ADDRESS_KEY);
+    return m_conf->GetValue<std::string>(STATUS_MSG_IP_ADDRESS_KEY);
 }
 
 std::string InsConfig::GetStatusMsgPort() const {
-    return m_insConf->GetValue<std::string>(STATUS_MSG_PORT_KEY);
+    return m_conf->GetValue<std::string>(STATUS_MSG_PORT_KEY);
 }
 
 float InsConfig::GetStatusMsgHz() const {
-    return m_insConf->GetValue<float>(STATUS_MSG_HZ_KEY);
+    return m_conf->GetValue<float>(STATUS_MSG_HZ_KEY);
 }
 
 std::string InsConfig::GetNavigationDataMsgIpAddress() const {
-    return m_insConf->GetValue<std::string>(NAVIGATION_DATA_MSG_IP_ADDRESS_KEY);
+    return m_conf->GetValue<std::string>(NAVIGATION_DATA_MSG_IP_ADDRESS_KEY);
 }
 
 std::string InsConfig::GetNavigationDataMsgPort() const {
-    return m_insConf->GetValue<std::string>(NAVIGATION_DATA_MSG_PORT_KEY);
+    return m_conf->GetValue<std::string>(NAVIGATION_DATA_MSG_PORT_KEY);
 }
 
 float InsConfig::GetNavigationDataMsgHz() const {
-    return m_insConf->GetValue<float>(NAVIGATION_DATA_MSG_HZ_KEY);
+    return m_conf->GetValue<float>(NAVIGATION_DATA_MSG_HZ_KEY);
 }
 
 std::string InsConfig::GetInternalGPSMsgIpAddress() const {
-    return m_insConf->GetValue<std::string>(INTERNAL_GPS_MSG_IP_ADDRESS_KEY);
+    return m_conf->GetValue<std::string>(INTERNAL_GPS_MSG_IP_ADDRESS_KEY);
 }
 
 std::string InsConfig::GetInternalGPSMsgPort() const {
-    return m_insConf->GetValue<std::string>(INTERNAL_GPS_MSG_PORT_KEY);
+    return m_conf->GetValue<std::string>(INTERNAL_GPS_MSG_PORT_KEY);
 }
 
 float InsConfig::GetInternalGPSMsgHz() const {
-    return m_insConf->GetValue<float>(INTERNAL_GPS_MSG_HZ_KEY);
+    return m_conf->GetValue<float>(INTERNAL_GPS_MSG_HZ_KEY);
 }
 
 std::string InsConfig::GetErrorsEstimationMsgIpAddress() const {
-    return m_insConf->GetValue<std::string>(ERRORS_ESTIMATION_MSG_IP_ADDRESS_KEY);
+    return m_conf->GetValue<std::string>(ERRORS_ESTIMATION_MSG_IP_ADDRESS_KEY);
 }
 
 std::string InsConfig::GetErrorsEstimationMsgPort() const {
-    return m_insConf->GetValue<std::string>(ERRORS_ESTIMATION_MSG_PORT_KEY);
+    return m_conf->GetValue<std::string>(ERRORS_ESTIMATION_MSG_PORT_KEY);
 }
 
 float InsConfig::GetErrorsEstimationMsgHz() const {
-    return m_insConf->GetValue<float>(ERRORS_ESTIMATION_MSG_HZ_KEY);
+    return m_conf->GetValue<float>(ERRORS_ESTIMATION_MSG_HZ_KEY);
 }

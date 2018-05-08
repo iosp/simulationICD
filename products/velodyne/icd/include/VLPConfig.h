@@ -9,12 +9,13 @@
 * 
 */
 
+#include "ProdConfig.h"
 #include <string>
 #include <map>
 
 class ConfigurationINI; // forward declaration
 
-class VLPConfig {
+class VLPConfig : public ProdConfig{
 public:
     enum Resolution { _RES02_ = 200, _RES04_ = 400};
     enum ReturnMode { _STRONGEST_ = 37, _LAST_ = 38, _DUAL_ = 39};
@@ -24,8 +25,6 @@ public:
     static const std::map<DataSource, std::string> dataSourceToStr;
 
 private:
-    ConfigurationINI* m_vlpConf;
-
     static const std::string IP_ADDRESS_KEY;
     static const std::string IP_ADDRESS_DEF_VAL;
 
@@ -44,14 +43,17 @@ private:
     static const std::string SENSOR_FREQ_KEY;
     static const std::string SENSOR_FREQ_KEY_DEF_VAL;
 
-    void SetConfDefaultValues();
-
     bool ValidateConfiguration() const;
+
+protected:
+    virtual void SetConfDefaultValues() override;
+
+    virtual std::string GetProdName() const override;
 
 public:
     VLPConfig(const std::string& confFilePath);
 
-    virtual ~VLPConfig();
+    virtual ~VLPConfig(){}
 
     std::string GetIpAddress() const;
 

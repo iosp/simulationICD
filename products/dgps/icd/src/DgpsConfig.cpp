@@ -20,32 +20,28 @@ const std::string DgpsConfig::HERTZ_KEY = "HERTZ";
 const std::string DgpsConfig::HERTZ_DEF_VAL = "10";
 
 DgpsConfig::DgpsConfig(const std::string& confFilePath) {
-    m_dgpsConf = new ConfigurationINI(confFilePath);
-    SetConfDefaultValues();
-    m_dgpsConf->ParseConfFile();
-
-    LOG << "Dgps configuration is:\n" << m_dgpsConf->toString() << "\n";
-
-}
-
-DgpsConfig::~DgpsConfig() {
-    delete m_dgpsConf;
+    m_confFilePath = confFilePath;
+    Init();
 }
 
 void DgpsConfig::SetConfDefaultValues() {
-	m_dgpsConf->SetValue(PORT_NAME_KEY, PORT_NAME_DEF_VAL);
-	m_dgpsConf->SetValue(BAUD_RATE_KEY, BAUD_RATE_DEF_VAL);
-    m_dgpsConf->SetValue(HERTZ_KEY, HERTZ_DEF_VAL);
+	m_conf->SetValue(PORT_NAME_KEY, PORT_NAME_DEF_VAL);
+	m_conf->SetValue(BAUD_RATE_KEY, BAUD_RATE_DEF_VAL);
+    m_conf->SetValue(HERTZ_KEY, HERTZ_DEF_VAL);
+}
+
+std::string DgpsConfig::GetProdName() const {
+    return "DGPS";
 }
 
 std::string DgpsConfig::GetPortName() const {
-    return m_dgpsConf->GetValue<std::string>(PORT_NAME_KEY);
+    return m_conf->GetValue<std::string>(PORT_NAME_KEY);
 }
 
 int DgpsConfig::GetBaudRate() const {
-    return m_dgpsConf->GetValue<int>(BAUD_RATE_KEY);
+    return m_conf->GetValue<int>(BAUD_RATE_KEY);
 }
 
 float DgpsConfig::GetHertz() const {
-    return m_dgpsConf->GetValue<float>(HERTZ_KEY);
+    return m_conf->GetValue<float>(HERTZ_KEY);
 }

@@ -9,14 +9,13 @@
 * 
 */
 
+#include "ProdConfig.h"
 #include <string>
 
 class ConfigurationINI; // forward declaration
 
-class IdanConfig {
+class IdanConfig : public ProdConfig {
 private:
-    ConfigurationINI* m_idanConf;
-
     static const std::string INTERFACE_NAME_KEY;
     static const std::string INTERFACE_NAME_DEF_VAL;
     static const std::string IS_VIRTUAL_INTERFACE_KEY;
@@ -34,13 +33,15 @@ private:
     static const std::string IDAN_SEC_SEN_HERTZ_KEY;
     static const std::string IDAN_SEC_SEN_HERTZ_DEF_VAL;
 
+protected:
+    virtual void SetConfDefaultValues() override;
 
-    void SetConfDefaultValues();
+    virtual std::string GetProdName() const override;
 
 public:
     IdanConfig(const std::string& confFilePath);
 
-    virtual ~IdanConfig();
+    virtual ~IdanConfig(){}
 
     std::string GetInterfaceName() const;
 

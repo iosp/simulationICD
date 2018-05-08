@@ -9,14 +9,13 @@
 * 
 */
 
+#include "ProdConfig.h"
 #include <string>
 
 class ConfigurationINI; // forward declaration
 
-class InsConfig {
+class InsConfig : public ProdConfig{
 private:
-    ConfigurationINI* m_insConf;
-
     static const std::string STATUS_MSG_IP_ADDRESS_KEY;
     static const std::string STATUS_MSG_IP_ADDRESS_DEF_VAL;
     static const std::string STATUS_MSG_PORT_KEY;
@@ -45,12 +44,15 @@ private:
     static const std::string ERRORS_ESTIMATION_MSG_HZ_KEY;
     static const std::string ERRORS_ESTIMATION_MSG_HZ_DEF_VAL;
 
-    void SetConfDefaultValues();
+protected:
+    virtual void SetConfDefaultValues() override;
+
+    virtual std::string GetProdName() const override;
 
 public:
     InsConfig(const std::string& confFilePath);
 
-    virtual ~InsConfig();
+    virtual ~InsConfig(){}
 
     std::string GetStatusMsgIpAddress() const;
     std::string GetStatusMsgPort() const;

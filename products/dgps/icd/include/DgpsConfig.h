@@ -10,13 +10,12 @@
 */
 
 #include <string>
+#include "ProdConfig.h"
 
 class ConfigurationINI; // forward declaration
 
-class DgpsConfig {
+class DgpsConfig : public ProdConfig {
 private:
-    ConfigurationINI* m_dgpsConf;
-
     static const std::string PORT_NAME_KEY;
     static const std::string PORT_NAME_DEF_VAL;
 
@@ -26,12 +25,15 @@ private:
     static const std::string HERTZ_KEY;
     static const std::string HERTZ_DEF_VAL;
 
-    void SetConfDefaultValues();
+protected:
+    virtual void SetConfDefaultValues() override;
+
+    virtual std::string GetProdName() const override;
 
 public:
     DgpsConfig(const std::string& confFilePath);
 
-    virtual ~DgpsConfig();
+    virtual ~DgpsConfig() {}
 
     std::string GetPortName() const;
 

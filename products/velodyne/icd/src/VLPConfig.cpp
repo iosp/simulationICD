@@ -32,28 +32,24 @@ const std::map<VLPConfig::DataSource, std::string> VLPConfig::dataSourceToStr =
             boost::assign::map_list_of(VLPConfig::_HDL32E_, "HDL_32E")(VLPConfig::_VLP16_, "VLP16");
 
 VLPConfig::VLPConfig(const std::string& confFilePath) {
-    m_vlpConf = new ConfigurationINI(confFilePath);
-    SetConfDefaultValues();
-    m_vlpConf->ParseConfFile();
-    if (ValidateConfiguration()) {
-        LOG << "Velodyne configuration is:\n" << m_vlpConf->toString() << "\n";
-    }
-    else {
+    m_confFilePath = confFilePath;
+    Init();
+    if (!ValidateConfiguration()) {
         ERRLOG << "Velodyne configuration is not valid!\n";
     }
 }
 
-VLPConfig::~VLPConfig() {
-    delete m_vlpConf;
+void VLPConfig::SetConfDefaultValues() {
+	m_conf->SetValue(IP_ADDRESS_KEY, IP_ADDRESS_DEF_VAL);
+	m_conf->SetValue(PORT_KEY, PORT_DEF_VAL);
+    m_conf->SetValue(HORIZONTAL_RES_KEY, HORIZONTAL_RES_DEF_VAL);
+    m_conf->SetValue(RETURN_MODE_KEY, RETURN_MODE_DEF_VAL);
+    m_conf->SetValue(DATA_SOURCE_KEY, DATA_SOURCE_DEF_VAL);
+    m_conf->SetValue(SENSOR_FREQ_KEY, SENSOR_FREQ_KEY_DEF_VAL);
 }
 
-void VLPConfig::SetConfDefaultValues() {
-	m_vlpConf->SetValue(IP_ADDRESS_KEY, IP_ADDRESS_DEF_VAL);
-	m_vlpConf->SetValue(PORT_KEY, PORT_DEF_VAL);
-    m_vlpConf->SetValue(HORIZONTAL_RES_KEY, HORIZONTAL_RES_DEF_VAL);
-    m_vlpConf->SetValue(RETURN_MODE_KEY, RETURN_MODE_DEF_VAL);
-    m_vlpConf->SetValue(DATA_SOURCE_KEY, DATA_SOURCE_DEF_VAL);
-    m_vlpConf->SetValue(SENSOR_FREQ_KEY, SENSOR_FREQ_KEY_DEF_VAL);
+std::string VLPConfig::GetProdName() const {
+    return "Velodyne";
 }
 
 bool VLPConfig::ValidateConfiguration() const {
@@ -75,25 +71,25 @@ bool VLPConfig::ValidateConfiguration() const {
 
 
 std::string VLPConfig::GetIpAddress() const {
-    return m_vlpConf->GetValue<std::string>(IP_ADDRESS_KEY);
+    return m_conf->GetValue<std::string>(IP_ADDRESS_KEY);
 }
 
 std::string VLPConfig::GetPort() const {
-    return m_vlpConf->GetValue<std::string>(PORT_KEY);
+    return m_conf->GetValue<std::string>(PORT_KEY);
 }
 
 double VLPConfig::GetHorizontalResolution() const {
-    return m_vlpConf->GetValue<double>(HORIZONTAL_RES_KEY);
+    return m_conf->GetValue<double>(HORIZONTAL_RES_KEY);
 }
 
 VLPConfig::ReturnMode VLPConfig::GetReturnMode() const {
-    return (ReturnMode)m_vlpConf->GetValue<int>(RETURN_MODE_KEY);
+    return (ReturnMode)m_conf->GetValue<int>(RETURN_MODE_KEY);
 }
 
 VLPConfig::DataSource VLPConfig::GetDataSource() const {
-    return (DataSource)m_vlpConf->GetValue<int>(DATA_SOURCE_KEY);
+    return (DataSource)m_conf->GetValue<int>(DATA_SOURCE_KEY);
 }
 
 int VLPConfig::GetSensorFrequency() const {
-    return m_vlpConf->GetValue<int>(SENSOR_FREQ_KEY);
+    return m_conf->GetValue<int>(SENSOR_FREQ_KEY);
 }

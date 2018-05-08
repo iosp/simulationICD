@@ -29,23 +29,22 @@ const boost::bimaps::bimap<LogLevel, std::string> LogConfig::m_logLevelToStr =
     boost::assign::list_of<boost::bimaps::bimap<LogLevel, std::string>::relation>(_DEBUG_, "DEBUG")(_NORMAL_, "NORMAL")(_ERROR_, "ERROR")(_ALWAYS_, "ALWAYS");
 
 LogConfig::LogConfig(const std::string& confFilePath) {
-    m_logConf = new ConfigurationINI(confFilePath);
-    SetConfDefaultValues();
-    m_logConf->ParseConfFile();
-}
-
-LogConfig::~LogConfig() {
-    delete m_logConf;
+    m_confFilePath = confFilePath;
+    Init();
 }
 
 void LogConfig::SetConfDefaultValues() {
-    m_logConf->SetValue(SCREEN_LOG_LEVEL_KEY, SCREEN_LOG_LEVEL_DEF_VAL);
-    m_logConf->SetValue(FILE_LOG_LEVEL_KEY, FILE_LOG_LEVEL_DEF_VAL);
-    m_logConf->SetValue(LOG_DIR_NAME_KEY, LOG_DIR_NAME_DEF_VAL);
+    m_conf->SetValue(SCREEN_LOG_LEVEL_KEY, SCREEN_LOG_LEVEL_DEF_VAL);
+    m_conf->SetValue(FILE_LOG_LEVEL_KEY, FILE_LOG_LEVEL_DEF_VAL);
+    m_conf->SetValue(LOG_DIR_NAME_KEY, LOG_DIR_NAME_DEF_VAL);
+}
+
+std::string LogConfig::GetProdName() const {
+    return "Log";
 }
 
 LogLevel LogConfig::GetLevelEnumByKey(const std::string& key) const {
-    std::string val = m_logConf->GetValue<std::string>(key);
+    std::string val = m_conf->GetValue<std::string>(key);
     auto enumIt = m_logLevelToStr.right.find(val);
     if (enumIt != m_logLevelToStr.right.end()) {
         return enumIt->second;
@@ -64,5 +63,5 @@ LogLevel LogConfig::GetFileLogLevel() const {
 }
 
 std::string LogConfig::GetLogDirName() const {
-    return m_logConf->GetValue<std::string>(LOG_DIR_NAME_KEY);
+    return m_conf->GetValue<std::string>(LOG_DIR_NAME_KEY);
 }
