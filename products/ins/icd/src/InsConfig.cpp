@@ -12,8 +12,6 @@
 #include "ConfigurationINI.h"
 #include <sstream>
 
-const std::string InsConfig::STATUS_MSG_IP_ADDRESS_KEY = "STATUS_MSG_IP";
-const std::string InsConfig::STATUS_MSG_IP_ADDRESS_DEF_VAL = "132.4.5.10";
 const std::string InsConfig::STATUS_MSG_PORT_KEY = "STATUS_MSG_PORT";
 const std::string InsConfig::STATUS_MSG_PORT_DEF_VAL = "2001";
 const std::string InsConfig::STATUS_MSG_HZ_KEY = "STATUS_MSG_HERTZ";
@@ -46,7 +44,6 @@ InsConfig::InsConfig(const std::string& confFilePath) {
 }
 
 void InsConfig::SetConfDefaultValues() {
-    m_conf->SetValue(STATUS_MSG_IP_ADDRESS_KEY, STATUS_MSG_IP_ADDRESS_DEF_VAL);
     m_conf->SetValue(STATUS_MSG_PORT_KEY, STATUS_MSG_PORT_DEF_VAL);
     m_conf->SetValue(STATUS_MSG_HZ_KEY, STATUS_MSG_HZ_DEF_VAL);
 
@@ -65,10 +62,6 @@ void InsConfig::SetConfDefaultValues() {
 
 std::string InsConfig::GetProdName() const {
     return "INS";
-}
-
-std::string InsConfig::GetStatusMsgIpAddress() const {
-    return m_conf->GetValue<std::string>(STATUS_MSG_IP_ADDRESS_KEY);
 }
 
 std::string InsConfig::GetStatusMsgPort() const {

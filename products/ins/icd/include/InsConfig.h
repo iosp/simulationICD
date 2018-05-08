@@ -16,8 +16,6 @@ class ConfigurationINI; // forward declaration
 
 class InsConfig : public ProdConfig{
 private:
-    static const std::string STATUS_MSG_IP_ADDRESS_KEY;
-    static const std::string STATUS_MSG_IP_ADDRESS_DEF_VAL;
     static const std::string STATUS_MSG_PORT_KEY;
     static const std::string STATUS_MSG_PORT_DEF_VAL;
     static const std::string STATUS_MSG_HZ_KEY;
@@ -54,7 +52,6 @@ public:
 
     virtual ~InsConfig(){}
 
-    std::string GetStatusMsgIpAddress() const;
     std::string GetStatusMsgPort() const;
     float GetStatusMsgHz() const;
 

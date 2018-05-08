@@ -16,9 +16,6 @@ class ConfigurationINI; // forward declaration
 
 class IbeoConfig : public ProdConfig {
 private:
-    static const std::string IP_ADDRESS_KEY;
-    static const std::string IP_ADDRESS_DEF_VAL;
-
     static const std::string PORT_KEY;
     static const std::string PORT_DEF_VAL;
 
@@ -47,8 +44,6 @@ public:
     IbeoConfig(const std::string& confFilePath);
 
     virtual ~IbeoConfig(){}
-
-    std::string GetIpAddress() const;
 
     std::string GetPort() const;
 

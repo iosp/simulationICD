@@ -10,8 +10,8 @@
 #include "LoggerProxy.h"
 #include <boost/asio.hpp> // boost::asio::io_service
 
-TCPCommunication::TCPCommunication(const std::string& ipAddress, const std::string& port) : 
-    m_port(port), m_ipAddress(ipAddress){
+TCPCommunication::TCPCommunication(const std::string& port) : 
+    m_port(port){
 
 }
 

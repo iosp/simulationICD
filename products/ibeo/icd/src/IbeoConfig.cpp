@@ -9,8 +9,6 @@
 #include "LoggerProxy.h"
 #include "ConfigurationINI.h"
 
-const std::string IbeoConfig::IP_ADDRESS_KEY = "IP_ADDRESS";
-const std::string IbeoConfig::IP_ADDRESS_DEF_VAL = "192.168.0.1";
 const std::string IbeoConfig::PORT_KEY = "PORT";
 const std::string IbeoConfig::PORT_DEF_VAL = "12002";
 const std::string IbeoConfig::HERTZ_KEY = "HERTZ";
@@ -32,7 +30,6 @@ IbeoConfig::IbeoConfig(const std::string& confFilePath)  {
 }
 
 void IbeoConfig::SetConfDefaultValues() {
-	m_conf->SetValue(IP_ADDRESS_KEY, IP_ADDRESS_DEF_VAL);
 	m_conf->SetValue(PORT_KEY, PORT_DEF_VAL);
     m_conf->SetValue(HERTZ_KEY, HERTZ_DEF_VAL);
     m_conf->SetValue(T_START_ANGLE_KEY, T_START_ANGLE_DEF_VAL);
@@ -44,10 +41,6 @@ void IbeoConfig::SetConfDefaultValues() {
 
 std::string IbeoConfig::GetProdName() const {
     return "IBEO";
-}
-
-std::string IbeoConfig::GetIpAddress() const {
-    return m_conf->GetValue<std::string>(IP_ADDRESS_KEY);
 }
 
 std::string IbeoConfig::GetPort() const {

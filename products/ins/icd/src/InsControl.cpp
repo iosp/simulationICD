@@ -73,8 +73,7 @@ void InsControl::SetData(const InsData& data) {
 
 void InsControl::Run() {
 	// create the messages
-	m_messages.push_back(t_message(new StatusMessage(m_insConf->GetStatusMsgHz()),
-									 new TCPCommunication(m_insConf->GetStatusMsgIpAddress(), m_insConf->GetStatusMsgPort())));
+	m_messages.push_back(t_message(new StatusMessage(m_insConf->GetStatusMsgHz()), new TCPCommunication(m_insConf->GetStatusMsgPort())));
 	m_messages.push_back(t_message(new NavigationDataMessage(m_insConf->GetNavigationDataMsgHz()),
 									 new UDPCommunication(m_insConf->GetNavigationDataMsgIpAddress(), m_insConf->GetNavigationDataMsgPort())));
 	m_messages.push_back(t_message(new InternalGPSMessage(m_insConf->GetInternalGPSMsgHz()),

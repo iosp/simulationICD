@@ -14,7 +14,7 @@
 
 IbeoControl::IbeoControl(const std::string& confFilePath) {
 	m_ibeoConf = new IbeoConfig(confFilePath);
-	m_comm = new TCPCommunication(m_ibeoConf->GetIpAddress(), m_ibeoConf->GetPort());
+	m_comm = new TCPCommunication(m_ibeoConf->GetPort());
 }
 
 IbeoControl::~IbeoControl() {
