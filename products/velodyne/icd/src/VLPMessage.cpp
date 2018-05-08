@@ -41,8 +41,8 @@ std::vector<VelodyneData::VelodyneBlock> VLPMessage::CombineBlocks(const std::ve
             currBlock = origBlocks[i];
         }
         else {
-            auto channels = currBlock.GetChannels();
-            auto additionalChannels = origBlocks[i].GetChannels();
+            auto channels = MapChannels(currBlock.GetChannels());
+            auto additionalChannels = MapChannels(origBlocks[i].GetChannels());
             channels.insert(channels.end(), additionalChannels.begin(), additionalChannels.end());
             currBlock.SetChannels(channels);
             combinedBlocks.push_back(currBlock);
@@ -86,10 +86,9 @@ void VLPMessage::FillAzimuth(float azimuth) {
 }
 
 void VLPMessage::FillChannels(const VelodyneData::t_channel_data& channels) {
-    auto fixedChannels = MapChannels(channels);
-    for (auto i : boost::irange<size_t>(0, fixedChannels.size())) {
+    for (auto i : boost::irange<size_t>(0, channels.size())) {
          // convert the distance * 500 (in order to save double information) to array on the suitable block of the packet
-        ToByteArray((unsigned int)(fixedChannels[i].first * DISTANCE_MULT), 
+        ToByteArray((unsigned int)(channels[i].first * DISTANCE_MULT), 
             m_packet.dataBlocks[m_packetIndex].dataRecords[i].distance, sizeof(m_packet.dataBlocks[m_packetIndex].dataRecords[i].distance));
     }
 }
