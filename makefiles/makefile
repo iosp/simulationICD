@@ -4,7 +4,8 @@ MAKEFILES = makefile_vel \
 			makefile_dgps \
 			makefile_ins \
 			makefile_idan \
-			makefile_ibeo
+			makefile_ibeo \
+			makefile_ipon
 
 all: compprods
 

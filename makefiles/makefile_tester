@@ -23,6 +23,8 @@ STAT_LIBS_BASE_NAMES = velicd \
 						idanwrapper \
 						ibeoicd \
 						ibeowrapper \
+						iponicd \
+						iponwrapper \
 						utils \
 						communications \
 						tester

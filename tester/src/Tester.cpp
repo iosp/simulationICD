@@ -23,10 +23,10 @@ void Tester::TestVLP() {
     VLPWrapper* vlp = VLPCreateObject("/home/robil/simConfigs/vlp.conf");
     double azimuth = 0;
 
-    for (auto i : boost::irange(0, 10000)) {
+    for (auto i : boost::irange(0, 1000000)) {
         for (auto j : boost::irange(0, 24)) {
             for (auto k : boost::irange(0, 16)) {
-                VLPSetChannel(vlp, k, 0);
+                VLPSetChannel(vlp, 5, 0);
             }
             VLPSetAzimuth(vlp, azimuth);
             VLPSetTimeStamp(vlp, i);
@@ -170,5 +170,5 @@ Tester::Tester() {
     // TestCAN();
     // TestIdan();
     // TestIbeo();
-    //TestTCP();
+    // TestTCP();
 }
