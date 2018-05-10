@@ -12,25 +12,26 @@
 
 // Functions that can be used by the plugin
 extern "C" {
-    IbeoWrapper* CreateIbeoObject(const char* confFilePath);
+    IbeoWrapper* IbeoCreateObject(const char* confFilePath);
 
-    void DeleteIbeoObject(IbeoWrapper* pObj);
+    void IbeoDeleteObject(IbeoWrapper* pObj);
 
-    void RunIbeo(IbeoWrapper* pObj);
+    void IbeoRun(IbeoWrapper* pObj);
 
-    void SendIbeoData(IbeoWrapper* pOb);
+    void IbeoSendData(IbeoWrapper* pObj);
 
-    void SetNumOfPoints(IbeoWrapper* pOb, int numOfPoints);
+    void IbeoSetNumOfPoints(IbeoWrapper* pObj, int numOfPoints);
 
-    void SetRangePointB1(IbeoWrapper* pOb, double point);
+    void IbeoSetRangePointB1(IbeoWrapper* pObj, double point);
 
-    void SetRangePointB2(IbeoWrapper* pOb, double point);
+    void IbeoSetRangePointB2(IbeoWrapper* pObj, double point);
 
-    void SetRangePointT1(IbeoWrapper* pOb, double point);
+    void IbeoSetRangePointT1(IbeoWrapper* pObj, double point);
 
-    void SetRangePointT2(IbeoWrapper* pOb, double point);
+    void IbeoSetRangePointT2(IbeoWrapper* pObj, double point);
 
-    void SetIbeoTimeStamp(IbeoWrapper* pVlp, float timeStamp);
+    void IbeoSetTimeStamp(IbeoWrapper* pObj, float timeStamp);
+
 }
 
 #endif // IBEOPLUGINAPI_H

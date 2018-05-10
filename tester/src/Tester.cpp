@@ -144,14 +144,14 @@ void Tester::TestIdan() {
 }
 
 void Tester::TestIbeo() {
-    IbeoWrapper* ibeo = CreateIbeoObject("/home/robil/simConfigs/ibeo.conf");
-    RunIbeo(ibeo);
+    IbeoWrapper* ibeo = IbeoCreateObject("/home/robil/simConfigs/ibeo.conf");
+    IbeoRun(ibeo);
 
     while (true) {
         sleep(1);
     }
 
-    DeleteIbeoObject(ibeo);
+    IbeoDeleteObject(ibeo);
 }
 
 void Tester::TestConf() {
@@ -163,12 +163,12 @@ void Tester::TestConf() {
 }
 
 Tester::Tester() {
-    TestVLP();
+    // TestVLP();
     // TestDgps();
     // TestConf();
     // TestIns();
     // TestCAN();
     // TestIdan();
-    // TestIbeo();
+    TestIbeo();
     // TestTCP();
 }

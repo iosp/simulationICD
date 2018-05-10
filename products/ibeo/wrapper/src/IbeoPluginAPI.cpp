@@ -7,36 +7,42 @@
 
 #include "IbeoPluginAPI.h"
 
-IbeoWrapper* CreateIbeoObject(const char* confFilePath) {
+IbeoWrapper* IbeoCreateObject(const char* confFilePath) {
     return new IbeoWrapper(confFilePath);
 }
 
-void DeleteIbeoObject(IbeoWrapper* pObj) { delete pObj;}
-
-void RunIbeo(IbeoWrapper* pObj) { pObj->Run(); }
-
-void SendIbeoData(IbeoWrapper* pObj) { pObj->SetData();}
-
-void SetNumOfPoints(IbeoWrapper* pObj, int numOfPoints) {
-    pObj->SetNumOfPoints(numOfPoints);
+void IbeoDeleteObject(IbeoWrapper* pObj) {
+    delete pObj;
 }
 
-void SetRangePointB1(IbeoWrapper* pObj, double point) {
-    pObj->SetRangePointB1(point);
+void IbeoRun(IbeoWrapper* pObj) {
+    pObj->Run(); 
 }
 
-void SetRangePointB2(IbeoWrapper* pObj, double point) {
-    pObj->SetRangePointB2(point);
+void IbeoSendData(IbeoWrapper* pObj) {
+    pObj->SetData();
 }
 
-void SetRangePointT1(IbeoWrapper* pObj, double point) {
-    pObj->SetRangePointT1(point);
+void IbeoSetNumOfPoints(IbeoWrapper* pObj, int numOfPoints) {
+	pObj->SetNumOfPoints(numOfPoints);
 }
 
-void SetRangePointT2(IbeoWrapper* pObj, double point) {
-    pObj->SetRangePointT2(point);
+void IbeoSetRangePointB1(IbeoWrapper* pObj, double point) {
+	pObj->SetRangePointB1(point);
 }
 
-void SetIbeoTimeStamp(IbeoWrapper* pObj, float timeStamp) {
-    pObj->SetTimeStamp(timeStamp);
+void IbeoSetRangePointB2(IbeoWrapper* pObj, double point) {
+	pObj->SetRangePointB2(point);
+}
+
+void IbeoSetRangePointT1(IbeoWrapper* pObj, double point) {
+	pObj->SetRangePointT1(point);
+}
+
+void IbeoSetRangePointT2(IbeoWrapper* pObj, double point) {
+	pObj->SetRangePointT2(point);
+}
+
+void IbeoSetTimeStamp(IbeoWrapper* pObj, float timeStamp) {
+	pObj->SetTimeStamp(timeStamp);
 }
