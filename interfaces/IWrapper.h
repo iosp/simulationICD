@@ -6,7 +6,6 @@
 * Interface for ICD Wrappers
 * Author: Binyamin Appelbaum
 * Date: 09.01.18
-* 
 */
 
 #include "IICD.h"
@@ -26,19 +25,14 @@ public:
     virtual ~IWrapper() = default;
 
     /**
-     * Set the accumolative data on ICD object
+     * Send the accumolative data on ICD object
      */ 
-    virtual void SetData() = 0;
+    virtual void SendData() = 0;
     
     /**
-     * Get the accumolative data tp ICD object
+     * Receive the data of ICD object
      */ 
-    virtual void GetData() = 0;
-
-    /**
-     * Call run method of ICD object
-     */ 
-    virtual void Run() = 0;
+    virtual void ReceiveData() = 0;
 };
 
 
