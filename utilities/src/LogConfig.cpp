@@ -28,8 +28,8 @@ const std::string LogConfig::LOG_DIR_NAME_DEF_VAL = "icd";
 const boost::bimaps::bimap<LogLevel, std::string> LogConfig::m_logLevelToStr = 
     boost::assign::list_of<boost::bimaps::bimap<LogLevel, std::string>::relation>(_DEBUG_, "DEBUG")(_NORMAL_, "NORMAL")(_ERROR_, "ERROR")(_ALWAYS_, "ALWAYS");
 
-LogConfig::LogConfig(const std::string& confFilePath) {
-    m_confFilePath = confFilePath;
+LogConfig::LogConfig(const std::string& confFilePath) : ProdConfig(confFilePath) {
+    // must call Init from derived class - because init calls pure virtual methods, that cannot be called from base Ctor
     Init();
 }
 

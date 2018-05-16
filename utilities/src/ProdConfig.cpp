@@ -9,8 +9,7 @@
 #include "LoggerProxy.h"
 #include "ConfigurationINI.h"
 
-ProdConfig::ProdConfig() {
-
+ProdConfig::ProdConfig(const std::string& confFilePath) : m_confFilePath(confFilePath) {
 }
 
 ProdConfig::~ProdConfig() {

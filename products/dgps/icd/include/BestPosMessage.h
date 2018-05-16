@@ -21,7 +21,7 @@ protected:
 	E_MESSAGE_ID_INPUT_DGPS_DLV3 GetMessageID() const override;
 
 public:
-	BestPosMessage(float hertz);
+	BestPosMessage() = default;
 
 	virtual ~BestPosMessage() = default;
 

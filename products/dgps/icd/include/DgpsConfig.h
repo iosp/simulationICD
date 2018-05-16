@@ -9,7 +9,6 @@
 * 
 */
 
-#include <string>
 #include "ProdConfig.h"
 
 class ConfigurationINI; // forward declaration
@@ -21,9 +20,6 @@ private:
 
     static const std::string BAUD_RATE_KEY;
     static const std::string BAUD_RATE_DEF_VAL;
-
-    static const std::string HERTZ_KEY;
-    static const std::string HERTZ_DEF_VAL;
 
 protected:
     virtual void SetConfDefaultValues() override;
@@ -38,8 +34,6 @@ public:
     std::string GetPortName() const;
 
     int GetBaudRate() const;
-
-    float GetHertz() const;
 };
 
 

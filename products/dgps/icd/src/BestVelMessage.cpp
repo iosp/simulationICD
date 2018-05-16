@@ -7,13 +7,8 @@
 
 #include "BestVelMessage.h"
 #include "DgpsData.h"
-#include "DgpsStructs.h"
 #include "LoggerProxy.h"
 #include <cstring> // memset, memcpy
-
-BestVelMessage::BestVelMessage(float hertz) : DgpsMessage(hertz) {
-	
-}
 
 void BestVelMessage::FillMessage(const DgpsData& data) {
 	PHS_BESTVEL msg;
@@ -24,10 +19,10 @@ void BestVelMessage::FillMessage(const DgpsData& data) {
 	msg.vel_type = E_POSITION_OR_VELOCITY_TYPE::E_POSITION_OR_VELOCITY_TYPE_OMNISTAR_HP;
 	msg.latency = 0.250;
 	msg.age = 4.000;
-	msg.hor_spd = data.GetLatSpeed();
-	msg.trk_gnd = data.GetLongSpeed();
+	msg.hor_spd = data.GetBestVelLatitude();
+	msg.trk_gnd = data.GetBestVelLongitude();
 
-	msg.vert_spd = data.GetAltAzimuth();
+	msg.vert_spd = data.GetBestVelAltitude();
 	msg.Four_Float_Reserved = 0;
 
 	//CRC will calculate after copy data to the buffer

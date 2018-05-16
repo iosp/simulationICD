@@ -7,7 +7,6 @@
 
 #include "DgpsControl.h"
 #include "LoggerProxy.h"
-#include "Helper.h"
 #include "RSCommunication.h"
 #include "DgpsConfig.h"
 #include "BestVelMessage.h"
@@ -16,72 +15,40 @@
 DgpsControl::DgpsControl(const std::string& confFilePath) {
 	m_dgpsConf = new DgpsConfig(confFilePath);
 	m_comm = new RSCommunication(m_dgpsConf->GetPortName(), m_dgpsConf->GetBaudRate());
+	if (!m_comm->Init()) {
+		ERRLOG << "Failed to initialize communication.\n";
+	}
 }
 
 DgpsControl::~DgpsControl() {
-	m_sendDataThread.interrupt();
-	m_sendDataThread.join();
 	delete m_dgpsConf;
 	delete m_comm;
-	for (auto message : m_messages) {
-		delete message;
-	}
 }
 
-void DgpsControl::Run() {
-	if (!m_comm->Init()) {
-		ERRLOG << "Failed to initialize communication, not running send thread.\n";
-		return;
-	}
-	m_messages.push_back(new BestPosMessage(m_dgpsConf->GetHertz()));
-	m_messages.push_back(new BestVelMessage(m_dgpsConf->GetHertz()));
-
-	m_sendDataThread = boost::thread(&DgpsControl::SendThreadMethod, this);
+void DgpsControl::SendData(const DgpsData& data) {
+	auto msg = GetMsgByType(data.GetCurrMsgType());
+	msg->FillMessage(data);
+	msg->SendMessage(m_comm);
+	// SendMessage(msg); TODO check if necessary
 }
 
-DgpsData DgpsControl::GetData() {
-	ERRLOG << "This function is not implemented!\n";
-    return DgpsData();
-}
-
-void DgpsControl::SetData(const DgpsData& data) {
-	m_dgpsData_mutex.lock();
-	m_dgpsDataCollection.push(data);
-	m_dgpsData_mutex.unlock();
-}
-
-void DgpsControl::SendThreadMethod() {
-	boost::posix_time::ptime startTime = boost::posix_time::microsec_clock::local_time();
-	
-	try {
-		while (true) {
-			DgpsData data;
-			m_dgpsData_mutex.lock();
-			bool hasValue = m_dgpsDataCollection.pop(data);
-			m_dgpsData_mutex.unlock();
-			int timeToSleep = 0;
-			
-			if (hasValue) {
-				DBGLOG << "Going to send data: " << data.toString() << "\n";
-				for (auto message : m_messages) {
-					message->FillMessage(data);
-					SendMessage(message);
-					timeToSleep = message->GetSleepTimeBetweenEverySend();
-				}
-			}
-
-			Utilities::SleepForRestTime(startTime, timeToSleep);
-			boost::this_thread::interruption_point();
-			startTime = boost::posix_time::microsec_clock::local_time();
-		}
-	}
-	catch (boost::thread_interrupted&) {
-        LOG << "thread DGPS interruped!\n";
-        return;
+Message<DgpsData>* DgpsControl::GetMsgByType(DgpsMsgType msgType) const {
+	Message<DgpsData>* msg = nullptr;
+	switch (msgType) {
+        case DGPS_BEST_POS:
+			msg = new BestPosMessage();
+		  	break;
+        case DGPS_BEST_VEL:
+            msg = new BestVelMessage();
+            break;
+        default:
+			ERRLOG << "Something Wrong\n";
+            break;
     }
+	return msg;
 }
 
-void DgpsControl::SendMessage(IMessage<DgpsData>* message) const {
+void DgpsControl::SendMessage(Message<DgpsData>* message) const {
 	bool allSent = false;
 	while (!allSent) {
 		int bytesSent =	message->SendMessage(m_comm);
@@ -90,4 +57,9 @@ void DgpsControl::SendMessage(IMessage<DgpsData>* message) const {
 			ERRLOG << "Couldn't send all buffer data. Retrying...\n";
 		}
 	}
+}
+
+DgpsData DgpsControl::ReceiveData() {
+	ERRLOG << "This function is not implemented!\n";
+    return DgpsData();
 }

@@ -28,14 +28,9 @@ public:
     ~DgpsWrapper();
 
     /**
-     * Calls vlp->run
-     */ 
-    virtual void Run() override;
-
-    /**
      * Take the temporary data and set it to vlp
      */ 
-    virtual void SetData() override;
+    virtual void SendData() override;
 
     void SetPosition(double latitude, double longitude, double altitude);
 
@@ -43,7 +38,9 @@ public:
 
     void SetTimeStamp(float timeStamp);
 
-    virtual void GetData() override {}
+    void SetMsgType(DgpsMsgType msgType);
+
+    virtual void ReceiveData() override {}
 };
 
 #endif // DGPSWRAPPER_H

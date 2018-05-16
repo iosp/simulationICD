@@ -17,28 +17,28 @@ DgpsWrapper::~DgpsWrapper(){
     delete m_icd;
 }
 
-void DgpsWrapper::Run() {
-    m_icd->Run();
-}
-
 void DgpsWrapper::SetPosition(double latitude, double longitude, double altitude) {
-    m_data.SetLatitude(latitude);
-    m_data.SetLongitude(longitude);
-    m_data.SetAltitude(altitude);
+    m_data.SetBestPosLatitude(latitude);
+    m_data.SetBestPosLongitude(longitude);
+    m_data.SetBestPosAltitude(altitude);
 }
 
 void DgpsWrapper::SetVelocities(double latSpeed, double longSpeed, double altAzimuth) {
-    m_data.SetLatSpeed(latSpeed);
-    m_data.SetLongSpeed(longSpeed);
-    m_data.SetAltAzimuth(altAzimuth);
+    m_data.SetBestVelLatitude(latSpeed);
+    m_data.SetBestVelLongitude(longSpeed);
+    m_data.SetBestVelAltitude(altAzimuth);
 }
 
 void DgpsWrapper::SetTimeStamp(float timeStamp) {
     m_data.SetSimTime(timeStamp);
 }
 
-void DgpsWrapper::SetData() {
-    m_icd->SetData(m_data);
+void DgpsWrapper::SetMsgType(DgpsMsgType msgType) {
+    m_data.SetCurrMsgType(msgType);
+}
+
+void DgpsWrapper::SendData() {
+    m_icd->SendData(m_data);
     ClearCurrentData();
 }
 

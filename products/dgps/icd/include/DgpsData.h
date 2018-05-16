@@ -10,67 +10,85 @@
 
 #include <string>
 
+enum DgpsMsgType {DGPS_BEST_POS, DGPS_BEST_VEL };
+
 class DgpsData {
 private:
-    double m_latitude;
-    double m_longitude;
-    double m_altitude;
-    double m_latSpeed; // horizontal speed over ground, in meters per second
-    double m_longSpeed; // Veritical speed , meters per seconds
-	double m_altAzimuth; // Actual direction of motion over ground with respect to True North, deg
+    struct Best_Pos {
+        double latitude;
+        double longitude;
+        double altitude;
+    } m_bestPos;
+
+    struct Best_Vel {
+        double latitude; // horizontal speed over ground, in meters per second
+        double longitude; // Veritical speed , meters per seconds
+	    double altitude; // Actual direction of motion over ground with respect to True North, deg
+    } m_bestVel;
+
     float m_simTime;
+
+    DgpsMsgType m_currMsgType;
 
 public:
     DgpsData() = default;
     
     ~DgpsData() = default;
 
-    double GetLatitude() const {
-        return m_latitude;
+    double GetBestPosLatitude() const {
+        return m_bestPos.latitude;
     }
 
-    void SetLatitude(double latitude) {
-        m_latitude = latitude;
+    void SetBestPosLatitude(double latitude) {
+        m_bestPos.latitude = latitude;
     }
 
-    double GetLongitude() const {
-        return m_longitude;
+    double GetBestPosLongitude() const {
+        return m_bestPos.longitude;
     }
 
-    void SetLongitude(double longitude) {
-        m_longitude = longitude;
+    void SetBestPosLongitude(double longitude) {
+        m_bestPos.longitude = longitude;
     }
 
-    double GetAltitude() const {
-        return m_altitude;
+    double GetBestPosAltitude() const {
+        return m_bestPos.altitude;
     }
 
-    void SetAltitude(double altitude) {
-        m_altitude = altitude;
+    void SetBestPosAltitude(double altitude) {
+        m_bestPos.altitude = altitude;
     }
 
-    double GetLatSpeed() const {
-        return m_latSpeed;
+    double GetBestVelLatitude() const {
+        return m_bestVel.latitude;
     }
 
-    void SetLatSpeed(double latSpeed) {
-        m_latSpeed = latSpeed;
+    void SetBestVelLatitude(double latitude) {
+        m_bestVel.latitude = latitude;
     }
 
-    double GetLongSpeed() const {
-        return m_longSpeed;
+    double GetBestVelLongitude() const {
+        return m_bestVel.longitude;
     }
 
-    void SetLongSpeed(double longSpeed) {
-        m_longSpeed = longSpeed;
+    void SetBestVelLongitude(double longitude) {
+        m_bestVel.longitude = longitude;
     }
 
-    double GetAltAzimuth() const {
-        return m_altAzimuth;
+    double GetBestVelAltitude() const {
+        return m_bestVel.altitude;
     }
     
-    void SetAltAzimuth(double altAzimuth) {
-        m_altAzimuth = altAzimuth;
+    void SetBestVelAltitude(double altitude) {
+        m_bestVel.altitude = altitude;
+    }
+
+    DgpsMsgType GetCurrMsgType() const {
+        return m_currMsgType;
+    }
+
+    void SetCurrMsgType(DgpsMsgType msgType) {
+        m_currMsgType = msgType;
     }
 
     float GetSimTime() const {
@@ -81,7 +99,7 @@ public:
         m_simTime = simTime;
     }
 
-    std::string toString() const;
+    std::string toString(DgpsMsgType msgType) const;
 };
 
 

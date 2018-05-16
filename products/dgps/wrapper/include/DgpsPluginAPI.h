@@ -8,23 +8,23 @@
 * Date: 23.01.18
 */
 
-#include "DgpsWrapper.h"
+struct DgpsWrapper;
 
 // Functions that can be used by the plugin
 extern "C" {
-    DgpsWrapper* CreateDgpsObject(const char* confFilePath);
+    DgpsWrapper* DgpsCreateObject(const char* confFilePath);
 
-    void DeleteDgpsObject(DgpsWrapper* pObj);
+    void DgpsDeleteObject(DgpsWrapper* pObj);
 
-    void RunDgps(DgpsWrapper* pObj);
+    void DgpsSendBestPosData(DgpsWrapper* pObj);
 
-    void SendDgpsData(DgpsWrapper* pOb);
+    void DgpsSendBestVelData(DgpsWrapper* pObj);
 
-    void SetPosition(DgpsWrapper* pObj, double latitude, double longitude, double altitude);
+    void DgpsSetPosition(DgpsWrapper* pObj, double latitude, double longitude, double altitude);
 
-    void SetVelocities(DgpsWrapper* pObj, double latSpeed, double longSpeed, double altAzimuth);
+    void DgpsSetVelocities(DgpsWrapper* pObj, double latSpeed, double longSpeed, double altAzimuth);
 
-    void SetDgpsTimeStamp(DgpsWrapper* pVlp, float timeStamp);
+    void DgpsSetTimeStamp(DgpsWrapper* pObj, float timeStamp);
 }
 
 #endif // DGPSPLUGINAPI_H

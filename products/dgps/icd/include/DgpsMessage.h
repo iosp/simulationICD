@@ -9,14 +9,14 @@
 */
 
 #include "DgpsStructs.h"
-#include "IMessage.h"
+#include "Message.h"
 
 static const int HEADER_LEN = 28;
 
 class DgpsData;
 class ICommunication; // forward declaration
 
-class DgpsMessage : public IMessage<DgpsData>{
+class DgpsMessage : public Message<DgpsData>{
 protected:
 
 	virtual void FillHeader(/* out */ DGPS_HEADER& header) const;
@@ -30,13 +30,9 @@ protected:
 	virtual E_MESSAGE_ID_INPUT_DGPS_DLV3 GetMessageID() const = 0;
 
 public:
-	DgpsMessage(float hertz);
+	DgpsMessage() = default;
 
 	virtual ~DgpsMessage() = default;
-
-	virtual void FillMessage(const DgpsData& data) = 0;
-
-	virtual int SendMessage(ICommunication* comm) const override;
 };
 
 #endif // DGPSMESSAGE_H

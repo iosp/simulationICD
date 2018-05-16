@@ -14,19 +14,20 @@
 class ConfigurationINI; // forward declaration
 
 class ProdConfig {
+private:
+    const std::string m_confFilePath;
+    
 protected:
     ConfigurationINI* m_conf = nullptr;
 
-    std::string m_confFilePath;
-    
     virtual void SetConfDefaultValues() = 0;
 
     virtual std::string GetProdName() const = 0;
 
-    void Init();
+    virtual void Init();
 
 public:
-    ProdConfig();
+    ProdConfig(const std::string& confFilePath);
 
     virtual ~ProdConfig();
 };

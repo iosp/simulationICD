@@ -6,12 +6,7 @@
 */
 
 #include "DgpsMessage.h"
-#include "ICommunication.h"
 #include "LoggerProxy.h"
-
-DgpsMessage::DgpsMessage(float hertz) : IMessage(hertz) {
-
-}
 
 void DgpsMessage::FillHeader(/* out */ DGPS_HEADER& header) const {
 	header.Sync = 170;
@@ -82,10 +77,6 @@ void DgpsMessage::FillHeaderInBuffer(const DGPS_HEADER& header) {
 
 	//Receiver_SW_Version
 	memcpy(m_buffer+26, &header.Receiver_SW_Version, 2);
-}
-
-int DgpsMessage::SendMessage(ICommunication* comm) const {
-	return comm->SendData(m_buffer, GetMessageSize());
 }
 
 unsigned int DgpsMessage::CRC32Value(int i) const{

@@ -8,25 +8,34 @@
 */
 
 #include "DgpsPluginAPI.h"
+#include "DgpsWrapper.h"
 
-DgpsWrapper* CreateDgpsObject(const char* confFilePath) {
+DgpsWrapper* DgpsCreateObject(const char* confFilePath) {
     return new DgpsWrapper(confFilePath);
 }
 
-void DeleteDgpsObject(DgpsWrapper* pObj) {delete pObj;}
+void DgpsDeleteObject(DgpsWrapper* pObj) {
+    delete pObj;
+}
 
-void RunDgps(DgpsWrapper* pObj) { pObj->Run(); }
+void DgpsSendBestPosData(DgpsWrapper* pObj) {
+    pObj->SetMsgType(DGPS_BEST_POS);
+    pObj->SendData();
+}
 
-void SendDgpsData(DgpsWrapper* pObj) { pObj->SetData(); }
+void DgpsSendBestVelData(DgpsWrapper* pObj) {
+    pObj->SetMsgType(DGPS_BEST_VEL);
+    pObj->SendData();
+}
 
-void SetPosition(DgpsWrapper* pObj, double latitude, double longitude, double altitude) {
+void DgpsSetPosition(DgpsWrapper* pObj, double latitude, double longitude, double altitude) {
     pObj->SetPosition(latitude, longitude, altitude);
 }
 
-void SetVelocities(DgpsWrapper* pObj, double latSpeed, double longSpeed, double altAzimuth) {
+void DgpsSetVelocities(DgpsWrapper* pObj, double latSpeed, double longSpeed, double altAzimuth) {
     pObj->SetVelocities(latSpeed, longSpeed, altAzimuth);
 }
 
-void SetDgpsTimeStamp(DgpsWrapper* pObj, float timeStamp) {
+void DgpsSetTimeStamp(DgpsWrapper* pObj, float timeStamp) {
     pObj->SetTimeStamp(timeStamp);
 }

@@ -7,13 +7,8 @@
 
 #include "BestPosMessage.h"
 #include "DgpsData.h"
-#include "DgpsStructs.h"
 #include "LoggerProxy.h"
 #include <cstring> // memset, memcpy
-
-BestPosMessage::BestPosMessage(float hertz) : DgpsMessage(hertz) {
-	
-}
 
 void BestPosMessage::FillMessage(const DgpsData& data) {
 	PHS_BESTPOS msg;
@@ -23,9 +18,9 @@ void BestPosMessage::FillMessage(const DgpsData& data) {
 	msg.sol_stat = E_SOLUTION_STATUS::E_SOLUTION_STATUS_SOL_COMPUTED;
 	msg.pos_type = E_POSITION_OR_VELOCITY_TYPE::E_POSITION_OR_VELOCITY_TYPE_OMNISTAR_HP;
 
-	msg.lat_Dgps = data.GetLatitude();
-	msg.lon_Dgps = data.GetLongitude();
-	msg.hgt_Dgps = data.GetAltitude();
+	msg.lat_Dgps = data.GetBestPosLatitude();
+	msg.lon_Dgps = data.GetBestPosLongitude();
+	msg.hgt_Dgps = data.GetBestPosAltitude();
 
 	msg.undulation = 0;
 	msg.datum_id = E_DATUM_DGPS::E_DATUM_DGPS_WGS84;

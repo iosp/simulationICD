@@ -16,18 +16,14 @@ const std::string DgpsConfig::PORT_NAME_KEY = "PORT_NAME";
 const std::string DgpsConfig::PORT_NAME_DEF_VAL = "/dev/ttyUSB0";
 const std::string DgpsConfig::BAUD_RATE_KEY = "BAUD_RATE";
 const std::string DgpsConfig::BAUD_RATE_DEF_VAL = "115200";
-const std::string DgpsConfig::HERTZ_KEY = "HERTZ";
-const std::string DgpsConfig::HERTZ_DEF_VAL = "10";
 
-DgpsConfig::DgpsConfig(const std::string& confFilePath) {
-    m_confFilePath = confFilePath;
+DgpsConfig::DgpsConfig(const std::string& confFilePath) : ProdConfig(confFilePath) {
     Init();
 }
 
 void DgpsConfig::SetConfDefaultValues() {
 	m_conf->SetValue(PORT_NAME_KEY, PORT_NAME_DEF_VAL);
 	m_conf->SetValue(BAUD_RATE_KEY, BAUD_RATE_DEF_VAL);
-    m_conf->SetValue(HERTZ_KEY, HERTZ_DEF_VAL);
 }
 
 std::string DgpsConfig::GetProdName() const {
@@ -40,8 +36,4 @@ std::string DgpsConfig::GetPortName() const {
 
 int DgpsConfig::GetBaudRate() const {
     return m_conf->GetValue<int>(BAUD_RATE_KEY);
-}
-
-float DgpsConfig::GetHertz() const {
-    return m_conf->GetValue<float>(HERTZ_KEY);
 }
