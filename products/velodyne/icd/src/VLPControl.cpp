@@ -13,19 +13,15 @@
 
 VLPControl::VLPControl(const std::string& confFilePath) {
 	m_vlpConf = new VLPConfig(confFilePath);
-    float hertz = (m_vlpConf->GetSensorFrequency() * DEGREES) /
-                                    (m_vlpConf->GetHorizontalResolution() * 2*NUM_OF_VLP_DATA_BLOCKS);
-    m_message = new VLPMessage(hertz, (int)m_vlpConf->GetReturnMode(), (int)m_vlpConf->GetDataSource());
     m_comm = new UDPCommunication(m_vlpConf->GetIpAddress(), m_vlpConf->GetPort());
     if (!m_comm->Init()) {
-		ERRLOG << "Failed to initialize communication, not running send thread.\n";
+		ERRLOG << "Failed to initialize communication.\n";
 	}
 }
 
 VLPControl::~VLPControl() {
     delete m_comm;
     delete m_vlpConf;
-    delete m_message;
 }
 
 bool VLPControl::CheckDataValidation(const VelodyneData& data) const {
@@ -50,19 +46,19 @@ bool VLPControl::CheckDataValidation(const VelodyneData& data) const {
     return true;
 }
 
-void VLPControl::SetData(const VelodyneData& data) {
+void VLPControl::SendData(const VelodyneData& data) {
+    VLPMessage msg((int)m_vlpConf->GetReturnMode(), (int)m_vlpConf->GetDataSource());
     if (CheckDataValidation(data)) {
-        m_message->FillMessage(data);
+        msg.FillMessage(data);
         DBGLOG << "Going to send data: " << data.toString() << "\n";
-        m_message->SendMessage(m_comm);
-        m_message->InitMessage();
+        msg.SendMessage(m_comm);
     }
     else {
         ERRLOG << "Data is not valid\n";
     }
 }
 
-VelodyneData VLPControl::GetData() {
+VelodyneData VLPControl::ReceiveData() {
     ERRLOG << "This function is not implemented!\n";
     return VelodyneData();
 }

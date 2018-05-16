@@ -16,7 +16,7 @@ static const int DISTANCE_MULT = 500;
 static const int AZIMUTH_MULT = 100;
 static const int SECOND_TO_MICROSECOND  = 1e6;
 
-VLPMessage::VLPMessage(float hertz, int returnMode, int dataSource): IMessage(hertz) {
+VLPMessage::VLPMessage(int returnMode, int dataSource) {
 	FillFactory(returnMode, dataSource);
 } 
 
@@ -31,6 +31,7 @@ void VLPMessage::FillMessage(const VelodyneData& data) {
         FillChannels(block.GetChannels());
         m_packetIndex++;
     }
+    memcpy(m_buffer, &m_packet, sizeof(m_packet));
 }
 
 std::vector<VelodyneData::VelodyneBlock> VLPMessage::CombineBlocks(const std::vector<VelodyneData::VelodyneBlock>& origBlocks) const {
@@ -54,18 +55,6 @@ std::vector<VelodyneData::VelodyneBlock> VLPMessage::CombineBlocks(const std::ve
 
 int VLPMessage::GetMessageSize() const {
 	return sizeof(VLPDataPacket);
-}
-
-int VLPMessage::SendMessage(ICommunication* comm) const {
-	char buf[sizeof(VLPDataPacket)]{};
-    memcpy(buf, &m_packet, sizeof(m_packet));
-    return comm->SendData(buf, sizeof(buf));
-}
-
-void VLPMessage::InitMessage() {
-    m_packetIndex = 0;
-	std::fill_n(m_packet.dataBlocks, NUM_OF_VLP_DATA_BLOCKS, VLPDataPacket::VLPDataBlock());
-    std::fill_n(m_packet.timeStamp, 4, 0);
 }
 
 void VLPMessage::FillFactory(int returnMode, int dataSource) {

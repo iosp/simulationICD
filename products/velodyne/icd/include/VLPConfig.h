@@ -10,12 +10,11 @@
 */
 
 #include "ProdConfig.h"
-#include <string>
 #include <map>
 
 class ConfigurationINI; // forward declaration
 
-class VLPConfig : public ProdConfig{
+class VLPConfig : public ProdConfig {
 public:
     enum Resolution { _RES02_ = 200, _RES04_ = 400};
     enum ReturnMode { _STRONGEST_ = 37, _LAST_ = 38, _DUAL_ = 39};
@@ -31,17 +30,11 @@ private:
     static const std::string PORT_KEY;
     static const std::string PORT_DEF_VAL;
 
-    static const std::string HORIZONTAL_RES_KEY;
-    static const std::string HORIZONTAL_RES_DEF_VAL;
-
     static const std::string RETURN_MODE_KEY;
     static const std::string RETURN_MODE_DEF_VAL;
 
     static const std::string DATA_SOURCE_KEY;
     static const std::string DATA_SOURCE_DEF_VAL;
-
-    static const std::string SENSOR_FREQ_KEY;
-    static const std::string SENSOR_FREQ_KEY_DEF_VAL;
 
     bool ValidateConfiguration() const;
 
@@ -59,13 +52,9 @@ public:
 
     std::string GetPort() const;
 
-    double GetHorizontalResolution() const;
-
     ReturnMode GetReturnMode() const;
 
     DataSource GetDataSource() const;
-
-    int GetSensorFrequency() const;
 };
 
 

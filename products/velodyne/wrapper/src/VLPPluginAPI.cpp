@@ -7,6 +7,7 @@
 */
 
 #include "VLPPluginAPI.h"
+#include "VLPWrapper.h"
 
 VLPWrapper* VLPCreateObject(const char* confFilePath) {
     return new VLPWrapper(confFilePath);
@@ -33,5 +34,5 @@ void VLPCloseBlock(VLPWrapper* pObj) {
 }
 
 void VLPSendData(VLPWrapper* pObj) {
-    pObj->SetData();
+    pObj->SendData();
 }

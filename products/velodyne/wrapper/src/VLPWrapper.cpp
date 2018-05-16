@@ -17,8 +17,8 @@ VLPWrapper::~VLPWrapper(){
     delete m_icd;
 }
 
-void VLPWrapper::SetData() {
-    m_icd->SetData(m_data);
+void VLPWrapper::SendData() {
+    m_icd->SendData(m_data);
     InitData();
 }
 

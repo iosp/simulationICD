@@ -9,14 +9,13 @@
 * VLP = Velodyne Lidar Puck
 */
 
-#include <string>
-#include <vector>
 #include "IICD.h"
 #include "VelodyneData.h"
+#include <string>
+#include <vector>
 
-class ICommunication; // forward declaration
+class ICommunication;
 class VLPConfig; // forward declaration
-class VLPMessage;
 
 class VLPControl : public IICD<VelodyneData> {
 protected:
@@ -28,8 +27,6 @@ protected:
      * VLP configuration values
      */ 
     VLPConfig* m_vlpConf = nullptr;
-
-    VLPMessage* m_message = nullptr;
 
     /**
      * Check validation of VLP data
@@ -49,17 +46,12 @@ public:
      * Set data on inner velodyne data vector
      * @param data - VelodyneData object
      */ 
-    virtual void SetData(const VelodyneData& data) override;
+    virtual void SendData(const VelodyneData& data) override;
 
     /**
      * This function is implemented with nullptr return
      */ 
-    virtual VelodyneData GetData() override;
-
-    /**
-     * Run VLP send data thread
-     */ 
-    virtual void Run() override {}
+    virtual VelodyneData ReceiveData() override;
 };
 
 

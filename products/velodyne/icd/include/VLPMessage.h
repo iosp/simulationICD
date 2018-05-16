@@ -9,14 +9,14 @@
 */
 
 #include "VLPStructs.h"
-#include "IMessage.h"
+#include "Message.h"
 #include "VelodyneData.h"
 
 class ICommunication; // forward declaration
 
 static const int DEGREES = 360;
 
-class VLPMessage : public IMessage<VelodyneData>{
+class VLPMessage : public Message<VelodyneData>{
 private:
 	VLPDataPacket m_packet;
 
@@ -93,17 +93,13 @@ private:
     void printPacketData() const;
 
 public:
-	VLPMessage(float hertz, int returnMode, int dataSource);
+	VLPMessage(int returnMode, int dataSource);
 
 	virtual ~VLPMessage() = default;
 
 	virtual void FillMessage(const VelodyneData& data) override;
 
-	virtual int SendMessage(ICommunication* comm) const override;
-
 	virtual int GetMessageSize() const override;
-
-    void InitMessage();
 };
 
 #endif // VLPSMESSAGE_H

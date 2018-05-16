@@ -16,14 +16,10 @@ const std::string VLPConfig::IP_ADDRESS_KEY = "IP_ADDRESS";
 const std::string VLPConfig::IP_ADDRESS_DEF_VAL = "192.168.1.77";
 const std::string VLPConfig::PORT_KEY = "PORT";
 const std::string VLPConfig::PORT_DEF_VAL = "2368";
-const std::string VLPConfig::HORIZONTAL_RES_KEY = "HORIZONTAL_RES";
-const std::string VLPConfig::HORIZONTAL_RES_DEF_VAL = "0.2";
 const std::string VLPConfig::RETURN_MODE_KEY = "RETURN_MODE";
 const std::string VLPConfig::RETURN_MODE_DEF_VAL = "37";
 const std::string VLPConfig::DATA_SOURCE_KEY = "DATA_SOURCE";
 const std::string VLPConfig::DATA_SOURCE_DEF_VAL = "22";
-const std::string VLPConfig::SENSOR_FREQ_KEY = "SENSOR_FREQ";
-const std::string VLPConfig::SENSOR_FREQ_KEY_DEF_VAL = "10";
 
 const std::map<VLPConfig::ReturnMode, std::string> VLPConfig::retModeToStr = 
             boost::assign::map_list_of(VLPConfig::_STRONGEST_, "strongest")(VLPConfig::_LAST_, "last")(VLPConfig::_DUAL_, "dual");
@@ -31,8 +27,7 @@ const std::map<VLPConfig::ReturnMode, std::string> VLPConfig::retModeToStr =
 const std::map<VLPConfig::DataSource, std::string> VLPConfig::dataSourceToStr = 
             boost::assign::map_list_of(VLPConfig::_HDL32E_, "HDL_32E")(VLPConfig::_VLP16_, "VLP16");
 
-VLPConfig::VLPConfig(const std::string& confFilePath) {
-    m_confFilePath = confFilePath;
+VLPConfig::VLPConfig(const std::string& confFilePath) : ProdConfig(confFilePath) {
     Init();
     if (!ValidateConfiguration()) {
         ERRLOG << "Velodyne configuration is not valid!\n";
@@ -42,10 +37,8 @@ VLPConfig::VLPConfig(const std::string& confFilePath) {
 void VLPConfig::SetConfDefaultValues() {
 	m_conf->SetValue(IP_ADDRESS_KEY, IP_ADDRESS_DEF_VAL);
 	m_conf->SetValue(PORT_KEY, PORT_DEF_VAL);
-    m_conf->SetValue(HORIZONTAL_RES_KEY, HORIZONTAL_RES_DEF_VAL);
     m_conf->SetValue(RETURN_MODE_KEY, RETURN_MODE_DEF_VAL);
     m_conf->SetValue(DATA_SOURCE_KEY, DATA_SOURCE_DEF_VAL);
-    m_conf->SetValue(SENSOR_FREQ_KEY, SENSOR_FREQ_KEY_DEF_VAL);
 }
 
 std::string VLPConfig::GetProdName() const {
@@ -54,10 +47,6 @@ std::string VLPConfig::GetProdName() const {
 
 bool VLPConfig::ValidateConfiguration() const {
     bool valid = true;
-    if ((GetHorizontalResolution() * 1000 != _RES02_) && (GetHorizontalResolution() * 1000 != _RES04_)) {
-        ERRLOG << "Value of " << HORIZONTAL_RES_KEY << ": " << GetHorizontalResolution() << " is not valid!\n";
-        valid = false;
-    }
     if (retModeToStr.find(GetReturnMode()) == retModeToStr.end()) {
         ERRLOG << "Value of " << RETURN_MODE_KEY << ": " << GetReturnMode() << " is not valid!\n";
         valid = false;
@@ -78,18 +67,10 @@ std::string VLPConfig::GetPort() const {
     return m_conf->GetValue<std::string>(PORT_KEY);
 }
 
-double VLPConfig::GetHorizontalResolution() const {
-    return m_conf->GetValue<double>(HORIZONTAL_RES_KEY);
-}
-
 VLPConfig::ReturnMode VLPConfig::GetReturnMode() const {
     return (ReturnMode)m_conf->GetValue<int>(RETURN_MODE_KEY);
 }
 
 VLPConfig::DataSource VLPConfig::GetDataSource() const {
     return (DataSource)m_conf->GetValue<int>(DATA_SOURCE_KEY);
-}
-
-int VLPConfig::GetSensorFrequency() const {
-    return m_conf->GetValue<int>(SENSOR_FREQ_KEY);
 }

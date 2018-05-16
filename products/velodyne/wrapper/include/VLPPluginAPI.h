@@ -13,23 +13,23 @@
 * Date: 04.01.18
 */
 
-#include "VLPWrapper.h"
+struct VLPWrapper;
 
 // Functions that can be used by the plugin
 extern "C" {
     VLPWrapper* VLPCreateObject(const char* confFilePath);
 
-    void VLPDeleteObject(VLPWrapper* pVlp);
+    void VLPDeleteObject(VLPWrapper* pObj);
 
-    void VLPSetAzimuth(VLPWrapper* pVlp, double azimuth);
+    void VLPSetAzimuth(VLPWrapper* pObj, double azimuth);
 
-    void VLPSetTimeStamp(VLPWrapper* pVlp, float timeStamp);
+    void VLPSetTimeStamp(VLPWrapper* pObj, float timeStamp);
 
-    void VLPSetChannel(VLPWrapper* pVlp, double distance, short reflectivity);
+    void VLPSetChannel(VLPWrapper* pObj, double distance, short reflectivity);
 
-    void VLPCloseBlock(VLPWrapper* pVlp);
+    void VLPCloseBlock(VLPWrapper* pObj);
 
-    void VLPSendData(VLPWrapper* pVlp);
+    void VLPSendData(VLPWrapper* pObj);
 }
 
 #endif // VLPPLUGIN_H

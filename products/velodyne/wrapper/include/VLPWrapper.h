@@ -54,7 +54,7 @@ public:
     /**
      * Take the temporary data and set it to vlp
      */ 
-    virtual void SetData() override;
+    virtual void SendData() override;
 
     /**
      * Set azimuth to the temporary data
@@ -76,10 +76,7 @@ public:
      */ 
     void CloseBlock();
 
-    virtual void GetData() override {}
-
-    virtual void Run() override {}
-
+    virtual void ReceiveData() override {}
 };
 
 #endif // VLPWRAPPER_H
