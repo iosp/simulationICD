@@ -8,9 +8,7 @@
 */
 
 #include "DgpsConfig.h"
-#include "LoggerProxy.h"
 #include "ConfigurationINI.h"
-#include <sstream>
 
 const std::string DgpsConfig::PORT_NAME_KEY = "PORT_NAME";
 const std::string DgpsConfig::PORT_NAME_DEF_VAL = "/dev/ttyUSB0";
