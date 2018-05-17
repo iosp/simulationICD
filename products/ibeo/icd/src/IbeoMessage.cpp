@@ -6,14 +6,14 @@
 */
 
 #include "IbeoMessage.h"
-#include "Helper.h"
-#include "ICommunication.h"
+#include "Helper.h" // Utilities::LittleEndianToBig
 #include <boost/range/adaptor/reversed.hpp>
 
 static const double PI = 3.14159265359;
 static const double ANGLE_MULT = 11520 / (2*PI) ;
-IbeoMessage::IbeoMessage(double hertz, double tStartAngle, double tEndAngle, double bStartAngle, double bEndAngle, double angleIncrement) : 
-	IMessage(hertz), m_tStartAngle(tStartAngle), m_tEndAngle(tEndAngle), m_bStartAngle(bStartAngle),
+
+IbeoMessage::IbeoMessage(double tStartAngle, double tEndAngle, double bStartAngle, double bEndAngle, double angleIncrement) : 
+	m_tStartAngle(tStartAngle), m_tEndAngle(tEndAngle), m_bStartAngle(bStartAngle),
 	 m_bEndAngle(bEndAngle), m_angleIncrement(angleIncrement) {
 
 }
@@ -76,14 +76,6 @@ void IbeoMessage::FillMessage(const IbeoData& data) {
 	delete msg.Point;
 }
 
-int IbeoMessage::SendMessage(ICommunication* comm) const {
-	return comm->SendData(m_buffer, GetMessageSize());
-}
-
 int IbeoMessage::GetMessageSize() const {
     return sizeof(SibeoScanData);
-}
-
-void IbeoMessage::InitMessage() {
-    bzero(m_buffer, BUFFER_SIZE);
 }

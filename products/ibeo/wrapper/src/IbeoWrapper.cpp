@@ -17,10 +17,6 @@ IbeoWrapper::~IbeoWrapper(){
     delete m_icd;
 }
 
-void IbeoWrapper::Run() {
-    m_icd->Run();
-}
-
 void IbeoWrapper::SetNumOfPoints(int numOfPoints) {
     m_data.SetNumOfPoints(numOfPoints);
 }
@@ -45,12 +41,12 @@ void IbeoWrapper::SetTimeStamp(float timeStamp) {
     m_data.SetSimTime(timeStamp);
 }
 
-void IbeoWrapper::SetData() {
+void IbeoWrapper::SendData() {
     m_data.SetRangeB1(m_currRangeB1);
     m_data.SetRangeB2(m_currRangeB2);
     m_data.SetRangeT1(m_currRangeT1);
     m_data.SetRangeT2(m_currRangeT2);
-    m_icd->SetData(m_data);
+    m_icd->SendData(m_data);
     ClearCurrentData();
 }
 

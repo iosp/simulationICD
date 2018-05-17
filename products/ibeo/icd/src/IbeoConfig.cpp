@@ -6,13 +6,10 @@
 */
 
 #include "IbeoConfig.h"
-#include "LoggerProxy.h"
 #include "ConfigurationINI.h"
 
 const std::string IbeoConfig::PORT_KEY = "PORT";
 const std::string IbeoConfig::PORT_DEF_VAL = "12002";
-const std::string IbeoConfig::HERTZ_KEY = "HERTZ";
-const std::string IbeoConfig::HERTZ_DEF_VAL = "12.5";
 const std::string IbeoConfig::T_START_ANGLE_KEY = "T_START_ANGLE";
 const std::string IbeoConfig::T_START_ANGLE_DEF_VAL = "10";
 const std::string IbeoConfig::T_END_ANGLE_KEY = "T_END_ANGLE";
@@ -24,14 +21,12 @@ const std::string IbeoConfig::B_END_ANGLE_DEF_VAL = "20";
 const std::string IbeoConfig::ANGLE_INCREMENT_KEY = "ANGLE_INCREMENT";
 const std::string IbeoConfig::ANGLE_INCREMENT_DEF_VAL = "0.4";
 
-IbeoConfig::IbeoConfig(const std::string& confFilePath)  {
-    m_confFilePath = confFilePath;
+IbeoConfig::IbeoConfig(const std::string& confFilePath) : ProdConfig(confFilePath) {
     Init();
 }
 
 void IbeoConfig::SetConfDefaultValues() {
 	m_conf->SetValue(PORT_KEY, PORT_DEF_VAL);
-    m_conf->SetValue(HERTZ_KEY, HERTZ_DEF_VAL);
     m_conf->SetValue(T_START_ANGLE_KEY, T_START_ANGLE_DEF_VAL);
     m_conf->SetValue(T_END_ANGLE_KEY, T_END_ANGLE_DEF_VAL);
     m_conf->SetValue(B_START_ANGLE_KEY, B_START_ANGLE_DEF_VAL);
@@ -45,10 +40,6 @@ std::string IbeoConfig::GetProdName() const {
 
 std::string IbeoConfig::GetPort() const {
     return m_conf->GetValue<std::string>(PORT_KEY);
-}
-
-float IbeoConfig::GetHertz() const {
-    return m_conf->GetValue<float>(HERTZ_KEY);
 }
 
 double IbeoConfig::GetTStartAngle() const {

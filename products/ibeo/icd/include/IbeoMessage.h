@@ -8,13 +8,11 @@
 * Date: 23.04.18
 */
 
-#include "IMessage.h"
+#include "Message.h"
 #include "IbeoData.h"
 #include "IbeoStructs.h"
 
-class ICommunication; // forward declaration
-
-class IbeoMessage : public IMessage<IbeoData>{
+class IbeoMessage : public Message<IbeoData>{
 private:
 	int m_pointCounter = 0;
 
@@ -27,17 +25,13 @@ private:
 	void FillPoints(SibeoScanData& msg, unsigned char layerEcho,  double startAngle, const std::vector<double>& ranges);
 
 public:
-	IbeoMessage(double hertz, double tStartAngle, double tEndAngle, double bStartAngle, double bEndAngle, double angleIncrement);
+	IbeoMessage(double tStartAngle, double tEndAngle, double bStartAngle, double bEndAngle, double angleIncrement);
 
 	virtual ~IbeoMessage() = default;
 
 	virtual void FillMessage(const IbeoData& data) override;
 
-	virtual int SendMessage(ICommunication* comm) const override;
-
 	virtual int GetMessageSize() const override;
-
-    void InitMessage();
 };
 
 #endif // IBEO_MESSAGE_H

@@ -9,7 +9,6 @@
 * 
 */
 
-#include <string>
 #include "ProdConfig.h"
 
 class ConfigurationINI; // forward declaration
@@ -18,9 +17,6 @@ class IbeoConfig : public ProdConfig {
 private:
     static const std::string PORT_KEY;
     static const std::string PORT_DEF_VAL;
-
-    static const std::string HERTZ_KEY;
-    static const std::string HERTZ_DEF_VAL;
 
     static const std::string T_START_ANGLE_KEY;
     static const std::string T_START_ANGLE_DEF_VAL;
@@ -46,8 +42,6 @@ public:
     virtual ~IbeoConfig(){}
 
     std::string GetPort() const;
-
-    float GetHertz() const;
 
     double GetTStartAngle() const;
 

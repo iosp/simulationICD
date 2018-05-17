@@ -15,12 +15,8 @@ void IbeoDeleteObject(IbeoWrapper* pObj) {
     delete pObj;
 }
 
-void IbeoRun(IbeoWrapper* pObj) {
-    pObj->Run(); 
-}
-
 void IbeoSendData(IbeoWrapper* pObj) {
-    pObj->SetData();
+    pObj->SendData();
 }
 
 void IbeoSetNumOfPoints(IbeoWrapper* pObj, int numOfPoints) {

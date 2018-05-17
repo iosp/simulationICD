@@ -6,67 +6,42 @@
 */
 
 #include "IbeoControl.h"
-#include "LoggerProxy.h"
-#include "Helper.h"
 #include "IbeoConfig.h"
 #include "IbeoMessage.h"
+#include "IbeoData.h"
 #include "TCPCommunication.h"
+#include "LoggerProxy.h"
 
 IbeoControl::IbeoControl(const std::string& confFilePath) {
 	m_ibeoConf = new IbeoConfig(confFilePath);
 	m_comm = new TCPCommunication(m_ibeoConf->GetPort());
+	if (!m_comm->Init()) {
+		ERRLOG << "Failed to initialize communication.\n";
+		return;
+	}
+	m_isInitialized = true;
 }
 
 IbeoControl::~IbeoControl() {
-	m_sendDataThread.interrupt();
-    m_sendDataThread.join();
-	delete m_message;
 	delete m_comm;
 	delete m_ibeoConf;
 }
 
-void IbeoControl::Run() {
-	if (!m_comm->Init()) {
-		ERRLOG << "Failed to initialize communication, not running get thread.\n";
+void IbeoControl::SendData(const IbeoData& data) {
+	if (!m_isInitialized) {
+		ERRLOG << "Ibeo couldn't initalize communication. Cannot send data.\n";
 		return;
 	}
+	
+	IbeoMessage msg(m_ibeoConf->GetTStartAngle(), m_ibeoConf->GetTEndAngle(), m_ibeoConf->GetBStartAngle(), 
+					m_ibeoConf->GetBEndAngle(), m_ibeoConf->GetAngleIncrement());
 
-	m_message = new IbeoMessage(m_ibeoConf->GetHertz(), m_ibeoConf->GetTStartAngle(), m_ibeoConf->GetTEndAngle(), m_ibeoConf->GetBStartAngle(),
-		m_ibeoConf->GetBEndAngle(), m_ibeoConf->GetAngleIncrement());
-    m_sendDataThread = boost::thread(&IbeoControl::SendThreadMethod, this);
+    msg.FillMessage(data);
+    DBGLOG << "Going to send data: " << data.toString() << "\n";
+    msg.SendMessage(m_comm);
 }
 
-void IbeoControl::SetData(const IbeoData& data) {
-	m_ibeoData_mutex.lock();
-	m_data = data;
-	m_ibeoData_mutex.unlock();
+IbeoData IbeoControl::ReceiveData() {
+	ERRLOG << "This function is not implemented!\n";
+    return IbeoData();
 }
-
-IbeoData IbeoControl::GetData() {
-	return m_data;
-}
-
-void IbeoControl::SendThreadMethod() {
-	boost::posix_time::ptime startTime = boost::posix_time::microsec_clock::local_time();
-	try {
-		while (true) {
-			m_ibeoData_mutex.lock();
-			DBGLOG << "Going to send data: " << m_data.toString() << "\n";
-			// fill message data
-			m_message->FillMessage(m_data);
-			m_ibeoData_mutex.unlock();
-			// send the message (with the communication ptr)
-			m_message->SendMessage(m_comm); // TODO mutex on m_comm ?!
-			m_message->InitMessage();
-			// make sure the message will be sent in the suitable rate
-			Utilities::SleepForRestTime(startTime, m_message->GetSleepTimeBetweenEverySend());
-			startTime = boost::posix_time::microsec_clock::local_time();
-			boost::this_thread::interruption_point();
-		}
-	}
-	catch (boost::thread_interrupted&) {
-        LOG << "thread IBEO Send interruped!\n";
-        return;
-    } 
-}
-
