@@ -23,6 +23,8 @@ private:
     // configuration parser
     DgpsConfig* m_dgpsConf = nullptr;
 
+    bool m_initialized = false;
+
     void SendMessage(Message<DgpsData>* message) const;
 
     Message<DgpsData>* GetMsgByType(DgpsMsgType msgType) const;

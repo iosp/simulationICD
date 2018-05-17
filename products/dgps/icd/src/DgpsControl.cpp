@@ -18,6 +18,9 @@ DgpsControl::DgpsControl(const std::string& confFilePath) {
 	if (!m_comm->Init()) {
 		ERRLOG << "Failed to initialize communication.\n";
 	}
+	else {
+		m_initialized = true;
+	}
 }
 
 DgpsControl::~DgpsControl() {
@@ -26,11 +29,17 @@ DgpsControl::~DgpsControl() {
 }
 
 void DgpsControl::SendData(const DgpsData& data) {
+	if (!m_initialized) {
+		ERRLOG << "DGPS couldn't initalize communication. Cannot send data.\n";
+		return;
+	}
 	auto msgType = data.GetCurrMsgType();
 	auto msg = GetMsgByType(msgType);
 	DBGLOG << "Going to send data: " << data.toString(msgType) << "\n";
-	msg->FillMessage(data);
-	msg->SendMessage(m_comm);
+	if (msg) {
+		msg->FillMessage(data);
+		msg->SendMessage(m_comm);
+	}
 	// SendMessage(msg); TODO check if necessary
 	delete msg;
 }
