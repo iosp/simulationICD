@@ -10,7 +10,6 @@
 
 #include "IICD.h"
 #include "DgpsData.h"
-#include <vector>
 
 template <class T>
 class Message;

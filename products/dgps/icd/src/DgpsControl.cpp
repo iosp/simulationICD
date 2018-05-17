@@ -26,10 +26,13 @@ DgpsControl::~DgpsControl() {
 }
 
 void DgpsControl::SendData(const DgpsData& data) {
-	auto msg = GetMsgByType(data.GetCurrMsgType());
+	auto msgType = data.GetCurrMsgType();
+	auto msg = GetMsgByType(msgType);
+	DBGLOG << "Going to send data: " << data.toString(msgType) << "\n";
 	msg->FillMessage(data);
 	msg->SendMessage(m_comm);
 	// SendMessage(msg); TODO check if necessary
+	delete msg;
 }
 
 Message<DgpsData>* DgpsControl::GetMsgByType(DgpsMsgType msgType) const {

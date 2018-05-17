@@ -6,25 +6,25 @@ public class DgpsWrapper : IDisposable {
 	const String DLL_LOCATION = "libdgps";
 
 	[DllImport (DLL_LOCATION)]
-	private static extern IntPtr CreateDgpsObject(string confFilePath);
+	private static extern IntPtr DgpsCreateObject(string confFilePath);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern void DeleteDgpsObject(IntPtr pObj);
+	private static extern void DgpsDeleteObject(IntPtr pObj);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern void RunDgps(IntPtr pObj);
+	private static extern void DgpsSendBestPosData(IntPtr pObj);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern void SendDgpsData(IntPtr pObj);
+	private static extern void DgpsSendBestVelData(IntPtr pObj);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern void SetPosition(IntPtr pObj, double latitude, double longitude, double altitude);
+	private static extern void DgpsSetPosition(IntPtr pObj, double latitude, double longitude, double altitude);
 	
 	[DllImport (DLL_LOCATION)]
-	private static extern void SetVelocities(IntPtr pObj, double latSpeed, double longSpeed, double altAzimuth);
+	private static extern void DgpsSetVelocities(IntPtr pObj, double latSpeed, double longSpeed, double altAzimuth);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern void SetDgpsTimeStamp(IntPtr pObj, float timeStamp);
+	private static extern void DgpsSetTimeStamp(IntPtr pObj, float timeStamp);
 
 	private IntPtr m_nativeObject;
 
@@ -38,7 +38,7 @@ public class DgpsWrapper : IDisposable {
 
     protected virtual void Dispose(bool bDisposing) {
         if (this.m_nativeObject != IntPtr.Zero) {
-            DeleteDgpsObject(this.m_nativeObject);
+            DgpsCreateObject(this.m_nativeObject);
             this.m_nativeObject = IntPtr.Zero;
         }
 
@@ -47,23 +47,23 @@ public class DgpsWrapper : IDisposable {
         }
     }
 
-	public void Run() {
-		RunDgps(this.m_nativeObject);
-	}
-
 	public void SetPosition(double latitude, double longitude, double altitude) {
-		SetPosition(this.m_nativeObject, latitude, longitude, altitude);
+		DgpsSetPosition(this.m_nativeObject, latitude, longitude, altitude);
 	}
 
 	public void SetVelocities(double latSpeed, double longSpeed, double altAzimuth) {
-		SetVelocities(this.m_nativeObject, latSpeed, longSpeed, altAzimuth);
+		DgpsSetVelocities(this.m_nativeObject, latSpeed, longSpeed, altAzimuth);
 	}
 
 	public void SetTimeStamp(float timeStamp) {
-		SetDgpsTimeStamp(this.m_nativeObject, timeStamp);
+		DgpsSetTimeStamp(this.m_nativeObject, timeStamp);
 	}
 
-	public void SendData() {
-		SendDgpsData(this.m_nativeObject);
+	public void SendBestPosData() {
+		DgpsSendBestPosData(this.m_nativeObject);
+	}
+
+	public void SendBestVelData() {
+		DgpsSendBestVelData(this.m_nativeObject);
 	}
 }
