@@ -9,29 +9,25 @@
 #include "InsData.h"
 #include <cstring>  // memset, memcpy
 
-NavigationDataMessage::NavigationDataMessage(float hertz) : InsMessage(hertz) {
-
-}
-
 void NavigationDataMessage::FillMessage(const InsData& data) {
 	INS_Navigation_Data_Message msg;
 	
 	FillHeader(msg.Header);
 	msg.Time_From_Startup = data.GetSimTime() * TIME_MULTIPLY;
 	msg.UTC_Time = data.GetUtcTime() * TIME_MULTIPLY;
-	msg.Altitude = (data.GetAltitude() * 10); // other side multiply by 0.1
-	msg.Geo_Latitude = (data.GetLatitude() * 1e7); // other side multiply by 0.0000001
-	msg.Geo_Longitude = (data.GetLongitude() * 1e7); // other side multiply by 0.0000001
-	msg.PD_Azimuth = (data.GetAzimuth() * 10); // other side multiply by 0.1, divide by 6400 and multiply by 360 (degree convert)
-	msg.PD_Pitch = (data.GetPitch() * 10); // other side multiply by 0.1, divide by 6400 and multiply by 360 (degree convert)
-	msg.PD_Roll = (data.GetRoll() * 10); // other side multiply by 0.1, divide by 6400 and multiply by 360 (degree convert)
-	msg.Azimuth_Rate = (data.GetAzimuthRate() * 10); // other side multiply by 0.1, divide by 6400 and multiply by 360 (degree convert)
-	msg.North_Velocity = (data.GetNorthVelocity() * VEL_MULTIPLY); // other side divide by 2^-8
-	msg.East_Velocity = (data.GetEastVelocity() * VEL_MULTIPLY); // other side divide by 2^-8
-	msg.Down_Velocity = (data.GetDownVelocity() * VEL_MULTIPLY); // other side divide by 2^-8
-	msg.Distance_Traveled = (data.GetDistanceTraveled() * 10); // other side multiply by 0.1
-	msg.Odometer_Distance = (data.GetOdometerDistance() * 10); // other side multiply by 0.1
-	msg.Motion_Detected = data.IsMotionDetected();
+	msg.Altitude = (data.GetInsNavAltitude() * 10); // other side multiply by 0.1
+	msg.Geo_Latitude = (data.GetNavDataLatitude() * 1e7); // other side multiply by 0.0000001
+	msg.Geo_Longitude = (data.GetNavDataLongitude() * 1e7); // other side multiply by 0.0000001
+	msg.PD_Azimuth = (data.GetNavDataAzimuth() * 10); // other side multiply by 0.1, divide by 6400 and multiply by 360 (degree convert)
+	msg.PD_Pitch = (data.GetNavDataPitch() * 10); // other side multiply by 0.1, divide by 6400 and multiply by 360 (degree convert)
+	msg.PD_Roll = (data.GetNavDataRoll() * 10); // other side multiply by 0.1, divide by 6400 and multiply by 360 (degree convert)
+	msg.Azimuth_Rate = (data.GetNavDataAzimuthRate() * 10); // other side multiply by 0.1, divide by 6400 and multiply by 360 (degree convert)
+	msg.North_Velocity = (data.GetNavDataNorthVelocity() * VEL_MULTIPLY); // other side divide by 2^-8
+	msg.East_Velocity = (data.GetNavDataEastVelocity() * VEL_MULTIPLY); // other side divide by 2^-8
+	msg.Down_Velocity = (data.GetNavDataDownVelocity() * VEL_MULTIPLY); // other side divide by 2^-8
+	msg.Distance_Traveled = (data.GetNavDataDistanceTraveled() * 10); // other side multiply by 0.1
+	msg.Odometer_Distance = (data.GetNavDataOdometerDistance() * 10); // other side multiply by 0.1
+	msg.Motion_Detected = data.IsNavDataMotionDetected();
 
 	// these fields are not parsed by the other side
 	msg.GPS_Week = 0;
@@ -62,6 +58,6 @@ int NavigationDataMessage::GetMessageSize() const {
 	return sizeof(INS_Navigation_Data_Message);
 }
 
-std::bitset<8> NavigationDataMessage::GetMsgBitID() const {
-	return INS_NAV_BIT;
+InsMsgType NavigationDataMessage::GetMsgType() const {
+	return INS_NAVIGATION_DATA_MSG;
 }

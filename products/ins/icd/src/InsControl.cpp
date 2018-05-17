@@ -7,86 +7,75 @@
 
 #include "InsControl.h"
 #include "InsConfig.h"
-#include "InsMessage.h"
 #include "UDPCommunication.h"
 #include "TCPCommunication.h"
-#include "LoggerProxy.h"
 #include "StatusMessage.h"
 #include "NavigationDataMessage.h"
 #include "InternalGPSMessage.h"
 #include "ErrorsEstimationMessage.h"
-#include "Helper.h"
+#include "LoggerProxy.h"
 
 
 InsControl::InsControl(const std::string& confFilePath) {
 	m_insConf = new InsConfig(confFilePath);
+	InitializeMessages();
 }
 
 InsControl::~InsControl() {
-	for (auto th : m_messagesThreads) {
-		th->interrupt();
-	}
+	delete m_insConf;
 	for (auto message : m_messages) {
 		delete message.first;
 		delete message.second;
 	}
-	delete m_insConf;
 }
 
-void InsControl::SendThreadMethod(const t_message& message) {
-	boost::posix_time::ptime startTime = boost::posix_time::microsec_clock::local_time();
-	// extract data from the message
-	auto insMessage = message.first;
-	auto comm = message.second;
-	// initialize communication
-	if (!comm->Init()) {
-		ERRLOG << "Failed to initialize communication, not running send thread.\n";
-		return;
-	}
-
-	try {
-		while (true) {
-			m_insData_mutex.lock();
-			DBGLOG << "Going to send data: " << m_data.toString(insMessage->GetMsgBitID()) << "\n";
-			// fill message data
-			insMessage->FillMessage(m_data);
-			m_insData_mutex.unlock();
-			// send the message (with the communication ptr)
-			insMessage->SendMessage(comm);
-
-			Utilities::SleepForRestTime(startTime, insMessage->GetSleepTimeBetweenEverySend());
-			startTime = boost::posix_time::microsec_clock::local_time();
-			boost::this_thread::interruption_point();
+void InsControl::InitializeMessages() {
+	m_messages.push_back(t_message(new StatusMessage(), new TCPCommunication(m_insConf->GetStatusMsgPort())));
+	m_messages.push_back(t_message(new NavigationDataMessage(),
+									 new UDPCommunication(m_insConf->GetNavigationDataMsgIpAddress(), m_insConf->GetNavigationDataMsgPort())));
+	m_messages.push_back(t_message(new InternalGPSMessage(),
+									 new UDPCommunication(m_insConf->GetInternalGPSMsgIpAddress(), m_insConf->GetInternalGPSMsgPort())));
+	m_messages.push_back(t_message(new ErrorsEstimationMessage(),
+									 new UDPCommunication(m_insConf->GetErrorsEstimationMsgIpAddress(), m_insConf->GetErrorsEstimationMsgPort())));
+	// initialize communications
+	for (auto message : m_messages) {
+		if (!message.second->Init()) {
+			ERRLOG << "Failed to initialize communication of message " << message.first->GetMsgType() << "\n";
+			return;
 		}
 	}
-	catch (boost::thread_interrupted&) {
-        LOG << "thread INS interruped!\n";
-        return;
-    } 
+	m_initialized = true;
 }
 
-void InsControl::SetData(const InsData& data) {
-	m_insData_mutex.lock();
-	m_data = data;
-	m_insData_mutex.unlock();
-}
-
-void InsControl::Run() {
-	// create the messages
-	m_messages.push_back(t_message(new StatusMessage(m_insConf->GetStatusMsgHz()), new TCPCommunication(m_insConf->GetStatusMsgPort())));
-	m_messages.push_back(t_message(new NavigationDataMessage(m_insConf->GetNavigationDataMsgHz()),
-									 new UDPCommunication(m_insConf->GetNavigationDataMsgIpAddress(), m_insConf->GetNavigationDataMsgPort())));
-	m_messages.push_back(t_message(new InternalGPSMessage(m_insConf->GetInternalGPSMsgHz()),
-									 new UDPCommunication(m_insConf->GetInternalGPSMsgIpAddress(), m_insConf->GetInternalGPSMsgPort())));
-	m_messages.push_back(t_message(new ErrorsEstimationMessage(m_insConf->GetErrorsEstimationMsgHz()),
-									 new UDPCommunication(m_insConf->GetErrorsEstimationMsgIpAddress(), m_insConf->GetErrorsEstimationMsgPort())));
-	// create threads with messages 
-	for (auto message : m_messages) {
-		m_messagesThreads.push_back(std::make_shared<boost::thread>(&InsControl::SendThreadMethod, this, message));
+void InsControl::SendData(const InsData& data) {
+	if (!m_initialized) {
+		ERRLOG << "INS couldn't initalize all its communications. Cannot send data\n";
+		return;
 	}
+	auto msgType = data.GetCurrMsgType();
+	auto pair = GetMsgByType(msgType);
+	auto insMessage = pair.first;
+	auto comm = pair.second;
+	DBGLOG << "Going to send data: " << data.toString(msgType) << "\n";
+	if (insMessage && comm) { // avoid nullptr usage
+		insMessage->FillMessage(data);
+		insMessage->SendMessage(comm);
+		insMessage->InitMessage();
+	}
+
 }
 
-InsData InsControl::GetData() {
+InsControl::t_message InsControl::GetMsgByType(InsMsgType msgType) const {
+	for (auto message : m_messages) {
+		if (message.first->GetMsgType() == msgType) {
+			return message;
+		}
+	}
+	ERRLOG << "Didn't find msg type, something wrong occurred\n";
+	return t_message();
+}
+
+InsData InsControl::ReceiveData() {
 	ERRLOG << "This function is not implemented!\n";
     return InsData();
 }

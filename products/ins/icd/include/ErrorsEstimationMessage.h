@@ -19,13 +19,13 @@ protected:
 	
 public:
 
-	ErrorsEstimationMessage(float hertz);
+	ErrorsEstimationMessage() = default;
 
 	virtual ~ErrorsEstimationMessage() = default;
 
 	virtual void FillMessage(const InsData& data) override;
 
-	virtual std::bitset<8> GetMsgBitID() const override;
+	virtual InsMsgType GetMsgType() const override;
 };
 
 #endif // ERRORSESTIMATIONMESSAGE_H

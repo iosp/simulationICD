@@ -6,11 +6,6 @@
 */
 
 #include "InsMessage.h"
-#include "ICommunication.h"
-#include "LoggerProxy.h"
-
-InsMessage::InsMessage(float hertz) : IMessage(hertz) {
-}
 
 void InsMessage::GetDataValidityBitfield(char* buffer, size_t bufferSize) const {
 	static const char D1 =	1 << 7 | // position validity
@@ -69,10 +64,5 @@ void InsMessage::GetSystemStatusBitfield(char* buffer, size_t bufferSize) const 
 
 void InsMessage::GetSystemAlertBitfield(char* buffer, size_t bufferSize) const {
 	static const unsigned char A1 = 0, A2 = 0, A3 = 0, A4 = 0, A5 = 0, A6 = 0, A7 = 0, A8 = 0, A9 = 0, A10 = 0;
-
 	snprintf(buffer, bufferSize, "%c%c%c%c%c%c%c%c%c%c", A1, A2, A3, A4, A5, A6, A7, A8, A9, A10);
-}
-
-int InsMessage::SendMessage(ICommunication* comm) const {
-	return comm->SendData(m_buffer, GetMessageSize());
 }

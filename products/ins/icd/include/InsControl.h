@@ -8,41 +8,38 @@
 * Date: 11.02.18
 */
 
-// #include <boost/bind.hpp>
-#include <boost/thread.hpp> // boost::thread
 #include "IICD.h"
 #include "InsData.h"
+#include <vector>
 
 // forward declarations
 class InsMessage;
 class InsConfig; 
 class ICommunication;
 
-class InsControl : public IICD<InsData>
-{
+class InsControl : public IICD<InsData> {
 private:
 	typedef std::pair<InsMessage*, ICommunication*> t_message;
 
-	InsConfig* m_insConf = nullptr;
-	InsData m_data;
-
-	// holds thread method of send data
+	// holds the ICD messages
 	std::vector<t_message> m_messages;
-	std::vector<std::shared_ptr<boost::thread> > m_messagesThreads;
-    mutable boost::mutex m_insData_mutex;
+	// configuration of INS
+	InsConfig* m_insConf = nullptr;
 
-	void SendThreadMethod(const t_message& message);
+	bool m_initialized = false;
+
+	void InitializeMessages();
+
+	t_message GetMsgByType(InsMsgType msgType) const;
 
 public:
 	InsControl(const std::string& confFilePath);
 
 	~InsControl();
 
-	virtual void SetData(const InsData& data) override;
+	virtual void SendData(const InsData& data) override;
 
-    virtual InsData GetData() override;
-
-    virtual void Run() override;
+    virtual InsData ReceiveData() override;
 };
 
 #endif

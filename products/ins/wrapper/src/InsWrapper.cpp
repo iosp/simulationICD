@@ -17,12 +17,8 @@ InsWrapper::~InsWrapper(){
     delete m_icd;
 }
 
-void InsWrapper::Run() {
-    m_icd->Run();
-}
-
-void InsWrapper::SetData() {
-    m_icd->SetData(m_data);
+void InsWrapper::SendData() {
+    m_icd->SendData(m_data);
     // ClearCurrentData(); // TODO think about it!
 }
 
@@ -37,40 +33,40 @@ void InsWrapper::ClearCurrentData() {
 
 // INS navigation data message
 void InsWrapper::SetPose(float latitude, float longitude, float altitude) {
-    m_data.SetAltitude(altitude);
-    m_data.SetLongitude(longitude);
-    m_data.SetLatitude(latitude);
+    m_data.SetNavDataAltitude(altitude);
+    m_data.SetNavDataLongitude(longitude);
+    m_data.SetNavDataLatitude(latitude);
 }
 
 void InsWrapper::SetOrientation(float azimuth, float pitch, float roll) {
-    m_data.SetAzimuth(azimuth);
-    m_data.SetPitch(pitch);
-    m_data.SetRoll(roll);
+    m_data.SetNavDataAzimuth(azimuth);
+    m_data.SetNavDataPitch(pitch);
+    m_data.SetNavDataRoll(roll);
 }
 
 void InsWrapper::SetAzimuthRate(float azimuthRate) {
-    m_data.SetAzimuthRate(azimuthRate);
+    m_data.SetNavDataAzimuthRate(azimuthRate);
 }
 
 void InsWrapper::SetVelocity(float northVelocity, float eastVelocity, float downVelocity) {
-    m_data.SetNorthVelocity(northVelocity);
-    m_data.SetEastVelocity(eastVelocity);
-    m_data.SetDownVelocity(downVelocity);
+    m_data.SetNavDataNorthVelocity(northVelocity);
+    m_data.SetNavDataEastVelocity(eastVelocity);
+    m_data.SetNavDataDownVelocity(downVelocity);
 }
 
 void InsWrapper::SetDistances(float distanceTraveled, float odometerDistance) {
-    m_data.SetDistanceTraveled(distanceTraveled);
-    m_data.SetOdometerDistance(odometerDistance);
+    m_data.SetNavDataDistanceTraveled(distanceTraveled);
+    m_data.SetNavDataOdometerDistance(odometerDistance);
 }
 
 void InsWrapper::SetMotionDetected(bool motionDetected) {
-    m_data.SetMotionDetected(motionDetected);
+    m_data.SetNavDataMotionDetected(motionDetected);
 }
 
 // INS internal GPS
 void InsWrapper::SetInternalGpsFields(short gpsFom, short numOfSatelites) {
-    m_data.SetGpsFom(gpsFom);
-    m_data.SetNumOfSatelites(numOfSatelites);
+    m_data.SetIntGpsGpsFom(gpsFom);
+    m_data.SetIntGpsNumOfSatelites(numOfSatelites);
 }
 
 // INS Errors estimation message
@@ -92,4 +88,8 @@ void InsWrapper::SetOrientationErrors(float azimuthErrorEstimation, float pitchE
     m_data.SetAzimuthErrorEstimation(azimuthErrorEstimation);
     m_data.SetPitchErrorEstimation(pitchErrorEstimation);
     m_data.SetRollErrorEstimation(rollErrorEstimation);
+}
+
+void InsWrapper::SetMsgType(InsMsgType msgType) {
+    m_data.SetCurrMsgType(msgType);
 }

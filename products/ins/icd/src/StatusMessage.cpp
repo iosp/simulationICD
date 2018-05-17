@@ -7,19 +7,7 @@
 
 #include "StatusMessage.h"
 #include "InsData.h"
-#include "LoggerProxy.h"
 #include <cstring> // memset, memcpy
-// #include "MessageFactory.h"
-
-StatusMessage::StatusMessage(float hertz) : InsMessage(hertz) {
-	// currently (5/3/18) preprocessor doesn't read echo message
-	// m_echoMessage = MessageFactory::CreateMessage(_ECHO_MSG_, hertz);
-	// m_echoMessage->FillMessage(InsData());
-}
-
-StatusMessage::~StatusMessage() {
-	// delete m_echoMessage;
-}
 
 void StatusMessage::FillMessage(const InsData& data) {
 	char tmpBuffer[10]{0};
@@ -65,11 +53,6 @@ int StatusMessage::GetMessageSize() const {
 	return sizeof(INS_Status_Message);
 }
 
-int StatusMessage::SendMessage(ICommunication* comm) const {
-	// m_echoMessage->SendMessage(comm); currently (5/3/18) preprocessor doesn't read echo message
-	return InsMessage::SendMessage(comm);
-}
-
-std::bitset<8> StatusMessage::GetMsgBitID() const {
-	return INS_STATUS_BIT;
+InsMsgType StatusMessage::GetMsgType() const {
+	return INS_STATUS_MSG;
 }

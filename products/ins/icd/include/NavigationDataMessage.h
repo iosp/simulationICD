@@ -19,14 +19,13 @@ protected:
 	
 public:
 
-	NavigationDataMessage(float hertz);
+	NavigationDataMessage() = default;
 	
 	virtual ~NavigationDataMessage() = default;
 
 	virtual void FillMessage(const InsData& data) override;
 
-	virtual std::bitset<8> GetMsgBitID() const override;
-	
+	virtual InsMsgType GetMsgType() const override;	
 };
 
 #endif // NAVIGATIONDATAMESSAGE_H

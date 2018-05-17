@@ -20,16 +20,13 @@ protected:
 		
 public:
 
-	StatusMessage(float hertz);
+	StatusMessage() = default;
 
-	virtual ~StatusMessage();
+	virtual ~StatusMessage() = default;
 
 	virtual void FillMessage(const InsData& data) override;
 
-	virtual int SendMessage(ICommunication* comm) const override;
-
-	virtual std::bitset<8> GetMsgBitID() const override;
-
+	virtual InsMsgType GetMsgType() const override;
 };
 
 #endif // STATUSMESSAGE_H

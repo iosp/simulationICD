@@ -9,17 +9,13 @@
 #include "InsData.h"
 #include <cstring> // memset, memcpy
 
-InternalGPSMessage::InternalGPSMessage(float hertz) : InsMessage(hertz) {
-
-}
-
 void InternalGPSMessage::FillMessage(const InsData& data) {
 	INS_Internal_GPS msg;
 	FillHeader(msg.Header);
 	msg.Time_From_Startup = data.GetSimTime() * TIME_MULTIPLY;
 	msg.UTC_Time = data.GetUtcTime() * TIME_MULTIPLY;
-	msg.GPS_FOM = data.GetGpsFom();
-	msg.Num_Of_Satelites_In_Nav_Sol = data.GetNumOfSatelites();
+	msg.GPS_FOM = data.GetIntGpsGpsFom();
+	msg.Num_Of_Satelites_In_Nav_Sol = data.GetIntGpsNumOfSatelites();
 
 	// these fields are not parsed by the other side
 	msg.GPS_Week = 0;
@@ -61,6 +57,6 @@ int InternalGPSMessage::GetMessageSize() const {
 	return sizeof(INS_Internal_GPS);
 }
 
-std::bitset<8> InternalGPSMessage::GetMsgBitID() const {
-	return INS_INTERNAL_BIT;
+InsMsgType InternalGPSMessage::GetMsgType() const {
+	return INS_INTERNAL_GPS_MSG;
 }

@@ -9,10 +9,6 @@
 #include "InsData.h"
 #include <cstring>  // memset, memcpy
 
-ErrorsEstimationMessage::ErrorsEstimationMessage(float hertz) : InsMessage(hertz) {
-
-}
-
 void ErrorsEstimationMessage::FillMessage(const InsData& data) {
 	INS_Error_Estimation_Message msg;
 
@@ -57,6 +53,6 @@ int ErrorsEstimationMessage::GetMessageSize() const {
 	return sizeof(INS_Error_Estimation_Message);
 }
 
-std::bitset<8> ErrorsEstimationMessage::GetMsgBitID() const {
-	return INS_ERR_EST_BIT;
+InsMsgType ErrorsEstimationMessage::GetMsgType() const {
+	return INS_ERRORS_ESTIMATION_MSG;
 }

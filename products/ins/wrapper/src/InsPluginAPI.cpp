@@ -8,57 +8,80 @@
 */
 
 #include "InsPluginAPI.h"
+#include "InsWrapper.h"
 
-InsWrapper* CreateInsObject(const char* confFilePath) {
+InsWrapper* InsCreateObject(const char* confFilePath) {
     return new InsWrapper(confFilePath);
 }
 
-void DeleteInsObject(InsWrapper* pObj) {delete pObj;}
+void InsDeleteObject(InsWrapper* pObj) {
+    delete pObj;
+}
 
-void RunIns(InsWrapper* pObj) { pObj->Run(); }
+void InsSendStatusMsgData(InsWrapper* pObj) {
+    pObj->SetMsgType(INS_STATUS_MSG);
+    pObj->SendData();
+}
 
-void SendInsData(InsWrapper* pObj) { pObj->SetData(); }
+void InsSendInternalGPSData(InsWrapper* pObj){
+    pObj->SetMsgType(INS_INTERNAL_GPS_MSG);
+    pObj->SendData();
+}
 
-void SetInsTimeStamps(InsWrapper* pObj, float simTime, float utcTime) {
+void InsSendNavigationData(InsWrapper* pObj){
+    pObj->SetMsgType(INS_NAVIGATION_DATA_MSG);
+    pObj->SendData();
+}
+
+void InsSendErrorEstimationData(InsWrapper* pObj){
+    pObj->SetMsgType(INS_ERRORS_ESTIMATION_MSG);
+    pObj->SendData();
+}
+
+void InsSetTimeStamps(InsWrapper* pObj, float simTime, float utcTime) {
     pObj->SetTimeStamps(simTime, utcTime);
 }
 
 // INS navigation data message
-void SetInsPose(InsWrapper* pObj, float latitude, float longitude, float altitude) {
+void InsSetPose(InsWrapper* pObj, float latitude, float longitude, float altitude) {
     pObj->SetPose(latitude, longitude, altitude);
 }
 
-void SetInsOrientation(InsWrapper* pObj, float azimuth, float pitch, float roll) {
+void InsSetOrientation(InsWrapper* pObj, float azimuth, float pitch, float roll) {
     pObj->SetOrientation(azimuth, pitch, roll);
 }
 
-void SetInsAzimuthRate(InsWrapper* pObj, float azimuthRate) { pObj->SetAzimuthRate(azimuthRate); }
+void InsSetAzimuthRate(InsWrapper* pObj, float azimuthRate) {
+    pObj->SetAzimuthRate(azimuthRate); 
+}
 
-void SetInsVelocity(InsWrapper* pObj, float northVelocity, float eastVelocity, float downVelocity) {
+void InsSetVelocity(InsWrapper* pObj, float northVelocity, float eastVelocity, float downVelocity) {
     pObj->SetVelocity(northVelocity, eastVelocity, downVelocity);
 }
 
-void SetInsDistances(InsWrapper* pObj, float distanceTraveled, float odometerDistance) {
+void InsSetDistances(InsWrapper* pObj, float distanceTraveled, float odometerDistance) {
     pObj->SetDistances(distanceTraveled, odometerDistance);
 }
 
-void SetInsMotionDetected(InsWrapper* pObj, bool motionDetected) { pObj->SetMotionDetected(motionDetected); }
+void InsSetMotionDetected(InsWrapper* pObj, bool motionDetected) {
+    pObj->SetMotionDetected(motionDetected); 
+}
 
 // INS internal GPS
-void SetInsInternalGpsFields(InsWrapper* pObj, short gpsFom, short numOfSatelites) {
+void InsSetInternalGpsFields(InsWrapper* pObj, short gpsFom, short numOfSatelites) {
     pObj->SetInternalGpsFields(gpsFom, numOfSatelites);
 }
 
 // INS Errors estimation message
-void SetInsDirectionErrors(InsWrapper* pObj, float horizontalError, float verticalError, float northingError,
+void InsSetDirectionErrors(InsWrapper* pObj, float horizontalError, float verticalError, float northingError,
                             float eastingError, float altitudeError) {
     pObj->SetDirectionErrors(horizontalError, verticalError, northingError, eastingError, altitudeError);
 }
 
-void SetInsVelocityErrors(InsWrapper* pObj, float northVelocityError, float eastVelocityError, float downVelocityError) {
+void InsSetVelocityErrors(InsWrapper* pObj, float northVelocityError, float eastVelocityError, float downVelocityError) {
     pObj->SetVelocityErrors(northVelocityError, eastVelocityError, downVelocityError);
 }
 
-void SetInsOrientationErrors(InsWrapper* pObj, float azimuthErrorEstimation, float pitchErrorEstimation, float rollErrorEstimation) {
+void InsSetOrientationErrors(InsWrapper* pObj, float azimuthErrorEstimation, float pitchErrorEstimation, float rollErrorEstimation) {
     pObj->SetOrientationErrors(azimuthErrorEstimation, pitchErrorEstimation, rollErrorEstimation);
 }

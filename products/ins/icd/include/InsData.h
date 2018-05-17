@@ -9,55 +9,63 @@
 */
 
 #include <string>
-#include <bitset>
 
-static const std::bitset<8> INS_NAV_BIT("1");
-static const std::bitset<8> INS_INTERNAL_BIT("10");
-static const std::bitset<8> INS_ERR_EST_BIT("100");
-static const std::bitset<8> INS_STATUS_BIT("1000");
+enum InsMsgType : unsigned int {INS_STATUS_MSG, INS_NAVIGATION_DATA_MSG, INS_INTERNAL_GPS_MSG, INS_ERRORS_ESTIMATION_MSG }; 
 
 class InsData {
 private:
+    InsMsgType m_currMsgType;
     float m_simTime;
     float m_utcTime;
 
     // members for INS navigation data message
-    float m_altitude = 0;
-    float m_latitude = 0;
-    float m_longitude = 0;
-    float m_azimuth = 0;
-    float m_pitch = 0;
-    float m_roll = 0;
-    float m_azimuthRate = 0;
-    float m_northVelocity = 0;
-    float m_eastVelocity = 0;
-    float m_downVelocity = 0;
-    float m_distanceTraveled = 0;
-    float m_odometerDistance = 0;
-    bool m_motionDetected;
+    struct Ins_Navigation_Data {
+        float altitude = 0;
+        float latitude = 0;
+        float longitude = 0;
+        float azimuth = 0;
+        float pitch = 0;
+        float roll = 0;
+        float azimuthRate = 0;
+        float northVelocity = 0;
+        float eastVelocity = 0;
+        float downVelocity = 0;
+        float distanceTraveled = 0;
+        float odometerDistance = 0;
+        bool motionDetected;
+    } m_navigationData;
     // members for INS internal GPS
-    short m_gpsFom = 0;
-    short m_numOfSatelites = 0;
+    struct Ins_Internal_GPS {
+        short gpsFom = 0;
+        short numOfSatelites = 0;
+    } m_internalGPS;
     // members for errors estimation message
-    float m_horizontalError = 0;
-    float m_verticalError = 0;
-    float m_northingError = 0;
-    float m_eastingError = 0;
-    float m_altitudeError = 0;
-    float m_northVelocityError = 0;
-    float m_eastVelocityError = 0;
-    float m_downVelocityError = 0;
-    float m_azimuthErrorEstimation = 0;
-    float m_pitchErrorEstimation = 0;
-    float m_rollErrorEstimation = 0;
-
+    struct Ins_Errors_Estimation {
+        float horizontalError = 0;
+        float verticalError = 0;
+        float northingError = 0;
+        float eastingError = 0;
+        float altitudeError = 0;
+        float northVelocityError = 0;
+        float eastVelocityError = 0;
+        float downVelocityError = 0;
+        float azimuthErrorEstimation = 0;
+        float pitchErrorEstimation = 0;
+        float rollErrorEstimation = 0;
+    } m_errorsEstimation;
 
 public:
     InsData() = default;
     
     ~InsData() = default;
 
-    // InsData& operator = (const InsData& other);
+    InsMsgType GetCurrMsgType() const {
+        return m_currMsgType;
+    }
+
+    void SetCurrMsgType(InsMsgType msgType) {
+        m_currMsgType = msgType;
+    }
 
     float GetSimTime() const {
         return m_simTime;
@@ -75,215 +83,215 @@ public:
         m_utcTime = utcTime;
     }
 
-    float GetAltitude() const {
-        return m_altitude;
+    float GetInsNavAltitude() const {
+        return m_navigationData.altitude;
     }
 
-    void SetAltitude(float altitude) {
-        m_altitude = altitude;
+    void SetNavDataAltitude(float altitude) {
+        m_navigationData.altitude = altitude;
     }
 
-    float GetLatitude() const {
-        return m_latitude;
+    float GetNavDataLatitude() const {
+        return m_navigationData.latitude;
     }
 
-    void SetLatitude(float latitude) {
-        m_latitude = latitude;
+    void SetNavDataLatitude(float latitude) {
+        m_navigationData.latitude = latitude;
     }
 
-    float GetLongitude() const {
-        return m_longitude;
+    float GetNavDataLongitude() const {
+        return m_navigationData.longitude;
     }
 
-    void SetLongitude(float longitude) {
-        m_longitude = longitude;
+    void SetNavDataLongitude(float longitude) {
+        m_navigationData.longitude = longitude;
     }
 
-    float GetAzimuth() const {
-        return m_azimuth;
+    float GetNavDataAzimuth() const {
+        return m_navigationData.azimuth;
     }
 
-    void SetAzimuth(float azimuth) {
-        m_azimuth = azimuth;
+    void SetNavDataAzimuth(float azimuth) {
+        m_navigationData.azimuth = azimuth;
     }
 
-    float GetPitch() const {
-        return m_pitch;
+    float GetNavDataPitch() const {
+        return m_navigationData.pitch;
     }
 
-    void SetPitch(float pitch) {
-        m_pitch = pitch;
+    void SetNavDataPitch(float pitch) {
+        m_navigationData.pitch = pitch;
     }
     
-    float GetRoll() const {
-        return m_roll;
+    float GetNavDataRoll() const {
+        return m_navigationData.roll;
     }
 
-    void SetRoll(float roll) {
-        m_roll = roll;
+    void SetNavDataRoll(float roll) {
+        m_navigationData.roll = roll;
     }
 
-    float GetAzimuthRate() const {
-        return m_azimuthRate;
+    float GetNavDataAzimuthRate() const {
+        return m_navigationData.azimuthRate;
     }
 
-    void SetAzimuthRate(float azimuthRate) {
-        m_azimuthRate = azimuthRate;
+    void SetNavDataAzimuthRate(float azimuthRate) {
+        m_navigationData.azimuthRate = azimuthRate;
     }
 
-    float GetNorthVelocity() const {
-        return m_northVelocity;
+    float GetNavDataNorthVelocity() const {
+        return m_navigationData.northVelocity;
     }
 
-    void SetNorthVelocity(float northVelocity) {
-        m_northVelocity = northVelocity;
+    void SetNavDataNorthVelocity(float northVelocity) {
+        m_navigationData.northVelocity = northVelocity;
     }
 
-    float GetEastVelocity() const {
-        return m_eastVelocity;
+    float GetNavDataEastVelocity() const {
+        return m_navigationData.eastVelocity;
     }
 
-    void SetEastVelocity(float eastVelocity) {
-        m_eastVelocity = eastVelocity;
+    void SetNavDataEastVelocity(float eastVelocity) {
+        m_navigationData.eastVelocity = eastVelocity;
     }
 
-    float GetDownVelocity() const {
-        return m_downVelocity;
+    float GetNavDataDownVelocity() const {
+        return m_navigationData.downVelocity;
     }
 
-    void SetDownVelocity(float downVelocity) {
-        m_downVelocity = downVelocity;
+    void SetNavDataDownVelocity(float downVelocity) {
+        m_navigationData.downVelocity = downVelocity;
     }
 
-    float GetDistanceTraveled() const {
-        return m_distanceTraveled;
+    float GetNavDataDistanceTraveled() const {
+        return m_navigationData.distanceTraveled;
     }
 
-    void SetDistanceTraveled(float distanceTraveled) {
-        m_distanceTraveled = distanceTraveled;
+    void SetNavDataDistanceTraveled(float distanceTraveled) {
+        m_navigationData.distanceTraveled = distanceTraveled;
     }
 
-    float GetOdometerDistance() const {
-        return m_odometerDistance;
+    float GetNavDataOdometerDistance() const {
+        return m_navigationData.odometerDistance;
     }
 
-    void SetOdometerDistance(float odometerDistance) {
-        m_odometerDistance = odometerDistance;
+    void SetNavDataOdometerDistance(float odometerDistance) {
+        m_navigationData.odometerDistance = odometerDistance;
     }
 
-    bool IsMotionDetected() const {
-        return m_motionDetected;
+    bool IsNavDataMotionDetected() const {
+        return m_navigationData.motionDetected;
     }
 
-    void SetMotionDetected(float motionDetected) {
-        m_motionDetected = motionDetected;
+    void SetNavDataMotionDetected(float motionDetected) {
+        m_navigationData.motionDetected = motionDetected;
     }
 
-    short GetGpsFom() const {
-        return m_gpsFom;
+    short GetIntGpsGpsFom() const {
+        return m_internalGPS.gpsFom;
     }
 
-    void SetGpsFom(short gpsFom) {
-        m_gpsFom = gpsFom;
+    void SetIntGpsGpsFom(short gpsFom) {
+        m_internalGPS.gpsFom = gpsFom;
     }
 
-    short GetNumOfSatelites() const {
-        return m_numOfSatelites;
+    short GetIntGpsNumOfSatelites() const {
+        return m_internalGPS.numOfSatelites;
     }
 
-    void SetNumOfSatelites(short numOfSatelites) {
-        m_numOfSatelites = numOfSatelites;
+    void SetIntGpsNumOfSatelites(short numOfSatelites) {
+        m_internalGPS.numOfSatelites = numOfSatelites;
     }
 
     float GetHorizontalError() const {
-        return m_horizontalError;
+        return m_errorsEstimation.horizontalError;
     }
 
     void SetHorizontalError(float horizontalError) {
-        m_horizontalError = horizontalError;
+        m_errorsEstimation.horizontalError = horizontalError;
     }
 
     float GetVerticalError() const {
-        return m_verticalError;
+        return m_errorsEstimation.verticalError;
     }
 
     void SetVerticalError(float verticalError) {
-        m_verticalError = verticalError;
+        m_errorsEstimation.verticalError = verticalError;
     }
 
     float GetNorthingError() const{
-        return m_northingError;
+        return m_errorsEstimation.northingError;
     }
 
     void SetNorthingError(float northingError) {
-        m_northingError = northingError;
+        m_errorsEstimation.northingError = northingError;
     }
 
     float GetEastingError() const{
-        return m_eastingError;
+        return m_errorsEstimation.eastingError;
     }
 
     void SetEastingError(float eastingError) {
-        m_eastingError = eastingError;
+        m_errorsEstimation.eastingError = eastingError;
     }
 
     float GetAltitudeError() const{
-        return m_altitudeError;
+        return m_errorsEstimation.altitudeError;
     }
 
     void SetAltitudeError(float altitudeError) {
-        m_altitudeError = altitudeError;
+        m_errorsEstimation.altitudeError = altitudeError;
     }
 
     float GetNorthVelocityError() const {
-        return m_northVelocityError;
+        return m_errorsEstimation.northVelocityError;
     }
 
     void SetNorthVelocityError(float northVelocityError) {
-        m_northVelocityError = northVelocityError;
+        m_errorsEstimation.northVelocityError = northVelocityError;
     }
 
     float GetEastVelocityError() const {
-        return m_eastVelocityError;
+        return m_errorsEstimation.eastVelocityError;
     }
 
     void SetEastVelocityError(float eastVelocityError) {
-        m_eastVelocityError = eastVelocityError;
+        m_errorsEstimation.eastVelocityError = eastVelocityError;
     }
 
     float GetDownVelocityError() const {
-        return m_downVelocityError;
+        return m_errorsEstimation.downVelocityError;
     }
 
     void SetDownVelocityError(float downVelocityError) {
-        m_downVelocityError = downVelocityError;
+        m_errorsEstimation.downVelocityError = downVelocityError;
     }
 
     float GetAzimuthErrorEstimation() const {
-        return m_azimuthErrorEstimation;
+        return m_errorsEstimation.azimuthErrorEstimation;
     }
 
     void SetAzimuthErrorEstimation(float azimuthErrorEstimation) {
-        m_azimuthErrorEstimation = azimuthErrorEstimation;
+        m_errorsEstimation.azimuthErrorEstimation = azimuthErrorEstimation;
     }
 
     float GetPitchErrorEstimation() const {
-        return m_pitchErrorEstimation;
+        return m_errorsEstimation.pitchErrorEstimation;
     }
 
     void SetPitchErrorEstimation(float pitchErrorEstimation) {
-        m_pitchErrorEstimation = pitchErrorEstimation;
+        m_errorsEstimation.pitchErrorEstimation = pitchErrorEstimation;
     }
 
     float GetRollErrorEstimation() const {
-        return m_rollErrorEstimation;
+        return m_errorsEstimation.rollErrorEstimation;
     }
 
     void SetRollErrorEstimation(float rollErrorEstimation) {
-        m_rollErrorEstimation = rollErrorEstimation;
+        m_errorsEstimation.rollErrorEstimation = rollErrorEstimation;
     }
 
-    std::string toString(const std::bitset<8>& message) const;
+    std::string toString(InsMsgType msgType) const;
 };
 
 

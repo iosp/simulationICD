@@ -19,13 +19,13 @@ protected:
 		
 public:
 
-	InternalGPSMessage(float hertz);
+	InternalGPSMessage() = default;
 
 	virtual ~InternalGPSMessage() = default;
 
 	virtual void FillMessage(const InsData& data) override;
 
-	virtual std::bitset<8> GetMsgBitID() const override;
+	virtual InsMsgType GetMsgType() const override;
 };
 
 #endif // INTERNALGPSMESSAGE_H

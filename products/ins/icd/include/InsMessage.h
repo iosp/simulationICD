@@ -10,18 +10,19 @@
 
 
 #include "InsStructs.h"
-#include "IMessage.h"
-#include <bitset>
+#include "Message.h"
 #include <stdio.h> // size_t
 #include <cmath> // pow
 
 static const int TIME_MULTIPLY = std::pow(2, 12);
 static const int VEL_MULTIPLY = std::pow(2, 8);
 
+// forward declarations
 class InsData;
-class ICommunication; // forward declaration
+enum InsMsgType : unsigned int; // forward declaration of enum must specify underlying type (c++0x)
+class ICommunication; 
 
-class InsMessage : public IMessage<InsData>{
+class InsMessage : public Message<InsData>{
 protected:
 
 	virtual void FillHeader(/* out */ INS_HEADER& header) const = 0;
@@ -33,16 +34,13 @@ protected:
 	void GetSystemAlertBitfield(char* buffer, size_t bufferSize) const;
 
 public:
-	InsMessage(float hertz);
+	InsMessage() = default;
 
 	virtual ~InsMessage() = default;
 
 	virtual void FillMessage(const InsData& data) = 0;
 
-	virtual int SendMessage(ICommunication* comm) const override;
-
-	// Get ID (basically for toString method of InsData)
-	virtual std::bitset<8> GetMsgBitID() const = 0;
+	virtual InsMsgType GetMsgType() const = 0;
 };
 
 #endif // INSMESSAGE_H

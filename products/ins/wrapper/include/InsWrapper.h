@@ -26,16 +26,11 @@ public:
     InsWrapper(const std::string& confFilePath);
 
     ~InsWrapper();
-
-    /**
-     * Calls icd->icd
-     */ 
-    virtual void Run() override;
-
+    
     /**
      * Take the temporary data and set it to icd
      */ 
-    virtual void SetData() override;
+    virtual void SendData() override;
 
     void SetTimeStamps(float simTime, float utcTime);
 
@@ -62,7 +57,9 @@ public:
 
     void SetOrientationErrors(float azimuthErrorEstimation, float pitchErrorEstimation, float rollErrorEstimation);
 
-    virtual void GetData() override {}
+    void SetMsgType(InsMsgType msgType);
+
+    virtual void ReceiveData() override {}
 
 };
 
