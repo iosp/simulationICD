@@ -10,8 +10,6 @@
 
 #include "ProdConfig.h"
 
-class ConfigurationINI; // forward declaration
-
 class InsConfig : public ProdConfig {
 private:
     static const std::string STATUS_MSG_PORT_KEY;

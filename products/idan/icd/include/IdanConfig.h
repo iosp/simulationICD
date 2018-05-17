@@ -10,8 +10,6 @@
 
 #include "ProdConfig.h"
 
-class ConfigurationINI; // forward declaration
-
 class IdanConfig : public ProdConfig {
 private:
     static const std::string INTERFACE_NAME_KEY;

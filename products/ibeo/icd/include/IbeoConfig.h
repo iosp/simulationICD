@@ -11,8 +11,6 @@
 
 #include "ProdConfig.h"
 
-class ConfigurationINI; // forward declaration
-
 class IbeoConfig : public ProdConfig {
 private:
     static const std::string PORT_KEY;

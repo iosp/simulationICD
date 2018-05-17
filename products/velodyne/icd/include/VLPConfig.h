@@ -12,8 +12,6 @@
 #include "ProdConfig.h"
 #include <map>
 
-class ConfigurationINI; // forward declaration
-
 class VLPConfig : public ProdConfig {
 public:
     enum Resolution { _RES02_ = 200, _RES04_ = 400};
