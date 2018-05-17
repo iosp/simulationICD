@@ -9,16 +9,13 @@
 */
 
 #include <string>
-#include <bitset>
 
-static const std::bitset<8> HLC_PRIM_BIT("1");
-static const std::bitset<8> HLC_SEC_BIT("10");
-static const std::bitset<8> IDAN_PRIM_BIT("100");
-static const std::bitset<8> IDAN_SEC_REP_BIT("1000");
-static const std::bitset<8> IDAN_SEC_SEN_BIT("10000");
+enum IdanMsgType {HLC_PRIMARY, HLC_SECONDARY, IDAN_PRIMARY, IDAN_SECONDARY_REPORT, IDAN_SECONDARY_SENSOR };
 
 class IdanData {
 private:
+    IdanMsgType m_currMsgType;
+
     struct HLC_Primary {
         bool hasShutDownCmd = true;
         bool hasEmergencyCmd = true;
@@ -82,6 +79,14 @@ public:
     IdanData() = default;
     
     ~IdanData() = default;
+
+    IdanMsgType GetCurrMsgType() const {
+        return m_currMsgType;
+    }
+
+    void SetCurrMsgType(IdanMsgType msgType) {
+        m_currMsgType = msgType;
+    }
 
     /************************************************* HLC Primary ********************************************/
 
@@ -436,8 +441,7 @@ public:
         m_IDANSecondarySensor.airPressRear = airPressRear;
     }
 
-
-    std::string toString(const std::bitset<8>& message) const;
+    std::string toString(IdanMsgType msgType) const;
 };
 
 

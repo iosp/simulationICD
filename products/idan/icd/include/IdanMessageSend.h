@@ -13,11 +13,9 @@
 
 class IdanMessageSend : public IdanMessage {
 public:
-	IdanMessageSend(float hertz);
+	IdanMessageSend() = default;
 
 	virtual ~IdanMessageSend() = default;
-
-	virtual int SendMessage(ICommunication* comm) const override;
 
 	// Fill the message buffer with a message, ID and length
 	template <class MSG>

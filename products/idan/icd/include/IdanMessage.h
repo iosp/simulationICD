@@ -8,9 +8,8 @@
 * Date: 20.03.18
 */
 
-#include "IMessage.h"
+#include "Message.h"
 #include <stdint.h> // uins32_t
-#include <map>
 
 typedef uint32_t t_msgID;
 static const t_msgID HLC_PRIM_ID = 0x50;
@@ -21,9 +20,9 @@ static const t_msgID IDAN_SEC_SEN_ID = 0x81;
 
 class IdanData;
 
-class IdanMessage : public IMessage<IdanData>{
+class IdanMessage : public Message<IdanData>{
 public:
-	IdanMessage(float hertz);
+	IdanMessage() = default;
 
 	virtual ~IdanMessage() = default;
 

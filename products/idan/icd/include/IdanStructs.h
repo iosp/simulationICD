@@ -143,40 +143,6 @@ typedef struct
 	unsigned char AirPressRear;// new
 }IDAN_SecondarySensorsMsgType;
 
-typedef struct
-{
-	unsigned char CAN_SOF;
-	unsigned char Length;
-	unsigned char Command;
-	unsigned short Id;
-	unsigned char Data[8];
-	unsigned char ChackSum;
-	unsigned char CAN_EOF;
-}Can11ShellMsgType;
-
-typedef struct
-{
-	unsigned char CAN_SOF;
-	unsigned char Length;
-	unsigned char Command;
-	unsigned short Id;
-	unsigned char Data[8];
-	unsigned char ChackSum;
-	unsigned char CAN_EOF;
-}CanView11RcvShellMsgType;
-
-typedef struct
-{
-	;
-}Msg_42_Type;
-
-typedef struct
-{
-	unsigned char ErrorType;
-	unsigned char ErrorCode;
-}Msg_43_Type;
-
-
 #pragma pack()
 
 

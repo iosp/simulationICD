@@ -11,7 +11,6 @@
 
 HLCPrimaryControlMessage::HLCPrimaryControlMessage(float hertz) : IdanMessageGet(hertz) {
 }
-
 void HLCPrimaryControlMessage::ParseMessage(const char* buffer) {
     buffer = buffer + 8;
     m_message.ShutDownCmd = buffer[0];
@@ -33,7 +32,7 @@ void HLCPrimaryControlMessage::UpdateData(IdanData& data) const {
     data.SetHLCPSteerCmd(fixedSteer);
     data.SetHLCPGasCmd(fixedGas);
     
-    DBGLOG << "Data accepted: " << data.toString(HLC_PRIM_BIT);
+    DBGLOG << "Data accepted: " << data.toString(HLC_PRIMARY);
 }
 
 t_msgID HLCPrimaryControlMessage::GetMsgID() const {

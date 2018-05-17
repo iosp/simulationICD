@@ -18,7 +18,6 @@ static const unsigned char SACS_ON_VAL = 0x0B;
 
 HLCSecondaryControlMessage::HLCSecondaryControlMessage(float hertz) : IdanMessageGet(hertz) {
 }
-
 void HLCSecondaryControlMessage::ParseMessage(const char* buffer) {
     buffer = buffer + 8;
     m_message.ShutDown = buffer[0];
@@ -60,7 +59,7 @@ void HLCSecondaryControlMessage::UpdateData(IdanData& data) const {
 	data.SetHLCSEmergencyCmd(m_message.EmergencyCmd == EMERGENCY_VAL);
 	data.SetHLCSSacsOnCmd(m_message.SacsOnCmd == SACS_ON_VAL);
 
-	DBGLOG << "Data accepted: " << data.toString(HLC_SEC_BIT);
+	DBGLOG << "Data accepted: " << data.toString(HLC_SECONDARY);
 }
 
 t_msgID HLCSecondaryControlMessage::GetMsgID() const {

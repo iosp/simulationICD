@@ -17,16 +17,16 @@ IdanWrapper::~IdanWrapper(){
     delete m_icd;
 }
 
-void IdanWrapper::IdanWrapper::Run() {
-    m_icd->Run();
+void IdanWrapper::ReceiveData() {
+    m_data = m_icd->ReceiveData();
 }
 
-void IdanWrapper::IdanWrapper::GetData() {
-    m_data = m_icd->GetData();
+void IdanWrapper::SendData() {
+    m_icd->SendData(m_data);
 }
 
-void IdanWrapper::SetData() {
-    m_icd->SetData(m_data);
+void IdanWrapper::SetMsgType(IdanMsgType msgType) {
+    m_data.SetCurrMsgType(msgType);
 }
 
 void IdanWrapper::IdanWrapper::ClearCurrentData() {

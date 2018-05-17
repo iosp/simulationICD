@@ -9,10 +9,6 @@
 #include "IdanData.h"
 #include "LoggerProxy.h"
 
-IdanSecondarySensorMessage::IdanSecondarySensorMessage(float hertz) : IdanMessageSend(hertz) {
-
-}
-
 int IdanSecondarySensorMessage::GetMessageSize() const {
     return sizeof(IDAN_SecondarySensorsMsgType);
 }

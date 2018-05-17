@@ -9,10 +9,6 @@
 #include "IdanData.h"
 #include "LoggerProxy.h"
 
-IdanPrimaryMessage::IdanPrimaryMessage(float hertz) : IdanMessageSend(hertz) {
-
-}
-
 int IdanPrimaryMessage::GetMessageSize() const {
     return sizeof(IDAN_PrimaryReportMsgType);
 }

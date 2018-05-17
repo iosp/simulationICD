@@ -6,19 +6,25 @@ public class IdanWrapper: IDisposable {
 	const String DLL_LOCATION = "libidan";
 	
 	[DllImport (DLL_LOCATION)]
-	private static extern IntPtr CreateIdanObject(string confFilePath);
+	private static extern IntPtr IdanCreateObject(string confFilePath);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern void DeleteIdanObject(IntPtr pObj);
+	private static extern void IdanDeleteObject(IntPtr pObj);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern void RunIdan(IntPtr pObj);
+	private static extern void SendIdanPrimaryData(IntPtr pObj);
+
+    [DllImport (DLL_LOCATION)]
+	private static extern void SendIdanSecondaryReportData(IntPtr pObj);
+
+    [DllImport (DLL_LOCATION)]
+	private static extern void SendIdanSecondarySensorData(IntPtr pObj);
 
 	[DllImport (DLL_LOCATION)]
 	private static extern void SendIdanData(IntPtr pObj);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern void GetIdanData(IntPtr pObj);
+	private static extern void IdanReceiveData(IntPtr pObj);
 
 /***************************************************** HLC Primary *********************************************** */
 	[DllImport (DLL_LOCATION)]
@@ -161,7 +167,7 @@ public class IdanWrapper: IDisposable {
 	private IntPtr m_nativeObject;
 
 	public IdanWrapper(string confFilePath) {
-		this.m_nativeObject = CreateIdanObject(confFilePath);
+		this.m_nativeObject = IdanCreateObject(confFilePath);
 	}
 
 	~IdanWrapper() {Dispose(false);}
@@ -170,7 +176,7 @@ public class IdanWrapper: IDisposable {
 
     protected virtual void Dispose(bool bDisposing) {
         if (this.m_nativeObject != IntPtr.Zero) {
-            DeleteIdanObject(this.m_nativeObject);
+            IdanDeleteObject(this.m_nativeObject);
             this.m_nativeObject = IntPtr.Zero;
         }
 
@@ -179,16 +185,20 @@ public class IdanWrapper: IDisposable {
         }
     }
 
-	public void Run() {
-		RunIdan(this.m_nativeObject);
+	public void SendIdanPrimaryData() {
+		SendIdanPrimaryData(this.m_nativeObject);
 	}
 
-	public void SendData() {
-		SendIdanData(this.m_nativeObject);
+	public void SendIdanSecondaryReportData() {
+		SendIdanSecondaryReportData(this.m_nativeObject);
 	}
 
-	public void GetData() {
-		GetIdanData(this.m_nativeObject);
+	public void SendIdanSecondarySensorData() {
+		SendIdanSecondarySensorData(this.m_nativeObject);
+	}
+
+	public void ReceiveData() {
+		IdanReceiveData(this.m_nativeObject);
 	}
 
 /***************************************************** HLC Primary *********************************************** */

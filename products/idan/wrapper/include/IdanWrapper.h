@@ -27,11 +27,11 @@ public:
 
     ~IdanWrapper();
 
-    virtual void Run() override;
+    virtual void SendData() override;
 
-    virtual void SetData() override;
+    virtual void ReceiveData() override;
 
-    virtual void GetData() override;
+    void SetMsgType(IdanMsgType msgType);
 
     /********************************* HLC Primary *************************************************/
     bool HasHLCPShutDownCmd() const;
