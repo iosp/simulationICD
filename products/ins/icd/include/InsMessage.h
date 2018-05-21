@@ -20,7 +20,6 @@ static const int VEL_MULTIPLY = std::pow(2, 8);
 // forward declarations
 class InsData;
 enum InsMsgType : unsigned int; // forward declaration of enum must specify underlying type (c++0x)
-class ICommunication; 
 
 class InsMessage : public Message<InsData>{
 protected:

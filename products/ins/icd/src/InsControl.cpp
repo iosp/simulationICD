@@ -62,7 +62,6 @@ void InsControl::SendData(const InsData& data) {
 		insMessage->SendMessage(comm);
 		insMessage->InitMessage();
 	}
-
 }
 
 InsControl::t_message InsControl::GetMsgByType(InsMsgType msgType) const {
