@@ -21,9 +21,6 @@ public class IdanWrapper: IDisposable {
 	private static extern void SendIdanSecondarySensorData(IntPtr pObj);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern void SendIdanData(IntPtr pObj);
-
-	[DllImport (DLL_LOCATION)]
 	private static extern void IdanReceiveData(IntPtr pObj);
 
 /***************************************************** HLC Primary *********************************************** */
