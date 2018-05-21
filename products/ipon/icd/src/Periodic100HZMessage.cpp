@@ -7,12 +7,9 @@
 
 #include "Periodic100HZMessage.h"
 #include "IponData.h"
+#include "IponStructs.h"
 #include "LoggerProxy.h"
 #include "Helper.h"
-
-Periodic100HZMessage::Periodic100HZMessage(float hertz) : IponMessage(hertz) {
-
-}
 
 int Periodic100HZMessage::GetMessageSize() const {
     return sizeof(PHSPERIODIC100HZMESSAGE);
@@ -187,4 +184,8 @@ void Periodic100HZMessage::FillMessage(const IponData& data) {
 	//Checksum_Egi
 	ushTemp = Utilities::LittleEndianToBig<unsigned short>(msg.Checksum_Egi);
 	CopyDataToBuffer((char*)&ushTemp, ushTemp, offset);
+}
+
+IponMsgType Periodic100HZMessage::GetMsgType() const {
+	return IPON_PERIODIC_100HZ;
 }

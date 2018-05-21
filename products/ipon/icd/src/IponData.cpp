@@ -8,7 +8,7 @@
 #include "IponData.h"
 #include <sstream>
 
-std::string IponData::toString() const {
+std::string IponData::toString(IponMsgType msgType) const {
     std::stringstream ss;
 
     return ss.str();

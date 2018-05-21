@@ -17,13 +17,13 @@ IponWrapper::~IponWrapper(){
     delete m_icd;
 }
 
-void IponWrapper::Run() {
-    m_icd->Run();
+void IponWrapper::SendData() {
+    m_icd->SendData(m_data);
+    ClearCurrentData();
 }
 
-void IponWrapper::SetData() {
-    m_icd->SetData(m_data);
-    ClearCurrentData();
+void IponWrapper::SetMsgType(IponMsgType msgType) {
+	m_data.SetCurrMsgType(msgType);
 }
 
 void IponWrapper::ClearCurrentData() {

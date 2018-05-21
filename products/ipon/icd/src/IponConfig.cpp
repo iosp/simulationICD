@@ -15,13 +15,8 @@ const std::string IponConfig::UDP_PORT_KEY = "UDP_PORT";
 const std::string IponConfig::UDP_PORT_DEF_VAL = "2010";
 const std::string IponConfig::TCP_PORT_KEY = "TCP_PORT";
 const std::string IponConfig::TCP_PORT_DEF_VAL = "2001";
-const std::string IponConfig::PERIODIC_1_HZ_KEY = "PERIODIC_1_HZ";
-const std::string IponConfig::PERIODIC_1_HZ_KEY_DEF_VAL = "1";
-const std::string IponConfig::PERIODIC_100_HZ_KEY = "PERIODIC_100_HZ";
-const std::string IponConfig::PERIODIC_100_HZ_KEY_DEF_VAL = "100";
 
-IponConfig::IponConfig(const std::string& confFilePath) {
-    m_confFilePath = confFilePath;
+IponConfig::IponConfig(const std::string& confFilePath) : ProdConfig(confFilePath) {
     Init();
 }
 
@@ -29,8 +24,6 @@ void IponConfig::SetConfDefaultValues() {
 	m_conf->SetValue(UDP_IP_ADDRESS_KEY, UDP_IP_ADDRESS_DEF_VAL);
 	m_conf->SetValue(UDP_PORT_KEY, UDP_PORT_DEF_VAL);
     m_conf->SetValue(TCP_PORT_KEY, TCP_PORT_DEF_VAL);
-    m_conf->SetValue(PERIODIC_1_HZ_KEY, PERIODIC_1_HZ_KEY_DEF_VAL);
-    m_conf->SetValue(PERIODIC_100_HZ_KEY, PERIODIC_100_HZ_KEY_DEF_VAL);
 }
 
 std::string IponConfig::GetProdName() const {
@@ -47,12 +40,4 @@ std::string IponConfig::GetUDPPort() const {
 
 std::string IponConfig::GetTCPPort() const {
     return m_conf->GetValue<std::string>(TCP_PORT_KEY);
-}
-
-int IponConfig::GetPeriodic1MsgHertz() const {
-    return m_conf->GetValue<int>(PERIODIC_1_HZ_KEY);
-}
-
-int IponConfig::GetPeriodic100MsgHertz() const {
-    return m_conf->GetValue<int>(PERIODIC_100_HZ_KEY);
 }

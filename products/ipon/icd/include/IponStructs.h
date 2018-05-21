@@ -8,11 +8,6 @@
 * Date: 01.05.18
 */
 
-//#define UDP_SERVER			"132.4.6.90"
-#define UDP_PORT_IPON 		"2010"
-
-#define TCP_PORT_IPON 		2001
-
 #pragma once
 
 typedef struct{

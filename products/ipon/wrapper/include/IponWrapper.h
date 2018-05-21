@@ -29,16 +29,13 @@ public:
     ~IponWrapper();
 
     /**
-     * Calls ibeo->run
-     */ 
-    virtual void Run() override;
-
-    /**
      * Take the temporary data and set it to icd
      */ 
-    virtual void SetData() override;
+    virtual void SendData() override;
 
-    virtual void GetData() override {}
+    virtual void ReceiveData() override {}
+
+    void SetMsgType(IponMsgType msgType);
 
     void SetSimTime(float simTime);
     

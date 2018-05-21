@@ -8,7 +8,7 @@
 * Date: 08.05.18
 */
 
-#include "IponWrapper.h"
+struct IponWrapper;
 
 // Functions that can be used by the plugin
 extern "C" {
@@ -16,9 +16,9 @@ extern "C" {
 
     void IponDeleteObject(IponWrapper* pObj);
 
-    void IponRun(IponWrapper* pObj);
+    void IponSendPeriodic1HZData(IponWrapper* pObj);
 
-    void IponSendData(IponWrapper* pOb);
+    void IponSendPeriodic100HZData(IponWrapper* pObj);
 
     void IponSetSimTime(IponWrapper* pObj, float simTime);
 

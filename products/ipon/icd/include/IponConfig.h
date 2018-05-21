@@ -10,9 +10,6 @@
 */
 
 #include "ProdConfig.h"
-#include <string>
-
-class ConfigurationINI; // forward declaration
 
 class IponConfig : public ProdConfig {
 private:
@@ -22,12 +19,6 @@ private:
     static const std::string UDP_PORT_DEF_VAL;
     static const std::string TCP_PORT_KEY;
     static const std::string TCP_PORT_DEF_VAL;
-
-    static const std::string PERIODIC_1_HZ_KEY;
-    static const std::string PERIODIC_1_HZ_KEY_DEF_VAL;
-
-    static const std::string PERIODIC_100_HZ_KEY;
-    static const std::string PERIODIC_100_HZ_KEY_DEF_VAL;
 
 protected:
     virtual void SetConfDefaultValues() override;
@@ -44,11 +35,6 @@ public:
     std::string GetUDPPort() const;
 
     std::string GetTCPPort() const;
-
-    int GetPeriodic1MsgHertz() const;
-
-    int GetPeriodic100MsgHertz() const;
-
 };
 
 

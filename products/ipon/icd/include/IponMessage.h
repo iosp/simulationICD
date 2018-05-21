@@ -8,14 +8,13 @@
 * Date: 02.05.18
 */
 
-#include "IMessage.h"
-#include "IponData.h"
-#include "IponStructs.h"
+#include "Message.h"
 #include <string.h> // memcpy
 
-class ICommunication; // forward declaration
+class IponData;
+enum IponMsgType : unsigned int; // forward declaration of enum must specify underlying type (c++0x)
 
-class IponMessage : public IMessage<IponData>{
+class IponMessage : public Message<IponData> {
 protected:
 	template <class Data>
 	void CopyDataToBuffer(const Data* data, size_t sizeOfData, int& offset) {
@@ -23,13 +22,11 @@ protected:
 		offset += sizeOfData;
 	}
 public:
-	IponMessage(float hertz);
+	IponMessage() = default;
 
 	virtual ~IponMessage() = default;
 
-	virtual int SendMessage(ICommunication* comm) const override;
-
-    void InitMessage();
+	virtual IponMsgType GetMsgType() const = 0;
 };
 
 #endif // IPON_MESSAGE_H

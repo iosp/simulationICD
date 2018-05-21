@@ -10,6 +10,8 @@
 
 #include <string>
 
+enum IponMsgType : unsigned int {IPON_PERIODIC_1HZ, IPON_PERIODIC_100HZ }; 
+
 class IponData {
 private:
 
@@ -43,10 +45,20 @@ private:
     
     float m_simTime;
 
+    IponMsgType m_currMsgType;
+
 public:
     IponData() = default;
     
     ~IponData() = default;
+
+    IponMsgType GetCurrMsgType() const {
+        return m_currMsgType;
+    }
+
+    void SetCurrMsgType(IponMsgType msgType) {
+        m_currMsgType = msgType;
+    }
 
     /************************************************* Periodic 1 HZ ********************************************/
     double Get1HZInsTime() const {
@@ -235,7 +247,7 @@ public:
         m_simTime = simTime;
     }
 
-    std::string toString() const;
+    std::string toString(IponMsgType msgType) const;
 };
 
 

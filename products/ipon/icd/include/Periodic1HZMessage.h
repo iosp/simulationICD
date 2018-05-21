@@ -12,13 +12,15 @@
 
 class Periodic1HZMessage : public IponMessage {
 public:
-	Periodic1HZMessage(float hertz);
+	Periodic1HZMessage() = default;
 
 	virtual ~Periodic1HZMessage() = default;
 
 	virtual void FillMessage(const IponData& data) override;
 
 	virtual int GetMessageSize() const override;
+
+	virtual IponMsgType GetMsgType() const override;	
 };
 
 #endif // PERIODIC_1HZ_H

@@ -6,6 +6,7 @@
 */
 
 #include "IponPluginAPI.h"
+#include "IponWrapper.h"
 
 IponWrapper* IponCreateObject(const char* confFilePath) {
     return new IponWrapper(confFilePath);
@@ -15,12 +16,14 @@ void IponDeleteObject(IponWrapper* pObj) {
     delete pObj;
 }
 
-void IponRun(IponWrapper* pObj) {
-    pObj->Run(); 
+void IponSendPeriodic1HZData(IponWrapper* pObj) {
+    pObj->SetMsgType(IPON_PERIODIC_1HZ);
+	pObj->SendData();
 }
 
-void IponSendData(IponWrapper* pObj) {
-    pObj->SetData();
+void IponSendPeriodic100HZData(IponWrapper* pObj) {
+    pObj->SetMsgType(IPON_PERIODIC_100HZ);
+	pObj->SendData();
 }
 
 void IponSetSimTime(IponWrapper* pObj, float simTime) {

@@ -42,47 +42,101 @@ void Tester::TestVLP() {
 }
 
 void Tester::TestDgps() {
-    DgpsWrapper* dgps = CreateDgpsObject("/home/robil/simConfigs/dgps.conf");
-    RunDgps(dgps);
+    DgpsWrapper* dgps = DgpsCreateObject("/home/robil/simConfigs/dgps.conf");
     for (auto i : boost::irange(0, 20)) {
         time_duration td =  microsec_clock::local_time() - from_time_t(0);
-        SetPosition(dgps, 31.771959, 35.217018, 10);
-        SetVelocities(dgps, 10, 10, 10);
-        SetDgpsTimeStamp(dgps, td.total_microseconds());
-        SendDgpsData(dgps);
+        DgpsSetPosition(dgps, 31.771959, 35.217018, 10);
+        DgpsSetVelocities(dgps, 10, 10, 10);
+        DgpsSetTimeStamp(dgps, td.total_microseconds());
+        DgpsSendBestPosData(dgps);
+        DgpsSendBestVelData(dgps);
         usleep(100000);
     }
   
-    DeleteDgpsObject(dgps);
+    DgpsDeleteObject(dgps);
     dgps = nullptr;
 }
 
 void Tester::TestIns() {
     boost::posix_time::ptime startTime = boost::posix_time::microsec_clock::local_time();
-    InsWrapper* ins = CreateInsObject("/home/robil/simConfigs/ins.conf");
-    RunIns(ins);
+    InsWrapper* ins = InsCreateObject("/home/robil/simConfigs/ins.conf");
     for (auto i : boost::irange(0, 30)) {
         boost::posix_time::ptime currTime = boost::posix_time::microsec_clock::local_time();
         int simTime = i;
-        SetInsTimeStamps(ins, simTime, simTime);
-        SetInsPose(ins, 35.217018, 0, 31.771959);
-        SetInsOrientation(ins, i % 360, 0, 0);
-        SetInsAzimuthRate(ins, 0);
-        SetInsVelocity(ins, i % 100, i % 100, i % 100);
-        SetInsDistances(ins, 0, 0);
-        SetInsMotionDetected(ins, true);
+        InsSetTimeStamps(ins, simTime, simTime);
+        InsSetPose(ins, 35.217018, 0, 31.771959);
+        InsSetOrientation(ins, i % 360, 0, 0);
+        InsSetAzimuthRate(ins, 0);
+        InsSetVelocity(ins, i % 100, i % 100, i % 100);
+        InsSetDistances(ins, 0, 0);
+        InsSetMotionDetected(ins, true);
        
-        SetInsInternalGpsFields(ins, 0, 4);
+        InsSetInternalGpsFields(ins, 0, 4);
         
-        SetInsDirectionErrors(ins, 0,0,0,0,0);
-        SetInsVelocityErrors(ins, 0,0,0);
-        SetInsOrientationErrors(ins, 0,0,0);
+        InsSetDirectionErrors(ins, 0,0,0,0,0);
+        InsSetVelocityErrors(ins, 0,0,0);
+        InsSetOrientationErrors(ins, 0,0,0);
 
-        SendInsData(ins);
+        InsSendStatusMsgData(ins);
+        InsSendInternalGPSData(ins);
+        InsSendNavigationData(ins);
+        InsSendErrorEstimationData(ins);
         usleep(100000);
     }
 
-    DeleteInsObject(ins);
+    InsDeleteObject(ins);
+}
+
+void Tester::TestIdan() {
+    IdanWrapper* idan = IdanCreateObject("/home/robil/simConfigs/idan.conf");
+
+    for (auto i : boost::irange(0, 10000)) {
+        IdanReceiveData(idan);
+
+        SetIdanPrimSteerPos(idan, GetHLCPSteerCmd(idan));
+        SetIdanPrimGasPos(idan, GetHLCPGasCmd(idan));
+        SendIdanPrimaryData(idan);
+        
+        SetIdanSecRepRoadLights(idan, IsHLCSRoadLightsApplied(idan));
+        SetIdanSecRepHighBeam(idan, IsHLCSHighBeamApplied(idan));
+        SetIdanSecRepLightsCutoff(idan, IsHLCSLightsCutoffApplied(idan));
+        SetIdanSecRepKeySwitch(idan, IsHLCSKeySwitchApplied(idan));
+        SetIdanSecRepMotorStarter(idan, IsHLCSMotorStarterApplied(idan));
+        SetIdanSecRepHorn(idan, IsHLCSHornApplied(idan));
+        SetIdanSecRepLeftTurnSignal(idan, IsHLCSLeftTurnSignalApplied(idan));
+        SetIdanSecRepRightTurnSignal(idan, IsHLCSRightTurnSignalApplied(idan));
+        SetIdanSecRepHazards(idan, IsHLCSHazardsApplied(idan));
+        SetIdanSecRepRequestedGear(idan, GetHLCSGear(idan));
+        SetIdanSecRepActualGear(idan, GetHLCSGear(idan));
+        SetIdanSecRepParkingBrake(idan, IsHLCSParkingBrakeReleased(idan) ? "R" : "E");
+        // SetIdanSecRepRpm(idan, 0);
+        // SetIdanSecRepVelocity(idan, 0);
+        SendIdanSecondaryReportData(idan);
+
+        SetIdanSecSenEngineTemp(idan, 90);
+        SetIdanSecSenOilPress(idan, 50);
+        SetIdanSecSenFuelLevel(idan, 100);
+        SetIdanSecSenAlternatorVoltage(idan, 25.2);
+        SetIdanSecSenBackupBattVoltage(idan, 25.2);
+        SetIdanSecSenBatterySumUp(idan, 0);
+        SetIdanSecSenAirPressFront(idan, 100);
+        SetIdanSecSenAirPressRear(idan, 100);
+        SendIdanSecondarySensorData(idan);
+
+        usleep(100000);
+    }
+
+   IdanDeleteObject(idan);
+}
+
+void Tester::TestIbeo() {
+    IbeoWrapper* ibeo = IbeoCreateObject("/home/robil/simConfigs/ibeo.conf");
+
+    while (true) {
+        sleep(1);
+    }
+
+    IbeoDeleteObject(ibeo);
 }
 
 void Tester::TestTCP() {
@@ -102,58 +156,6 @@ void Tester::TestCAN() {
     delete c;
 }
 
-void Tester::TestIdan() {
-    IdanWrapper* idan = CreateIdanObject("/home/robil/simConfigs/idan.conf");
-    RunIdan(idan);
-
-    for (auto i : boost::irange(0, 10000)) {
-        GetIdanData(idan);
-
-        SetIdanPrimSteerPos(idan, GetHLCPSteerCmd(idan));
-        SetIdanPrimGasPos(idan, GetHLCPGasCmd(idan));
-        
-        SetIdanSecRepRoadLights(idan, IsHLCSRoadLightsApplied(idan));
-        SetIdanSecRepHighBeam(idan, IsHLCSHighBeamApplied(idan));
-        SetIdanSecRepLightsCutoff(idan, IsHLCSLightsCutoffApplied(idan));
-        SetIdanSecRepKeySwitch(idan, IsHLCSKeySwitchApplied(idan));
-        SetIdanSecRepMotorStarter(idan, IsHLCSMotorStarterApplied(idan));
-        SetIdanSecRepHorn(idan, IsHLCSHornApplied(idan));
-        SetIdanSecRepLeftTurnSignal(idan, IsHLCSLeftTurnSignalApplied(idan));
-        SetIdanSecRepRightTurnSignal(idan, IsHLCSRightTurnSignalApplied(idan));
-        SetIdanSecRepHazards(idan, IsHLCSHazardsApplied(idan));
-        SetIdanSecRepRequestedGear(idan, GetHLCSGear(idan));
-        SetIdanSecRepActualGear(idan, GetHLCSGear(idan));
-        SetIdanSecRepParkingBrake(idan, IsHLCSParkingBrakeReleased(idan) ? "R" : "E");
-        // SetIdanSecRepRpm(idan, 0);
-        // SetIdanSecRepVelocity(idan, 0);
-
-        SetIdanSecSenEngineTemp(idan, 90);
-        SetIdanSecSenOilPress(idan, 50);
-        SetIdanSecSenFuelLevel(idan, 100);
-        SetIdanSecSenAlternatorVoltage(idan, 25.2);
-        SetIdanSecSenBackupBattVoltage(idan, 25.2);
-        SetIdanSecSenBatterySumUp(idan, 0);
-        SetIdanSecSenAirPressFront(idan, 100);
-        SetIdanSecSenAirPressRear(idan, 100);
-
-        SendIdanData(idan);
-        usleep(100000);
-    }
-
-    DeleteIdanObject(idan);
-}
-
-void Tester::TestIbeo() {
-    IbeoWrapper* ibeo = IbeoCreateObject("/home/robil/simConfigs/ibeo.conf");
-    IbeoRun(ibeo);
-
-    while (true) {
-        sleep(1);
-    }
-
-    IbeoDeleteObject(ibeo);
-}
-
 void Tester::TestConf() {
     ConfigurationINI conf("/home/robil/test.conf");
     LOG << conf.GetValue<std::string>("hello") << "\n";
@@ -165,7 +167,6 @@ void Tester::TestConf() {
 Tester::Tester() {
     // TestVLP();
     // TestDgps();
-    // TestConf();
     // TestIns();
     // TestCAN();
     // TestIdan();
