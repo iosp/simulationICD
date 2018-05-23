@@ -17,6 +17,7 @@ class Tester {
     void TestCAN();
     void TestIdan();
     void TestIbeo();
+    void TestIpon();
 public:
     Tester();
     ~Tester() = default;

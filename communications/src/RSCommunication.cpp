@@ -49,6 +49,6 @@ int RSCommunication::SendData(const char* buffer, int sizeOfData) {
         return -1;
     } 
 	int n = m_port->write_some(boost::asio::buffer(buffer, sizeOfData));
-    DBGLOG << "Sent: " << n << " bytes\n";
+    DBGLOG << "RS Sent: " << n << " bytes to tty: " << m_tty << "\n";
     return n;
 }

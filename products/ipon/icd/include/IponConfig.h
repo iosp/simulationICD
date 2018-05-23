@@ -6,7 +6,6 @@
 * 
 * Author: Binyamin Appelbaum
 * Date: 02.05.18
-* 
 */
 
 #include "ProdConfig.h"

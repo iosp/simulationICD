@@ -10,6 +10,7 @@
 #include "InsPluginAPI.h"
 #include "IdanPluginAPI.h"
 #include "IbeoPluginAPI.h"
+#include "IponPluginAPI.h"
 #include "LoggerProxy.h"
 #include "ConfigurationINI.h"
 #include "TCPCommunication.h"
@@ -31,11 +32,11 @@ void Tester::TestVLP() {
             VLPSetAzimuth(vlp, azimuth);
             VLPSetTimeStamp(vlp, i);
             VLPCloseBlock(vlp);
-            usleep(1000);
             azimuth += 0.2;
             azimuth = (azimuth >= 360) ? 0 : azimuth;
         }
         VLPSendData(vlp);
+        usleep(1333);
     }
 
     VLPDeleteObject(vlp);
@@ -139,6 +140,16 @@ void Tester::TestIbeo() {
     IbeoDeleteObject(ibeo);
 }
 
+void Tester::TestIpon() {
+    IponWrapper* ipon = IponCreateObject("/home/robil/simConfigs/ipon.conf");
+
+    while (true) {
+        sleep(1);
+    }
+
+    IponDeleteObject(ipon);
+}
+
 void Tester::TestTCP() {
     // TCPCommunication* t = new TCPCommunication("172.23.40.92", "50013");
     // t->SendData("hello world", sizeof("hello world"));
@@ -165,11 +176,12 @@ void Tester::TestConf() {
 }
 
 Tester::Tester() {
-    // TestVLP();
+    TestVLP();
     // TestDgps();
     // TestIns();
     // TestCAN();
     // TestIdan();
-    TestIbeo();
+    // TestIbeo();
+    // TestIpon();
     // TestTCP();
 }
