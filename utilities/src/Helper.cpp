@@ -59,7 +59,7 @@ std::string Utilities::GetFormattedTime(const std::string& format) {
     boost::posix_time::time_facet * facet = new boost::posix_time::time_facet(format.c_str());
     std::ostringstream stream;
     stream.imbue(std::locale(stream.getloc(), facet));
-    stream << boost::posix_time::second_clock::local_time();
+    stream << boost::posix_time::microsec_clock::local_time();
     return stream.str();
 }
 

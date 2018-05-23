@@ -44,7 +44,7 @@ Logger& Logger::GetInstance() {
 
 void Logger::Write(LogLevel level, const std::string& sourceFile, const std::string& funcName, int lineNumber) {
     std::stringstream ss;
-    ss << Utilities::GetFormattedTime("%d.%m.%y %H:%M:%S") << "::" << sourceFile << "(" << lineNumber << ")::" <<
+    ss << Utilities::GetFormattedTime("%Y-%m-%d %H:%M:%S%F") << "::" << sourceFile << "(" << lineNumber << ")::" <<
             funcName << "::(*" << LogConfig::m_logLevelToStr.left.find(level)->second.front() << "*) ";
     PrintToFile(level, ss.str());
     PrintToScreen(level, ss.str());

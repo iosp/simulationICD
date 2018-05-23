@@ -23,7 +23,7 @@ const std::string LogConfig::SCREEN_LOG_LEVEL_DEF_VAL = "NORMAL";
 const std::string LogConfig::FILE_LOG_LEVEL_KEY = "FILE_LOG_LEVEL";
 const std::string LogConfig::FILE_LOG_LEVEL_DEF_VAL = "NORMAL";
 const std::string LogConfig::LOG_DIR_NAME_KEY = "LOG_DIR_NAME";
-const std::string LogConfig::LOG_DIR_NAME_DEF_VAL = "icd";
+const std::string LogConfig::LOG_DIR_NAME_DEF_VAL = "icd_log";
 
 const boost::bimaps::bimap<LogLevel, std::string> LogConfig::m_logLevelToStr = 
     boost::assign::list_of<boost::bimaps::bimap<LogLevel, std::string>::relation>(_DEBUG_, "DEBUG")(_NORMAL_, "NORMAL")(_ERROR_, "ERROR")(_ALWAYS_, "ALWAYS");
