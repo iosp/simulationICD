@@ -1,14 +1,14 @@
 /*
-* DgpsMessage.cpp
-* DGPS message to send
+* NovatelMessage.cpp
+* Novatel message to send
 * Author: Binyamin Appelbaum
 * Date: 06.03.18
 */
 
-#include "DgpsMessage.h"
+#include "NovatelMessage.h"
 #include "LoggerProxy.h"
 
-void DgpsMessage::FillHeader(/* out */ DGPS_HEADER& header) const {
+void NovatelMessage::FillHeader(/* out */ NOVATEL_HEADER& header) const {
 	header.Sync = 170;
 	header.Sync1 = 68;
 	header.Sync2 = 18;
@@ -30,7 +30,7 @@ void DgpsMessage::FillHeader(/* out */ DGPS_HEADER& header) const {
 	header.Receiver_SW_Version = 1;	
 }
 
-void DgpsMessage::FillHeaderInBuffer(const DGPS_HEADER& header) {
+void NovatelMessage::FillHeaderInBuffer(const NOVATEL_HEADER& header) {
 	//sync
 	memcpy(m_buffer, &header.Sync, 1);
 	memcpy(m_buffer+1, &header.Sync1, 1);
@@ -79,7 +79,7 @@ void DgpsMessage::FillHeaderInBuffer(const DGPS_HEADER& header) {
 	memcpy(m_buffer+26, &header.Receiver_SW_Version, 2);
 }
 
-unsigned int DgpsMessage::CRC32Value(int i) const{
+unsigned int NovatelMessage::CRC32Value(int i) const{
 	int j;
 	unsigned int ulCRC;
 
@@ -96,7 +96,7 @@ unsigned int DgpsMessage::CRC32Value(int i) const{
 	return ulCRC;
 }
     
-unsigned int DgpsMessage::CalcBlockCRC32(unsigned int ulCount, unsigned char* data) const{
+unsigned int NovatelMessage::CalcBlockCRC32(unsigned int ulCount, unsigned char* data) const{
 	unsigned int ulTemp1;
 	unsigned int ulTemp2;
 	unsigned int ulCRC = 0;

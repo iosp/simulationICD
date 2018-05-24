@@ -15,8 +15,8 @@ UTIL_INC_DIR = ../utilities/$(INC_DIR)
 INTERFACE_INC_DIR = ../interfaces
 VEL_INC_DIR = ../products/velodyne/icd/$(INC_DIR)
 VEL_WRAPPER_INC_DIR = ../products/velodyne/wrapper/$(INC_DIR)
-DGPS_INC_DIR = ../products/dgps/icd/$(INC_DIR)
-DGPS_WRAPPER_INC_DIR = ../products/dgps/wrapper/$(INC_DIR)
+NOVATEL_INC_DIR = ../products/novatel/icd/$(INC_DIR)
+NOVATEL_WRAPPER_INC_DIR = ../products/novatel/wrapper/$(INC_DIR)
 INS_INC_DIR = ../products/ins/icd/$(INC_DIR)
 INS_WRAPPER_INC_DIR = ../products/ins/wrapper/$(INC_DIR)
 IDAN_INC_DIR = ../products/idan/icd/$(INC_DIR)
@@ -32,8 +32,8 @@ INCLUDES = -I$(INC_DIR) \
 			-I$(INTERFACE_INC_DIR) \
 			-I$(VEL_INC_DIR) \
 			-I$(VEL_WRAPPER_INC_DIR) \
-			-I$(DGPS_INC_DIR) \
-			-I$(DGPS_WRAPPER_INC_DIR) \
+			-I$(NOVATEL_INC_DIR) \
+			-I$(NOVATEL_WRAPPER_INC_DIR) \
 			-I$(INS_INC_DIR) \
 			-I$(INS_WRAPPER_INC_DIR) \
 			-I$(IDAN_INC_DIR) \
@@ -49,8 +49,8 @@ DEPS = $(wildcard $(INC_DIR)/*.h) \
 		$(wildcard $(INTERFACE_INC_DIR)/*.h) \
 		$(wildcard $(VEL_INC_DIR)/*.h) \
 		$(wildcard $(VEL_WRAPPER_INC_DIR)/*.h) \
-		$(wildcard $(DGPS_INC_DIR)/*.h) \
-		$(wildcard $(DGPS_WRAPPER_INC_DIR)/*.h) \
+		$(wildcard $(NOVATEL_INC_DIR)/*.h) \
+		$(wildcard $(NOVATEL_WRAPPER_INC_DIR)/*.h) \
 		$(wildcard $(INS_INC_DIR)/*.h) \
 		$(wildcard $(INS_WRAPPER_INC_DIR)/*.h) \
 		$(wildcard $(IDAN_INC_DIR)/*.h) \

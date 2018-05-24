@@ -6,11 +6,11 @@
 */
 
 #include "BestPosMessage.h"
-#include "DgpsData.h"
+#include "NovatelData.h"
 #include "LoggerProxy.h"
 #include <cstring> // memset, memcpy
 
-void BestPosMessage::FillMessage(const DgpsData& data) {
+void BestPosMessage::FillMessage(const NovatelData& data) {
 	PHS_BESTPOS msg;
 
 	FillHeader(msg.HEADER);
@@ -18,12 +18,12 @@ void BestPosMessage::FillMessage(const DgpsData& data) {
 	msg.sol_stat = E_SOLUTION_STATUS::E_SOLUTION_STATUS_SOL_COMPUTED;
 	msg.pos_type = E_POSITION_OR_VELOCITY_TYPE::E_POSITION_OR_VELOCITY_TYPE_OMNISTAR_HP;
 
-	msg.lat_Dgps = data.GetBestPosLatitude();
-	msg.lon_Dgps = data.GetBestPosLongitude();
-	msg.hgt_Dgps = data.GetBestPosAltitude();
+	msg.lat_NOVATEL = data.GetBestPosLatitude();
+	msg.lon_NOVATEL = data.GetBestPosLongitude();
+	msg.hgt_NOVATEL = data.GetBestPosAltitude();
 
 	msg.undulation = 0;
-	msg.datum_id = E_DATUM_DGPS::E_DATUM_DGPS_WGS84;
+	msg.datum_id = E_DATUM_NOVATEL::E_DATUM_NOVATEL_WGS84;
 	msg.lat_sd = 0.05;
 	msg.lon_sd = 0.05;
 	msg.hgt_sd = 0.5;
@@ -63,14 +63,14 @@ void BestPosMessage::FillMessage(const DgpsData& data) {
 	//pos_type
 	memcpy(m_buffer + HEADER_LEN + 4, &msg.pos_type, 4);
 
-	//lat_Dgps
-	memcpy(m_buffer + HEADER_LEN + 8 , &msg.lat_Dgps, 8);
+	//lat_NOVATEL
+	memcpy(m_buffer + HEADER_LEN + 8 , &msg.lat_NOVATEL, 8);
 
-	//lon_Dgps
-	memcpy(m_buffer + HEADER_LEN + 16 , &msg.lon_Dgps, 8);
+	//lon_NOVATEL
+	memcpy(m_buffer + HEADER_LEN + 16 , &msg.lon_NOVATEL, 8);
 
-	//hgt_Dgps
-	memcpy(m_buffer + HEADER_LEN + 24 , &msg.hgt_Dgps, 8);
+	//hgt_NOVATEL
+	memcpy(m_buffer + HEADER_LEN + 24 , &msg.hgt_NOVATEL, 8);
 
 	//undulation
 	memcpy(m_buffer + HEADER_LEN + 32, &msg.undulation, 4);
@@ -133,8 +133,8 @@ int BestPosMessage::GetMessageSize() const {
 	return sizeof(PHS_BESTPOS);
 }
 
-E_MESSAGE_ID_INPUT_DGPS_DLV3 BestPosMessage::GetMessageID() const {
-	return E_MESSAGE_ID_INPUT_DGPS_DLV3::E_MESSAGE_ID_INPUT_DGPS_DLV3_BESTPOS;
+E_MESSAGE_ID_INPUT_NOVATEL_DLV3 BestPosMessage::GetMessageID() const {
+	return E_MESSAGE_ID_INPUT_NOVATEL_DLV3::E_MESSAGE_ID_INPUT_NOVATEL_DLV3_BESTPOS;
 }
 
 char BestPosMessage::ExtractSolState(const PHS_BESTPOS& msg) const{

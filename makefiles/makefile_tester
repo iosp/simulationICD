@@ -15,8 +15,8 @@ STAT_DIR = ../comp/statlibs
 
 STAT_LIBS_BASE_NAMES = velicd \
 						vlpwrapper \
-						dgpsicd \
-						dgpswrapper \
+						novatelicd \
+						novatelwrapper \
 						insicd \
 						inswrapper \
 						idanicd \

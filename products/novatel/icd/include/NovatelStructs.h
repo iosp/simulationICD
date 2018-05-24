@@ -1,12 +1,11 @@
-#ifndef DGPS_STRUCTS_H
-#define DGPS_STRUCTS_H
+#ifndef NOVATEL_STRUCTS_H
+#define NOVATEL_STRUCTS_H
 
 /*
-* DgpsStructs.h
-* Holds structs that are in use with DgpsCommunication
+* NovatelStructs.h
+* Holds structs that are in use with NovatelControl
 * Author: Binyamin Appelbaum
 * Date: 15.01.18
-* 
 */
 
 #define CRC32_POLYNOMIAL 0xEDB88320L
@@ -33,13 +32,13 @@ typedef enum {
 	E_GPS_TIME_STATUS_SATTIME                      = 200
 }E_GPS_TIME_STATUS;
 
-/* E_MESSAGE_ID_INPUT_DGPS_DLV3 */
+/* E_MESSAGE_ID_INPUT_NOVATEL_DLV3 */
 typedef enum {
-	E_MESSAGE_ID_INPUT_DGPS_DLV3_BESTPOS           = 42,
-	E_MESSAGE_ID_INPUT_DGPS_DLV3_BESTVEL           = 99,
-	E_MESSAGE_ID_INPUT_DGPS_DLV3_TIME              = 101,
-	E_MESSAGE_ID_INPUT_DGPS_DLV3_BESTXYZ           = 241
-}E_MESSAGE_ID_INPUT_DGPS_DLV3;
+	E_MESSAGE_ID_INPUT_NOVATEL_DLV3_BESTPOS           = 42,
+	E_MESSAGE_ID_INPUT_NOVATEL_DLV3_BESTVEL           = 99,
+	E_MESSAGE_ID_INPUT_NOVATEL_DLV3_TIME              = 101,
+	E_MESSAGE_ID_INPUT_NOVATEL_DLV3_BESTXYZ           = 241
+}E_MESSAGE_ID_INPUT_NOVATEL_DLV3;
 
 /* E_ADVANCE_RTK_VERIFIED */
 typedef enum {
@@ -114,13 +113,13 @@ typedef enum {
 	E_POSITION_OR_VELOCITY_TYPE_INS_RTKFIXED       = 56,
 	E_POSITION_OR_VELOCITY_TYPE_OMNISTAR_HP        = 64,
 	E_POSITION_OR_VELOCITY_TYPE_OMNISTAR_XP        = 65,
-	E_POSITION_OR_VELOCITY_TYPE_CDGPS              = 66
+	E_POSITION_OR_VELOCITY_TYPE_CNOVATEL              = 66
 }E_POSITION_OR_VELOCITY_TYPE;
 
-/* E_DATUM_DGPS */
+/* E_DATUM_NOVATEL */
 typedef enum {
-	E_DATUM_DGPS_WGS84                             = 61
-}E_DATUM_DGPS;
+	E_DATUM_NOVATEL_WGS84                             = 61
+}E_DATUM_NOVATEL;
 
 /* EXTENDED_SOLUTION_STATUS_STRUCT */
 typedef struct {
@@ -140,13 +139,13 @@ typedef struct {
 	unsigned char                                   TWO_BIT_RESERVED; //
 } SIGNAL_USED_MASK_STRUCT;
 
-/* DGPS_HEADER */
+/* NOVATEL_HEADER */
 typedef struct {
 	char                                            Sync; //
 	char                                            Sync1; //
 	char                                            Sync2; //
 	unsigned char                                   Header_Lgth; //
-	E_MESSAGE_ID_INPUT_DGPS_DLV3                    Message_ID; //
+	E_MESSAGE_ID_INPUT_NOVATEL_DLV3                    Message_ID; //
 	char                                            Message_Type; //
 	unsigned char                                   Port_Address; //
 	unsigned short                                  Message_Length; //
@@ -158,11 +157,11 @@ typedef struct {
 	unsigned int                                   Receiver_Status; //
 	unsigned short                                  Two_Byte_Reserved; //
 	unsigned short                                  Receiver_SW_Version; //
-} DGPS_HEADER;
+} NOVATEL_HEADER;
 
 /* BESTVEL */
 typedef struct {
-	DGPS_HEADER                                  	HEADER; // Log header
+	NOVATEL_HEADER                                  	HEADER; // Log header
 	E_SOLUTION_STATUS                               sol_stat; // Solution status
 	E_POSITION_OR_VELOCITY_TYPE                     vel_type; // Velocity type
 	float                                           latency; // measure of the latency in the velocity time tag in seconds
@@ -176,14 +175,14 @@ typedef struct {
 
 /* BESTPOS */
 typedef struct {
-	DGPS_HEADER                                   	HEADER; // Log header
+	NOVATEL_HEADER                                   	HEADER; // Log header
 	E_SOLUTION_STATUS                               sol_stat; // Solution status
 	E_POSITION_OR_VELOCITY_TYPE                     pos_type; // Position type
-	double                                          lat_Dgps; //
-	double                                          lon_Dgps; //
-	double                                          hgt_Dgps; //
+	double                                          lat_NOVATEL; //
+	double                                          lon_NOVATEL; //
+	double                                          hgt_NOVATEL; //
 	float                                           undulation; //
-	E_DATUM_DGPS                                    datum_id; //
+	E_DATUM_NOVATEL                                    datum_id; //
 	float                                           lat_sd; // latitude standard deviation
 	float                                           lon_sd; // longitude standard deviation
 	float                                           hgt_sd; // hight standard deviation
@@ -202,4 +201,4 @@ typedef struct {
 } PHS_BESTPOS;
 
 
-#endif // DGPS_STRUCTS_H
+#endif // NOVATEL_STRUCTS_H

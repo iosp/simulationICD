@@ -1,31 +1,31 @@
-#ifndef DGPSWRAPPER_H
-#define DGPSWRAPPER_H
+#ifndef NOVATELWRAPPER_H
+#define NOVATELWRAPPER_H
 
 /*
-* DgpsWrapper.h
-* Wrapper for DGPS
+* NovatelWrapper.h
+* Wrapper for Novatel
 * Author: Binyamin Appelbaum
 * Date: 23.01.18
 */
 
-#include "DgpsData.h"
+#include "NovatelData.h"
 #include "IWrapper.h"
 
 /**
 
  * */
-class DgpsWrapper : public IWrapper<DgpsData> {
+class NovatelWrapper : public IWrapper<NovatelData> {
 private:
-    DgpsData m_data;
+    NovatelData m_data;
     /**
      * Clear current data of the object
      */ 
     void ClearCurrentData();
 
 public:
-    DgpsWrapper(const std::string& confFilePath);
+    NovatelWrapper(const std::string& confFilePath);
 
-    ~DgpsWrapper();
+    ~NovatelWrapper();
 
     /**
      * Take the temporary data and set it to vlp
@@ -38,9 +38,9 @@ public:
 
     void SetTimeStamp(float timeStamp);
 
-    void SetMsgType(DgpsMsgType msgType);
+    void SetMsgType(NovatelMsgType msgType);
 
     virtual void ReceiveData() override {}
 };
 
-#endif // DGPSWRAPPER_H
+#endif // NOVATELWRAPPER_H

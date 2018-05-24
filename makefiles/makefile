@@ -1,7 +1,7 @@
 MAKE = make -f
 
 MAKEFILES = makefile_vel \
-			makefile_dgps \
+			makefile_novatel \
 			makefile_ins \
 			makefile_idan \
 			makefile_ibeo \

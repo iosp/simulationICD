@@ -1,20 +1,20 @@
 /*
-* DgpsControl.cpp
-* Manage communication between DGPS sensor
+* NovatelControl.cpp
+* Manage communication between Novatel sensor
 * Author: Binyamin Appelbaum
 * Date: 15.01.18
 */
 
-#include "DgpsControl.h"
+#include "NovatelControl.h"
 #include "LoggerProxy.h"
 #include "RSCommunication.h"
-#include "DgpsConfig.h"
+#include "NovatelConfig.h"
 #include "BestVelMessage.h"
 #include "BestPosMessage.h"
 
-DgpsControl::DgpsControl(const std::string& confFilePath) {
-	m_dgpsConf = new DgpsConfig(confFilePath);
-	m_comm = new RSCommunication(m_dgpsConf->GetPortName(), m_dgpsConf->GetBaudRate());
+NovatelControl::NovatelControl(const std::string& confFilePath) {
+	m_novatelConf = new NovatelConfig(confFilePath);
+	m_comm = new RSCommunication(m_novatelConf->GetPortName(), m_novatelConf->GetBaudRate());
 	if (!m_comm->Init()) {
 		ERRLOG << "Failed to initialize communication.\n";
 	}
@@ -23,14 +23,14 @@ DgpsControl::DgpsControl(const std::string& confFilePath) {
 	}
 }
 
-DgpsControl::~DgpsControl() {
-	delete m_dgpsConf;
+NovatelControl::~NovatelControl() {
+	delete m_novatelConf;
 	delete m_comm;
 }
 
-void DgpsControl::SendData(const DgpsData& data) {
+void NovatelControl::SendData(const NovatelData& data) {
 	if (!m_initialized) {
-		ERRLOG << "DGPS couldn't initalize communication. Cannot send data.\n";
+		ERRLOG << "Novatel couldn't initalize communication. Cannot send data.\n";
 		return;
 	}
 	auto msgType = data.GetCurrMsgType();
@@ -44,13 +44,13 @@ void DgpsControl::SendData(const DgpsData& data) {
 	delete msg;
 }
 
-Message<DgpsData>* DgpsControl::GetMsgByType(DgpsMsgType msgType) const {
-	Message<DgpsData>* msg = nullptr;
+Message<NovatelData>* NovatelControl::GetMsgByType(NovatelMsgType msgType) const {
+	Message<NovatelData>* msg = nullptr;
 	switch (msgType) {
-        case DGPS_BEST_POS:
+        case NOVATEL_BEST_POS:
 			msg = new BestPosMessage();
 		  	break;
-        case DGPS_BEST_VEL:
+        case NOVATEL_BEST_VEL:
             msg = new BestVelMessage();
             break;
         default:
@@ -60,7 +60,7 @@ Message<DgpsData>* DgpsControl::GetMsgByType(DgpsMsgType msgType) const {
 	return msg;
 }
 
-void DgpsControl::SendMessage(Message<DgpsData>* message) const {
+void NovatelControl::SendMessage(Message<NovatelData>* message) const {
 	bool allSent = false;
 	while (!allSent) {
 		int bytesSent =	message->SendMessage(m_comm);
@@ -71,7 +71,7 @@ void DgpsControl::SendMessage(Message<DgpsData>* message) const {
 	}
 }
 
-DgpsData DgpsControl::ReceiveData() {
+NovatelData NovatelControl::ReceiveData() {
 	ERRLOG << "This function is not implemented!\n";
-    return DgpsData();
+    return NovatelData();
 }

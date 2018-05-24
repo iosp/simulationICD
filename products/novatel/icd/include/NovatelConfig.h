@@ -1,17 +1,16 @@
-#ifndef DGPSCONFIG_H
-#define DGPSCONFIG_H
+#ifndef NOVATELCONFIG_H
+#define NOVATELCONFIG_H
 
 /*
-* DgpsConfig.h
+* NovatelConfig.h
 * 
 * Author: Binyamin Appelbaum
 * Date: 31.01.18
-* 
 */
 
 #include "ProdConfig.h"
 
-class DgpsConfig : public ProdConfig {
+class NovatelConfig : public ProdConfig {
 private:
     static const std::string PORT_NAME_KEY;
     static const std::string PORT_NAME_DEF_VAL;
@@ -25,9 +24,9 @@ protected:
     virtual std::string GetProdName() const override;
 
 public:
-    DgpsConfig(const std::string& confFilePath);
+    NovatelConfig(const std::string& confFilePath);
 
-    virtual ~DgpsConfig() {}
+    virtual ~NovatelConfig() {}
 
     std::string GetPortName() const;
 
@@ -36,4 +35,4 @@ public:
 
 
 
-#endif // DGPSCONFIG_H
+#endif // NOVATELCONFIG_H

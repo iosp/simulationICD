@@ -1,4 +1,4 @@
-SUBDIRS = velodyne dgps ins idan ibeo ipon
+SUBDIRS = velodyne novatel ins idan ibeo ipon
 
 all:
 	for dir in $(SUBDIRS); do \

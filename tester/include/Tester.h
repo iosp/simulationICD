@@ -10,7 +10,7 @@
 
 class Tester {
     void TestVLP();
-    void TestDgps();
+    void TestNovatel();
     void TestIns();
     void TestConf();
     void TestTCP();

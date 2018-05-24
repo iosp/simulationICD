@@ -6,7 +6,7 @@
 
 #include "Tester.h"
 #include "VLPPluginAPI.h"
-#include "DgpsPluginAPI.h"
+#include "NovatelPluginAPI.h"
 #include "InsPluginAPI.h"
 #include "IdanPluginAPI.h"
 #include "IbeoPluginAPI.h"
@@ -42,20 +42,20 @@ void Tester::TestVLP() {
     VLPDeleteObject(vlp);
 }
 
-void Tester::TestDgps() {
-    DgpsWrapper* dgps = DgpsCreateObject("/home/robil/simConfigs/dgps.conf");
+void Tester::TestNovatel() {
+    NovatelWrapper* novatel = NovatelCreateObject("/home/robil/simConfigs/novatel.conf");
     for (auto i : boost::irange(0, 20)) {
         time_duration td =  microsec_clock::local_time() - from_time_t(0);
-        DgpsSetPosition(dgps, 31.771959, 35.217018, 10);
-        DgpsSetVelocities(dgps, 10, 10, 10);
-        DgpsSetTimeStamp(dgps, td.total_microseconds());
-        DgpsSendBestPosData(dgps);
-        DgpsSendBestVelData(dgps);
+        NovatelSetPosition(novatel, 31.771959, 35.217018, 10);
+        NovatelSetVelocities(novatel, 10, 10, 10);
+        NovatelSetTimeStamp(novatel, td.total_microseconds());
+        NovatelSendBestPosData(novatel);
+        NovatelSendBestVelData(novatel);
         usleep(100000);
     }
   
-    DgpsDeleteObject(dgps);
-    dgps = nullptr;
+    NovatelDeleteObject(novatel);
+    novatel = nullptr;
 }
 
 void Tester::TestIns() {
@@ -177,7 +177,7 @@ void Tester::TestConf() {
 
 Tester::Tester() {
     TestVLP();
-    // TestDgps();
+    // TestNovatel();
     // TestIns();
     // TestCAN();
     // TestIdan();

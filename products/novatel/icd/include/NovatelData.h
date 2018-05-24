@@ -1,8 +1,8 @@
-#ifndef DGPS_DATA_H
-#define DGPS_DATA_H
+#ifndef NOVATEL_DATA_H
+#define NOVATEL_DATA_H
 
 /*
-* DgpsData.h
+* NovatelData.h
 * Represents the data that is passed between the ICD and the user of the lib
 * Author: Binyamin Appelbaum
 * Date: 15.01.18
@@ -10,9 +10,9 @@
 
 #include <string>
 
-enum DgpsMsgType {DGPS_BEST_POS, DGPS_BEST_VEL };
+enum NovatelMsgType {NOVATEL_BEST_POS, NOVATEL_BEST_VEL };
 
-class DgpsData {
+class NovatelData {
 private:
     struct Best_Pos {
         double latitude;
@@ -28,12 +28,12 @@ private:
 
     float m_simTime;
 
-    DgpsMsgType m_currMsgType;
+    NovatelMsgType m_currMsgType;
 
 public:
-    DgpsData() = default;
+    NovatelData() = default;
     
-    ~DgpsData() = default;
+    ~NovatelData() = default;
 
     double GetBestPosLatitude() const {
         return m_bestPos.latitude;
@@ -83,11 +83,11 @@ public:
         m_bestVel.altitude = altitude;
     }
 
-    DgpsMsgType GetCurrMsgType() const {
+    NovatelMsgType GetCurrMsgType() const {
         return m_currMsgType;
     }
 
-    void SetCurrMsgType(DgpsMsgType msgType) {
+    void SetCurrMsgType(NovatelMsgType msgType) {
         m_currMsgType = msgType;
     }
 
@@ -99,9 +99,9 @@ public:
         m_simTime = simTime;
     }
 
-    std::string toString(DgpsMsgType msgType) const;
+    std::string toString(NovatelMsgType msgType) const;
 };
 
 
 
-#endif // DGPS_DATA_H
+#endif // NOVATEL_DATA_H

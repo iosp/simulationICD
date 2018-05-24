@@ -6,11 +6,11 @@
 */
 
 #include "BestVelMessage.h"
-#include "DgpsData.h"
+#include "NovatelData.h"
 #include "LoggerProxy.h"
 #include <cstring> // memset, memcpy
 
-void BestVelMessage::FillMessage(const DgpsData& data) {
+void BestVelMessage::FillMessage(const NovatelData& data) {
 	PHS_BESTVEL msg;
 
 	FillHeader(msg.HEADER);
@@ -70,6 +70,6 @@ int BestVelMessage::GetMessageSize() const {
 	return sizeof(PHS_BESTVEL);
 }
 
-E_MESSAGE_ID_INPUT_DGPS_DLV3 BestVelMessage::GetMessageID() const {
-	return E_MESSAGE_ID_INPUT_DGPS_DLV3::E_MESSAGE_ID_INPUT_DGPS_DLV3_BESTVEL;
+E_MESSAGE_ID_INPUT_NOVATEL_DLV3 BestVelMessage::GetMessageID() const {
+	return E_MESSAGE_ID_INPUT_NOVATEL_DLV3::E_MESSAGE_ID_INPUT_NOVATEL_DLV3_BESTVEL;
 }
