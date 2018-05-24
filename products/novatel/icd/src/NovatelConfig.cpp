@@ -25,7 +25,7 @@ void NovatelConfig::SetConfDefaultValues() {
 }
 
 std::string NovatelConfig::GetProdName() const {
-    return "NOVATEL";
+    return "Novatel";
 }
 
 std::string NovatelConfig::GetPortName() const {
