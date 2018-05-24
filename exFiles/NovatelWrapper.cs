@@ -38,7 +38,7 @@ public class NovatelWrapper : IDisposable {
 
     protected virtual void Dispose(bool bDisposing) {
         if (this.m_nativeObject != IntPtr.Zero) {
-            NovatelCreateObject(this.m_nativeObject);
+            NovatelDeleteObject(this.m_nativeObject);
             this.m_nativeObject = IntPtr.Zero;
         }
 
