@@ -1,13 +1,13 @@
 /*
-* InsMessage.cpp
-* Ins message to send
+* TiltanMessage.cpp
+* Tiltan message to send
 * Author: Binyamin Appelbaum
 * Date: 14.02.18
 */
 
-#include "InsMessage.h"
+#include "TiltanMessage.h"
 
-void InsMessage::GetDataValidityBitfield(char* buffer, size_t bufferSize) const {
+void TiltanMessage::GetDataValidityBitfield(char* buffer, size_t bufferSize) const {
 	static const char D1 =	1 << 7 | // position validity
 							1 << 6 | // azimuth validity
 							1 << 5 | // pitch/roll validity
@@ -29,7 +29,7 @@ void InsMessage::GetDataValidityBitfield(char* buffer, size_t bufferSize) const 
 	snprintf(buffer, bufferSize, "%c%c", D1, D2);
 }
 
-void InsMessage::GetSystemStatusBitfield(char* buffer, size_t bufferSize) const {
+void TiltanMessage::GetSystemStatusBitfield(char* buffer, size_t bufferSize) const {
 	static const unsigned char S3 = 0, S5 = 0, S6 = 0, S7 = 0, S8 = 0;
 
 	static const char  S1 =	1 << 7 | // initialization mode
@@ -62,7 +62,7 @@ void InsMessage::GetSystemStatusBitfield(char* buffer, size_t bufferSize) const 
 	snprintf(buffer, bufferSize, "%c%c%c%c%c%c%c%c", S1, S2, S3, S4, S5, S6, S7, S8);
 }
 
-void InsMessage::GetSystemAlertBitfield(char* buffer, size_t bufferSize) const {
+void TiltanMessage::GetSystemAlertBitfield(char* buffer, size_t bufferSize) const {
 	static const unsigned char A1 = 0, A2 = 0, A3 = 0, A4 = 0, A5 = 0, A6 = 0, A7 = 0, A8 = 0, A9 = 0, A10 = 0;
 	snprintf(buffer, bufferSize, "%c%c%c%c%c%c%c%c%c%c", A1, A2, A3, A4, A5, A6, A7, A8, A9, A10);
 }

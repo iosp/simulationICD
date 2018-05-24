@@ -17,8 +17,8 @@ STAT_LIBS_BASE_NAMES = velicd \
 						vlpwrapper \
 						novatelicd \
 						novatelwrapper \
-						insicd \
-						inswrapper \
+						tiltanicd \
+						tiltanwrapper \
 						idanicd \
 						idanwrapper \
 						ibeoicd \

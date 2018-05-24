@@ -3,17 +3,17 @@
 
 /*
 * InternalGPSMessage.h
-* INS internal GPS message to send
+* Tiltan internal GPS message to send
 * Author: Binyamin Appelbaum
 * Date: 14.02.18
 */
 
-#include "InsMessage.h"
+#include "TiltanMessage.h"
 
-class InternalGPSMessage : public InsMessage {
+class InternalGPSMessage : public TiltanMessage {
 protected:
 
-	virtual void FillHeader(/* out */ INS_HEADER& header) const override;
+	virtual void FillHeader(/* out */ TILTAN_HEADER& header) const override;
 
 	virtual int GetMessageSize() const override;
 		
@@ -23,9 +23,9 @@ public:
 
 	virtual ~InternalGPSMessage() = default;
 
-	virtual void FillMessage(const InsData& data) override;
+	virtual void FillMessage(const TiltanData& data) override;
 
-	virtual InsMsgType GetMsgType() const override;
+	virtual TiltanMsgType GetMsgType() const override;
 };
 
 #endif // INTERNALGPSMESSAGE_H

@@ -1,17 +1,17 @@
 /*
 * StatusMessage.cpp
-* INS status message to send
+* Tiltan status message to send
 * Author: Binyamin Appelbaum
 * Date: 14.02.18
 */
 
 #include "StatusMessage.h"
-#include "InsData.h"
+#include "TiltanData.h"
 #include <cstring> // memset, memcpy
 
-void StatusMessage::FillMessage(const InsData& data) {
+void StatusMessage::FillMessage(const TiltanData& data) {
 	char tmpBuffer[10]{0};
-	INS_Status_Message msg;
+	Tiltan_Status_Message msg;
 	FillHeader(msg.Header);
 	msg.Time_From_Startup = data.GetSimTime() * TIME_MULTIPLY;
 	msg.UTC_Time = data.GetUtcTime() * TIME_MULTIPLY;
@@ -43,16 +43,16 @@ void StatusMessage::FillMessage(const InsData& data) {
 	memcpy(m_buffer, &msg, sizeof(msg));
 }
 
-void StatusMessage::FillHeader(/* out */ INS_HEADER& header) const {
+void StatusMessage::FillHeader(/* out */ TILTAN_HEADER& header) const {
 	header.Unit_Code = 0x3c;
 	strncpy((char*)header.Operation_Code, "\x09\x3c", 2); // 0x093c - reverse from ICD 
-	header.Length = sizeof(INS_Status_Message) - sizeof(INS_HEADER);
+	header.Length = sizeof(Tiltan_Status_Message) - sizeof(TILTAN_HEADER);
 }
 
 int StatusMessage::GetMessageSize() const {
-	return sizeof(INS_Status_Message);
+	return sizeof(Tiltan_Status_Message);
 }
 
-InsMsgType StatusMessage::GetMsgType() const {
-	return INS_STATUS_MSG;
+TiltanMsgType StatusMessage::GetMsgType() const {
+	return TILTAN_STATUS_MSG;
 }

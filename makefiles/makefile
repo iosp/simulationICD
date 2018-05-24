@@ -2,7 +2,7 @@ MAKE = make -f
 
 MAKEFILES = makefile_vel \
 			makefile_novatel \
-			makefile_ins \
+			makefile_tiltan \
 			makefile_idan \
 			makefile_ibeo \
 			makefile_ipon

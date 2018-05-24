@@ -1,8 +1,8 @@
-#ifndef INSCONFIG_H
-#define INSCONFIG_H
+#ifndef TILTANCONFIG_H
+#define TILTANCONFIG_H
 
 /*
-* InsConfig.h
+* TiltanConfig.h
 * 
 * Author: Binyamin Appelbaum
 * Date: 12.02.18s 
@@ -10,7 +10,7 @@
 
 #include "ProdConfig.h"
 
-class InsConfig : public ProdConfig {
+class TiltanConfig : public ProdConfig {
 private:
     static const std::string STATUS_MSG_PORT_KEY;
     static const std::string STATUS_MSG_PORT_DEF_VAL;
@@ -36,9 +36,9 @@ protected:
     virtual std::string GetProdName() const override;
 
 public:
-    InsConfig(const std::string& confFilePath);
+    TiltanConfig(const std::string& confFilePath);
 
-    virtual ~InsConfig(){}
+    virtual ~TiltanConfig(){}
 
     std::string GetStatusMsgPort() const;
 
@@ -54,4 +54,4 @@ public:
 
 
 
-#endif // INSCONFIG_H
+#endif // TILTANCONFIG_H

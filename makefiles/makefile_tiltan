@@ -4,14 +4,14 @@ LDFLAGS = -shared
 
 COMP_DIR = ../comp
 
-TARGET = $(COMP_DIR)/libins.so
+TARGET = $(COMP_DIR)/libtiltan.so
 
 EX_LIBS = -lboost_system -lboost_thread
 
 STAT_DIR = $(COMP_DIR)/statlibs
 
-STAT_LIBS_BASE_NAMES = 		insicd \
-							inswrapper \
+STAT_LIBS_BASE_NAMES = 		tiltanicd \
+							tiltanwrapper \
 							communications \
 							utils
 
@@ -22,7 +22,7 @@ STAT_LIB_DEPS = $(addsuffix .a, $(_STAT_LIB_DEPS))
 
 SUBDIRS = 	../utilities \
 		 	../communications \
-			../products/ins
+			../products/tiltan
 
 all: createdirs compdirs $(TARGET)
 

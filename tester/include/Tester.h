@@ -11,7 +11,7 @@
 class Tester {
     void TestVLP();
     void TestNovatel();
-    void TestIns();
+    void TestTiltan();
     void TestConf();
     void TestTCP();
     void TestCAN();

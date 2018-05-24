@@ -1,31 +1,31 @@
-#ifndef INSWRAPPER_H
-#define INSWRAPPER_H
+#ifndef TILTANWRAPPER_H
+#define TILTANWRAPPER_H
 
 /*
-* InsWrapper.h
-* Wrapper for INS
+* TiltanWrapper.h
+* Wrapper for Tiltan
 * Author: Binyamin Appelbaum
 * Date: 18.02.18
 */
 
-#include "InsData.h"
+#include "TiltanData.h"
 #include "IWrapper.h"
 
 /**
 
  * */
-class InsWrapper : public IWrapper<InsData> {
+class TiltanWrapper : public IWrapper<TiltanData> {
 private:
-    InsData m_data;
+    TiltanData m_data;
     /**
      * Clear current data of the object
      */ 
     void ClearCurrentData();
 
 public:
-    InsWrapper(const std::string& confFilePath);
+    TiltanWrapper(const std::string& confFilePath);
 
-    ~InsWrapper();
+    ~TiltanWrapper();
     
     /**
      * Take the temporary data and set it to icd
@@ -34,7 +34,7 @@ public:
 
     void SetTimeStamps(float simTime, float utcTime);
 
-    // INS navigation data message
+    // Tiltan navigation data message
     void SetPose(float latitude, float longitude, float altitude);
 
     void SetOrientation(float azimuth, float pitch, float roll);
@@ -47,20 +47,20 @@ public:
 
     void SetMotionDetected(bool motionDetected);
 
-    // INS internal GPS
+    // Tiltan internal GPS
     void SetInternalGpsFields(short gpsFom, short numOfSatelites);
 
-    // INS Errors estimation message
+    // Tiltan Errors estimation message
     void SetDirectionErrors(float horizontalError, float verticalError, float northingError, float eastingError, float altitudeError);
 
     void SetVelocityErrors(float northVelocityError, float eastVelocityError, float downVelocityError);
 
     void SetOrientationErrors(float azimuthErrorEstimation, float pitchErrorEstimation, float rollErrorEstimation);
 
-    void SetMsgType(InsMsgType msgType);
+    void SetMsgType(TiltanMsgType msgType);
 
     virtual void ReceiveData() override {}
 
 };
 
-#endif // INSWRAPPER_H
+#endif // TILTANWRAPPER_H

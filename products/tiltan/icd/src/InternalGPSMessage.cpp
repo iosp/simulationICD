@@ -1,16 +1,16 @@
 /*
 * InternalGPSMessage.cpp
-* IINS internal GPS message to send
+* Tiltan internal GPS message to send
 * Author: Binyamin Appelbaum
 * Date: 14.02.18
 */
 
 #include "InternalGPSMessage.h"
-#include "InsData.h"
+#include "TiltanData.h"
 #include <cstring> // memset, memcpy
 
-void InternalGPSMessage::FillMessage(const InsData& data) {
-	INS_Internal_GPS msg;
+void InternalGPSMessage::FillMessage(const TiltanData& data) {
+	Tiltan_Internal_GPS msg;
 	FillHeader(msg.Header);
 	msg.Time_From_Startup = data.GetSimTime() * TIME_MULTIPLY;
 	msg.UTC_Time = data.GetUtcTime() * TIME_MULTIPLY;
@@ -47,16 +47,16 @@ void InternalGPSMessage::FillMessage(const InsData& data) {
 	memcpy(m_buffer, &msg, sizeof(msg));
 }
 
-void InternalGPSMessage::FillHeader(/* out */ INS_HEADER& header) const {
+void InternalGPSMessage::FillHeader(/* out */ TILTAN_HEADER& header) const {
 	header.Unit_Code = 0x3c;
 	strncpy((char*)header.Operation_Code, "\x82\x3c", 2); // 0x3C82 - reverse from ICD 
-	header.Length = sizeof(INS_Internal_GPS) - sizeof(INS_HEADER);
+	header.Length = sizeof(Tiltan_Internal_GPS) - sizeof(TILTAN_HEADER);
 }
 
 int InternalGPSMessage::GetMessageSize() const {
-	return sizeof(INS_Internal_GPS);
+	return sizeof(Tiltan_Internal_GPS);
 }
 
-InsMsgType InternalGPSMessage::GetMsgType() const {
-	return INS_INTERNAL_GPS_MSG;
+TiltanMsgType InternalGPSMessage::GetMsgType() const {
+	return TILTAN_INTERNAL_GPS_MSG;
 }

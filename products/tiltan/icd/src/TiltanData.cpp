@@ -1,23 +1,23 @@
 /*
-* InsData.cpp
+* TiltanData.cpp
 * Represents the data that is passed between the ICD and the user of the lib
 * Author: Binyamin Appelbaum
 * Date: 12.02.18
 * 
 */
 
-#include "InsData.h"
+#include "TiltanData.h"
 #include <sstream>
 
-std::string InsData::toString(InsMsgType msgType) const {
+std::string TiltanData::toString(TiltanMsgType msgType) const {
     std::stringstream ss;
     ss << std::endl;
 
     switch (msgType) {
-        case INS_STATUS_MSG:
+        case TILTAN_STATUS_MSG:
              ss << "***** Status message *****" << std::endl;
              break;
-        case INS_NAVIGATION_DATA_MSG:
+        case TILTAN_NAVIGATION_DATA_MSG:
             ss << "***** Navigation data message *****" << std::endl << "     " <<
                 "Altitude: " << m_navigationData.altitude << ". Latitude: " <<  m_navigationData.latitude << 
                 ". Longitude: " << m_navigationData.longitude << ". Azimuth: " << m_navigationData.azimuth <<
@@ -27,11 +27,11 @@ std::string InsData::toString(InsMsgType msgType) const {
                 ". Distance Traveled: " << m_navigationData.distanceTraveled << 
                 ". Odometer distance: " << m_navigationData.odometerDistance << ". Motion detected: " << m_navigationData.motionDetected << std::endl;
             break;
-        case INS_INTERNAL_GPS_MSG:
-            ss << "***** INS internal GPS message *****" << std::endl << "     " <<
+        case TILTAN_INTERNAL_GPS_MSG:
+            ss << "***** Tiltan internal GPS message *****" << std::endl << "     " <<
                 "GPS FOM: " << m_internalGPS.gpsFom << ". Num of satelites: " << m_internalGPS.numOfSatelites << std::endl;
             break;
-        case INS_ERRORS_ESTIMATION_MSG:
+        case TILTAN_ERRORS_ESTIMATION_MSG:
             ss << "***** Errors estimation message ***** " << std::endl << "     " <<
                 "Horizontal error: " << m_errorsEstimation.horizontalError << ". Vertical error: " << m_errorsEstimation.verticalError << 
                 ". Northing error: " << m_errorsEstimation.northingError <<  ". Easting error: " << m_errorsEstimation.eastingError <<

@@ -1,21 +1,21 @@
 /*
 * NavigationDataMessage.cpp
-* INS navigation data message to send
+* Tiltan navigation data message to send
 * Author: Binyamin Appelbaum
 * Date: 14.02.18
 */
 
 #include "NavigationDataMessage.h"
-#include "InsData.h"
+#include "TiltanData.h"
 #include <cstring>  // memset, memcpy
 
-void NavigationDataMessage::FillMessage(const InsData& data) {
-	INS_Navigation_Data_Message msg;
+void NavigationDataMessage::FillMessage(const TiltanData& data) {
+	Tiltan_Navigation_Data_Message msg;
 	
 	FillHeader(msg.Header);
 	msg.Time_From_Startup = data.GetSimTime() * TIME_MULTIPLY;
 	msg.UTC_Time = data.GetUtcTime() * TIME_MULTIPLY;
-	msg.Altitude = (data.GetInsNavAltitude() * 10); // other side multiply by 0.1
+	msg.Altitude = (data.GetTiltanNavAltitude() * 10); // other side multiply by 0.1
 	msg.Geo_Latitude = (data.GetNavDataLatitude() * 1e7); // other side multiply by 0.0000001
 	msg.Geo_Longitude = (data.GetNavDataLongitude() * 1e7); // other side multiply by 0.0000001
 	msg.PD_Azimuth = (data.GetNavDataAzimuth() * 10); // other side multiply by 0.1, divide by 6400 and multiply by 360 (degree convert)
@@ -48,16 +48,16 @@ void NavigationDataMessage::FillMessage(const InsData& data) {
 	memcpy(m_buffer, &msg, sizeof(msg));
 }
 
-void NavigationDataMessage::FillHeader(/* out */ INS_HEADER& header) const {
+void NavigationDataMessage::FillHeader(/* out */ TILTAN_HEADER& header) const {
 	header.Unit_Code = 0x3c;
 	strncpy((char*)header.Operation_Code, "\x80\x3c", 2); // 0x3C80 - reverse from ICD 
-	header.Length = sizeof(INS_Navigation_Data_Message) - sizeof(INS_HEADER);
+	header.Length = sizeof(Tiltan_Navigation_Data_Message) - sizeof(TILTAN_HEADER);
 }
 
 int NavigationDataMessage::GetMessageSize() const {
-	return sizeof(INS_Navigation_Data_Message);
+	return sizeof(Tiltan_Navigation_Data_Message);
 }
 
-InsMsgType NavigationDataMessage::GetMsgType() const {
-	return INS_NAVIGATION_DATA_MSG;
+TiltanMsgType NavigationDataMessage::GetMsgType() const {
+	return TILTAN_NAVIGATION_DATA_MSG;
 }

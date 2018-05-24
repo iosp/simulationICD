@@ -1,16 +1,16 @@
 /*
 * ErrorsEstimationMessage.cpp
-* INS status message to send
+* Tiltan status message to send
 * Author: Binyamin Appelbaum
 * Date: 14.02.18
 */
 
 #include "ErrorsEstimationMessage.h"
-#include "InsData.h"
+#include "TiltanData.h"
 #include <cstring>  // memset, memcpy
 
-void ErrorsEstimationMessage::FillMessage(const InsData& data) {
-	INS_Error_Estimation_Message msg;
+void ErrorsEstimationMessage::FillMessage(const TiltanData& data) {
+	Tiltan_Error_Estimation_Message msg;
 
 	FillHeader(msg.Header);
 	msg.Time_From_Startup = data.GetSimTime() * TIME_MULTIPLY;
@@ -43,16 +43,16 @@ void ErrorsEstimationMessage::FillMessage(const InsData& data) {
 	memcpy(m_buffer, &msg, sizeof(msg));
 }
 
-void ErrorsEstimationMessage::FillHeader(/* out */ INS_HEADER& header) const {
+void ErrorsEstimationMessage::FillHeader(/* out */ TILTAN_HEADER& header) const {
 	header.Unit_Code = 0x3c;
 	strncpy((char*)header.Operation_Code, "\x83\x3c", 2); // 0x3C80 - reverse from ICD 
-	header.Length = sizeof(INS_Error_Estimation_Message) - sizeof(INS_HEADER);
+	header.Length = sizeof(Tiltan_Error_Estimation_Message) - sizeof(TILTAN_HEADER);
 }
 
 int ErrorsEstimationMessage::GetMessageSize() const {
-	return sizeof(INS_Error_Estimation_Message);
+	return sizeof(Tiltan_Error_Estimation_Message);
 }
 
-InsMsgType ErrorsEstimationMessage::GetMsgType() const {
-	return INS_ERRORS_ESTIMATION_MSG;
+TiltanMsgType ErrorsEstimationMessage::GetMsgType() const {
+	return TILTAN_ERRORS_ESTIMATION_MSG;
 }

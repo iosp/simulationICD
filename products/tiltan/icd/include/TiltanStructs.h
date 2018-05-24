@@ -1,9 +1,9 @@
-#ifndef INSTRUCTS_H
-#define INSTRUCTS_H
+#ifndef TILTANTRUCTS_H
+#define TILTANTRUCTS_H
 
 /*
-* InsStructs.h
-* Holds structs of Ins ICD
+* TiltanStructs.h
+* Holds structs of TILTAN ICD
 * Author: Binyamin Appelbaum
 * Date: 11.02.18
 */
@@ -17,7 +17,7 @@ typedef int				Int32;
 typedef unsigned int	UInt32;
 typedef float			Single;
 
-struct INS_HEADER {
+struct TILTAN_HEADER {
 	Byte 		Unit_Code;
 	Byte		Operation_Code[2];
 	UInt16		Length;
@@ -26,19 +26,15 @@ struct INS_HEADER {
 typedef enum  : char {
 	ZONETYPE_EXTENDED = 0x00,	// IDF extended zone type
 	ZONETYPE_NORMAL =	0x01	// Normal zone type
-} E_INS_ZoneType; // determining the zone type
+} E_TILTAN_ZoneType; // determining the zone type
 
 typedef enum : char {
 	GEOID_EGM96 = 	0x01,
 	GEOID_EGM08 = 	0x02
-} E_INS_Geoid;
+} E_TILTAN_Geoid;
 
-struct INS_Echo_Message {
-	INS_HEADER		Header;
-} __attribute__((packed)); 
-
-struct INS_Status_Message {
-	INS_HEADER		Header;
+struct Tiltan_Status_Message {
+	TILTAN_HEADER		Header;
 	UInt32			Time_From_Startup;		// mission time. Units: seconds
 	UInt32			UTC_Time;				// in seconds
 	UInt16			GPS_Week;				// Units: week
@@ -46,9 +42,9 @@ struct INS_Status_Message {
 	UInt16			Align_Time_CountDown;	// second
 	UInt16			GPS_Leap_Time;			// second
 	SByte			Zone;
-	E_INS_ZoneType	Zone_Type;
-	Byte			Datum;						// E_INS_Datum
-	E_INS_Geoid		Geoid;
+	E_TILTAN_ZoneType	Zone_Type;
+	Byte			Datum;						// E_TILTAN_Datum
+	E_TILTAN_Geoid		Geoid;
 	Byte			System_Status_Bitfield[8];
 	Byte			System_Alert_Bitfield[10];
 	Byte			Error_Table_Bitfield[4];
@@ -56,8 +52,8 @@ struct INS_Status_Message {
 	Byte			Spare[12]; 					// NULLS
 } __attribute__((packed));
 
-struct INS_Navigation_Data_Message {
-	INS_HEADER		Header;
+struct Tiltan_Navigation_Data_Message {
+	TILTAN_HEADER		Header;
 	UInt32			Time_From_Startup;		// mission time. Units: seconds
 	UInt32			UTC_Time;				// in seconds
 	UInt16			GPS_Week;				// Units: week
@@ -66,12 +62,12 @@ struct INS_Navigation_Data_Message {
 	UInt32			UTM_Easting;			// meters
 	Int32			Altitude;				// meters
 	SByte			Zone;
-	E_INS_ZoneType	Zone_Type;
+	E_TILTAN_ZoneType	Zone_Type;
 	Int32			Geo_Latitude;			// Degrees
 	Int32			Geo_Longitude;			// Degrees
 	Byte			UTM_Datum;
 	Byte			Geo_Datum;
-	E_INS_Geoid		Geoid;					//
+	E_TILTAN_Geoid		Geoid;					//
 	UInt16			PD_Azimuth;				// mils
 	Int16			PD_Pitch;				// mils
 	Int16 			PD_Roll;				// mils
@@ -90,20 +86,20 @@ struct INS_Navigation_Data_Message {
 } __attribute__((packed));
 
 
-struct S_INS_GPSStatus {
+struct S_TILTAN_GPSStatus {
 	Byte 			dummy; 					// maintenance purpose only
 } __attribute__((packed)); // Used to indicate on the status of the GPS card
 
-struct S_INS_GPSNav{
+struct S_TILTAN_GPSNav{
 	Byte			dummy[2]; 				// maintenance purpose only
 }  __attribute__((packed)); // Used to indicate on the operation models of the GPS card
 
-struct S_INS_GPSErrorBITs{
+struct S_TILTAN_GPSErrorBITs{
 	Byte			dummy[4]; 				// maintenance purpose only
 }  __attribute__((packed)); // Used to indicate on the BITs(Built in Test) of the GPS card
 
-struct INS_Internal_GPS {
-	INS_HEADER			Header;
+struct Tiltan_Internal_GPS {
+	TILTAN_HEADER			Header;
 	UInt32				Time_From_Startup;		// mission time. Units: seconds
 	UInt32				UTC_Time;				// in seconds
 	UInt16				GPS_Week;				// Units: week
@@ -114,10 +110,10 @@ struct INS_Internal_GPS {
 	Int32 				North_Velocity;			// Meter/sec
 	Int32				East_Velocity; 			// Meter/sec
 	Int32				Down_Velocity;			// Meter/sec
-	S_INS_GPSStatus		GPS_Status;
-	S_INS_GPSNav		GPS_Navigation_Mode;
+	S_TILTAN_GPSStatus		GPS_Status;
+	S_TILTAN_GPSNav		GPS_Navigation_Mode;
 	Byte				RESIDUAL[2];
-	S_INS_GPSErrorBITs	GPS_Error_Bits;
+	S_TILTAN_GPSErrorBITs	GPS_Error_Bits;
 	Byte				Signals_SNRs[12];
 	Byte				GPS_FOM;
 	UInt16				GPS_EHE;				// meters
@@ -127,17 +123,17 @@ struct INS_Internal_GPS {
 	Byte				GPS_TDOP;
 	Byte				Num_Of_Satelites_In_Nav_Sol;
 	SByte				GPS_Zone;
-	E_INS_ZoneType		Zone_Type;
+	E_TILTAN_ZoneType		Zone_Type;
 	Byte				Datum;
-	E_INS_Geoid			Geoid;
+	E_TILTAN_Geoid			Geoid;
 	UInt16				Reserved_A2DLevel;
 	UInt16				Reserved_RFImmun;
 	Byte				Spare[12];				// nulls
 } __attribute__((packed));
 
 
-struct INS_Error_Estimation_Message {
-	INS_HEADER			Header;
+struct Tiltan_Error_Estimation_Message {
+	TILTAN_HEADER			Header;
 	UInt32				Time_From_Startup;		// mission time. Units: seconds
 	UInt32				UTC_Time;				// in seconds
 	UInt16				GPS_Week;				// Units: week
@@ -164,4 +160,4 @@ struct INS_Error_Estimation_Message {
 	UInt16				Bias_Acc_Z_Error;		//
 }  __attribute__((packed));
 
-#endif // INSTRUCTS_H
+#endif // TILTANTRUCTS_H

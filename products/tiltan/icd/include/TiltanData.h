@@ -1,8 +1,8 @@
-#ifndef INS_DATA_H
-#define INS_DATA_H
+#ifndef TILTAN_DATA_H
+#define TILTAN_DATA_H
 
 /*
-* DgpsData.h
+* TiltanData.h
 * Represents the data that is passed between the ICD and the user of the lib
 * Author: Binyamin Appelbaum
 * Date: 11.02.18
@@ -10,16 +10,16 @@
 
 #include <string>
 
-enum InsMsgType : unsigned int {INS_STATUS_MSG, INS_NAVIGATION_DATA_MSG, INS_INTERNAL_GPS_MSG, INS_ERRORS_ESTIMATION_MSG }; 
+enum TiltanMsgType : unsigned int {TILTAN_STATUS_MSG, TILTAN_NAVIGATION_DATA_MSG, TILTAN_INTERNAL_GPS_MSG, TILTAN_ERRORS_ESTIMATION_MSG }; 
 
-class InsData {
+class TiltanData {
 private:
-    InsMsgType m_currMsgType;
+    TiltanMsgType m_currMsgType;
     float m_simTime;
     float m_utcTime;
 
-    // members for INS navigation data message
-    struct Ins_Navigation_Data {
+    // members for Tiltan navigation data message
+    struct Tiltan_Navigation_Data {
         float altitude = 0;
         float latitude = 0;
         float longitude = 0;
@@ -34,13 +34,13 @@ private:
         float odometerDistance = 0;
         bool motionDetected;
     } m_navigationData;
-    // members for INS internal GPS
-    struct Ins_Internal_GPS {
+    // members for Tiltan internal GPS
+    struct Tiltan_Internal_GPS {
         short gpsFom = 0;
         short numOfSatelites = 0;
     } m_internalGPS;
     // members for errors estimation message
-    struct Ins_Errors_Estimation {
+    struct Tiltan_Errors_Estimation {
         float horizontalError = 0;
         float verticalError = 0;
         float northingError = 0;
@@ -55,15 +55,15 @@ private:
     } m_errorsEstimation;
 
 public:
-    InsData() = default;
+    TiltanData() = default;
     
-    ~InsData() = default;
+    ~TiltanData() = default;
 
-    InsMsgType GetCurrMsgType() const {
+    TiltanMsgType GetCurrMsgType() const {
         return m_currMsgType;
     }
 
-    void SetCurrMsgType(InsMsgType msgType) {
+    void SetCurrMsgType(TiltanMsgType msgType) {
         m_currMsgType = msgType;
     }
 
@@ -83,7 +83,7 @@ public:
         m_utcTime = utcTime;
     }
 
-    float GetInsNavAltitude() const {
+    float GetTiltanNavAltitude() const {
         return m_navigationData.altitude;
     }
 
@@ -291,9 +291,9 @@ public:
         m_errorsEstimation.rollErrorEstimation = rollErrorEstimation;
     }
 
-    std::string toString(InsMsgType msgType) const;
+    std::string toString(TiltanMsgType msgType) const;
 };
 
 
 
-#endif // INS_DATA_H
+#endif // TILTAN_DATA_H

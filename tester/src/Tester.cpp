@@ -7,7 +7,7 @@
 #include "Tester.h"
 #include "VLPPluginAPI.h"
 #include "NovatelPluginAPI.h"
-#include "InsPluginAPI.h"
+#include "TiltanPluginAPI.h"
 #include "IdanPluginAPI.h"
 #include "IbeoPluginAPI.h"
 #include "IponPluginAPI.h"
@@ -58,34 +58,34 @@ void Tester::TestNovatel() {
     novatel = nullptr;
 }
 
-void Tester::TestIns() {
+void Tester::TestTiltan() {
     boost::posix_time::ptime startTime = boost::posix_time::microsec_clock::local_time();
-    InsWrapper* ins = InsCreateObject("/home/robil/simConfigs/ins.conf");
+    TiltanWrapper* tiltan = TiltanCreateObject("/home/robil/simConfigs/tiltan.conf");
     for (auto i : boost::irange(0, 30)) {
         boost::posix_time::ptime currTime = boost::posix_time::microsec_clock::local_time();
         int simTime = i;
-        InsSetTimeStamps(ins, simTime, simTime);
-        InsSetPose(ins, 35.217018, 0, 31.771959);
-        InsSetOrientation(ins, i % 360, 0, 0);
-        InsSetAzimuthRate(ins, 0);
-        InsSetVelocity(ins, i % 100, i % 100, i % 100);
-        InsSetDistances(ins, 0, 0);
-        InsSetMotionDetected(ins, true);
+        TiltanSetTimeStamps(tiltan, simTime, simTime);
+        TiltanSetPose(tiltan, 35.217018, 0, 31.771959);
+        TiltanSetOrientation(tiltan, i % 360, 0, 0);
+        TiltanSetAzimuthRate(tiltan, 0);
+        TiltanSetVelocity(tiltan, i % 100, i % 100, i % 100);
+        TiltanSetDistances(tiltan, 0, 0);
+        TiltanSetMotionDetected(tiltan, true);
        
-        InsSetInternalGpsFields(ins, 0, 4);
+        TiltanSetInternalGpsFields(tiltan, 0, 4);
         
-        InsSetDirectionErrors(ins, 0,0,0,0,0);
-        InsSetVelocityErrors(ins, 0,0,0);
-        InsSetOrientationErrors(ins, 0,0,0);
+        TiltanSetDirectionErrors(tiltan, 0,0,0,0,0);
+        TiltanSetVelocityErrors(tiltan, 0,0,0);
+        TiltanSetOrientationErrors(tiltan, 0,0,0);
 
-        InsSendStatusMsgData(ins);
-        InsSendInternalGPSData(ins);
-        InsSendNavigationData(ins);
-        InsSendErrorEstimationData(ins);
+        TiltanSendStatusMsgData(tiltan);
+        TiltanSendInternalGPSData(tiltan);
+        TiltanSendNavigationData(tiltan);
+        TiltanSendErrorEstimationData(tiltan);
         usleep(100000);
     }
 
-    InsDeleteObject(ins);
+    TiltanDeleteObject(tiltan);
 }
 
 void Tester::TestIdan() {
@@ -178,7 +178,7 @@ void Tester::TestConf() {
 Tester::Tester() {
     TestVLP();
     // TestNovatel();
-    // TestIns();
+    // TestTiltan();
     // TestCAN();
     // TestIdan();
     // TestIbeo();
