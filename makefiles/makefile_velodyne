@@ -4,7 +4,7 @@ LDFLAGS = -shared
 
 COMP_DIR = ../comp
 
-TARGET = $(COMP_DIR)/libvlp.so
+TARGET = $(COMP_DIR)/libvelodyne.so
 
 EX_LIBS = -lboost_system -lboost_thread
 
