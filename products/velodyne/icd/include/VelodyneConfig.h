@@ -1,22 +1,21 @@
-#ifndef VLPCONFIG_H
-#define VLPCONFIG_H
+#ifndef VELODYNECONFIG_H
+#define VELODYNECONFIG_H
 
 /*
-* VLPConfig.h
+* VelodyneConfig.h
 * 
 * Author: Binyamin Appelbaum
 * Date: 10.01.18
-* 
 */
 
 #include "ProdConfig.h"
 #include <map>
 
-class VLPConfig : public ProdConfig {
+class VelodyneConfig : public ProdConfig {
 public:
     enum Resolution { _RES02_ = 200, _RES04_ = 400};
     enum ReturnMode { _STRONGEST_ = 37, _LAST_ = 38, _DUAL_ = 39};
-    enum DataSource {_HDL32E_ = 21, _VLP16_ = 22};
+    enum DataSource {_HDL32E_ = 21, _VELODYNE16_ = 22};
 
     static const std::map<ReturnMode, std::string> retModeToStr;
     static const std::map<DataSource, std::string> dataSourceToStr;
@@ -42,9 +41,9 @@ protected:
     virtual std::string GetProdName() const override;
 
 public:
-    VLPConfig(const std::string& confFilePath);
+    VelodyneConfig(const std::string& confFilePath);
 
-    virtual ~VLPConfig(){}
+    virtual ~VelodyneConfig(){}
 
     std::string GetIpAddress() const;
 
@@ -57,4 +56,4 @@ public:
 
 
 
-#endif // VLPCONFIG_H
+#endif // VELODYNECONFIG_H

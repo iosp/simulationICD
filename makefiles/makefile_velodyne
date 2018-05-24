@@ -10,8 +10,8 @@ EX_LIBS = -lboost_system -lboost_thread
 
 STAT_DIR = $(COMP_DIR)/statlibs
 
-STAT_LIBS_BASE_NAMES = 		velicd \
-							vlpwrapper \
+STAT_LIBS_BASE_NAMES = 		velodyneicd \
+							velodynewrapper \
 							communications \
 							utils
 

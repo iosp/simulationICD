@@ -1,8 +1,8 @@
-#ifndef VLPWRAPPER_H
-#define VLPWRAPPER_H
+#ifndef VELODYNEWRAPPER_H
+#define VELODYNEWRAPPER_H
 
 /*
-* VLPWrapper.h
+* VelodyneWrapper.h
 * Wrapper fpr velodyne ICD
 * Author: Binyamin Appelbaum
 * Date: 04.01.18
@@ -12,15 +12,15 @@
 #include "IWrapper.h"
 
 /**
- * VLPWrapper holds a pointer to VLPControl, and temporary data.
+ * VelodyneWrapper holds a pointer to VelodyneControl, and temporary data.
  * Once the object is created - the pointer is assigned (new).
  * m_data holds the temporary data of the user, and m_currChannles holds the temporary channels that the user saved.
  * m_currBlock holds the temporary block.
  * When the user calls "CloseBlock" we add the current data to m_data.
- * When the user calls "SetData" - we take the data that we aggregated until now and send it (set it) to VLP pointer.
+ * When the user calls "SetData" - we take the data that we aggregated until now and send it (set it) to Velodyne pointer.
  * We clear the temporary data right after the send
  * */
-class VLPWrapper : public IWrapper<VelodyneData> {
+class VelodyneWrapper : public IWrapper<VelodyneData> {
 private:
     /**
      * temporary data to aggregate
@@ -47,12 +47,12 @@ private:
     void InitData();
 
 public:
-    VLPWrapper(const std::string& confFilePath);
+    VelodyneWrapper(const std::string& confFilePath);
 
-    ~VLPWrapper();
+    ~VelodyneWrapper();
 
     /**
-     * Take the temporary data and set it to vlp
+     * Take the temporary data and set it to Velodyne
      */ 
     virtual void SendData() override;
 
@@ -79,4 +79,4 @@ public:
     virtual void ReceiveData() override {}
 };
 
-#endif // VLPWRAPPER_H
+#endif // VELODYNEWRAPPER_H

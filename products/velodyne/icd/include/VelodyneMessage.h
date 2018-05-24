@@ -1,14 +1,14 @@
-#ifndef VLPSMESSAGE_H
-#define VLPSMESSAGE_H
+#ifndef VELODYNESMESSAGE_H
+#define VELODYNESMESSAGE_H
 
 /*
-* VLPMessage.h
+* VelodyneMessage.h
 * Velodyne message to send
 * Author: Binyamin Appelbaum
 * Date: 07.03.18
 */
 
-#include "VLPStructs.h"
+#include "VelodyneStructs.h"
 #include "Message.h"
 #include "VelodyneData.h"
 
@@ -16,9 +16,9 @@ class ICommunication; // forward declaration
 
 static const int DEGREES = 360;
 
-class VLPMessage : public Message<VelodyneData>{
+class VelodyneMessage : public Message<VelodyneData>{
 private:
-	VLPDataPacket m_packet;
+	VelodyneDataPacket m_packet;
 
     int m_packetIndex = 0;
 
@@ -30,20 +30,20 @@ private:
     std::vector<VelodyneData::VelodyneBlock> CombineBlocks(const std::vector<VelodyneData::VelodyneBlock>& blocks) const;
     
     /**
-     * Fill time stamp on VLP packet
+     * Fill time stamp on Velodyne packet
      * @param timeStamp - time stamp data to fill
      */ 
     void FillTimeStamp(float timeStamp);
 
     /**
-     * Fill factory field on VLP packet
+     * Fill factory field on Velodyne packet
      * @param returnMode
 	 * @param dataSource
      */
     void FillFactory(int returnMode, int dataSource);
 
     /**
-     * Fill azimuth on VLP packet
+     * Fill azimuth on Velodyne packet
      * @param azimuth - azimuth data to fill
      */
     void FillAzimuth(float azimuth);
@@ -56,7 +56,7 @@ private:
 
     /**
      * Transform vector of channels to adapt Velodyne format.
-     * The method converts vector indexes ( the example is for VLP16 but works also for VLP32)
+     * The method converts vector indexes ( the example is for Velodyne16 but works also for Velodyne32)
      * Orig: 0  1  2  3  4  5  6  7  8  9  10  11  12  13  14  15
      * New:  0  8  1  9  2  10 3 11  4  12 5   13  6   14  7   15
      * @param channels - vector of channel pairs (distance and reflectivity)
@@ -93,13 +93,13 @@ private:
     void printPacketData() const;
 
 public:
-	VLPMessage(int returnMode, int dataSource);
+	VelodyneMessage(int returnMode, int dataSource);
 
-	virtual ~VLPMessage() = default;
+	virtual ~VelodyneMessage() = default;
 
 	virtual void FillMessage(const VelodyneData& data) override;
 
 	virtual int GetMessageSize() const override;
 };
 
-#endif // VLPSMESSAGE_H
+#endif // VELODYNESMESSAGE_H

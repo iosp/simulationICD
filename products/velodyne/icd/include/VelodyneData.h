@@ -6,7 +6,6 @@
 * Represents the data that is passed between the ICD and the user of the lib
 * Author: Binyamin Appelbaum
 * Date: 10.01.18
-* 
 */
 
 #include <vector>

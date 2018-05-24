@@ -9,7 +9,7 @@
 
 
 class Tester {
-    void TestVLP();
+    void TestVelodyne();
     void TestNovatel();
     void TestTiltan();
     void TestConf();

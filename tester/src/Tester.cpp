@@ -5,7 +5,7 @@
 */
 
 #include "Tester.h"
-#include "VLPPluginAPI.h"
+#include "VelodynePluginAPI.h"
 #include "NovatelPluginAPI.h"
 #include "TiltanPluginAPI.h"
 #include "IdanPluginAPI.h"
@@ -20,26 +20,26 @@
 
 using namespace boost::posix_time;
 
-void Tester::TestVLP() {
-    VLPWrapper* vlp = VLPCreateObject("/home/robil/simConfigs/vlp.conf");
+void Tester::TestVelodyne() {
+    VelodyneWrapper* velodyne = VelodyneCreateObject("/home/robil/simConfigs/velodyne.conf");
     double azimuth = 0;
 
     for (auto i : boost::irange(0, 1000000)) {
         for (auto j : boost::irange(0, 24)) {
             for (auto k : boost::irange(0, 16)) {
-                VLPSetChannel(vlp, 5, 0);
+                VelodyneSetChannel(velodyne, 5, 0);
             }
-            VLPSetAzimuth(vlp, azimuth);
-            VLPSetTimeStamp(vlp, i);
-            VLPCloseBlock(vlp);
+            VelodyneSetAzimuth(velodyne, azimuth);
+            VelodyneSetTimeStamp(velodyne, i);
+            VelodyneCloseBlock(velodyne);
             azimuth += 0.2;
             azimuth = (azimuth >= 360) ? 0 : azimuth;
         }
-        VLPSendData(vlp);
+        VelodyneSendData(velodyne);
         usleep(1333);
     }
 
-    VLPDeleteObject(vlp);
+    VelodyneDeleteObject(velodyne);
 }
 
 void Tester::TestNovatel() {
@@ -176,7 +176,7 @@ void Tester::TestConf() {
 }
 
 Tester::Tester() {
-    TestVLP();
+    TestVelodyne();
     // TestNovatel();
     // TestTiltan();
     // TestCAN();

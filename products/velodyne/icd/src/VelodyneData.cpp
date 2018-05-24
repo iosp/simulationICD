@@ -3,7 +3,6 @@
 * 
 * Author: Binyamin Appelbaum
 * Date: 10.01.18
-* 
 */
 
 #include "VelodyneData.h"

@@ -1,6 +1,6 @@
 MAKE = make -f
 
-MAKEFILES = makefile_vel \
+MAKEFILES = makefile_velodyne \
 			makefile_novatel \
 			makefile_tiltan \
 			makefile_idan \

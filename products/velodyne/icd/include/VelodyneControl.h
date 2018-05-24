@@ -1,12 +1,12 @@
-#ifndef VLP_COMMUNICATION
-#define VLP_COMMUNICATION
+#ifndef VELODYNE_CONTROL
+#define VELODYNE_CONTROL
 
 /*
-* VLPControl.h
+* VelodyneControl.h
 * Manage communication between velodyne sensor with UDP socket
 * Author: Binyamin Appelbaum
 * Date: 7.11.17
-* VLP = Velodyne Lidar Puck
+* Velodyne = Velodyne Lidar Puck
 */
 
 #include "IICD.h"
@@ -15,22 +15,22 @@
 #include <vector>
 
 class ICommunication;
-class VLPConfig; // forward declaration
+class VelodyneConfig; // forward declaration
 
-class VLPControl : public IICD<VelodyneData> {
+class VelodyneControl : public IICD<VelodyneData> {
 protected:
     /**
      * connection protocol to use 
     */
     ICommunication* m_comm = nullptr;
     /**
-     * VLP configuration values
+     * Velodyne configuration values
      */ 
-    VLPConfig* m_vlpConf = nullptr;
+    VelodyneConfig* m_velodyneConf = nullptr;
 
     /**
-     * Check validation of VLP data
-     * @param data - VLP data struct
+     * Check validation of Velodyne data
+     * @param data - Velodyne data struct
      * @param numOfRowsInColumn - number of rows expected in every column
      * @return true if data is valid and false otherwise
     */
@@ -38,9 +38,9 @@ protected:
     
 public:
 
-    VLPControl(const std::string& confFilePath);
+    VelodyneControl(const std::string& confFilePath);
 
-    virtual ~VLPControl();
+    virtual ~VelodyneControl();
 
     /**
      * Set data on inner velodyne data vector
@@ -56,4 +56,4 @@ public:
 
 
 
-#endif // VLP_COMMUNICATION
+#endif // VELODYNE_CONTROL

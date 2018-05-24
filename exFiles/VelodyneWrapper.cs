@@ -3,33 +3,33 @@ using System;
 using System.Runtime.InteropServices;
 
 public class VelodyneWrapper : IDisposable {
-	const String DLL_LOCATION = "libvlp";
+	const String DLL_LOCATION = "libvelodyne";
 
 	[DllImport (DLL_LOCATION)]
-	private static extern IntPtr VLPCreateObject(string confFilePath);
+	private static extern IntPtr VelodyneCreateObject(string confFilePath);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern void VLPDeleteObject(IntPtr pVlp);
+	private static extern void VelodyneDeleteObject(IntPtr pObj);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern void VLPSetAzimuth(IntPtr pVlp, double azimuth);
+	private static extern void VelodyneSetAzimuth(IntPtr pObj, double azimuth);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern void VLPSetTimeStamp(IntPtr pVlp, float timeStamp);
+	private static extern void VelodyneSetTimeStamp(IntPtr pObj, float timeStamp);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern void VLPSetChannel(IntPtr pVlp, double distance, short reflectivity);
+	private static extern void VelodyneSetChannel(IntPtr pObj, double distance, short reflectivity);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern void VLPCloseBlock(IntPtr pVlp);
+	private static extern void VelodyneCloseBlock(IntPtr pObj);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern void VLPSendData(IntPtr pVlp);
+	private static extern void VelodyneSendData(IntPtr pObj);
 
 	private IntPtr m_nativeObject;
 
 	public VelodyneWrapper(string confFilePath) {
-			this.m_nativeObject = VLPCreateObject(confFilePath);
+			this.m_nativeObject = VelodyneCreateObject(confFilePath);
 	}
 
 	~VelodyneWrapper() {Dispose(false);}
@@ -38,7 +38,7 @@ public class VelodyneWrapper : IDisposable {
 
     protected virtual void Dispose(bool bDisposing) {
         if (this.m_nativeObject != IntPtr.Zero) {
-            VLPDeleteObject(this.m_nativeObject);
+            VelodyneDeleteObject(this.m_nativeObject);
             this.m_nativeObject = IntPtr.Zero;
         }
 
@@ -48,22 +48,22 @@ public class VelodyneWrapper : IDisposable {
     }
 
 	public void SetAzimuth(double azimuth) {
-		VLPSetAzimuth(this.m_nativeObject, azimuth);
+		VelodyneSetAzimuth(this.m_nativeObject, azimuth);
 	}
 
 	public void SetTimeStamp(float timeStamp) {
-		VLPSetTimeStamp(this.m_nativeObject, timeStamp);
+		VelodyneSetTimeStamp(this.m_nativeObject, timeStamp);
 	}
 
 	public void SetChannel(double distance, short reflectivity) {
-		VLPSetChannel(this.m_nativeObject, distance, reflectivity);
+		VelodyneSetChannel(this.m_nativeObject, distance, reflectivity);
 	}
 
 	public void CloseBlock() {
-		VLPCloseBlock(this.m_nativeObject);
+		VelodyneCloseBlock(this.m_nativeObject);
 	}
 
 	public void SendData() {
-		VLPSendData(this.m_nativeObject);
+		VelodyneSendData(this.m_nativeObject);
 	}
 }

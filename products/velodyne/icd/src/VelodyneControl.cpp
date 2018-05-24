@@ -1,31 +1,31 @@
 /**
-* VLPControl.cpp
+* VelodyneControl.cpp
 * Manage communication between velodyne sensor with UDP socket
 * Author: Binyamin Appelbaum
 * Date: 7.11.17
 */
 
-#include "VLPControl.h"
-#include "VLPConfig.h"
-#include "VLPMessage.h"
+#include "VelodyneControl.h"
+#include "VelodyneConfig.h"
+#include "VelodyneMessage.h"
 #include "UDPCommunication.h"
 #include "LoggerProxy.h"
 
-VLPControl::VLPControl(const std::string& confFilePath) {
-	m_vlpConf = new VLPConfig(confFilePath);
-    m_comm = new UDPCommunication(m_vlpConf->GetIpAddress(), m_vlpConf->GetPort());
+VelodyneControl::VelodyneControl(const std::string& confFilePath) {
+	m_velodyneConf = new VelodyneConfig(confFilePath);
+    m_comm = new UDPCommunication(m_velodyneConf->GetIpAddress(), m_velodyneConf->GetPort());
     if (!m_comm->Init()) {
 		ERRLOG << "Failed to initialize communication.\n";
 	}
 }
 
-VLPControl::~VLPControl() {
+VelodyneControl::~VelodyneControl() {
     delete m_comm;
-    delete m_vlpConf;
+    delete m_velodyneConf;
 }
 
-bool VLPControl::CheckDataValidation(const VelodyneData& data) const {
-    if (data.GetBlocks().size() != (NUM_OF_VLP_DATA_BLOCKS * 2)) {
+bool VelodyneControl::CheckDataValidation(const VelodyneData& data) const {
+    if (data.GetBlocks().size() != (NUM_OF_VELODYNE_DATA_BLOCKS * 2)) {
         ERRLOG << "Number of blocks is not valid: " << data.GetBlocks().size() << "\n";
         return false;
     }
@@ -38,7 +38,7 @@ bool VLPControl::CheckDataValidation(const VelodyneData& data) const {
             return false;
         }
         // check that the data size corresponds to the number of columns
-        if (block.GetChannels().size() != (NUM_OF_VLP_DATA_CHANNELS_IN_BLOCK / 2)) {
+        if (block.GetChannels().size() != (NUM_OF_VELODYNE_DATA_CHANNELS_IN_BLOCK / 2)) {
             ERRLOG << "Channels size is not valid: " << block.GetChannels().size() << "\n";
             return false;
         }
@@ -46,8 +46,8 @@ bool VLPControl::CheckDataValidation(const VelodyneData& data) const {
     return true;
 }
 
-void VLPControl::SendData(const VelodyneData& data) {
-    VLPMessage msg((int)m_vlpConf->GetReturnMode(), (int)m_vlpConf->GetDataSource());
+void VelodyneControl::SendData(const VelodyneData& data) {
+    VelodyneMessage msg((int)m_velodyneConf->GetReturnMode(), (int)m_velodyneConf->GetDataSource());
     if (CheckDataValidation(data)) {
         msg.FillMessage(data);
         DBGLOG << "Going to send data: " << data.toString() << "\n";
@@ -58,7 +58,7 @@ void VLPControl::SendData(const VelodyneData& data) {
     }
 }
 
-VelodyneData VLPControl::ReceiveData() {
+VelodyneData VelodyneControl::ReceiveData() {
     ERRLOG << "This function is not implemented!\n";
     return VelodyneData();
 }

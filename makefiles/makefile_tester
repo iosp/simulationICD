@@ -13,8 +13,8 @@ MAIN_INCLUDES = -I../tester/include \
 
 STAT_DIR = ../comp/statlibs
 
-STAT_LIBS_BASE_NAMES = velicd \
-						vlpwrapper \
+STAT_LIBS_BASE_NAMES = velodyneicd \
+						velodynewrapper \
 						novatelicd \
 						novatelwrapper \
 						tiltanicd \

@@ -2,7 +2,7 @@ CC = g++
 
 CFLAGS = -std=c++0x -fPIC -O -g
 
-TARGET = ../../../comp/statlibs/libvelicd.a
+TARGET = ../../../comp/statlibs/libvelodyneicd.a
 
 OBJ_DIR = obj
 
