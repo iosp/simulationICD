@@ -11,7 +11,7 @@
 #include <cstring> // memset
 #include "../communications/include/ICommunication.h" // sendData
 
-static const int BUFFER_SIZE = 1000;
+static const int BUFFER_SIZE = 2048;
 
 template <class TData>
 class Message {
