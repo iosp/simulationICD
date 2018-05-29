@@ -16,6 +16,10 @@ void TiltanDeleteObject(TiltanWrapper* pObj) {
     delete pObj;
 }
 
+void TiltanInitCommunication(TiltanWrapper* pObj) {
+    pObj->InitCommunication();
+}
+
 void TiltanSendStatusMsgData(TiltanWrapper* pObj) {
     pObj->SetMsgType(TILTAN_STATUS_MSG);
     pObj->SendData();

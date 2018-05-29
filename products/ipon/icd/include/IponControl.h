@@ -25,10 +25,6 @@ private:
     // configuration parser
     IponConfig* m_iponConf = nullptr;
 
-    bool m_initialized = false;
-
-	void InitializeMessages();
-
 	t_message GetMsgByType(IponMsgType msgType) const;
 
 public:
@@ -41,6 +37,8 @@ public:
 	virtual void SendData(const IponData& data) override;
 
 	virtual IponData ReceiveData() override;
+
+	virtual void InitCommunication() override;
 };
 
 #endif // IPON_CONTROL

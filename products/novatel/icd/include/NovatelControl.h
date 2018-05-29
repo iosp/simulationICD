@@ -23,8 +23,6 @@ private:
     // configuration parser
     NovatelConfig* m_novatelConf = nullptr;
 
-    bool m_initialized = false;
-
     void SendMessage(Message<NovatelData>* message) const;
 
     Message<NovatelData>* GetMsgByType(NovatelMsgType msgType) const;
@@ -44,6 +42,8 @@ public:
      * This function is implemented with empty return
      */ 
     virtual NovatelData ReceiveData() override;
+
+    virtual void InitCommunication() override;
 
 };
 

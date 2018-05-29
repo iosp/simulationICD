@@ -26,10 +26,6 @@ private:
 	// configuration of Tiltan
 	TiltanConfig* m_tiltanConf = nullptr;
 
-	bool m_initialized = false;
-
-	void InitializeMessages();
-
 	t_message GetMsgByType(TiltanMsgType msgType) const;
 
 public:
@@ -40,6 +36,8 @@ public:
 	virtual void SendData(const TiltanData& data) override;
 
     virtual TiltanData ReceiveData() override;
+
+	virtual void InitCommunication() override;
 };
 
 #endif // TILTANCONTROL_H

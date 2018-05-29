@@ -16,6 +16,8 @@ extern "C" {
 
     void TiltanDeleteObject(TiltanWrapper* pObj);
 
+    void TiltanInitCommunication(TiltanWrapper* pObj);
+
     void TiltanSendStatusMsgData(TiltanWrapper* pObj);
 
     void TiltanSendInternalGPSData(TiltanWrapper* pObj);

@@ -14,12 +14,6 @@
 
 IbeoControl::IbeoControl(const std::string& confFilePath) {
 	m_ibeoConf = new IbeoConfig(confFilePath);
-	m_comm = new TCPCommunication(m_ibeoConf->GetPort());
-	if (!m_comm->Init()) {
-		ERRLOG << "Failed to initialize communication.\n";
-		return;
-	}
-	m_isInitialized = true;
 }
 
 IbeoControl::~IbeoControl() {
@@ -27,8 +21,17 @@ IbeoControl::~IbeoControl() {
 	delete m_ibeoConf;
 }
 
+void IbeoControl::InitCommunication() {
+	m_comm = new TCPCommunication(m_ibeoConf->GetPort());
+	if (!m_comm->Init()) {
+		ERRLOG << "Failed to initialize TCP communication.\n";
+		return;
+	}
+	m_isCommInitialized = true;
+}
+
 void IbeoControl::SendData(const IbeoData& data) {
-	if (!m_isInitialized) {
+	if (!m_isCommInitialized) {
 		ERRLOG << "Ibeo couldn't initalize communication. Cannot send data.\n";
 		return;
 	}

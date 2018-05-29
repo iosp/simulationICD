@@ -16,6 +16,10 @@ void IponDeleteObject(IponWrapper* pObj) {
     delete pObj;
 }
 
+void IponInitCommuincation(IponWrapper* pObj) {
+	pObj->InitCommunication();
+}
+
 void IponSendPeriodic1HZData(IponWrapper* pObj) {
     pObj->SetMsgType(IPON_PERIODIC_1HZ);
 	pObj->SendData();

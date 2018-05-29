@@ -16,7 +16,6 @@
 
 IponControl::IponControl(const std::string& confFilePath) {
 	m_iponConf = new IponConfig(confFilePath);
-	InitializeMessages();
 }
 
 IponControl::~IponControl() {
@@ -27,7 +26,7 @@ IponControl::~IponControl() {
 	delete m_iponConf;
 }
 
-void IponControl::InitializeMessages() {
+void IponControl::InitCommunication() {
 	// create the messagesa
 	m_messages.push_back(t_message(new Periodic1HZMessage(),
 									 new UDPCommunication(m_iponConf->GetUDPIPAdrress(), m_iponConf->GetUDPPort())));
@@ -40,11 +39,11 @@ void IponControl::InitializeMessages() {
 			return;
 		}
 	}
-	m_initialized = true;
+	m_isCommInitialized = true;
 }
 
 void IponControl::SendData(const IponData& data) {
-	if (!m_initialized) {
+	if (!m_isCommInitialized) {
 		ERRLOG << "IPON couldn't initalize all its communications. Cannot send data\n";
 		return;
 	}

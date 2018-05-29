@@ -16,6 +16,10 @@ void VelodyneDeleteObject(VelodyneWrapper* pObj) {
     delete pObj;
 }
 
+void VelodyneInitCommunication(VelodyneWrapper* pObj) {
+    pObj->InitCommunication();
+}
+
 void VelodyneSetAzimuth(VelodyneWrapper* pObj, double azimuth) {
     pObj->SetAzimuth(azimuth);
 }

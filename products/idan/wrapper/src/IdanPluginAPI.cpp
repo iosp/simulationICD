@@ -17,6 +17,10 @@ void IdanDeleteObject(IdanWrapper* pObj) {
     delete pObj;
 }
 
+void IdanInitCommunication(IdanWrapper* pObj) {
+    pObj->InitCommunication();
+}
+
 void SendIdanPrimaryData(IdanWrapper* pObj) {
     pObj->SetMsgType(IDAN_PRIMARY);
     pObj->SendData();

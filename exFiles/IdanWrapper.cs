@@ -12,6 +12,9 @@ public class IdanWrapper: IDisposable {
 	private static extern void IdanDeleteObject(IntPtr pObj);
 
 	[DllImport (DLL_LOCATION)]
+	private static extern void IdanInitCommunication(IntPtr pObj);
+
+	[DllImport (DLL_LOCATION)]
 	private static extern void SendIdanPrimaryData(IntPtr pObj);
 
     [DllImport (DLL_LOCATION)]
@@ -104,7 +107,7 @@ public class IdanWrapper: IDisposable {
 	private static extern void SetIdanSecRepKeySwitch(IntPtr pObj, bool keySwitch);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern void SetIdanSecRepMotorStarter(IntPtr pObj, bool motorStarter)
+	private static extern void SetIdanSecRepMotorStarter(IntPtr pObj, bool motorStarter);
 
     [DllImport (DLL_LOCATION)]
 	private static extern void SetIdanSecRepHorn(IntPtr pObj, bool horn);
@@ -181,6 +184,10 @@ public class IdanWrapper: IDisposable {
             GC.SuppressFinalize(this);
         }
     }
+
+	public void InitCommunication() {
+		IdanInitCommunication(this.m_nativeObject);
+	}
 
 	public void SendIdanPrimaryData() {
 		SendIdanPrimaryData(this.m_nativeObject);
@@ -303,7 +310,7 @@ public class IdanWrapper: IDisposable {
 	}
 
 	public void SetIdanSecRepMotorStarter(bool motorStarter) {
-		SetIdanSecRepMotorStarter(this.m_nativeObject, keySwitch);
+		SetIdanSecRepMotorStarter(this.m_nativeObject, motorStarter);
 	}
 
 	public void SetIdanSecRepHorn(bool horn) {

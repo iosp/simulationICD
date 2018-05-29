@@ -18,13 +18,6 @@
 
 IdanControl::IdanControl(const std::string& confFilePath) {
 	m_idanConf = new IdanConfig(confFilePath);
-	m_comm = new CanCommunication(m_idanConf->GetInterfaceName(), m_idanConf->GetBaudRate(), m_idanConf->IsVirtualInterface());
-	if (!m_comm->Init()) {
-		ERRLOG << "Failed to initialize communication, not running get thread.\n";
-		return;
-	}
-	InitGetMessages();
-	m_initialized = true;
 }
 
 IdanControl::~IdanControl() {
@@ -37,6 +30,16 @@ IdanControl::~IdanControl() {
 	}
 }
 
+void IdanControl::InitCommunication() {
+	m_comm = new CanCommunication(m_idanConf->GetInterfaceName(), m_idanConf->GetBaudRate(), m_idanConf->IsVirtualInterface());
+	if (!m_comm->Init()) {
+		ERRLOG << "Failed to initialize CAN communication, not running get thread.\n";
+		return;
+	}
+	InitGetMessages();
+	m_isCommInitialized = true;
+}
+
 void IdanControl::InitGetMessages() {
 	// get messages thread
 	m_getMessages.push_back(new HLCPrimaryControlMessage(m_idanConf->GetHLCHertz()));
@@ -45,7 +48,7 @@ void IdanControl::InitGetMessages() {
 }
 
 void IdanControl::SendData(const IdanData& data) {
-	if (!m_initialized) {
+	if (!m_isCommInitialized) {
 		ERRLOG << "Idan couldn't initalize communication. Cannot send data.\n";
 		return;
 	}

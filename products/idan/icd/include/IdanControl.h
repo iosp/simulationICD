@@ -32,8 +32,6 @@ private:
     boost::thread m_getDataThread;
     mutable boost::mutex m_idanData_mutex;
 
-    bool m_initialized = false;
-
     void GetThreadMethod();
 
     // called via constructor
@@ -54,6 +52,8 @@ public:
     virtual void SendData(const IdanData& data) override;
 
     virtual IdanData ReceiveData() override;
+
+    virtual void InitCommunication() override;
 };
 
 #endif // IDAN_CONTROL

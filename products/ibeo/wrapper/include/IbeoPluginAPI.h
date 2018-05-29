@@ -16,6 +16,8 @@ extern "C" {
 
     void IbeoDeleteObject(IbeoWrapper* pObj);
 
+    void IbeoInitCommunication(IbeoWrapper* pObj);
+
     void IbeoSendData(IbeoWrapper* pObj);
 
     void IbeoSetNumOfPoints(IbeoWrapper* pObj, int numOfPoints);

@@ -18,7 +18,6 @@
 
 TiltanControl::TiltanControl(const std::string& confFilePath) {
 	m_tiltanConf = new TiltanConfig(confFilePath);
-	InitializeMessages();
 }
 
 TiltanControl::~TiltanControl() {
@@ -29,7 +28,7 @@ TiltanControl::~TiltanControl() {
 	}
 }
 
-void TiltanControl::InitializeMessages() {
+void TiltanControl::InitCommunication() {
 	m_messages.push_back(t_message(new StatusMessage(), new TCPCommunication(m_tiltanConf->GetStatusMsgPort())));
 	m_messages.push_back(t_message(new NavigationDataMessage(),
 									 new UDPCommunication(m_tiltanConf->GetNavigationDataMsgIpAddress(), m_tiltanConf->GetNavigationDataMsgPort())));
@@ -44,11 +43,11 @@ void TiltanControl::InitializeMessages() {
 			return;
 		}
 	}
-	m_initialized = true;
+	m_isCommInitialized = true;
 }
 
 void TiltanControl::SendData(const TiltanData& data) {
-	if (!m_initialized) {
+	if (!m_isCommInitialized) {
 		ERRLOG << "Tiltan couldn't initalize all its communications. Cannot send data\n";
 		return;
 	}

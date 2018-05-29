@@ -22,6 +22,7 @@ using namespace boost::posix_time;
 
 void Tester::TestVelodyne() {
     VelodyneWrapper* velodyne = VelodyneCreateObject("/home/robil/simConfigs/velodyne.conf");
+    VelodyneInitCommunication(velodyne);
     double azimuth = 0;
 
     for (auto i : boost::irange(0, 1000000)) {
@@ -44,6 +45,7 @@ void Tester::TestVelodyne() {
 
 void Tester::TestNovatel() {
     NovatelWrapper* novatel = NovatelCreateObject("/home/robil/simConfigs/novatel.conf");
+    NovatelInitCommunication(novatel);
     for (auto i : boost::irange(0, 20)) {
         time_duration td =  microsec_clock::local_time() - from_time_t(0);
         NovatelSetPosition(novatel, 31.771959, 35.217018, 10);
@@ -61,6 +63,7 @@ void Tester::TestNovatel() {
 void Tester::TestTiltan() {
     boost::posix_time::ptime startTime = boost::posix_time::microsec_clock::local_time();
     TiltanWrapper* tiltan = TiltanCreateObject("/home/robil/simConfigs/tiltan.conf");
+    TiltanInitCommunication(tiltan);
     for (auto i : boost::irange(0, 30)) {
         boost::posix_time::ptime currTime = boost::posix_time::microsec_clock::local_time();
         int simTime = i;
@@ -90,6 +93,7 @@ void Tester::TestTiltan() {
 
 void Tester::TestIdan() {
     IdanWrapper* idan = IdanCreateObject("/home/robil/simConfigs/idan.conf");
+    IdanInitCommunication(idan);
 
     for (auto i : boost::irange(0, 10000)) {
         IdanReceiveData(idan);
@@ -132,6 +136,7 @@ void Tester::TestIdan() {
 
 void Tester::TestIbeo() {
     IbeoWrapper* ibeo = IbeoCreateObject("/home/robil/simConfigs/ibeo.conf");
+    IbeoInitCommunication(ibeo);
 
     while (true) {
         sleep(1);
@@ -142,6 +147,7 @@ void Tester::TestIbeo() {
 
 void Tester::TestIpon() {
     IponWrapper* ipon = IponCreateObject("/home/robil/simConfigs/ipon.conf");
+    IponInitCommuincation(ipon);
 
     while (true) {
         sleep(1);
@@ -176,7 +182,7 @@ void Tester::TestConf() {
 }
 
 Tester::Tester() {
-    TestVelodyne();
+    // TestVelodyne();
     // TestNovatel();
     // TestTiltan();
     // TestCAN();

@@ -6,6 +6,7 @@
 * API for external tools that need to use Velodyne
     * How to use:
     *   Create Velodyne object
+    *   Initialize communication
     *   Set azimuth, time stamp and 16 channels
     *   Close block
     *   After 24 blocks - send data
@@ -20,6 +21,8 @@ extern "C" {
     VelodyneWrapper* VelodyneCreateObject(const char* confFilePath);
 
     void VelodyneDeleteObject(VelodyneWrapper* pObj);
+
+    void VelodyneInitCommunication(VelodyneWrapper* pObj);
 
     void VelodyneSetAzimuth(VelodyneWrapper* pObj, double azimuth);
 

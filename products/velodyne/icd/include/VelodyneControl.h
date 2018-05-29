@@ -18,7 +18,7 @@ class ICommunication;
 class VelodyneConfig; // forward declaration
 
 class VelodyneControl : public IICD<VelodyneData> {
-protected:
+private:
     /**
      * connection protocol to use 
     */
@@ -52,6 +52,8 @@ public:
      * This function is implemented with nullptr return
      */ 
     virtual VelodyneData ReceiveData() override;
+
+    virtual void InitCommunication() override;
 };
 
 

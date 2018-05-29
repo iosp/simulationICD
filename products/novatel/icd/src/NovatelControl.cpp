@@ -14,13 +14,6 @@
 
 NovatelControl::NovatelControl(const std::string& confFilePath) {
 	m_novatelConf = new NovatelConfig(confFilePath);
-	m_comm = new RSCommunication(m_novatelConf->GetPortName(), m_novatelConf->GetBaudRate());
-	if (!m_comm->Init()) {
-		ERRLOG << "Failed to initialize communication.\n";
-	}
-	else {
-		m_initialized = true;
-	}
 }
 
 NovatelControl::~NovatelControl() {
@@ -28,9 +21,18 @@ NovatelControl::~NovatelControl() {
 	delete m_comm;
 }
 
+void NovatelControl::InitCommunication() {
+	m_comm = new RSCommunication(m_novatelConf->GetPortName(), m_novatelConf->GetBaudRate());
+	if (!m_comm->Init()) {
+		ERRLOG << "Failed to initialize RS communication.\n";\
+		return;
+	}
+	m_isCommInitialized = true;
+}
+
 void NovatelControl::SendData(const NovatelData& data) {
-	if (!m_initialized) {
-		ERRLOG << "Novatel couldn't initalize communication. Cannot send data.\n";
+	if (!m_isCommInitialized) {
+		ERRLOG << "Novatel communication is not initialized! Cannot send data.\n";
 		return;
 	}
 	auto msgType = data.GetCurrMsgType();

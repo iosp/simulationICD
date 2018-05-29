@@ -13,15 +13,19 @@
 
 VelodyneControl::VelodyneControl(const std::string& confFilePath) {
 	m_velodyneConf = new VelodyneConfig(confFilePath);
-    m_comm = new UDPCommunication(m_velodyneConf->GetIpAddress(), m_velodyneConf->GetPort());
-    if (!m_comm->Init()) {
-		ERRLOG << "Failed to initialize communication.\n";
-	}
 }
 
 VelodyneControl::~VelodyneControl() {
     delete m_comm;
     delete m_velodyneConf;
+}
+
+void VelodyneControl::InitCommunication() {
+    m_comm = new UDPCommunication(m_velodyneConf->GetIpAddress(), m_velodyneConf->GetPort());
+    if (!m_comm->Init()) {
+		ERRLOG << "Failed to initialize UDP communication.\n";
+	}
+    m_isCommInitialized = true;
 }
 
 bool VelodyneControl::CheckDataValidation(const VelodyneData& data) const {
@@ -47,6 +51,10 @@ bool VelodyneControl::CheckDataValidation(const VelodyneData& data) const {
 }
 
 void VelodyneControl::SendData(const VelodyneData& data) {
+    if (!m_isCommInitialized) {
+        ERRLOG << "Velodyne communication is not initialized! Cannot send data.\n";
+        return;
+    }
     VelodyneMessage msg((int)m_velodyneConf->GetReturnMode(), (int)m_velodyneConf->GetDataSource());
     if (CheckDataValidation(data)) {
         msg.FillMessage(data);
