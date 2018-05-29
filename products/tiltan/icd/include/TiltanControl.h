@@ -28,6 +28,8 @@ private:
 
 	t_message GetMsgByType(TiltanMsgType msgType) const;
 
+	virtual void InitCommunication() override;
+
 public:
 	TiltanControl(const std::string& confFilePath);
 
@@ -36,8 +38,6 @@ public:
 	virtual void SendData(const TiltanData& data) override;
 
     virtual TiltanData ReceiveData() override;
-
-	virtual void InitCommunication() override;
 };
 
 #endif // TILTANCONTROL_H

@@ -16,8 +16,6 @@ extern "C" {
 
     void NovatelDeleteObject(NovatelWrapper* pObj);
 
-    void NovatelInitCommunication(NovatelWrapper* pObj);
-
     void NovatelSendBestPosData(NovatelWrapper* pObj);
 
     void NovatelSendBestVelData(NovatelWrapper* pObj);

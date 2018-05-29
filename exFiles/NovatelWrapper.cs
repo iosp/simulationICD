@@ -12,9 +12,6 @@ public class NovatelWrapper : IDisposable {
 	private static extern void NovatelDeleteObject(IntPtr pObj);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern void NovatelInitCommunication(IntPtr pObj);
-
-	[DllImport (DLL_LOCATION)]
 	private static extern void NovatelSendBestPosData(IntPtr pObj);
 
 	[DllImport (DLL_LOCATION)]
@@ -49,10 +46,6 @@ public class NovatelWrapper : IDisposable {
             GC.SuppressFinalize(this);
         }
     }
-
-	public void InitCommunication() {
-		NovatelInitCommunication(this.m_nativeObject);
-	}
 	
 	public void SetPosition(double latitude, double longitude, double altitude) {
 		NovatelSetPosition(this.m_nativeObject, latitude, longitude, altitude);

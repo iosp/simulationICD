@@ -41,6 +41,8 @@ private:
     
     IdanMessageSend* GetMsgByType(IdanMsgType msgType) const;
 
+    virtual void InitCommunication() override;
+
 public:
     IdanControl(const std::string& confFilePath);
 
@@ -52,8 +54,6 @@ public:
     virtual void SendData(const IdanData& data) override;
 
     virtual IdanData ReceiveData() override;
-
-    virtual void InitCommunication() override;
 };
 
 #endif // IDAN_CONTROL

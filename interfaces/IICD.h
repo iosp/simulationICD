@@ -13,6 +13,12 @@ template <class TData>
 class IICD {
 protected:
     bool m_isCommInitialized = false;
+
+    /**
+     * Initialize communication of the ICD
+    */
+    virtual void InitCommunication() = 0;
+    
 public:
     IICD() = default;
     
@@ -27,11 +33,6 @@ public:
      * Receive Data from ICD commonication object
      */ 
     virtual TData ReceiveData() = 0;
-
-    /**
-     * Initialize communication of the ICD
-    */
-    virtual void InitCommunication() = 0;
 };
 
 #endif // IICD_H

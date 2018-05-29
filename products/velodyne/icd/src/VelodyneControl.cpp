@@ -13,6 +13,7 @@
 
 VelodyneControl::VelodyneControl(const std::string& confFilePath) {
 	m_velodyneConf = new VelodyneConfig(confFilePath);
+    InitCommunication();
 }
 
 VelodyneControl::~VelodyneControl() {

@@ -33,10 +33,6 @@ public:
      * Receive the data of ICD object
      */ 
     virtual void ReceiveData() = 0;
-
-    virtual void InitCommunication() {
-        m_icd->InitCommunication();
-    }
 };
 
 

@@ -16,8 +16,6 @@ extern "C" {
 
     void IponDeleteObject(IponWrapper* pObj);
 
-    void IponInitCommuincation(IponWrapper* pObj);
-
     void IponSendPeriodic1HZData(IponWrapper* pObj);
 
     void IponSendPeriodic100HZData(IponWrapper* pObj);

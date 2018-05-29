@@ -35,6 +35,8 @@ private:
      * @return true if data is valid and false otherwise
     */
     bool CheckDataValidation(const VelodyneData& data) const;
+
+    virtual void InitCommunication() override;
     
 public:
 
@@ -52,8 +54,6 @@ public:
      * This function is implemented with nullptr return
      */ 
     virtual VelodyneData ReceiveData() override;
-
-    virtual void InitCommunication() override;
 };
 
 

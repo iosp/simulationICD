@@ -14,6 +14,7 @@
 
 IbeoControl::IbeoControl(const std::string& confFilePath) {
 	m_ibeoConf = new IbeoConfig(confFilePath);
+	InitCommunication();
 }
 
 IbeoControl::~IbeoControl() {

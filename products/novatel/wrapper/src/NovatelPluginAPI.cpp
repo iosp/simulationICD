@@ -16,10 +16,6 @@ void NovatelDeleteObject(NovatelWrapper* pObj) {
     delete pObj;
 }
 
-void NovatelInitCommunication(NovatelWrapper* pObj) {
-    pObj->InitCommunication();
-}
-
 void NovatelSendBestPosData(NovatelWrapper* pObj) {
     pObj->SetMsgType(NOVATEL_BEST_POS);
     pObj->SendData();

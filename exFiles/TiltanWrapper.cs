@@ -12,9 +12,6 @@ public class TiltanWrapper : IDisposable {
 	private static extern void TiltanDeleteObject(IntPtr pObj);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern void TiltanInitCommunication(IntPtr pObj);
-
-	[DllImport (DLL_LOCATION)]
 	private static extern void TiltanSendStatusMsgData(IntPtr pObj);
 
 	[DllImport (DLL_LOCATION)]
@@ -80,10 +77,6 @@ public class TiltanWrapper : IDisposable {
             GC.SuppressFinalize(this);
         }
     }
-
-	public void InitCommunication() {
-		TiltanInitCommunication(this.m_nativeObject);
-	}
 	
 	public void SendStatusMsgData() {
 		TiltanSendStatusMsgData(this.m_nativeObject);

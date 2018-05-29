@@ -12,9 +12,6 @@ public class IdanWrapper: IDisposable {
 	private static extern void IdanDeleteObject(IntPtr pObj);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern void IdanInitCommunication(IntPtr pObj);
-
-	[DllImport (DLL_LOCATION)]
 	private static extern void SendIdanPrimaryData(IntPtr pObj);
 
     [DllImport (DLL_LOCATION)]
@@ -184,10 +181,6 @@ public class IdanWrapper: IDisposable {
             GC.SuppressFinalize(this);
         }
     }
-
-	public void InitCommunication() {
-		IdanInitCommunication(this.m_nativeObject);
-	}
 
 	public void SendIdanPrimaryData() {
 		SendIdanPrimaryData(this.m_nativeObject);

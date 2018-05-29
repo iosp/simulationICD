@@ -26,6 +26,8 @@ private:
     void SendMessage(Message<NovatelData>* message) const;
 
     Message<NovatelData>* GetMsgByType(NovatelMsgType msgType) const;
+    
+    virtual void InitCommunication() override;
 
 public:
     NovatelControl(const std::string& confFilePath);
@@ -42,9 +44,6 @@ public:
      * This function is implemented with empty return
      */ 
     virtual NovatelData ReceiveData() override;
-
-    virtual void InitCommunication() override;
-
 };
 
 #endif // NOVATEL_CONTROL

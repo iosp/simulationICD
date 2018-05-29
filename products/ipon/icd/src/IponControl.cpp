@@ -16,6 +16,7 @@
 
 IponControl::IponControl(const std::string& confFilePath) {
 	m_iponConf = new IponConfig(confFilePath);
+	InitCommunication();
 }
 
 IponControl::~IponControl() {

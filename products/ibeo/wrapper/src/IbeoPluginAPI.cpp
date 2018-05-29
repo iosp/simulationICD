@@ -15,10 +15,6 @@ void IbeoDeleteObject(IbeoWrapper* pObj) {
     delete pObj;
 }
 
-void IbeoInitCommunication(IbeoWrapper* pObj) {
-	pObj->InitCommunication();
-}
-
 void IbeoSendData(IbeoWrapper* pObj) {
     pObj->SendData();
 }

@@ -27,6 +27,8 @@ private:
 
 	t_message GetMsgByType(IponMsgType msgType) const;
 
+	virtual void InitCommunication() override;
+
 public:
 	IponControl(const std::string& confFilePath);
 	virtual ~IponControl();
@@ -37,8 +39,6 @@ public:
 	virtual void SendData(const IponData& data) override;
 
 	virtual IponData ReceiveData() override;
-
-	virtual void InitCommunication() override;
 };
 
 #endif // IPON_CONTROL

@@ -22,8 +22,6 @@ extern "C" {
 
     void VelodyneDeleteObject(VelodyneWrapper* pObj);
 
-    void VelodyneInitCommunication(VelodyneWrapper* pObj);
-
     void VelodyneSetAzimuth(VelodyneWrapper* pObj, double azimuth);
 
     void VelodyneSetTimeStamp(VelodyneWrapper* pObj, float timeStamp);

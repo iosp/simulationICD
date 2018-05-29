@@ -16,8 +16,6 @@ extern "C" {
 
     void IdanDeleteObject(IdanWrapper* pObj);
 
-    void IdanInitCommunication(IdanWrapper* pObj);
-
     void SendIdanPrimaryData(IdanWrapper* pObj);
 
     void SendIdanSecondaryReportData(IdanWrapper* pObj);

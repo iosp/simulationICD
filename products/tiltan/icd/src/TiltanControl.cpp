@@ -18,6 +18,7 @@
 
 TiltanControl::TiltanControl(const std::string& confFilePath) {
 	m_tiltanConf = new TiltanConfig(confFilePath);
+	InitCommunication();
 }
 
 TiltanControl::~TiltanControl() {

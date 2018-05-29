@@ -21,6 +21,8 @@ private:
     ICommunication* m_comm = nullptr;
     // configuration parser
     IbeoConfig* m_ibeoConf = nullptr;
+	
+	virtual void InitCommunication() override;
 
 public:
 	IbeoControl(const std::string& confFilePath);
@@ -35,8 +37,6 @@ public:
 	 * 
 	 */ 
 	virtual IbeoData ReceiveData() override;
-
-	virtual void InitCommunication() override;
 };
 
 #endif // IBEO_CONTROL

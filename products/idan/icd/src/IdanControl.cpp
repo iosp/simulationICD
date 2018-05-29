@@ -18,6 +18,7 @@
 
 IdanControl::IdanControl(const std::string& confFilePath) {
 	m_idanConf = new IdanConfig(confFilePath);
+	InitCommunication();
 }
 
 IdanControl::~IdanControl() {

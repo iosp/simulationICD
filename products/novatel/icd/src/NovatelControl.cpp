@@ -14,6 +14,7 @@
 
 NovatelControl::NovatelControl(const std::string& confFilePath) {
 	m_novatelConf = new NovatelConfig(confFilePath);
+	InitCommunication();
 }
 
 NovatelControl::~NovatelControl() {

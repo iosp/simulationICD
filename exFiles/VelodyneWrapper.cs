@@ -12,9 +12,6 @@ public class VelodyneWrapper : IDisposable {
 	private static extern void VelodyneDeleteObject(IntPtr pObj);
 
 	[DllImport (DLL_LOCATION)]
-	private static extern void VelodyneInitCommunication(IntPtr pObj);
-
-	[DllImport (DLL_LOCATION)]
 	private static extern void VelodyneSetAzimuth(IntPtr pObj, double azimuth);
 
 	[DllImport (DLL_LOCATION)]
@@ -49,10 +46,6 @@ public class VelodyneWrapper : IDisposable {
             GC.SuppressFinalize(this);
         }
     }
-
-	public void InitCommunication() {
-		VelodyneInitCommunication(this.m_nativeObject);
-	}
 
 	public void SetAzimuth(double azimuth) {
 		VelodyneSetAzimuth(this.m_nativeObject, azimuth);
