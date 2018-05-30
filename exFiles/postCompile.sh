@@ -10,7 +10,7 @@ echo "Copying dynamic libraries to Unity..."
 cp -v ../comp/lib* ~/ConvoyUnity/Assets/Plugins
 
 echo "Copying Wrappers to Unity..."
-#cp -v $DIR/*Wrapper.cs ~/ConvoyUnity/Assets/Scripts/
+cp -v $DIR/*Wrapper.cs ~/ConvoyUnity/Assets/Scripts/LibWrappers/
 
 echo "Copying Configuration files to home directory..."
 #sudo mkdir -p ~/simConfigs
