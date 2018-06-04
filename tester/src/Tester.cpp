@@ -176,7 +176,7 @@ void Tester::TestConf() {
 }
 
 Tester::Tester() {
-    // TestVelodyne();
+    TestVelodyne();
     // TestNovatel();
     // TestTiltan();
     // TestCAN();

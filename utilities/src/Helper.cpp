@@ -8,7 +8,8 @@
 #include "LoggerProxy.h"
 #include <sstream>
 #include <fstream>
-#include <unistd.h>
+#include <thread> // std::this_thread::sleep_for
+#include <boost/filesystem.hpp>
 #include <sys/types.h>
 #include <signal.h>
 #include <stdlib.h>
@@ -17,8 +18,9 @@
 
 /******************************************************** File System **********************************************************/
 
-bool Utilities::MakeDirectory(const std::string& dirName, mode_t mode) {
-    return (mkdir(dirName.c_str(), mode) == 0);
+void Utilities::MakeDirectory(const std::string& dirName) {
+    boost::filesystem::path dir(dirName);
+    boost::filesystem::create_directory(dir);
 }
 
 std::string Utilities::GetHomeDir() {
@@ -70,10 +72,11 @@ void Utilities::SleepForRestTime(boost::posix_time::ptime startTime, int maxTime
 	time_duration diff = endTime - startTime;
 	int sleepTime = maxTimeToSleep - diff.total_microseconds();
 	if (sleepTime > 0) {
-		usleep(sleepTime);
+		std::this_thread::sleep_for(std::chrono::microseconds(sleepTime));
 	}
 }
 
+// TODO cross platform!!!
 std::string Utilities::RunSystemCmd(const std::string& cmd) {
     std::array<char, 128> buffer;
     std::string result;
@@ -95,6 +98,7 @@ void StopHandler(int s){
     exit(1); 
 }
 
+// TODO cross platform!!!
 void Utilities::AddStopHandler() {
     struct sigaction sigIntHandler;
 

@@ -7,7 +7,6 @@
 * Date: 3.12.17
 */
 
-#include <sys/stat.h> // mode_t
 #include <string>
 #include <boost/date_time/posix_time/posix_time.hpp> // boost::posix_time::ptime
 
@@ -18,10 +17,8 @@ namespace Utilities {
     /**
      * Make directory named "dirname" on file system
      * @param dirName - path and name of the directory
-     * @param mode - permissions of the directory
-     * @return true if succeeded and false O.W
      */ 
-    bool MakeDirectory(const std::string& dirName, mode_t mode);
+    void MakeDirectory(const std::string& dirName);
 
     /**
      * Get home directory path on file system
