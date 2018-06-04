@@ -372,7 +372,7 @@ public:
     }
 
     void SetIdanSecRepVelocity(float velocity) {
-        m_IDANSecondaryReport.rpm = velocity;
+        m_IDANSecondaryReport.velocity = velocity;
     }
 
     /************************************************* IDAN Secondary Sensor ********************************************/
