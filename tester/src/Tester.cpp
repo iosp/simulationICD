@@ -36,7 +36,7 @@ void Tester::TestVelodyne() {
             azimuth = (azimuth >= 360) ? 0 : azimuth;
         }
         VelodyneSendData(velodyne);
-        usleep(1333);
+		std::this_thread::sleep_for(std::chrono::microseconds(1333));
     }
 
     VelodyneDeleteObject(velodyne);
@@ -51,7 +51,7 @@ void Tester::TestNovatel() {
         NovatelSetTimeStamp(novatel, td.total_microseconds());
         NovatelSendBestPosData(novatel);
         NovatelSendBestVelData(novatel);
-        usleep(100000);
+		std::this_thread::sleep_for(std::chrono::microseconds(100000));
     }
   
     NovatelDeleteObject(novatel);
@@ -82,7 +82,7 @@ void Tester::TestTiltan() {
         TiltanSendInternalGPSData(tiltan);
         TiltanSendNavigationData(tiltan);
         TiltanSendErrorEstimationData(tiltan);
-        usleep(100000);
+		std::this_thread::sleep_for(std::chrono::microseconds(100000));
     }
 
     TiltanDeleteObject(tiltan);
@@ -124,7 +124,7 @@ void Tester::TestIdan() {
         SetIdanSecSenAirPressRear(idan, 100);
         SendIdanSecondarySensorData(idan);
 
-        usleep(100000);
+		std::this_thread::sleep_for(std::chrono::microseconds(100000));
     }
 
    IdanDeleteObject(idan);
@@ -134,7 +134,7 @@ void Tester::TestIbeo() {
     IbeoWrapper* ibeo = IbeoCreateObject("/home/robil/simConfigs/ibeo.conf");
 
     while (true) {
-        sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 
     IbeoDeleteObject(ibeo);
@@ -144,7 +144,7 @@ void Tester::TestIpon() {
     IponWrapper* ipon = IponCreateObject("/home/robil/simConfigs/ipon.conf");
 
     while (true) {
-        sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 
     IponDeleteObject(ipon);
