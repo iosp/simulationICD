@@ -17,28 +17,28 @@ private:
     IdanMsgType m_currMsgType;
 
     struct HLC_Primary {
-        bool hasShutDownCmd = true;
-        bool hasEmergencyCmd = true;
+        bool hasShutDownCmd = false;
+        bool hasEmergencyCmd = false;
         float steerCmd = 0;
         float gasCmd = 0;
     } m_HLCPrimary;
 
     struct HLC_Secondary {
-        bool hasShutDownCmd = true;
-        bool roadLights = true;
-        bool highBeam = true;
-        bool lightsCutoff = true;
-        bool parkingLight = true;
-        bool keySwitch = true;
-        bool motorStarter = true;
-        bool horn = true;
-        bool leftTurnSignal = true;
-        bool rightTurnSignal = true;
-        bool hazards = true;
+        bool hasShutDownCmd = false;
+        bool roadLights = false;
+        bool highBeam = false;
+        bool lightsCutoff = false;
+        bool parkingLight = false;
+        bool keySwitch = false;
+        bool motorStarter = false;
+        bool horn = false;
+        bool leftTurnSignal = false;
+        bool rightTurnSignal = false;
+        bool hazards = false;
         std::string gear;
-        bool IsParkingBrakeReleased = true;
-        bool hasEmergencyCmd = true;
-        bool HasSacsOnCmd = true;
+        bool IsParkingBrakeReleased = false;
+        bool hasEmergencyCmd = false;
+        bool HasSacsOnCmd = false;
     } m_HLCSecondary;
 
     struct IDAN_Primary {
@@ -47,15 +47,15 @@ private:
     } m_IDANPrimary;
 
 	struct IDAN_SecondaryReport {
-        bool roadLights = true;
-        bool highBeam = true;
-        bool lightsCutoff = true;
-        bool keySwitch = true;
-        bool motorStarter = true;
-        bool horn = true;
-        bool leftTurnSignal = true;
-        bool rightTurnSignal = true;
-        bool hazards = true;
+        bool roadLights = false;
+        bool highBeam = false;
+        bool lightsCutoff = false;
+        bool keySwitch = false;
+        bool motorStarter = false;
+        bool horn = false;
+        bool leftTurnSignal = false;
+        bool rightTurnSignal = false;
+        bool hazards = false;
         std::string requestedGear;
         std::string actualGear;
         std::string parkingBrake;
