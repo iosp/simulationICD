@@ -17,6 +17,7 @@
 #include "CanCommunication.h"
 #include <boost/range/irange.hpp> // boost::irange
 #include <boost/date_time/posix_time/posix_time.hpp> // boost::posix_time::ptime
+#include <thread> // std::this_thread::sleep_for
 
 using namespace boost::posix_time;
 
