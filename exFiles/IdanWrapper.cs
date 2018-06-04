@@ -345,34 +345,34 @@ public class IdanWrapper: IDisposable {
     /************************************************* IDAN Secondary Sensor ********************************************/
     
     public void SetIdanSecSenEngineTemp(float engineTemp) {
-		SetIdanSecRepVelocity(this.m_nativeObject, engineTemp);
+		SetIdanSecSenEngineTemp(this.m_nativeObject, engineTemp);
 	}
 
     public void SetIdanSecSenOilPress(float oilPress) {
-		SetIdanSecRepVelocity(this.m_nativeObject, oilPress);
+		SetIdanSecSenOilPress(this.m_nativeObject, oilPress);
 	}
 
     public void SetIdanSecSenFuelLevel(float fuelLevel) {
-		SetIdanSecRepVelocity(this.m_nativeObject, fuelLevel);
+		SetIdanSecSenFuelLevel(this.m_nativeObject, fuelLevel);
 	}
 
     public void SetIdanSecSenAlternatorVoltage(float alternatorVoltage) {
-		SetIdanSecRepVelocity(this.m_nativeObject, alternatorVoltage);
+		SetIdanSecSenAlternatorVoltage(this.m_nativeObject, alternatorVoltage);
 	}
 
     public void SetIdanSecSenBackupBattVoltage(float backupBattVoltage) {
-		SetIdanSecRepVelocity(this.m_nativeObject, backupBattVoltage);
+		SetIdanSecSenBackupBattVoltage(this.m_nativeObject, backupBattVoltage);
 	}
 
     public void SetIdanSecSenBatterySumUp(int batterySumUp) {
-		SetIdanSecRepVelocity(this.m_nativeObject, batterySumUp);
+		SetIdanSecSenBatterySumUp(this.m_nativeObject, batterySumUp);
 	}
 
     public void SetIdanSecSenAirPressFront(float airPressFront) {
-		SetIdanSecRepVelocity(this.m_nativeObject, airPressFront);
+		SetIdanSecSenAirPressFront(this.m_nativeObject, airPressFront);
 	}
 
     public void SetIdanSecSenAirPressRear(float airPressRear) {
-		SetIdanSecRepVelocity(this.m_nativeObject, airPressRear);
+		SetIdanSecSenAirPressRear(this.m_nativeObject, airPressRear);
 	}
 }
