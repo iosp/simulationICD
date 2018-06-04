@@ -27,20 +27,20 @@ public:
 
     ~IdanWrapper();
 
-    virtual void Run() override;
+    virtual void SendData() override;
 
-    virtual void SetData() override;
+    virtual void ReceiveData() override;
 
-    virtual void GetData() override;
+    void SetMsgType(IdanMsgType msgType);
 
     /********************************* HLC Primary *************************************************/
     bool HasHLCPShutDownCmd() const;
 
     bool HasHLCPEmergencyCmd() const;
 
-    int GetHLCPSteerCmd() const;
+    float GetHLCPSteerCmd() const;
 
-    int GetHLCPGasCmd() const;
+    float GetHLCPGasCmd() const;
 
     /********************************* HLC Secondary *************************************************/
     bool HasHLCSShutDownCmd() const;
@@ -74,9 +74,9 @@ public:
     bool HasHLCSSacsOnCmd() const;
 
     /************************************************* IDAN Primary ********************************************/
-    void SetIdanPrimSteerPos(int steerPose);
+    void SetIdanPrimSteerPos(float steerPose);
 
-    void SetIdanPrimGasPos(int gasPose);
+    void SetIdanPrimGasPos(float gasPose);
 
     /************************************************* IDAN Secondary Report ********************************************/
 	
@@ -87,6 +87,8 @@ public:
     void SetIdanSecRepLightsCutoff(bool lightsCutoff) ;
 
     void SetIdanSecRepKeySwitch(bool keySwitch);
+
+    void SetIdanSecRepMotorStarter(bool motorStarter);
 
     void SetIdanSecRepHorn(bool horn);
 

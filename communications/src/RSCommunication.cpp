@@ -13,12 +13,11 @@ RSCommunication::RSCommunication(const std::string& tty, int baudRate) : m_tty(t
 }
 
 RSCommunication::~RSCommunication() {
-	if (m_port) {
+    if (m_port) {
 		m_port->cancel();
 		m_port->close();
 		m_port.reset();
 	}
-
     m_io_service.stop();
     m_io_service.reset();
 }
@@ -31,6 +30,7 @@ bool RSCommunication::Init() {
  
     if (!m_port->is_open()) {
         ERRLOG << "unable to open port: " << ec.message() << "\n";
+        m_port.reset();
         return false;
     }
 
@@ -49,6 +49,6 @@ int RSCommunication::SendData(const char* buffer, int sizeOfData) {
         return -1;
     } 
 	int n = m_port->write_some(boost::asio::buffer(buffer, sizeOfData));
-    DBGLOG << "Sent: " << n << " bytes\n";
+    DBGLOG << "RS Sent: " << n << " bytes to tty: " << m_tty << "\n";
     return n;
 }

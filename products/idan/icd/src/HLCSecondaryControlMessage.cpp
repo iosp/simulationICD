@@ -7,6 +7,8 @@
 
 #include "HLCSecondaryControlMessage.h"
 #include "IdanData.h"
+#include "LoggerProxy.h"
+#include "Helper.h" // GetValFromMap
 #include <boost/assign.hpp> // boost::assign::map_list_of
 
 const std::map<unsigned char, std::string> GearToStr = 
@@ -14,9 +16,8 @@ const std::map<unsigned char, std::string> GearToStr =
 static const unsigned char PARKING_RELEASED = 0x01;
 static const unsigned char SACS_ON_VAL = 0x0B;
 
-HLCSecondaryControlMessage::HLCSecondaryControlMessage(int hertz) : IdanMessageGet(hertz) {
+HLCSecondaryControlMessage::HLCSecondaryControlMessage(float hertz) : IdanMessageGet(hertz) {
 }
-
 void HLCSecondaryControlMessage::ParseMessage(const char* buffer) {
     buffer = buffer + 8;
     m_message.ShutDown = buffer[0];
@@ -53,12 +54,14 @@ void HLCSecondaryControlMessage::UpdateData(IdanData& data) const {
 	data.SetHLCSRightTurnSignal(m_message.W2.RightTurnSig);
 	data.SetHLCSHazards(m_message.W2.Hazards);
 
-	data.SetHLCSGear(GetValFromMap(GearToStr, m_message.Gear, (std::string)"N")); // def val: Nuetral);
+	data.SetHLCSGear(Utilities::GetValFromMap(GearToStr, m_message.Gear, (std::string)"N")); // def val: Nuetral);
 	data.SetHLCSParkingBrake(m_message.ParkingBrake == PARKING_RELEASED);
 	data.SetHLCSEmergencyCmd(m_message.EmergencyCmd == EMERGENCY_VAL);
 	data.SetHLCSSacsOnCmd(m_message.SacsOnCmd == SACS_ON_VAL);
+
+	DBGLOG << "Data accepted: " << data.toString(HLC_SECONDARY);
 }
 
 t_msgID HLCSecondaryControlMessage::GetMsgID() const {
-    return 0x70;
+    return HLC_SEC_ID;
 }

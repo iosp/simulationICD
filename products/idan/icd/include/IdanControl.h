@@ -8,37 +8,40 @@
 * Date: 20.03.18
 */
 
-#include <string>
-#include <vector>
-#include <boost/thread.hpp> // boost::thread
 #include "IICD.h"
 #include "IdanData.h"
+#include <vector>
+#include <boost/thread.hpp> // boost::thread
 
-class ICommunication; // forward declaration
-class IdanConfig; // forward declaration
+// forward declarations
+class ICommunication;
+class IdanConfig;
 class IdanMessageGet;
 class IdanMessageSend;
 
 class IdanControl : public IICD<IdanData> {
 private:
     std::vector<IdanMessageGet*> m_getMessages;
-    std::vector<IdanMessageSend*> m_sendMessages;
     // connection protocol to use 
     ICommunication* m_comm = nullptr;
     // configuration parser
     IdanConfig* m_idanConf = nullptr;
-    //inner data
+    //inner data for Receive data
     IdanData m_data;
-    // holds thread method of send data
+    // holds thread method of Receive data
     boost::thread m_getDataThread;
     mutable boost::mutex m_idanData_mutex;
-    std::vector<std::shared_ptr<boost::thread> > m_messagesThreads;
 
     void GetThreadMethod();
 
-    void SendThreadMethod(IdanMessageSend* message);
+    // called via constructor
+    void InitGetMessages();
 
     IdanMessageGet* GetMsgByID(const char* buffer);
+    
+    IdanMessageSend* GetMsgByType(IdanMsgType msgType) const;
+
+    virtual void InitCommunication() override;
 
 public:
     IdanControl(const std::string& confFilePath);
@@ -46,21 +49,11 @@ public:
     virtual ~IdanControl();
 
     /**
-     * This function is implemented with error log
      * @param data - IdanData object
      */ 
-    virtual void SetData(const IdanData& data) override;
+    virtual void SendData(const IdanData& data) override;
 
-    /**
-     * 
-     */ 
-    virtual IdanData GetData() override;
-
-    /**
-     * Run send data thread
-     */ 
-    virtual void Run() override;
-
+    virtual IdanData ReceiveData() override;
 };
 
 #endif // IDAN_CONTROL

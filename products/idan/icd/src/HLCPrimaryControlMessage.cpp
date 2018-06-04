@@ -7,10 +7,10 @@
 
 #include "HLCPrimaryControlMessage.h"
 #include "IdanData.h"
+#include "LoggerProxy.h"
 
-HLCPrimaryControlMessage::HLCPrimaryControlMessage(int hertz) : IdanMessageGet(hertz) {
+HLCPrimaryControlMessage::HLCPrimaryControlMessage(float hertz) : IdanMessageGet(hertz) {
 }
-
 void HLCPrimaryControlMessage::ParseMessage(const char* buffer) {
     buffer = buffer + 8;
     m_message.ShutDownCmd = buffer[0];
@@ -27,10 +27,14 @@ void HLCPrimaryControlMessage::UpdateData(IdanData& data) const {
     // combine msb and lsb to one integer
     int steerCombined = (m_message.SteerCmdMsb << 8 ) | (m_message.SteerCmdLsb & 0xff);
     int gasCombined = (m_message.GasCmdMsb << 8 ) | (m_message.GasCmdLsb & 0xff);
-    data.SetHLCPSteerCmd(steerCombined);
-    data.SetHLCPGasCmd(gasCombined);
+    float fixedSteer = float(steerCombined - 2000) / 2000; // make the value to be [-1,1]
+    float fixedGas = float(gasCombined - 2000) / 2000; // make the value to be [-1,1]
+    data.SetHLCPSteerCmd(fixedSteer);
+    data.SetHLCPGasCmd(fixedGas);
+    
+    DBGLOG << "Data accepted: " << data.toString(HLC_PRIMARY);
 }
 
 t_msgID HLCPrimaryControlMessage::GetMsgID() const {
-    return 0x50;
+    return HLC_PRIM_ID;
 }

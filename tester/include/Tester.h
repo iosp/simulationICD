@@ -9,13 +9,15 @@
 
 
 class Tester {
-    void TestVLP();
-    void TestDgps();
-    void TestIns();
+    void TestVelodyne();
+    void TestNovatel();
+    void TestTiltan();
     void TestConf();
     void TestTCP();
     void TestCAN();
     void TestIdan();
+    void TestIbeo();
+    void TestIpon();
 public:
     Tester();
     ~Tester() = default;

@@ -9,10 +9,6 @@
 #include "IdanData.h"
 #include "LoggerProxy.h"
 
-IdanSecondarySensorMessage::IdanSecondarySensorMessage(int hertz) : IdanMessageSend(hertz) {
-
-}
-
 int IdanSecondarySensorMessage::GetMessageSize() const {
     return sizeof(IDAN_SecondarySensorsMsgType);
 }
@@ -20,7 +16,7 @@ int IdanSecondarySensorMessage::GetMessageSize() const {
 void IdanSecondarySensorMessage::FillMessage(const IdanData& data) {
     IDAN_SecondarySensorsMsgType msg;
 
-    msg.EngineTemp = (int)data.GetIdanSecSenEngineTemp(); // TODO add -40??
+    msg.EngineTemp = (int)data.GetIdanSecSenEngineTemp() + 40;
     msg.OilPress = (int)data.GetIdanSecSenOilPress();
     msg.FuelLevel = (int)data.GetIdanSecSenFuelLevel();
     msg.AlternatorVoltage = (int)(data.GetIdanSecSenAlternatorVoltage() * 5);
@@ -33,5 +29,5 @@ void IdanSecondarySensorMessage::FillMessage(const IdanData& data) {
 }
 
 t_msgID IdanSecondarySensorMessage::GetMsgID() const {
-    return 0x81;
+    return IDAN_SEC_SEN_ID;
 }

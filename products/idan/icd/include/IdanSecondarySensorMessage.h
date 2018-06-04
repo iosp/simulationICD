@@ -13,7 +13,7 @@
 
 class IdanSecondarySensorMessage : public IdanMessageSend {
 public:
-	IdanSecondarySensorMessage(int hertz);
+	IdanSecondarySensorMessage() = default;
 
 	virtual ~IdanSecondarySensorMessage() = default;
 	

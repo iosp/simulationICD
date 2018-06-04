@@ -8,7 +8,8 @@
 #include "LoggerProxy.h"
 #include <sstream>
 #include <fstream>
-#include <unistd.h>
+#include <thread> // std::this_thread::sleep_for
+#include <boost/filesystem.hpp>
 #include <sys/types.h>
 #include <signal.h>
 #include <stdlib.h>
@@ -17,8 +18,9 @@
 
 /******************************************************** File System **********************************************************/
 
-bool Utilities::MakeDirectory(const std::string& dirName, mode_t mode) {
-    return (mkdir(dirName.c_str(), mode) == 0);
+void Utilities::MakeDirectory(const std::string& dirName) {
+    boost::filesystem::path dir(dirName);
+    boost::filesystem::create_directory(dir);
 }
 
 std::string Utilities::GetHomeDir() {
@@ -59,7 +61,7 @@ std::string Utilities::GetFormattedTime(const std::string& format) {
     boost::posix_time::time_facet * facet = new boost::posix_time::time_facet(format.c_str());
     std::ostringstream stream;
     stream.imbue(std::locale(stream.getloc(), facet));
-    stream << boost::posix_time::second_clock::local_time();
+    stream << boost::posix_time::microsec_clock::local_time();
     return stream.str();
 }
 
@@ -70,13 +72,15 @@ void Utilities::SleepForRestTime(boost::posix_time::ptime startTime, int maxTime
 	time_duration diff = endTime - startTime;
 	int sleepTime = maxTimeToSleep - diff.total_microseconds();
 	if (sleepTime > 0) {
-		usleep(sleepTime);
+		std::this_thread::sleep_for(std::chrono::microseconds(sleepTime));
 	}
 }
 
+// TODO cross platform!!!
 std::string Utilities::RunSystemCmd(const std::string& cmd) {
     std::array<char, 128> buffer;
     std::string result;
+    LOG << "Going to execute command: " << cmd << "\n";
     std::shared_ptr<FILE> pipe(popen(cmd.c_str(), "r"), pclose);
     if (!pipe) {
         LOG << "popen() failed!\n";
@@ -94,6 +98,7 @@ void StopHandler(int s){
     exit(1); 
 }
 
+// TODO cross platform!!!
 void Utilities::AddStopHandler() {
     struct sigaction sigIntHandler;
 
@@ -102,4 +107,12 @@ void Utilities::AddStopHandler() {
    sigIntHandler.sa_flags = 0;
 
    sigaction(SIGINT, &sigIntHandler, NULL);
+}
+
+Utilities::FunctionLogWrapper::FunctionLogWrapper(const std::string& funcName) : m_funcName(funcName) {
+    DBGLOG << "Enter " << m_funcName << "\n";
+}
+
+Utilities::FunctionLogWrapper::~FunctionLogWrapper(){
+    DBGLOG << "Exit " << m_funcName << "\n";
 }

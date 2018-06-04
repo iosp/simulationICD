@@ -6,32 +6,20 @@
 * Represents the data that is passed between the ICD and the user of the lib
 * Author: Binyamin Appelbaum
 * Date: 10.01.18
-* 
 */
 
 #include <vector>
-#include <boost/date_time/posix_time/posix_time.hpp> // boost::posix_time::time_duration
-
+#include <string>
 
 class VelodyneData {
-public:
-    /**
-     * VLP data to get and save 
-     */  
-    class VLPBlock {
-    public:  typedef std::vector<std::pair<double, short> > t_channel_data;
+public:  typedef std::vector<std::pair<double, short> > t_channel_data;
+public: 
+    class VelodyneBlock {
     private:
         double m_azimuth;
         t_channel_data m_channels;
-        boost::posix_time::time_duration m_simTime;
-
+        float m_simTime;
     public:
-        VLPBlock() = default;
-
-        VLPBlock(double azimuth, const t_channel_data& channels, const boost::posix_time::time_duration& simTime);
-
-        ~VLPBlock() = default;
-
         double GetAzimuth() const {
             return m_azimuth;
         }
@@ -48,31 +36,31 @@ public:
             m_channels = channels;
         }
 
-        const boost::posix_time::time_duration& GetSimTime() const {
+        float GetSimTime() const {
             return m_simTime;
         }
 
-        void SetSimTime(const boost::posix_time::time_duration& simTime) {
+        void SetSimTime(float simTime) {
             m_simTime = simTime;
         }
     };
 
 private:
-    /**
-     * Holds multiple data blocks
-     */ 
-    std::vector<VLPBlock> m_data;
+    std::vector<VelodyneBlock> m_blocks;
 
 public:
     VelodyneData() = default;
 
-    VelodyneData(const std::vector<VLPBlock>& data);
-    
     ~VelodyneData() = default;
 
-    const std::vector<VLPBlock>& GetData() const {
-        return m_data;
+    void AddBlock(const VelodyneBlock& block);
+
+    const std::vector<VelodyneBlock>& GetBlocks() const {
+        return m_blocks;
     }
+
+
+     std::string toString() const;
 };
 
 

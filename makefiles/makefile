@@ -1,9 +1,11 @@
 MAKE = make -f
 
-MAKEFILES = makefile_vel \
-			makefile_dgps \
-			makefile_ins \
-			makefile_idan
+MAKEFILES = makefile_velodyne \
+			makefile_novatel \
+			makefile_tiltan \
+			makefile_idan \
+			makefile_ibeo \
+			makefile_ipon
 
 all: compprods
 

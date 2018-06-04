@@ -8,22 +8,19 @@
 * Date: 20.03.18
 */
 
-#include "IMessage.h"
+#include "Message.h"
 #include <stdint.h> // uins32_t
-#include <map>
 
 typedef uint32_t t_msgID;
+static const t_msgID HLC_PRIM_ID = 0x50;
+static const t_msgID HLC_SEC_ID = 0x70;
+static const t_msgID IDAN_PRIM_ID = 0x60;
+static const t_msgID IDAN_SEC_REP_ID = 0x80;
+static const t_msgID IDAN_SEC_SEN_ID = 0x81;
+
 class IdanData;
 
-class IdanMessage : public IMessage<IdanData>{
-protected:
-	// get appropriate val from m by the key
-	template <class T, class U>
-	U GetValFromMap(const std::map<T, U>& m, const T& key, const U& defVal) const {
-		auto it = m.find(key);
-		auto val = (it != m.end() ? it->second : defVal);
-		return val;
-	}
+class IdanMessage : public Message<IdanData>{
 public:
 	IdanMessage() = default;
 

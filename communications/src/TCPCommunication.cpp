@@ -10,8 +10,8 @@
 #include "LoggerProxy.h"
 #include <boost/asio.hpp> // boost::asio::io_service
 
-TCPCommunication::TCPCommunication(const std::string& ipAddress, const std::string& port) : 
-    m_port(port), m_ipAddress(ipAddress){
+TCPCommunication::TCPCommunication(const std::string& port) : 
+    m_port(port){
 
 }
 
@@ -35,7 +35,7 @@ int TCPCommunication::SendData(const char* buffer, int sizeOfData) {
 
     try {
         // writing the message for current time
-        LOG << "TCP server is going to write buffer with size: " << sizeOfData << "\n";
+        LOG << "TCP server is going to write to port: " << m_port << ". buffer size: " << sizeOfData << "\n";
         boost::asio::write(*m_socket, boost::asio::buffer(buffer, sizeOfData));
     }
     catch (std::exception& e) {
@@ -44,5 +44,4 @@ int TCPCommunication::SendData(const char* buffer, int sizeOfData) {
     }
 
     return sizeOfData;
-
 }

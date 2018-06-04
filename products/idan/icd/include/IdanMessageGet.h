@@ -15,8 +15,10 @@ static const unsigned char SHUTDOWN_VAL = 0x0A;
 static const unsigned char EMERGENCY_VAL = 0x0C;
 
 class IdanMessageGet : public IdanMessage {
+private:
+	int m_sleepTimeBetweenEverySend;
 public:
-	IdanMessageGet(int hertz);
+	IdanMessageGet(float hertz);
 
 	virtual ~IdanMessageGet() = default;
 
@@ -29,6 +31,10 @@ public:
 	virtual void ParseMessage(const char* buffer) = 0;
 
 	virtual void UpdateData(IdanData& data) const = 0;
+
+	int GetSleepTimeBetweenEverySend() const {
+		return m_sleepTimeBetweenEverySend;
+	}
 };
 
 #endif // IDANMESSAGEGET_H

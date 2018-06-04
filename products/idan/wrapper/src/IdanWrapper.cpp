@@ -17,16 +17,16 @@ IdanWrapper::~IdanWrapper(){
     delete m_icd;
 }
 
-void IdanWrapper::IdanWrapper::Run() {
-    m_icd->Run();
+void IdanWrapper::ReceiveData() {
+    m_data = m_icd->ReceiveData();
 }
 
-void IdanWrapper::IdanWrapper::GetData() {
-    m_data = m_icd->GetData();
+void IdanWrapper::SendData() {
+    m_icd->SendData(m_data);
 }
 
-void IdanWrapper::SetData() {
-    m_icd->SetData(m_data);
+void IdanWrapper::SetMsgType(IdanMsgType msgType) {
+    m_data.SetCurrMsgType(msgType);
 }
 
 void IdanWrapper::IdanWrapper::ClearCurrentData() {
@@ -42,11 +42,11 @@ bool IdanWrapper::HasHLCPEmergencyCmd() const {
     return m_data.HasHLCPEmergencyCmd();
 }
 
-int IdanWrapper::GetHLCPSteerCmd() const {
+float IdanWrapper::GetHLCPSteerCmd() const {
     return m_data.GetHLCPSteerCmd();
 }
 
-int IdanWrapper::GetHLCPGasCmd() const {
+float IdanWrapper::GetHLCPGasCmd() const {
     return m_data.GetHLCPGasCmd();
 }
 
@@ -112,11 +112,11 @@ bool IdanWrapper::HasHLCSSacsOnCmd() const {
 }
 
 /************************************************* IDAN Primary ********************************************/
-void IdanWrapper::SetIdanPrimSteerPos(int steerPose) {
+void IdanWrapper::SetIdanPrimSteerPos(float steerPose) {
     m_data.SetIdanPrimSteerPos(steerPose);
 }
 
-void IdanWrapper::SetIdanPrimGasPos(int gasPose) {
+void IdanWrapper::SetIdanPrimGasPos(float gasPose) {
     m_data.SetIdanPrimGasPos(gasPose);
 }
 
@@ -137,6 +137,10 @@ void IdanWrapper::SetIdanSecRepLightsCutoff(bool lightsCutoff) {
 void IdanWrapper::SetIdanSecRepKeySwitch(bool keySwitch) {
     m_data.SetIdanSecRepKeySwitch(keySwitch);
 } 
+
+void IdanWrapper::SetIdanSecRepMotorStarter(bool motorStarter) {
+    m_data.SetIdanSecRepMotorStarter(motorStarter);
+}
 
 void IdanWrapper::SetIdanSecRepHorn(bool horn) {
     m_data.SetIdanSecRepHorn(horn);

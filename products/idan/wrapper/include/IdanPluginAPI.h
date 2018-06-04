@@ -8,28 +8,30 @@
 * Date: 25.03.18
 */
 
-#include "IdanWrapper.h"
+struct IdanWrapper;
 
 // Functions that can be used by the plugin
 extern "C" {
-    IdanWrapper* CreateIdanObject(const char* confFilePath);
+    IdanWrapper* IdanCreateObject(const char* confFilePath);
 
-    void DeleteIdanObject(IdanWrapper* pObj);
+    void IdanDeleteObject(IdanWrapper* pObj);
 
-    void RunIdan(IdanWrapper* pObj);
+    void SendIdanPrimaryData(IdanWrapper* pObj);
 
-    void SendIdanData(IdanWrapper* pObj);
+    void SendIdanSecondaryReportData(IdanWrapper* pObj);
 
-    void GetIdanData(IdanWrapper* pObj);
+    void SendIdanSecondarySensorData(IdanWrapper* pObj);
+
+    void IdanReceiveData(IdanWrapper* pObj);
 
     /********************************* HLC Primary *************************************************/
     bool HasHLCPShutDownCmd(IdanWrapper* pObj);
 
     bool HasHLCPEmergencyCmd(IdanWrapper* pObj);
 
-    int GetHLCPSteerCmd(IdanWrapper* pObj);
+    float GetHLCPSteerCmd(IdanWrapper* pObj);
 
-    int GetHLCPGasCmd(IdanWrapper* pObj);
+    float GetHLCPGasCmd(IdanWrapper* pObj);
 
     /********************************* HLC Secondary *************************************************/
     bool HasHLCSShutDownCmd(IdanWrapper* pObj);
@@ -63,9 +65,9 @@ extern "C" {
     bool HasHLCSSacsOnCmd(IdanWrapper* pObj);
 
    /************************************************* IDAN Primary ********************************************/
-    void SetIdanPrimSteerPos(IdanWrapper* obj, int steerPose);
+    void SetIdanPrimSteerPos(IdanWrapper* obj, float steerPose);
 
-    void SetIdanPrimGasPos(IdanWrapper* obj, int gasPose);
+    void SetIdanPrimGasPos(IdanWrapper* obj, float gasPose);
 
     /************************************************* IDAN Secondary Report ********************************************/
 	
@@ -76,6 +78,8 @@ extern "C" {
     void SetIdanSecRepLightsCutoff(IdanWrapper* obj, bool lightsCutoff) ;
 
     void SetIdanSecRepKeySwitch(IdanWrapper* obj, bool keySwitch);
+
+    void SetIdanSecRepMotorStarter(IdanWrapper* obj, bool motorStarter);
 
     void SetIdanSecRepHorn(IdanWrapper* obj, bool horn);
 

@@ -27,7 +27,7 @@ int UDPCommunication::SendData(const char* buffer, int sizeOfData) {
     // set the ip address of the configuration
     remote_endpoint.address(ip::address::from_string(m_ipAddress));
     boost::system::error_code err;
-    LOG << "UDP server is going to write buffer with size: " << sizeOfData << "\n";
+    LOG << "UDP server is going to write to IP: " << m_ipAddress << ". port: " << m_port << ". buffer size: " << sizeOfData << "\n";
     socket.send_to(boost::asio::buffer(buffer, sizeOfData), remote_endpoint, 0, err);
     if (err.value() != boost::system::errc::success) {
         ERRLOG << "Failed to send packet. " << err.message() << "\n";

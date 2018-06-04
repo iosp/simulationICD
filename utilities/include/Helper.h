@@ -7,7 +7,6 @@
 * Date: 3.12.17
 */
 
-#include <sys/stat.h> // mode_t
 #include <string>
 #include <boost/date_time/posix_time/posix_time.hpp> // boost::posix_time::ptime
 
@@ -18,10 +17,8 @@ namespace Utilities {
     /**
      * Make directory named "dirname" on file system
      * @param dirName - path and name of the directory
-     * @param mode - permissions of the directory
-     * @return true if succeeded and false O.W
      */ 
-    bool MakeDirectory(const std::string& dirName, mode_t mode);
+    void MakeDirectory(const std::string& dirName);
 
     /**
      * Get home directory path on file system
@@ -74,10 +71,40 @@ namespace Utilities {
      */ 
     std::string RunSystemCmd(const std::string& cmd);
 
+    template <typename T>
+    T LittleEndianToBig(T u) {
+        union {
+            T u;
+            unsigned char u8[sizeof(T)];
+        } source, dest;
+        source.u = u;
+        for (size_t k = 0; k < sizeof(T); k++) {
+            dest.u8[k] = source.u8[sizeof(T)-k-1];
+        }
+        return dest.u;
+    }
+
+    // get appropriate val from m by the key
+	template <class T, class U>
+	U GetValFromMap(const std::map<T, U>& m, const T& key, const U& defVal) {
+		auto it = m.find(key);
+		auto val = (it != m.end() ? it->second : defVal);
+		return val;
+	}
+   
     /**
      * Add ctrl+c handler to process
      */ 
     void AddStopHandler();
+
+    // For logging and debugging
+    class FunctionLogWrapper {
+    private:
+        std::string m_funcName;
+    public:
+        FunctionLogWrapper(const std::string& funcName);
+        ~FunctionLogWrapper();
+    };
 }
 
 #endif // UTILITIES_H

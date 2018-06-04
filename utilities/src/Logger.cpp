@@ -25,7 +25,7 @@ void Logger::Init() {
     m_screenLogLevel = m_logConf->GetScreenLogLevel();
     m_fileLogLevel = m_logConf->GetFileLogLevel();
     m_logDirPath = Utilities::GetHomeDir() + "/" + m_logConf->GetLogDirName() + "/";
-    Utilities::MakeDirectory(m_logDirPath, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+    Utilities::MakeDirectory(m_logDirPath);
     m_logFilePath = m_logDirPath + "icd_" + Utilities::GetFormattedTime("%Y_%m_%d_%H_%M_%S") + ".log";
     m_basicLogFilePath = m_logFilePath;
 }
@@ -44,7 +44,7 @@ Logger& Logger::GetInstance() {
 
 void Logger::Write(LogLevel level, const std::string& sourceFile, const std::string& funcName, int lineNumber) {
     std::stringstream ss;
-    ss << Utilities::GetFormattedTime("%d.%m.%y %H:%M:%S") << "::" << sourceFile << "(" << lineNumber << ")::" <<
+    ss << Utilities::GetFormattedTime("%Y-%m-%d %H:%M:%S%F") << "::" << sourceFile << "(" << lineNumber << ")::" <<
             funcName << "::(*" << LogConfig::m_logLevelToStr.left.find(level)->second.front() << "*) ";
     PrintToFile(level, ss.str());
     PrintToScreen(level, ss.str());

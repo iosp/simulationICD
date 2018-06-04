@@ -9,6 +9,7 @@
 * 
 */
 
+#include "ProdConfig.h"
 #include <string>
 #include <boost/bimap/bimap.hpp>
 
@@ -16,10 +17,8 @@ enum LogLevel {_NONE_ = -1, _DEBUG_, _NORMAL_, _ERROR_, _ALWAYS_};
 
 class ConfigurationINI; // forward declaration
 
-class LogConfig {
+class LogConfig : public ProdConfig {
 private:
-    ConfigurationINI* m_logConf;
-
     static const std::string SCREEN_LOG_LEVEL_KEY;
     static const std::string SCREEN_LOG_LEVEL_DEF_VAL;
     static const std::string FILE_LOG_LEVEL_KEY;
@@ -28,16 +27,18 @@ private:
     static const std::string LOG_DIR_NAME_KEY;
     static const std::string LOG_DIR_NAME_DEF_VAL;
 
-
-    void SetConfDefaultValues();
-
     LogLevel GetLevelEnumByKey(const std::string& key) const;
+ 
+protected:
+    virtual void SetConfDefaultValues() override;
+
+    virtual std::string GetProdName() const override;
 
 public:
 
     LogConfig(const std::string& confFilePath);
 
-    virtual ~LogConfig();
+    virtual ~LogConfig(){}
 
     LogLevel GetScreenLogLevel() const;
 

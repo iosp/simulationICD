@@ -18,83 +18,79 @@
 
 IdanControl::IdanControl(const std::string& confFilePath) {
 	m_idanConf = new IdanConfig(confFilePath);
-	m_comm = new CanCommunication(m_idanConf->GetInterfaceName(), m_idanConf->GetBaudRate(), m_idanConf->IsVirtualInterface());
+	InitCommunication();
 }
 
 IdanControl::~IdanControl() {
 	m_getDataThread.interrupt();
+	m_getDataThread.join();
 	delete m_comm;
 	delete m_idanConf;
 	for (auto message : m_getMessages) {
 		delete message;
 	}
-	for (auto message : m_sendMessages) {
-		delete message;
-	}
 }
 
-void IdanControl::Run() {
+void IdanControl::InitCommunication() {
+	m_comm = new CanCommunication(m_idanConf->GetInterfaceName(), m_idanConf->GetBaudRate(), m_idanConf->IsVirtualInterface());
 	if (!m_comm->Init()) {
-		ERRLOG << "Failed to initialize communication, not running get thread.\n";
+		ERRLOG << "Failed to initialize CAN communication, not running get thread.\n";
 		return;
 	}
+	InitGetMessages();
+	m_isCommInitialized = true;
+}
+
+void IdanControl::InitGetMessages() {
 	// get messages thread
 	m_getMessages.push_back(new HLCPrimaryControlMessage(m_idanConf->GetHLCHertz()));
 	m_getMessages.push_back(new HLCSecondaryControlMessage(m_idanConf->GetHLCHertz()));
 	m_getDataThread = boost::thread(&IdanControl::GetThreadMethod, this);
+}
 
-	// send messages thread
-	m_sendMessages.push_back(new IdanPrimaryMessage(m_idanConf->GetIdanPrimHertz()));
-	m_sendMessages.push_back(new IdanSecondaryReportMessage(m_idanConf->GetIdanSecRepHertz()));
-	m_sendMessages.push_back(new IdanSecondarySensorMessage(m_idanConf->GetIdanSecSenHertz()));
-	for (auto message : m_sendMessages) {
-		m_messagesThreads.push_back(std::make_shared<boost::thread>(&IdanControl::SendThreadMethod, this, message));
+void IdanControl::SendData(const IdanData& data) {
+	if (!m_isCommInitialized) {
+		ERRLOG << "Idan couldn't initalize communication. Cannot send data.\n";
+		return;
 	}
+	auto msgType = data.GetCurrMsgType();
+	auto msg = GetMsgByType(msgType);
+	DBGLOG << "Going to send data: " << data.toString(msgType) << "\n";
+	if (msg) {
+		msg->FillMessage(data);
+		msg->SendMessage(m_comm);
+	}
+	delete msg;
 }
 
-void IdanControl::SetData(const IdanData& data) {
-	m_idanData_mutex.lock();
-	m_data = data;
-	m_idanData_mutex.unlock();
-}
-
-IdanData IdanControl::GetData() {
+IdanData IdanControl::ReceiveData() {
 	return m_data;
 }
 
 void IdanControl::GetThreadMethod() {
 	boost::posix_time::ptime startTime = boost::posix_time::microsec_clock::local_time();
 	
-	while (true) {
-		char buffer[1000]{};
-		m_comm->GetData(buffer);
-		auto message = GetMsgByID(buffer);
-		if (message) {
-			message->ParseMessage(buffer);
-			m_idanData_mutex.lock();
-			message->UpdateData(m_data);
-			m_idanData_mutex.unlock();
-			// make sure the getData will be in the suitable rate
-			Utilities::SleepForRestTime(startTime, message->GetSleepTimeBetweenEverySend());
+	try {
+		while (true) {
+			char buffer[1000]{};
+			m_comm->GetData(buffer);
+			auto message = GetMsgByID(buffer);
+			if (message) {
+				message->ParseMessage(buffer);
+				m_idanData_mutex.lock();
+				message->UpdateData(m_data);
+				m_idanData_mutex.unlock();
+				// make sure the getData will be in the suitable rate
+				Utilities::SleepForRestTime(startTime, message->GetSleepTimeBetweenEverySend());
+			}
+			startTime = boost::posix_time::microsec_clock::local_time();
+			boost::this_thread::interruption_point();
 		}
-		startTime = boost::posix_time::microsec_clock::local_time();
 	}
-}
-
-void IdanControl::SendThreadMethod(IdanMessageSend* message) {
-	boost::posix_time::ptime startTime = boost::posix_time::microsec_clock::local_time();
-	while (true) {
-		m_idanData_mutex.lock();
-		DBGLOG << "Going to send data: " << m_data.toString() << "\n";
-		// fill message data
-		message->FillMessage(m_data);
-		m_idanData_mutex.unlock();
-		// send the message (with the communication ptr)
-		message->SendMessage(m_comm); // TODO mutex on m_comm ?!
-		// make sure the message will be sent in the suitable rate
-		Utilities::SleepForRestTime(startTime, message->GetSleepTimeBetweenEverySend());
-		startTime = boost::posix_time::microsec_clock::local_time();
-	}
+	catch (boost::thread_interrupted&) {
+        LOG << "thread Idan Get interruped!\n";
+        return;
+    } 
 }
 
 IdanMessageGet* IdanControl::GetMsgByID(const char* buffer) {
@@ -107,4 +103,23 @@ IdanMessageGet* IdanControl::GetMsgByID(const char* buffer) {
 		}
 	}
 	return nullptr;
+}
+
+IdanMessageSend* IdanControl::GetMsgByType(IdanMsgType msgType) const {
+	IdanMessageSend* msg = nullptr;
+	switch (msgType) {
+        case IDAN_PRIMARY:
+			msg = new IdanPrimaryMessage();
+		  	break;
+        case IDAN_SECONDARY_REPORT:
+            msg = new IdanSecondaryReportMessage();
+            break;
+		case IDAN_SECONDARY_SENSOR:
+			msg = new IdanSecondarySensorMessage();
+			break;
+        default:
+			ERRLOG << "Something Wrong\n";
+            break;
+    }
+	return msg;
 }

@@ -6,21 +6,25 @@ COMP_DIR = ../comp
 
 TARGET = $(COMP_DIR)/simicd
 
-EX_LIBS = -lboost_system -lboost_thread
+EX_LIBS = -lboost_system -lboost_filesystem -lboost_thread
 
 MAIN_INCLUDES = -I../tester/include \
 				-I../utilities/include
 
 STAT_DIR = ../comp/statlibs
 
-STAT_LIBS_BASE_NAMES = velicd \
-						vlpwrapper \
-						dgpsicd \
-						dgpswrapper \
-						insicd \
-						inswrapper \
+STAT_LIBS_BASE_NAMES = velodyneicd \
+						velodynewrapper \
+						novatelicd \
+						novatelwrapper \
+						tiltanicd \
+						tiltanwrapper \
 						idanicd \
 						idanwrapper \
+						ibeoicd \
+						ibeowrapper \
+						iponicd \
+						iponwrapper \
 						utils \
 						communications \
 						tester

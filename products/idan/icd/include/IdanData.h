@@ -10,47 +10,52 @@
 
 #include <string>
 
+enum IdanMsgType {HLC_PRIMARY, HLC_SECONDARY, IDAN_PRIMARY, IDAN_SECONDARY_REPORT, IDAN_SECONDARY_SENSOR };
+
 class IdanData {
 private:
+    IdanMsgType m_currMsgType;
+
     struct HLC_Primary {
-        bool hasShutDownCmd = true;
-        bool hasEmergencyCmd = true;
-        int steerCmd = 0;
-        int gasCmd = 0;
+        bool hasShutDownCmd = false;
+        bool hasEmergencyCmd = false;
+        float steerCmd = 0;
+        float gasCmd = 0;
     } m_HLCPrimary;
 
     struct HLC_Secondary {
-        bool hasShutDownCmd = true;
-        bool roadLights = true;
-        bool highBeam = true;
-        bool lightsCutoff = true;
-        bool parkingLight = true;
-        bool keySwitch = true;
-        bool motorStarter = true;
-        bool horn = true;
-        bool leftTurnSignal = true;
-        bool rightTurnSignal = true;
-        bool hazards = true;
+        bool hasShutDownCmd = false;
+        bool roadLights = false;
+        bool highBeam = false;
+        bool lightsCutoff = false;
+        bool parkingLight = false;
+        bool keySwitch = false;
+        bool motorStarter = false;
+        bool horn = false;
+        bool leftTurnSignal = false;
+        bool rightTurnSignal = false;
+        bool hazards = false;
         std::string gear;
-        bool IsParkingBrakeReleased = true;
-        bool hasEmergencyCmd = true;
-        bool HasSacsOnCmd = true;
+        bool IsParkingBrakeReleased = false;
+        bool hasEmergencyCmd = false;
+        bool HasSacsOnCmd = false;
     } m_HLCSecondary;
 
     struct IDAN_Primary {
-        int steerPose = 0;
-        int gasPose = 0;
+        float steerPose = 0;
+        float gasPose = 0;
     } m_IDANPrimary;
 
 	struct IDAN_SecondaryReport {
-        bool roadLights = true;
-        bool highBeam = true;
-        bool lightsCutoff = true;
-        bool keySwitch = true;
-        bool horn = true;
-        bool leftTurnSignal = true;
-        bool rightTurnSignal = true;
-        bool hazards = true;
+        bool roadLights = false;
+        bool highBeam = false;
+        bool lightsCutoff = false;
+        bool keySwitch = false;
+        bool motorStarter = false;
+        bool horn = false;
+        bool leftTurnSignal = false;
+        bool rightTurnSignal = false;
+        bool hazards = false;
         std::string requestedGear;
         std::string actualGear;
         std::string parkingBrake;
@@ -75,6 +80,14 @@ public:
     
     ~IdanData() = default;
 
+    IdanMsgType GetCurrMsgType() const {
+        return m_currMsgType;
+    }
+
+    void SetCurrMsgType(IdanMsgType msgType) {
+        m_currMsgType = msgType;
+    }
+
     /************************************************* HLC Primary ********************************************/
 
     bool HasHLCPShutDownCmd() const {
@@ -93,19 +106,19 @@ public:
         m_HLCPrimary.hasEmergencyCmd = hasEmergencyCmd;
     }
 
-    int GetHLCPSteerCmd() const {
+    float GetHLCPSteerCmd() const {
         return m_HLCPrimary.steerCmd;
     }
 
-    void SetHLCPSteerCmd(int steerCmd) {
+    void SetHLCPSteerCmd(float steerCmd) {
         m_HLCPrimary.steerCmd = steerCmd;
     }
 
-    int GetHLCPGasCmd() const {
+    float GetHLCPGasCmd() const {
         return m_HLCPrimary.gasCmd;
     }
 
-    void SetHLCPGasCmd(int gasCmd) {
+    void SetHLCPGasCmd(float gasCmd) {
         m_HLCPrimary.gasCmd = gasCmd;
     }
 
@@ -232,19 +245,19 @@ public:
     }
 
     /************************************************* IDAN Primary ********************************************/
-    int GetIdanPrimSteerPos() const {
+    float GetIdanPrimSteerPos() const {
         return m_IDANPrimary.steerPose;
     }
 
-    void SetIdanPrimSteerPos(int steerPose) {
+    void SetIdanPrimSteerPos(float steerPose) {
         m_IDANPrimary.steerPose = steerPose;
     }
 
-    int GetIdanPrimGasPos() const {
+    float GetIdanPrimGasPos() const {
         return m_IDANPrimary.gasPose;
     }
 
-    void SetIdanPrimGasPos(int gasPose) {
+    void SetIdanPrimGasPos(float gasPose) {
         m_IDANPrimary.gasPose = gasPose;
     }
 
@@ -280,6 +293,14 @@ public:
 
     void SetIdanSecRepKeySwitch(bool keySwitch) {
         m_IDANSecondaryReport.keySwitch = keySwitch;
+    }
+
+    bool IsIdanSecRepMotorStarterApplied() const {
+        return m_IDANSecondaryReport.motorStarter;
+    }
+
+    void SetIdanSecRepMotorStarter(bool motorStarter) {
+        m_IDANSecondaryReport.motorStarter = motorStarter;
     }
 
     bool IsIdanSecRepHornApplied() const {
@@ -351,7 +372,7 @@ public:
     }
 
     void SetIdanSecRepVelocity(float velocity) {
-        m_IDANSecondaryReport.rpm = velocity;
+        m_IDANSecondaryReport.velocity = velocity;
     }
 
     /************************************************* IDAN Secondary Sensor ********************************************/
@@ -420,8 +441,7 @@ public:
         m_IDANSecondarySensor.airPressRear = airPressRear;
     }
 
-
-    std::string toString() const;
+    std::string toString(IdanMsgType msgType) const;
 };
 
 

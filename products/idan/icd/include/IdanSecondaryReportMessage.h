@@ -13,7 +13,7 @@
 
 class IdanSecondaryReportMessage : public IdanMessageSend {
 public:
-	IdanSecondaryReportMessage(int hertz);
+	IdanSecondaryReportMessage() = default;
 
 	virtual ~IdanSecondaryReportMessage() = default;
 	

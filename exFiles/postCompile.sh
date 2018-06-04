@@ -7,11 +7,11 @@ echo Robil12 | sudo -S cp -v ../comp/lib* /usr/lib
 sudo ldconfig
 
 echo "Copying dynamic libraries to Unity..."
-cp -v ../comp/lib* /usr/lib ~/ConvoyUnity/Assets/Plugins
+cp -v ../comp/lib* ~/ConvoyUnity/Assets/Plugins
 
 echo "Copying Wrappers to Unity..."
-cp -v $DIR/*Wrapper.cs ~/ConvoyUnity/Assets/Scripts/
+cp -v $DIR/*Wrapper.cs ~/ConvoyUnity/Assets/Scripts/LibWrappers/
 
 echo "Copying Configuration files to home directory..."
-sudo mkdir -p ~/simConfigs
-sudo cp -v $DIR/*.conf ~/simConfigs
+#sudo mkdir -p ~/simConfigs
+#sudo cp -v $DIR/*.conf ~/simConfigs
