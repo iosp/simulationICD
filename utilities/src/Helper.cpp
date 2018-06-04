@@ -9,12 +9,11 @@
 #include <sstream>
 #include <fstream>
 #include <thread> // std::this_thread::sleep_for
+#include <csignal>
 #include <boost/filesystem.hpp>
 #include <sys/types.h>
-#include <signal.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <pwd.h>
 
 /******************************************************** File System **********************************************************/
 
@@ -24,10 +23,13 @@ void Utilities::MakeDirectory(const std::string& dirName) {
 }
 
 std::string Utilities::GetHomeDir() {
-    const char *homedir = nullptr;
-    if ((homedir = getenv("HOME")) == nullptr) {
-        homedir = getpwuid(getuid())->pw_dir;
-    }
+	static const int BUFFER_LEN = 1024;
+	char homedir[BUFFER_LEN]{};
+#ifdef __linux__
+	snprintf(homedir, BUFFER_LEN, "%s", getenv("HOME"));
+#elif __WIN32__
+	snprintf(homedir, BUFFER_LEN, "%s%s", getenv("HOMEDRIVE"), getenv("HOMEPATH"));
+#endif
     return (std::string)homedir;
 }
 
@@ -100,13 +102,7 @@ void StopHandler(int s){
 
 // TODO cross platform!!!
 void Utilities::AddStopHandler() {
-    struct sigaction sigIntHandler;
-
-   sigIntHandler.sa_handler = StopHandler;
-   sigemptyset(&sigIntHandler.sa_mask);
-   sigIntHandler.sa_flags = 0;
-
-   sigaction(SIGINT, &sigIntHandler, NULL);
+	std::signal(SIGINT, StopHandler);
 }
 
 Utilities::FunctionLogWrapper::FunctionLogWrapper(const std::string& funcName) : m_funcName(funcName) {
