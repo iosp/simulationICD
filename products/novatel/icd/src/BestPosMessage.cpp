@@ -9,6 +9,7 @@
 #include "NovatelData.h"
 #include "LoggerProxy.h"
 #include <cstring> // memset, memcpy
+#include <algorithm> // std::fill
 
 void BestPosMessage::FillMessage(const NovatelData& data) {
 	PHS_BESTPOS msg;
@@ -50,7 +51,7 @@ void BestPosMessage::FillMessage(const NovatelData& data) {
 	//CRC will calculate after copy data to the buffer
 	msg.CRC = 0;
 
-	bzero(m_buffer, BUFFER_SIZE);
+	std::fill(m_buffer, m_buffer + BUFFER_SIZE, 0);
 
 	//HEADER
 	FillHeaderInBuffer(msg.HEADER);
@@ -138,8 +139,7 @@ E_MESSAGE_ID_INPUT_NOVATEL_DLV3 BestPosMessage::GetMessageID() const {
 }
 
 char BestPosMessage::ExtractSolState(const PHS_BESTPOS& msg) const{
-	char solState;
-	bzero(&solState, 1);
+	char solState = 0;
 	solState |= msg.ext_sol_state.Bit_AdVance_RTK_Verified << 0;
 	solState |= msg.ext_sol_state.BITS_Pseudorange_lono_Correction << 1;
 	solState |= msg.ext_sol_state.BIT_Antena_Status << 5;
@@ -147,8 +147,7 @@ char BestPosMessage::ExtractSolState(const PHS_BESTPOS& msg) const{
 }
 
 char BestPosMessage::ExtractSigMask(const PHS_BESTPOS& msg) const{
-	char sigMask;
-	bzero(&sigMask, 1);
+	char sigMask = 0;
 	sigMask |= msg.sig_mask.Bit_GPS_L1_used_in_Solution << 0;
 	sigMask |= msg.sig_mask.Bit_GPS_L2_used_in_Solution << 1;
 	sigMask |= msg.sig_mask.Bit_GPS_L5_used_in_Solution << 2;

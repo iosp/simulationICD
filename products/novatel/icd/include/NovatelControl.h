@@ -23,8 +23,6 @@ private:
     // configuration parser
     NovatelConfig* m_novatelConf = nullptr;
 
-    void SendMessage(Message<NovatelData>* message) const;
-
     Message<NovatelData>* GetMsgByType(NovatelMsgType msgType) const;
     
     virtual void InitCommunication() override;

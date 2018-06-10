@@ -7,6 +7,7 @@
 
 #include "NovatelMessage.h"
 #include "LoggerProxy.h"
+#include <algorithm> / std::fill
 
 void NovatelMessage::FillHeader(/* out */ NOVATEL_HEADER& header) const {
 	header.Sync = 170;
@@ -73,7 +74,7 @@ void NovatelMessage::FillHeaderInBuffer(const NOVATEL_HEADER& header) {
 	memcpy(m_buffer+20, &header.Receiver_Status, 4);
 
 	//Reserved
-	bzero(m_buffer+24, 2);
+	std::fill(m_buffer + 24, m_buffer + 26, 0);
 
 	//Receiver_SW_Version
 	memcpy(m_buffer+26, &header.Receiver_SW_Version, 2);

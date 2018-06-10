@@ -63,17 +63,6 @@ Message<NovatelData>* NovatelControl::GetMsgByType(NovatelMsgType msgType) const
 	return msg;
 }
 
-void NovatelControl::SendMessage(Message<NovatelData>* message) const {
-	bool allSent = false;
-	while (!allSent) {
-		int bytesSent =	message->SendMessage(m_comm);
-		allSent = (bytesSent >= message->GetMessageSize());
-		if (!allSent) {
-			ERRLOG << "Couldn't send all buffer data. Retrying...\n";
-		}
-	}
-}
-
 NovatelData NovatelControl::ReceiveData() {
 	ERRLOG << "This function is not implemented!\n";
     return NovatelData();

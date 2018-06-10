@@ -16,7 +16,7 @@ static const int BUFFER_SIZE = 2048;
 template <class TData>
 class Message {
 protected:
-	char m_buffer[BUFFER_SIZE]{0};
+	char m_buffer[BUFFER_SIZE];
 
 public:
 	Message() {}
