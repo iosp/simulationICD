@@ -9,9 +9,9 @@
 #include <sstream>
 #include <fstream>
 #include <thread> // std::this_thread::sleep_for
-#include <csignal>
-#include <boost/filesystem.hpp>
-#include <stdio.h>
+#include <csignal> // std::signal
+#include <boost/filesystem.hpp> // boost::filesystem::create_directory
+#include <cstdlib> // std::getenv
 
 /******************************************************** File System **********************************************************/
 
@@ -24,9 +24,9 @@ std::string Utilities::GetHomeDir() {
 	static const int BUFFER_LEN = 1024;
 	char homedir[BUFFER_LEN]{};
 #ifdef __linux__
-	snprintf(homedir, BUFFER_LEN, "%s", getenv("HOME"));
+	snprintf(homedir, BUFFER_LEN, "%s", std::getenv("HOME"));
 #elif __WIN32__
-	snprintf(homedir, BUFFER_LEN, "%s%s", getenv("HOMEDRIVE"), getenv("HOMEPATH"));
+	snprintf(homedir, BUFFER_LEN, "%s%s", std::getenv("HOMEDRIVE"), std::getenv("HOMEPATH"));
 #endif
     return (std::string)homedir;
 }
@@ -80,8 +80,13 @@ void Utilities::SleepForRestTime(boost::posix_time::ptime startTime, int maxTime
 std::string Utilities::RunSystemCmd(const std::string& cmd) {
     std::array<char, 128> buffer;
     std::string result;
+	std::shared_ptr<FILE> pipe;
     LOG << "Going to execute command: " << cmd << "\n";
-    std::shared_ptr<FILE> pipe(popen(cmd.c_str(), "r"), pclose);
+#ifdef __linux__
+	pipe = std::shared_ptr<FILE>(popen(cmd.c_str(), "r"), pclose);
+#elif __WIN32__
+	pipe = std::shared_ptr<FILE>(_popen(cmd.c_str(), "r"), _pclose);
+#endif
     if (!pipe) {
         LOG << "popen() failed!\n";
     }
