@@ -7,7 +7,7 @@
 
 #include "NovatelMessage.h"
 #include "LoggerProxy.h"
-#include <algorithm> / std::fill
+#include <algorithm> // std::fill
 
 void NovatelMessage::FillHeader(/* out */ NOVATEL_HEADER& header) const {
 	header.Sync = 170;
