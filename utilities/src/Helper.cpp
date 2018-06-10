@@ -76,7 +76,6 @@ void Utilities::SleepForRestTime(boost::posix_time::ptime startTime, int maxTime
 	}
 }
 
-// TODO cross platform!!!
 std::string Utilities::RunSystemCmd(const std::string& cmd) {
     std::array<char, 128> buffer;
     std::string result;
