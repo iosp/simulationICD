@@ -11,8 +11,6 @@
 #include <thread> // std::this_thread::sleep_for
 #include <csignal>
 #include <boost/filesystem.hpp>
-#include <sys/types.h>
-#include <stdlib.h>
 #include <stdio.h>
 
 /******************************************************** File System **********************************************************/
