@@ -25,8 +25,8 @@ std::string Utilities::GetHomeDir() {
 	char homedir[BUFFER_LEN]{};
 #ifdef __linux__
 	snprintf(homedir, BUFFER_LEN, "%s", std::getenv("HOME"));
-#elif __WIN32__
-	snprintf(homedir, BUFFER_LEN, "%s%s", std::getenv("HOMEDRIVE"), std::getenv("HOMEPATH"));
+#elif _WIN32
+	_snprintf(homedir, BUFFER_LEN, "%s%s", std::getenv("HOMEDRIVE"), std::getenv("HOMEPATH"));
 #endif
     return (std::string)homedir;
 }
@@ -83,7 +83,7 @@ std::string Utilities::RunSystemCmd(const std::string& cmd) {
     LOG << "Going to execute command: " << cmd << "\n";
 #ifdef __linux__
 	pipe = std::shared_ptr<FILE>(popen(cmd.c_str(), "r"), pclose);
-#elif __WIN32__
+#elif _WIN32
 	pipe = std::shared_ptr<FILE>(_popen(cmd.c_str(), "r"), _pclose);
 #endif
     if (!pipe) {
