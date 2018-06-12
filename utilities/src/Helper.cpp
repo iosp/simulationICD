@@ -10,14 +10,15 @@
 #include <fstream>
 #include <thread> // std::this_thread::sleep_for
 #include <csignal> // std::signal
-#include <boost/filesystem.hpp> // boost::filesystem::create_directory
 #include <cstdlib> // std::getenv
 
 /******************************************************** File System **********************************************************/
 
-void Utilities::MakeDirectory(const std::string& dirName) {
-    boost::filesystem::path dir(dirName);
-    boost::filesystem::create_directory(dir);
+void Utilities::MakeDirectory(const std::string& dirName, boost::filesystem::perms prms) {
+    using namespace boost::filesystem;
+    path dir(dirName);
+    create_directory(dir);
+    permissions(dir, prms);
 }
 
 std::string Utilities::GetHomeDir() {
