@@ -6,7 +6,7 @@ COMP_DIR = ../comp
 
 TARGET = $(COMP_DIR)/libipon.so
 
-EX_LIBS = -lboost_system -lboost_filesystem -lboost_thread
+EX_LIBS = -lboost_system -lboost_filesystem -lpthread
 
 STAT_DIR = $(COMP_DIR)/statlibs
 
