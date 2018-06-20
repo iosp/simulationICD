@@ -29,7 +29,7 @@ void IdanWrapper::SetMsgType(IdanMsgType msgType) {
     m_data.SetCurrMsgType(msgType);
 }
 
-void IdanWrapper::IdanWrapper::ClearCurrentData() {
+void IdanWrapper::ClearCurrentData() {
     m_data = IdanData();
 }
 

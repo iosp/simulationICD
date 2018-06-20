@@ -22,7 +22,7 @@ IdanControl::IdanControl(const std::string& confFilePath) {
 }
 
 IdanControl::~IdanControl() {
-	m_getDataThread.interrupt();
+	m_isThreadOn = false;
 	m_getDataThread.join();
 	delete m_comm;
 	delete m_idanConf;
@@ -45,7 +45,7 @@ void IdanControl::InitGetMessages() {
 	// get messages thread
 	m_getMessages.push_back(new HLCPrimaryControlMessage(m_idanConf->GetHLCHertz()));
 	m_getMessages.push_back(new HLCSecondaryControlMessage(m_idanConf->GetHLCHertz()));
-	m_getDataThread = boost::thread(&IdanControl::GetThreadMethod, this);
+	m_getDataThread = std::thread(&IdanControl::GetThreadMethod, this);
 }
 
 void IdanControl::SendData(const IdanData& data) {
@@ -70,27 +70,20 @@ IdanData IdanControl::ReceiveData() {
 void IdanControl::GetThreadMethod() {
 	boost::posix_time::ptime startTime = boost::posix_time::microsec_clock::local_time();
 	
-	try {
-		while (true) {
-			char buffer[1000]{};
-			m_comm->GetData(buffer);
-			auto message = GetMsgByID(buffer);
-			if (message) {
-				message->ParseMessage(buffer);
-				m_idanData_mutex.lock();
-				message->UpdateData(m_data);
-				m_idanData_mutex.unlock();
-				// make sure the getData will be in the suitable rate
-				Utilities::SleepForRestTime(startTime, message->GetSleepTimeBetweenEverySend());
-			}
-			startTime = boost::posix_time::microsec_clock::local_time();
-			boost::this_thread::interruption_point();
+	while (m_isThreadOn) {
+		char buffer[1000];
+		m_comm->GetData(buffer);
+		auto message = GetMsgByID(buffer);
+		if (message) {
+			message->ParseMessage(buffer);
+			m_idanData_mutex.lock();
+			message->UpdateData(m_data);
+			m_idanData_mutex.unlock();
+			// make sure the getData will be in the suitable rate
+			Utilities::SleepForRestTime(startTime, message->GetSleepTimeBetweenEverySend());
 		}
+		startTime = boost::posix_time::microsec_clock::local_time();
 	}
-	catch (boost::thread_interrupted&) {
-        LOG << "thread Idan Get interruped!\n";
-        return;
-    } 
 }
 
 IdanMessageGet* IdanControl::GetMsgByID(const char* buffer) {
