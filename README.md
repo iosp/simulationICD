@@ -12,14 +12,19 @@ There are several directories on this project:
 8. makefiles - all the main makefiles of the project (makefile for each product, main makefile, tester makefile)
 
 Usage with Convoy project in Unity:
+
+*********Option 1 - automatiocally:**********
+Run /simulationICD/exFiles/postCompile.sh (make sure that you don't override files that you don't want to override)
+
+*********Option 2 - manually ****************
 1. cd ~/simulationICD/makefiles
 2. run "make"(*)
 3. cp ../comp/lib[SENSOR].so ~/ConvoyUnity/Assets/Plugins/
 4. sudo cp ../comp/lib[SENSOR].so /usr/lib
 5. sudo ldconfig
-6. cp /simulationICD/[SENSOR]Wrapper.cs ~/ConvoyUnity/Assets/Scripts/[SENSOR]
+6. cp /simulationICD/exFiles/*.cs ~/ConvoyUnity/Assets/Scripts/LibWrappers/
 7. mkdir ~/simConfigs/;
-8. cp /simulationICD/exFiles*.conf ~/simConfigs/
+8. cp /simulationICD/exFiles/*.conf ~/simConfigs/
 
 (*) - if you want to use tester (with Tester.cpp) - run "make -f makefile_tester" and use ../comp/simicd binary file.
 
