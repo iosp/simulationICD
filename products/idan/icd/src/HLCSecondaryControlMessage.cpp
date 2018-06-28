@@ -19,7 +19,7 @@ static const unsigned char SACS_ON_VAL = 0x0B;
 HLCSecondaryControlMessage::HLCSecondaryControlMessage(float hertz) : IdanMessageGet(hertz) {
 }
 void HLCSecondaryControlMessage::ParseMessage(const char* buffer) {
-    buffer = buffer + 8;
+    buffer = buffer + DATA_OFFSET;
     m_message.ShutDown = buffer[0];
 
     m_message.W1.RoadLight = buffer[1] & 1;

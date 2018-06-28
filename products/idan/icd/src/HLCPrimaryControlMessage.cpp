@@ -12,7 +12,7 @@
 HLCPrimaryControlMessage::HLCPrimaryControlMessage(float hertz) : IdanMessageGet(hertz) {
 }
 void HLCPrimaryControlMessage::ParseMessage(const char* buffer) {
-    buffer = buffer + 8;
+    buffer = buffer + DATA_OFFSET;
     m_message.ShutDownCmd = buffer[0];
     m_message.EmergencyCmd = buffer[1];
     m_message.SteerCmdMsb = buffer[2];

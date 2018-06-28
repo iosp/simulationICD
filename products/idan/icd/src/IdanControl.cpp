@@ -8,7 +8,7 @@
 #include "IdanControl.h"
 #include "LoggerProxy.h"
 #include "Helper.h"
-#include "CanCommunication.h"
+#include "TCPClientCommunication.h"
 #include "IdanConfig.h"
 #include "HLCPrimaryControlMessage.h"
 #include "HLCSecondaryControlMessage.h"
@@ -32,9 +32,9 @@ IdanControl::~IdanControl() {
 }
 
 void IdanControl::InitCommunication() {
-	m_comm = new CanCommunication(m_idanConf->GetInterfaceName(), m_idanConf->GetBaudRate(), m_idanConf->IsVirtualInterface());
+	m_comm = new TCPClientCommunication("50000");
 	if (!m_comm->Init()) {
-		ERRLOG << "Failed to initialize CAN communication, not running get thread.\n";
+		ERRLOG << "Failed to initialize TCP communication, not running get thread.\n";
 		return;
 	}
 	InitGetMessages();
@@ -87,8 +87,7 @@ void IdanControl::GetThreadMethod() {
 }
 
 IdanMessageGet* IdanControl::GetMsgByID(const char* buffer) {
-	t_msgID id;
-	memcpy(&id, buffer, sizeof(id));
+	t_msgID id = buffer[4] + (buffer[3] << 8);
 	for (auto const& message : m_getMessages) {
 		if (message->GetMsgID() == id) {
 			DBGLOG << "Msg with id: " << id << " found\n";

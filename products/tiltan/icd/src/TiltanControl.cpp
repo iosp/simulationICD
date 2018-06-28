@@ -8,7 +8,7 @@
 #include "TiltanControl.h"
 #include "TiltanConfig.h"
 #include "UDPCommunication.h"
-#include "TCPCommunication.h"
+#include "TCPServerCommunication.h"
 #include "StatusMessage.h"
 #include "NavigationDataMessage.h"
 #include "InternalGPSMessage.h"
@@ -30,7 +30,7 @@ TiltanControl::~TiltanControl() {
 }
 
 void TiltanControl::InitCommunication() {
-	m_messages.push_back(t_message(new StatusMessage(), new TCPCommunication(m_tiltanConf->GetStatusMsgPort())));
+	m_messages.push_back(t_message(new StatusMessage(), new TCPServerCommunication(m_tiltanConf->GetStatusMsgPort())));
 	m_messages.push_back(t_message(new NavigationDataMessage(),
 									 new UDPCommunication(m_tiltanConf->GetNavigationDataMsgIpAddress(), m_tiltanConf->GetNavigationDataMsgPort())));
 	m_messages.push_back(t_message(new InternalGPSMessage(),

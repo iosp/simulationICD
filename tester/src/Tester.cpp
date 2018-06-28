@@ -13,7 +13,8 @@
 #include "IponPluginAPI.h"
 #include "LoggerProxy.h"
 #include "ConfigurationINI.h"
-#include "TCPCommunication.h"
+#include "TCPServerCommunication.h"
+#include "TCPClientCommunication.h"
 #include "CanCommunication.h"
 #include <boost/range/irange.hpp> // boost::irange
 #include <boost/date_time/posix_time/posix_time.hpp> // boost::posix_time::ptime
@@ -152,10 +153,10 @@ void Tester::TestIpon() {
 }
 
 void Tester::TestTCP() {
-    // TCPCommunication* t = new TCPCommunication("172.23.40.92", "50013");
-    // t->SendData("hello world", sizeof("hello world"));
+    TCPClientCommunication* t = new TCPClientCommunication("127.0.0.1");
+    t->SendData("hello world", sizeof("hello world"));
 
-    // delete t;
+    delete t;
 
 }
 
@@ -177,12 +178,12 @@ void Tester::TestConf() {
 }
 
 Tester::Tester() {
-    TestVelodyne();
+    // TestVelodyne();
     // TestNovatel();
     // TestTiltan();
     // TestCAN();
     // TestIdan();
     // TestIbeo();
     // TestIpon();
-    // TestTCP();
+    TestTCP();
 }

@@ -9,7 +9,7 @@
 #include "IbeoConfig.h"
 #include "IbeoMessage.h"
 #include "IbeoData.h"
-#include "TCPCommunication.h"
+#include "TCPServerCommunication.h"
 #include "LoggerProxy.h"
 
 IbeoControl::IbeoControl(const std::string& confFilePath) {
@@ -23,7 +23,7 @@ IbeoControl::~IbeoControl() {
 }
 
 void IbeoControl::InitCommunication() {
-	m_comm = new TCPCommunication(m_ibeoConf->GetPort());
+	m_comm = new TCPServerCommunication(m_ibeoConf->GetPort());
 	if (!m_comm->Init()) {
 		ERRLOG << "Failed to initialize TCP communication.\n";
 		return;
