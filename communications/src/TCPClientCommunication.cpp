@@ -12,7 +12,7 @@ TCPClientCommunication::TCPClientCommunication(const std::string& host): m_host(
     // busy wait to init tcp communication
     while (true) {
         if (!Init()) {
-            sleep(1);
+			std::this_thread::sleep_for(std::chrono::seconds(1));
         }
         else {
             break;

@@ -9,8 +9,6 @@
 #include "NovatelPluginAPI.h"
 #include "TiltanPluginAPI.h"
 #include "IdanPluginAPI.h"
-#include "IbeoPluginAPI.h"
-#include "IponPluginAPI.h"
 #include "LoggerProxy.h"
 #include "ConfigurationINI.h"
 #include "TCPServerCommunication.h"
@@ -132,41 +130,12 @@ void Tester::TestIdan() {
    IdanDeleteObject(idan);
 }
 
-void Tester::TestIbeo() {
-    IbeoWrapper* ibeo = IbeoCreateObject("/home/robil/simConfigs/ibeo.conf");
-
-    while (true) {
-		std::this_thread::sleep_for(std::chrono::seconds(1));
-    }
-
-    IbeoDeleteObject(ibeo);
-}
-
-void Tester::TestIpon() {
-    IponWrapper* ipon = IponCreateObject("/home/robil/simConfigs/ipon.conf");
-
-    while (true) {
-		std::this_thread::sleep_for(std::chrono::seconds(1));
-    }
-
-    IponDeleteObject(ipon);
-}
-
 void Tester::TestTCP() {
     TCPClientCommunication* t = new TCPClientCommunication("127.0.0.1");
     t->SendData("hello world", sizeof("hello world"));
 
     delete t;
 
-}
-
-void Tester::TestCAN() {
-    CanCommunication* c = new CanCommunication("vscan0", 500000, true);
-    char buffer[100]{};
-    c->Init();
-    c->SendData(buffer, 100);
-    c->GetData(buffer);
-    delete c;
 }
 
 void Tester::TestConf() {
@@ -181,9 +150,6 @@ Tester::Tester() {
     // TestVelodyne();
     // TestNovatel();
     // TestTiltan();
-    // TestCAN();
     // TestIdan();
-    // TestIbeo();
-    // TestIpon();
     TestTCP();
 }
