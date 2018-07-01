@@ -3,7 +3,6 @@
 * 
 * Author: Binyamin Appelbaum
 * Date: 15.02.18
-* 
 */
 
 #include "TCPServerCommunication.h"

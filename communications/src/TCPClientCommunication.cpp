@@ -3,13 +3,13 @@
 * 
 * Author: Binyamin Appelbaum
 * Date: 28.06.18
-* 
 */
 
 #include "TCPClientCommunication.h"
 #include "LoggerProxy.h"
 
 TCPClientCommunication::TCPClientCommunication(const std::string& host): m_host(host) {
+    // busy wait to init tcp communication
     while (true) {
         if (!Init()) {
             sleep(1);

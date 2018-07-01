@@ -33,10 +33,6 @@ IdanControl::~IdanControl() {
 
 void IdanControl::InitCommunication() {
 	m_comm = new TCPClientCommunication("50000");
-	if (!m_comm->Init()) {
-		ERRLOG << "Failed to initialize TCP communication, not running get thread.\n";
-		return;
-	}
 	InitGetMessages();
 	m_isCommInitialized = true;
 }
@@ -50,7 +46,7 @@ void IdanControl::InitGetMessages() {
 
 void IdanControl::SendData(const IdanData& data) {
 	if (!m_isCommInitialized) {
-		ERRLOG << "Idan couldn't initalize communication. Cannot send data.\n";
+		ERRLOG << "Idan couldn't initialize communication. Cannot send data.\n";
 		return;
 	}
 	auto msgType = data.GetCurrMsgType();
