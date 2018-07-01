@@ -13,6 +13,7 @@ TCPClientCommunication::TCPClientCommunication(const std::string& host): m_host(
     // busy wait to init tcp communication
     while (true) {
         if (!Init()) {
+            ERRLOG << "Failed to initialize tcp client communication, retrying.\n";
 			std::this_thread::sleep_for(std::chrono::seconds(1));
         }
         else {
@@ -22,6 +23,7 @@ TCPClientCommunication::TCPClientCommunication(const std::string& host): m_host(
 }
 
 bool TCPClientCommunication::Init() {
+    LOG << "Goint to initialized TCP Client communication with host: " << m_host << "\n";
     m_socket = std::make_shared<tcp::socket>(m_io_service);
     if (!Connect()) {
         m_socket.reset();
@@ -29,6 +31,7 @@ bool TCPClientCommunication::Init() {
     }
     else {
         m_initialized = true;
+        LOG << "TCP Client communication inititialized successfully\n";
         return true;
     }
 }
@@ -58,7 +61,7 @@ int TCPClientCommunication::SendData(const char* buffer, int sizeOfData) {
     }
     try {
         Connect();
-        LOG << "TCP client is going to write to IP: " << m_host << ". buffer size: " << sizeOfData << "\n";
+        DBGLOG << "TCP client is going to write to IP: " << m_host << ". buffer size: " << sizeOfData << "\n";
         boost::asio::write(*m_socket, boost::asio::buffer(buffer, sizeOfData));
         return sizeOfData;
     }
@@ -79,6 +82,7 @@ void TCPClientCommunication::GetData(char* buffer) {
         size_t len = boost::asio::read(*m_socket, boost::asio::buffer(buf), error);
         if (error == boost::asio::error::eof) {
             strcpy(buffer, buf.data());
+            DBGLOG << "TCP client read " << len << " bytes from socket\n";
             return;
         }
         else if (error) {

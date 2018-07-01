@@ -14,6 +14,7 @@ TCPServerCommunication::TCPServerCommunication(const std::string& port) :
 }
 
 bool TCPServerCommunication::Init() {
+    LOG << "Going to initialize TCP Server communication to port: " << m_port << "\n";
     try {
         boost::asio::io_service io_service;
         m_socket = std::make_shared<tcp::socket>(io_service);
@@ -24,6 +25,7 @@ bool TCPServerCommunication::Init() {
        ERRLOG << e.what() << "\n";
        return false;
     }
+    LOG << "TCP server communication initialized successfully\n";
     return true;
 }
 
@@ -31,7 +33,7 @@ int TCPServerCommunication::SendData(const char* buffer, int sizeOfData) {
 
     try {
         // writing the message for current time
-        LOG << "TCP server is going to write to port: " << m_port << ". buffer size: " << sizeOfData << "\n";
+        DBGLOG << "TCP server is going to write to port: " << m_port << ". buffer size: " << sizeOfData << "\n";
         boost::asio::write(*m_socket, boost::asio::buffer(buffer, sizeOfData));
     }
     catch (std::exception& e) {

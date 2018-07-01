@@ -16,6 +16,7 @@ const std::string NovatelConfig::BAUD_RATE_KEY = "BAUD_RATE";
 const std::string NovatelConfig::BAUD_RATE_DEF_VAL = "115200";
 
 NovatelConfig::NovatelConfig(const std::string& confFilePath) : ProdConfig(confFilePath) {
+    LOG << "Initializing novatel configurations\n";
     Init();
 }
 

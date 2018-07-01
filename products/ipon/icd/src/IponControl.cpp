@@ -28,7 +28,8 @@ IponControl::~IponControl() {
 }
 
 void IponControl::InitCommunication() {
-	// create the messagesa
+	LOG << "Initializing ipon communication\n";
+	// create the messages
 	m_messages.push_back(t_message(new Periodic1HZMessage(),
 									 new UDPCommunication(m_iponConf->GetUDPIPAdrress(), m_iponConf->GetUDPPort())));
 	m_messages.push_back(t_message(new Periodic100HZMessage(), new TCPServerCommunication(m_iponConf->GetTCPPort())));
@@ -41,6 +42,7 @@ void IponControl::InitCommunication() {
 		}
 	}
 	m_isCommInitialized = true;
+	LOG << "Ipon communication initialized successfully\n";
 }
 
 void IponControl::SendData(const IponData& data) {

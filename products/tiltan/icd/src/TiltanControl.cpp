@@ -30,6 +30,8 @@ TiltanControl::~TiltanControl() {
 }
 
 void TiltanControl::InitCommunication() {
+	LOG << "Initializing tiltan communication\n";
+
 	m_messages.push_back(t_message(new StatusMessage(), new TCPServerCommunication(m_tiltanConf->GetStatusMsgPort())));
 	m_messages.push_back(t_message(new NavigationDataMessage(),
 									 new UDPCommunication(m_tiltanConf->GetNavigationDataMsgIpAddress(), m_tiltanConf->GetNavigationDataMsgPort())));
@@ -45,6 +47,7 @@ void TiltanControl::InitCommunication() {
 		}
 	}
 	m_isCommInitialized = true;
+	LOG << "Tiltan communication initialized successfully\n";
 }
 
 void TiltanControl::SendData(const TiltanData& data) {

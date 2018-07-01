@@ -32,9 +32,12 @@ IdanControl::~IdanControl() {
 }
 
 void IdanControl::InitCommunication() {
+	LOG << "Initializing idan communication\n";
+
 	m_comm = new TCPClientCommunication("50000");
 	InitGetMessages();
 	m_isCommInitialized = true;
+	LOG << "Idan communication initialized successfully\n";
 }
 
 void IdanControl::InitGetMessages() {

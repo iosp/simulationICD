@@ -22,11 +22,14 @@ VelodyneControl::~VelodyneControl() {
 }
 
 void VelodyneControl::InitCommunication() {
+    LOG << "Initializing velodyne communication\n";
+
     m_comm = new UDPCommunication(m_velodyneConf->GetIpAddress(), m_velodyneConf->GetPort());
     if (!m_comm->Init()) {
 		ERRLOG << "Failed to initialize UDP communication.\n";
 	}
     m_isCommInitialized = true;
+    LOG << "Velodyne communication initialized successfully\n";
 }
 
 bool VelodyneControl::CheckDataValidation(const VelodyneData& data) const {

@@ -23,12 +23,15 @@ IbeoControl::~IbeoControl() {
 }
 
 void IbeoControl::InitCommunication() {
+	LOG << "Initializing ibeo communication\n";
+
 	m_comm = new TCPServerCommunication(m_ibeoConf->GetPort());
 	if (!m_comm->Init()) {
 		ERRLOG << "Failed to initialize TCP communication.\n";
 		return;
 	}
 	m_isCommInitialized = true;
+	LOG << "Ibeo communication initialized successfully\n";
 }
 
 void IbeoControl::SendData(const IbeoData& data) {

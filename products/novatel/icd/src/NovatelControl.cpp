@@ -23,12 +23,15 @@ NovatelControl::~NovatelControl() {
 }
 
 void NovatelControl::InitCommunication() {
+	LOG << "Initializing novatel communication\n";
+
 	m_comm = new RSCommunication(m_novatelConf->GetPortName(), m_novatelConf->GetBaudRate());
 	if (!m_comm->Init()) {
 		ERRLOG << "Failed to initialize RS communication.\n";\
 		return;
 	}
 	m_isCommInitialized = true;
+	LOG << "Novatel communication initialized successfully\n";
 }
 
 void NovatelControl::SendData(const NovatelData& data) {

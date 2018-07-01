@@ -22,6 +22,7 @@ const std::string IbeoConfig::ANGLE_INCREMENT_KEY = "ANGLE_INCREMENT";
 const std::string IbeoConfig::ANGLE_INCREMENT_DEF_VAL = "0.4";
 
 IbeoConfig::IbeoConfig(const std::string& confFilePath) : ProdConfig(confFilePath) {
+    LOG << "Initializing ibeo configurations\n";
     Init();
 }
 

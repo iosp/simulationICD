@@ -29,6 +29,7 @@ const std::string TiltanConfig::ERRORS_ESTIMATION_MSG_PORT_KEY = "ERRORS_ESTIMAT
 const std::string TiltanConfig::ERRORS_ESTIMATION_MSG_PORT_DEF_VAL = "5000";
 
 TiltanConfig::TiltanConfig(const std::string& confFilePath) : ProdConfig(confFilePath) {
+    LOG << "Initializing tiltan configurations\n";
     Init();
 }
 

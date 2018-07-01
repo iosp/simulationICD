@@ -21,6 +21,8 @@
 using namespace boost::posix_time;
 
 void Tester::TestVelodyne() {
+    LOG << "*************** Running velodyne test ***************\n";
+
     VelodyneWrapper* velodyne = VelodyneCreateObject("/home/robil/simConfigs/velodyne.conf");
     double azimuth = 0;
 
@@ -43,6 +45,7 @@ void Tester::TestVelodyne() {
 }
 
 void Tester::TestNovatel() {
+    LOG << "*************** Running novatel test ***************\n";\
     NovatelWrapper* novatel = NovatelCreateObject("/home/robil/simConfigs/novatel.conf");
     for (auto i : boost::irange(0, 20)) {
         time_duration td =  microsec_clock::local_time() - from_time_t(0);
@@ -59,6 +62,8 @@ void Tester::TestNovatel() {
 }
 
 void Tester::TestTiltan() {
+    LOG << "*************** Running tiltan test ***************\n";
+
     boost::posix_time::ptime startTime = boost::posix_time::microsec_clock::local_time();
     TiltanWrapper* tiltan = TiltanCreateObject("/home/robil/simConfigs/tiltan.conf");
     for (auto i : boost::irange(0, 30)) {
@@ -89,6 +94,8 @@ void Tester::TestTiltan() {
 }
 
 void Tester::TestIdan() {
+    LOG << "*************** Running idan test ***************\n";
+
     IdanWrapper* idan = IdanCreateObject("/home/robil/simConfigs/idan.conf");
 
     for (auto i : boost::irange(0, 10000)) {
@@ -147,9 +154,9 @@ void Tester::TestConf() {
 }
 
 Tester::Tester() {
-    // TestVelodyne();
+    TestVelodyne();
     // TestNovatel();
     // TestTiltan();
     // TestIdan();
-    TestTCP();
+    // TestTCP();
 }
