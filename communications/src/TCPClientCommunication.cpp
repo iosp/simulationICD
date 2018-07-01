@@ -7,6 +7,7 @@
 
 #include "TCPClientCommunication.h"
 #include "LoggerProxy.h"
+#include <thread>
 
 TCPClientCommunication::TCPClientCommunication(const std::string& host): m_host(host) {
     // busy wait to init tcp communication
