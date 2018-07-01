@@ -26,7 +26,12 @@ void TiltanMessage::GetDataValidityBitfield(char* buffer, size_t bufferSize) con
 							0 << 1 | // spare
 							0 << 0;  // spare
 
+#ifdef __linux__
 	snprintf(buffer, bufferSize, "%c%c", D1, D2);
+#elif _WIN32
+	_snprintf(buffer, bufferSize, "%c%c", D1, D2);
+#endif
+	
 }
 
 void TiltanMessage::GetSystemStatusBitfield(char* buffer, size_t bufferSize) const {
@@ -58,11 +63,20 @@ void TiltanMessage::GetSystemStatusBitfield(char* buffer, size_t bufferSize) con
 							0 << 2 | // restart required mode
 							0 << 1 | // GPS is unavailable for AOM
 							0 << 0;  // stanby mode
-	
+
+#ifdef __linux__
 	snprintf(buffer, bufferSize, "%c%c%c%c%c%c%c%c", S1, S2, S3, S4, S5, S6, S7, S8);
+#elif _WIN32
+	_snprintf(buffer, bufferSize, "%c%c%c%c%c%c%c%c", S1, S2, S3, S4, S5, S6, S7, S8);
+#endif
 }
 
 void TiltanMessage::GetSystemAlertBitfield(char* buffer, size_t bufferSize) const {
 	static const unsigned char A1 = 0, A2 = 0, A3 = 0, A4 = 0, A5 = 0, A6 = 0, A7 = 0, A8 = 0, A9 = 0, A10 = 0;
+#ifdef __linux__
 	snprintf(buffer, bufferSize, "%c%c%c%c%c%c%c%c%c%c", A1, A2, A3, A4, A5, A6, A7, A8, A9, A10);
+#elif _WIN32
+	_snprintf(buffer, bufferSize, "%c%c%c%c%c%c%c%c%c%c", A1, A2, A3, A4, A5, A6, A7, A8, A9, A10);
+#endif
+	
 }
