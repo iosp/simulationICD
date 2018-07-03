@@ -20,6 +20,7 @@ const std::string IdanConfig::HLC_HERTZ_KEY = "HLC_HERTZ";
 const std::string IdanConfig::HLC_HERTZ_DEF_VAL = "50";
 
 IdanConfig::IdanConfig(const std::string& confFilePath) : ProdConfig(confFilePath)  {
+    LOG << "Initializing idan configurations\n";
     Init();
 }
 

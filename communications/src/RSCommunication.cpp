@@ -23,6 +23,8 @@ RSCommunication::~RSCommunication() {
 }
 
 bool RSCommunication::Init() {
+    LOG << "Initializing RS communication with tty: " << m_tty << ", baud rate: " << m_baudRate << "\n";
+
     boost::system::error_code ec;
 
     m_port = serial_port_ptr(new boost::asio::serial_port(m_io_service));
@@ -40,6 +42,7 @@ bool RSCommunication::Init() {
 	m_port->set_option(boost::asio::serial_port_base::parity(boost::asio::serial_port_base::parity::none));
 	m_port->set_option(boost::asio::serial_port_base::flow_control(boost::asio::serial_port_base::flow_control::none));
 
+    LOG << "RS communication initialized successfully\n";
     return true;
 }
 

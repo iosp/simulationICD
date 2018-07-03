@@ -10,6 +10,7 @@
 #include "IponStructs.h"
 #include "LoggerProxy.h"
 #include "Helper.h"
+#include <algorithm>
 
 int Periodic100HZMessage::GetMessageSize() const {
     return sizeof(PHSPERIODIC100HZMESSAGE);
@@ -35,7 +36,7 @@ void Periodic100HZMessage::FillMessage(const IponData& data) {
 	msg.Alt_correction_Egi					= 18; // defiantly not used in SAHAR				//value from the real IPON
 	msg.Checksum_Egi						= 0; // defiantly not used in SAHAR
 
-	bzero(msg.Eight_byte_Spare, 8); 		// defiantly not used in SAHAR
+	std::fill(msg.Eight_byte_Spare, msg.Eight_byte_Spare + 8, 0); // defiantly not used in SAHAR
 
 	//INS_Time_Of_Nav_Data is the second count begins with "0" each Sunday morning at midnight, Zulu time (Greenwich time)
 	//At start up until GPS is available, INS time stars from 0
@@ -153,7 +154,7 @@ void Periodic100HZMessage::FillMessage(const IponData& data) {
 	CopyDataToBuffer((char*)&shTemp, shTemp, offset);
 
 	//Validity_Word
-	bzero(&shTemp, 2);
+	shTemp = 0;
 	shTemp |= msg.Validity_Word.GPS_Data_Not_Valid_Egi << 15;
 	shTemp |= msg.Validity_Word.Temperature_Fail_Egi << 14;
 	shTemp |= msg.Validity_Word.NA_Egi << 13;

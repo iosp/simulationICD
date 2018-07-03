@@ -7,7 +7,7 @@
 
 #include "IdanPluginAPI.h"
 #include "IdanWrapper.h"
-#include "string.h" // strdup
+#include <string.h> // strdup
 
 IdanWrapper* IdanCreateObject(const char* confFilePath) {
     return new IdanWrapper(confFilePath);

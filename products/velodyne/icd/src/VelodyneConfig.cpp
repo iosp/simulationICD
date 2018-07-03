@@ -26,6 +26,7 @@ const std::map<VelodyneConfig::DataSource, std::string> VelodyneConfig::dataSour
             boost::assign::map_list_of(VelodyneConfig::_HDL32E_, "HDL_32E")(VelodyneConfig::_VELODYNE16_, "Velodyne16");
 
 VelodyneConfig::VelodyneConfig(const std::string& confFilePath) : ProdConfig(confFilePath) {
+    LOG << "Initializing Velodyne configurations\n";
     Init();
     if (!ValidateConfiguration()) {
         ERRLOG << "Velodyne configuration is not valid!\n";

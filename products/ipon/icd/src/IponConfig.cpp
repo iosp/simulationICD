@@ -17,6 +17,7 @@ const std::string IponConfig::TCP_PORT_KEY = "TCP_PORT";
 const std::string IponConfig::TCP_PORT_DEF_VAL = "2001";
 
 IponConfig::IponConfig(const std::string& confFilePath) : ProdConfig(confFilePath) {
+    LOG << "Initializing ibeo configurations\n";
     Init();
 }
 

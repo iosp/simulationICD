@@ -23,12 +23,15 @@ NovatelControl::~NovatelControl() {
 }
 
 void NovatelControl::InitCommunication() {
+	LOG << "Initializing novatel communication\n";
+
 	m_comm = new RSCommunication(m_novatelConf->GetPortName(), m_novatelConf->GetBaudRate());
 	if (!m_comm->Init()) {
 		ERRLOG << "Failed to initialize RS communication.\n";\
 		return;
 	}
 	m_isCommInitialized = true;
+	LOG << "Novatel communication initialized successfully\n";
 }
 
 void NovatelControl::SendData(const NovatelData& data) {
@@ -61,17 +64,6 @@ Message<NovatelData>* NovatelControl::GetMsgByType(NovatelMsgType msgType) const
             break;
     }
 	return msg;
-}
-
-void NovatelControl::SendMessage(Message<NovatelData>* message) const {
-	bool allSent = false;
-	while (!allSent) {
-		int bytesSent =	message->SendMessage(m_comm);
-		allSent = (bytesSent >= message->GetMessageSize());
-		if (!allSent) {
-			ERRLOG << "Couldn't send all buffer data. Retrying...\n";
-		}
-	}
 }
 
 NovatelData NovatelControl::ReceiveData() {

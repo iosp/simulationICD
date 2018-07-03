@@ -8,6 +8,8 @@
 * Date: 11.02.18
 */
 
+#pragma pack(1)
+
 // basic types
 typedef unsigned char 	Byte;
 typedef char			SByte;
@@ -21,7 +23,7 @@ struct TILTAN_HEADER {
 	Byte 		Unit_Code;
 	Byte		Operation_Code[2];
 	UInt16		Length;
-} __attribute__((packed));
+};
 
 typedef enum  : char {
 	ZONETYPE_EXTENDED = 0x00,	// IDF extended zone type
@@ -50,7 +52,7 @@ struct Tiltan_Status_Message {
 	Byte			Error_Table_Bitfield[4];
 	UInt16			System_Internal_Bits_Bitfield[20];
 	Byte			Spare[12]; 					// NULLS
-} __attribute__((packed));
+} ;
 
 struct Tiltan_Navigation_Data_Message {
 	TILTAN_HEADER		Header;
@@ -83,20 +85,20 @@ struct Tiltan_Navigation_Data_Message {
 	Int16			Reserved_Hull_Pitch; 	// mils
 	Int16			Reserved_Hull_Roll;		// mils
 	Byte			Spare[6];				// nulls
-} __attribute__((packed));
+};
 
 
 struct S_TILTAN_GPSStatus {
 	Byte 			dummy; 					// maintenance purpose only
-} __attribute__((packed)); // Used to indicate on the status of the GPS card
+}; // Used to indicate on the status of the GPS card
 
 struct S_TILTAN_GPSNav{
 	Byte			dummy[2]; 				// maintenance purpose only
-}  __attribute__((packed)); // Used to indicate on the operation models of the GPS card
+} ; // Used to indicate on the operation models of the GPS card
 
 struct S_TILTAN_GPSErrorBITs{
 	Byte			dummy[4]; 				// maintenance purpose only
-}  __attribute__((packed)); // Used to indicate on the BITs(Built in Test) of the GPS card
+} ; // Used to indicate on the BITs(Built in Test) of the GPS card
 
 struct Tiltan_Internal_GPS {
 	TILTAN_HEADER			Header;
@@ -129,7 +131,7 @@ struct Tiltan_Internal_GPS {
 	UInt16				Reserved_A2DLevel;
 	UInt16				Reserved_RFImmun;
 	Byte				Spare[12];				// nulls
-} __attribute__((packed));
+};
 
 
 struct Tiltan_Error_Estimation_Message {
@@ -158,6 +160,6 @@ struct Tiltan_Error_Estimation_Message {
 	UInt16				Bias_Acc_X_Error;		//
 	UInt16				Bias_Acc_Y_Error;		// 
 	UInt16				Bias_Acc_Z_Error;		//
-}  __attribute__((packed));
+};
 
 #endif // TILTANTRUCTS_H

@@ -1,21 +1,20 @@
 /*
-* TCPCommunication.cpp
+* TCPServerCommunication.cpp
 * 
 * Author: Binyamin Appelbaum
 * Date: 15.02.18
-* 
 */
 
-#include "TCPCommunication.h"
+#include "TCPServerCommunication.h"
 #include "LoggerProxy.h"
-#include <boost/asio.hpp> // boost::asio::io_service
 
-TCPCommunication::TCPCommunication(const std::string& port) : 
+TCPServerCommunication::TCPServerCommunication(const std::string& port) : 
     m_port(port){
 
 }
 
-bool TCPCommunication::Init() {
+bool TCPServerCommunication::Init() {
+    LOG << "Going to initialize TCP Server communication to port: " << m_port << "\n";
     try {
         boost::asio::io_service io_service;
         m_socket = std::make_shared<tcp::socket>(io_service);
@@ -26,16 +25,15 @@ bool TCPCommunication::Init() {
        ERRLOG << e.what() << "\n";
        return false;
     }
+    LOG << "TCP server communication initialized successfully\n";
     return true;
 }
 
-int TCPCommunication::SendData(const char* buffer, int sizeOfData) {
-    using namespace boost::asio;
-    using boost::asio::ip::tcp;
+int TCPServerCommunication::SendData(const char* buffer, int sizeOfData) {
 
     try {
         // writing the message for current time
-        LOG << "TCP server is going to write to port: " << m_port << ". buffer size: " << sizeOfData << "\n";
+        DBGLOG << "TCP server is going to write to port: " << m_port << ". buffer size: " << sizeOfData << "\n";
         boost::asio::write(*m_socket, boost::asio::buffer(buffer, sizeOfData));
     }
     catch (std::exception& e) {

@@ -9,25 +9,26 @@
 #include <sstream>
 #include <fstream>
 #include <thread> // std::this_thread::sleep_for
-#include <boost/filesystem.hpp>
-#include <sys/types.h>
-#include <signal.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <pwd.h>
+#include <csignal> // std::signal
+#include <cstdlib> // std::getenv
 
 /******************************************************** File System **********************************************************/
 
-void Utilities::MakeDirectory(const std::string& dirName) {
-    boost::filesystem::path dir(dirName);
-    boost::filesystem::create_directory(dir);
+void Utilities::MakeDirectory(const std::string& dirName, boost::filesystem::perms prms) {
+    using namespace boost::filesystem;
+    path dir(dirName);
+    create_directory(dir);
+    permissions(dir, prms);
 }
 
 std::string Utilities::GetHomeDir() {
-    const char *homedir = nullptr;
-    if ((homedir = getenv("HOME")) == nullptr) {
-        homedir = getpwuid(getuid())->pw_dir;
-    }
+	static const int BUFFER_LEN = 1024;
+	char homedir[BUFFER_LEN]{};
+#ifdef __linux__
+	snprintf(homedir, BUFFER_LEN, "%s", std::getenv("HOME"));
+#elif _WIN32
+	_snprintf(homedir, BUFFER_LEN, "%s%s", std::getenv("HOMEDRIVE"), std::getenv("HOMEPATH"));
+#endif
     return (std::string)homedir;
 }
 
@@ -76,12 +77,16 @@ void Utilities::SleepForRestTime(boost::posix_time::ptime startTime, int maxTime
 	}
 }
 
-// TODO cross platform!!!
 std::string Utilities::RunSystemCmd(const std::string& cmd) {
     std::array<char, 128> buffer;
     std::string result;
+	std::shared_ptr<FILE> pipe;
     LOG << "Going to execute command: " << cmd << "\n";
-    std::shared_ptr<FILE> pipe(popen(cmd.c_str(), "r"), pclose);
+#ifdef __linux__
+	pipe = std::shared_ptr<FILE>(popen(cmd.c_str(), "r"), pclose);
+#elif _WIN32
+	pipe = std::shared_ptr<FILE>(_popen(cmd.c_str(), "r"), _pclose);
+#endif
     if (!pipe) {
         LOG << "popen() failed!\n";
     }
@@ -100,13 +105,7 @@ void StopHandler(int s){
 
 // TODO cross platform!!!
 void Utilities::AddStopHandler() {
-    struct sigaction sigIntHandler;
-
-   sigIntHandler.sa_handler = StopHandler;
-   sigemptyset(&sigIntHandler.sa_mask);
-   sigIntHandler.sa_flags = 0;
-
-   sigaction(SIGINT, &sigIntHandler, NULL);
+	std::signal(SIGINT, StopHandler);
 }
 
 Utilities::FunctionLogWrapper::FunctionLogWrapper(const std::string& funcName) : m_funcName(funcName) {

@@ -10,7 +10,7 @@
 #include "Helper.h"
 #include "IponConfig.h"
 #include "UDPCommunication.h"
-#include "TCPCommunication.h"
+#include "TCPServerCommunication.h"
 #include "Periodic1HZMessage.h"
 #include "Periodic100HZMessage.h"
 
@@ -28,10 +28,11 @@ IponControl::~IponControl() {
 }
 
 void IponControl::InitCommunication() {
-	// create the messagesa
+	LOG << "Initializing ipon communication\n";
+	// create the messages
 	m_messages.push_back(t_message(new Periodic1HZMessage(),
 									 new UDPCommunication(m_iponConf->GetUDPIPAdrress(), m_iponConf->GetUDPPort())));
-	m_messages.push_back(t_message(new Periodic100HZMessage(), new TCPCommunication(m_iponConf->GetTCPPort())));
+	m_messages.push_back(t_message(new Periodic100HZMessage(), new TCPServerCommunication(m_iponConf->GetTCPPort())));
 
 	// initialize communications
 	for (auto message : m_messages) {
@@ -41,6 +42,7 @@ void IponControl::InitCommunication() {
 		}
 	}
 	m_isCommInitialized = true;
+	LOG << "Ipon communication initialized successfully\n";
 }
 
 void IponControl::SendData(const IponData& data) {

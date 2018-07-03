@@ -11,7 +11,8 @@
 #include "IICD.h"
 #include "IdanData.h"
 #include <vector>
-#include <boost/thread.hpp> // boost::thread
+#include <thread>
+#include <mutex>
 
 // forward declarations
 class ICommunication;
@@ -29,8 +30,9 @@ private:
     //inner data for Receive data
     IdanData m_data;
     // holds thread method of Receive data
-    boost::thread m_getDataThread;
-    mutable boost::mutex m_idanData_mutex;
+    std::thread m_getDataThread;
+    mutable std::mutex m_idanData_mutex;
+	bool m_isThreadOn = true;
 
     void GetThreadMethod();
 

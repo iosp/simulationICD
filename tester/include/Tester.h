@@ -16,8 +16,6 @@ class Tester {
     void TestTCP();
     void TestCAN();
     void TestIdan();
-    void TestIbeo();
-    void TestIpon();
 public:
     Tester();
     ~Tester() = default;

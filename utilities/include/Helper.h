@@ -9,6 +9,7 @@
 
 #include <string>
 #include <boost/date_time/posix_time/posix_time.hpp> // boost::posix_time::ptime
+#include <boost/filesystem.hpp> // boost::filesystem::perms
 
 namespace Utilities {
 
@@ -17,8 +18,9 @@ namespace Utilities {
     /**
      * Make directory named "dirname" on file system
      * @param dirName - path and name of the directory
+     * @param permissions of the directory
      */ 
-    void MakeDirectory(const std::string& dirName);
+    void MakeDirectory(const std::string& dirName, boost::filesystem::perms prms);
 
     /**
      * Get home directory path on file system

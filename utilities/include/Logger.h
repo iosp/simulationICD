@@ -25,10 +25,10 @@
  * to the Ctor. operator << of LoogerProxy returns the same instance, and the result is sequence write of the line to the log 
  * In the end of the line - LoggerProxy instance is destroyed (because it is a temporary variable) and the mutex is released
 */ 
-#define LOG LoggerProxy<std::mutex>(Logger::GetInstance(), Logger::GetLockObject(), _NORMAL_, __FILENAME__, __func__, __LINE__)
-#define ERRLOG LoggerProxy<std::mutex>(Logger::GetInstance(), Logger::GetLockObject(), _ERROR_, __FILENAME__, __func__, __LINE__)
-#define DBGLOG LoggerProxy<std::mutex>(Logger::GetInstance(), Logger::GetLockObject(), _DEBUG_, __FILENAME__, __func__, __LINE__)
-#define ALWLOG LoggerProxy<std::mutex>(Logger::GetInstance(), Logger::GetLockObject(), _ALWAYS_, __FILENAME__, __func__, __LINE__)
+#define LOG LoggerProxy<std::mutex>(Logger::GetInstance(), Logger::GetLockObject(), _NORMAL_, __FILENAME__, __FUNCTION__, __LINE__)
+#define ERRLOG LoggerProxy<std::mutex>(Logger::GetInstance(), Logger::GetLockObject(), _ERROR_, __FILENAME__, __FUNCTION__, __LINE__)
+#define DBGLOG LoggerProxy<std::mutex>(Logger::GetInstance(), Logger::GetLockObject(), _DEBUG_, __FILENAME__, __FUNCTION__, __LINE__)
+#define ALWLOG LoggerProxy<std::mutex>(Logger::GetInstance(), Logger::GetLockObject(), _ALWAYS_, __FILENAME__, __FUNCTION__, __LINE__)
 
 class Logger {
 private:

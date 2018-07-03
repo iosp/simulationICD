@@ -9,18 +9,20 @@
 #include "NovatelPluginAPI.h"
 #include "TiltanPluginAPI.h"
 #include "IdanPluginAPI.h"
-#include "IbeoPluginAPI.h"
-#include "IponPluginAPI.h"
 #include "LoggerProxy.h"
 #include "ConfigurationINI.h"
-#include "TCPCommunication.h"
+#include "TCPServerCommunication.h"
+#include "TCPClientCommunication.h"
 #include "CanCommunication.h"
 #include <boost/range/irange.hpp> // boost::irange
 #include <boost/date_time/posix_time/posix_time.hpp> // boost::posix_time::ptime
+#include <thread> // std::this_thread::sleep_for
 
 using namespace boost::posix_time;
 
 void Tester::TestVelodyne() {
+    LOG << "*************** Running velodyne test ***************\n";
+
     VelodyneWrapper* velodyne = VelodyneCreateObject("/home/robil/simConfigs/velodyne.conf");
     double azimuth = 0;
 
@@ -36,13 +38,14 @@ void Tester::TestVelodyne() {
             azimuth = (azimuth >= 360) ? 0 : azimuth;
         }
         VelodyneSendData(velodyne);
-        usleep(1333);
+		std::this_thread::sleep_for(std::chrono::microseconds(1333));
     }
 
     VelodyneDeleteObject(velodyne);
 }
 
 void Tester::TestNovatel() {
+    LOG << "*************** Running novatel test ***************\n";\
     NovatelWrapper* novatel = NovatelCreateObject("/home/robil/simConfigs/novatel.conf");
     for (auto i : boost::irange(0, 20)) {
         time_duration td =  microsec_clock::local_time() - from_time_t(0);
@@ -51,7 +54,7 @@ void Tester::TestNovatel() {
         NovatelSetTimeStamp(novatel, td.total_microseconds());
         NovatelSendBestPosData(novatel);
         NovatelSendBestVelData(novatel);
-        usleep(100000);
+		std::this_thread::sleep_for(std::chrono::microseconds(100000));
     }
   
     NovatelDeleteObject(novatel);
@@ -59,6 +62,8 @@ void Tester::TestNovatel() {
 }
 
 void Tester::TestTiltan() {
+    LOG << "*************** Running tiltan test ***************\n";
+
     boost::posix_time::ptime startTime = boost::posix_time::microsec_clock::local_time();
     TiltanWrapper* tiltan = TiltanCreateObject("/home/robil/simConfigs/tiltan.conf");
     for (auto i : boost::irange(0, 30)) {
@@ -82,13 +87,15 @@ void Tester::TestTiltan() {
         TiltanSendInternalGPSData(tiltan);
         TiltanSendNavigationData(tiltan);
         TiltanSendErrorEstimationData(tiltan);
-        usleep(100000);
+		std::this_thread::sleep_for(std::chrono::microseconds(100000));
     }
 
     TiltanDeleteObject(tiltan);
 }
 
 void Tester::TestIdan() {
+    LOG << "*************** Running idan test ***************\n";
+
     IdanWrapper* idan = IdanCreateObject("/home/robil/simConfigs/idan.conf");
 
     for (auto i : boost::irange(0, 10000)) {
@@ -124,47 +131,18 @@ void Tester::TestIdan() {
         SetIdanSecSenAirPressRear(idan, 100);
         SendIdanSecondarySensorData(idan);
 
-        usleep(100000);
+		std::this_thread::sleep_for(std::chrono::microseconds(100000));
     }
 
    IdanDeleteObject(idan);
 }
 
-void Tester::TestIbeo() {
-    IbeoWrapper* ibeo = IbeoCreateObject("/home/robil/simConfigs/ibeo.conf");
-
-    while (true) {
-        sleep(1);
-    }
-
-    IbeoDeleteObject(ibeo);
-}
-
-void Tester::TestIpon() {
-    IponWrapper* ipon = IponCreateObject("/home/robil/simConfigs/ipon.conf");
-
-    while (true) {
-        sleep(1);
-    }
-
-    IponDeleteObject(ipon);
-}
-
 void Tester::TestTCP() {
-    // TCPCommunication* t = new TCPCommunication("172.23.40.92", "50013");
-    // t->SendData("hello world", sizeof("hello world"));
+    TCPClientCommunication* t = new TCPClientCommunication("127.0.0.1");
+    t->SendData("hello world", sizeof("hello world"));
 
-    // delete t;
+    delete t;
 
-}
-
-void Tester::TestCAN() {
-    CanCommunication* c = new CanCommunication("vscan0", 500000, true);
-    char buffer[100]{};
-    c->Init();
-    c->SendData(buffer, 100);
-    c->GetData(buffer);
-    delete c;
 }
 
 void Tester::TestConf() {
@@ -179,9 +157,6 @@ Tester::Tester() {
     TestVelodyne();
     // TestNovatel();
     // TestTiltan();
-    // TestCAN();
     // TestIdan();
-    // TestIbeo();
-    // TestIpon();
     // TestTCP();
 }

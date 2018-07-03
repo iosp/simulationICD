@@ -28,7 +28,7 @@ void BestVelMessage::FillMessage(const NovatelData& data) {
 	//CRC will calculate after copy data to the buffer
 	msg.CRC = 0;
 
-	bzero(m_buffer, BUFFER_SIZE);
+	std::fill(m_buffer, m_buffer + BUFFER_SIZE, 0);
 
 	//HEADER
 	FillHeaderInBuffer(msg.HEADER);

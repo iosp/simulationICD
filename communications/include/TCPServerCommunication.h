@@ -1,8 +1,8 @@
-#ifndef TCPCOMMUNICATION_H
-#define TCPCOMMUNICATION_H
+#ifndef TCP_SERVER_COMMUNICATION_H
+#define TCP_SERVER_COMMUNICATION_H
 
 /*
-* TCPCommunication.h
+* TCPServerCommunication.h
 * 
 * Author: Binyamin Appelbaum
 * Date: 15.02.18
@@ -15,14 +15,14 @@
 
 using boost::asio::ip::tcp;
 
-class TCPCommunication : public ICommunication {
+class TCPServerCommunication : public ICommunication {
 private:
     std::string m_port;
     std::shared_ptr<tcp::socket> m_socket;
 
 public:
-    TCPCommunication(const std::string& port);
-    ~TCPCommunication() = default;
+    TCPServerCommunication(const std::string& port);
+    ~TCPServerCommunication() = default;
 
     bool Init() override;
     int SendData(const char* buffer, int sizeOfData) override;
@@ -31,4 +31,4 @@ public:
 
 
 
-#endif // TCPCOMMUNICATION_H
+#endif // TCP_SERVER_COMMUNICATION_H

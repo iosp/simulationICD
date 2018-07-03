@@ -74,7 +74,7 @@ void Periodic1HZMessage::FillMessage(const IponData& data) {
 	msg.Figure_Of_Merit											= E_FOM::E_FOM_SMALLER_THAN_25M;			// position error < 25m (1 sigma)
 	msg.week													= data.Get1HZWeek();							// computer time, not UTM (the real GPS time is UTM).
 	msg.GPS_UTC_offset											= 17;
-	bzero(&msg.Bytes_2_reserved, 2);									// defiantly not used in SAHAR
+	msg.Bytes_2_reserved = 0;											// defiantly not used in SAHAR
 	msg.Checksum_Egi											= 0;// defiantly not used in SAHAR
 	
 	int offset = 0;
