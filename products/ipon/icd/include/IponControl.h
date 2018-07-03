@@ -27,6 +27,7 @@ private:
 
 	t_message GetMsgByType(IponMsgType msgType) const;
 
+protected:
 	virtual void InitCommunication() override;
 
 public:

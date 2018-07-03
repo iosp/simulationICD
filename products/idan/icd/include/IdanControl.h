@@ -43,6 +43,7 @@ private:
     
     IdanMessageSend* GetMsgByType(IdanMsgType msgType) const;
 
+protected:
     virtual void InitCommunication() override;
 
 public:

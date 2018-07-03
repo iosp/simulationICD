@@ -19,7 +19,7 @@ protected:
 	char m_buffer[BUFFER_SIZE];
 
 public:
-	Message() {}
+	Message() = default;
 
 	virtual ~Message() = default;
 

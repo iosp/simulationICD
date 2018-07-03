@@ -36,6 +36,7 @@ private:
     */
     bool CheckDataValidation(const VelodyneData& data) const;
 
+protected:
     virtual void InitCommunication() override;
     
 public:
