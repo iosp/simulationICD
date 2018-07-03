@@ -21,7 +21,8 @@ private:
     ICommunication* m_comm = nullptr;
     // configuration parser
     IbeoConfig* m_ibeoConf = nullptr;
-	
+
+protected:	
 	virtual void InitCommunication() override;
 
 public:

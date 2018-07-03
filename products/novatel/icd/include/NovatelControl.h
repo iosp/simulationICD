@@ -24,7 +24,8 @@ private:
     NovatelConfig* m_novatelConf = nullptr;
 
     Message<NovatelData>* GetMsgByType(NovatelMsgType msgType) const;
-    
+   
+protected: 
     virtual void InitCommunication() override;
 
 public:

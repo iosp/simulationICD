@@ -28,6 +28,7 @@ private:
 
 	t_message GetMsgByType(TiltanMsgType msgType) const;
 
+protected:
 	virtual void InitCommunication() override;
 
 public:
