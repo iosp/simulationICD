@@ -21,13 +21,15 @@ static const t_msgID IDAN_SEC_SEN_ID = 0x81;
 class IdanData;
 
 class IdanMessage : public Message<IdanData>{
+protected:
+	bool m_isCanView;
+	
 public:
 	IdanMessage() = default;
 
 	virtual ~IdanMessage() = default;
 
 	virtual t_msgID GetMsgID() const = 0;
-
 };
 
 #endif // IDANMESSAGE_H

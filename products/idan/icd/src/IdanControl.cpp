@@ -15,6 +15,9 @@
 #include "IdanPrimaryMessage.h"
 #include "IdanSecondaryReportMessage.h"
 #include "IdanSecondarySensorMessage.h"
+#ifdef __linux__
+	#include "CanCommunication.h"
+#endif
 
 IdanControl::IdanControl(const std::string& confFilePath) {
 	m_idanConf = new IdanConfig(confFilePath);
@@ -34,7 +37,23 @@ IdanControl::~IdanControl() {
 void IdanControl::InitCommunication() {
 	LOG << "Initializing idan communication\n";
 
-	m_comm = new TCPClientCommunication("50000");
+	if (m_idanConf->IsCanView()) {
+		m_comm = new TCPClientCommunication(m_idanConf->GetTCPPort());
+	}
+	else {
+		#ifdef __linux__
+			m_comm = new CanCommunication(m_idanConf->GetInterfaceName(), m_idanConf->GetBaudRate(), m_idanConf->IsVirtualInterface());
+		#elif _WIN32
+			ERRLOG << "no communication can be initialized for idan\n";
+			return;
+		#endif
+	}
+
+	if (!m_comm->Init()) {
+		ERRLOG << "Failed to initialize Idan communication, not running get thread.\n";
+		return;
+	}
+	
 	InitGetMessages();
 	m_isCommInitialized = true;
 	LOG << "Idan communication initialized successfully\n";
@@ -42,14 +61,14 @@ void IdanControl::InitCommunication() {
 
 void IdanControl::InitGetMessages() {
 	// get messages thread
-	m_getMessages.push_back(new HLCPrimaryControlMessage(m_idanConf->GetHLCHertz()));
-	m_getMessages.push_back(new HLCSecondaryControlMessage(m_idanConf->GetHLCHertz()));
+	m_getMessages.push_back(new HLCPrimaryControlMessage(m_idanConf->GetHLCHertz(), m_idanConf->IsCanView()));
+	m_getMessages.push_back(new HLCSecondaryControlMessage(m_idanConf->GetHLCHertz(), m_idanConf->IsCanView()));
 	m_getDataThread = std::thread(&IdanControl::GetThreadMethod, this);
 }
 
 void IdanControl::SendData(const IdanData& data) {
 	if (!m_isCommInitialized) {
-		ERRLOG << "Idan couldn't initialize communication. Cannot send data.\n";
+		ERRLOG << "Idan didn't initialize communication. Cannot send data.\n";
 		return;
 	}
 	auto msgType = data.GetCurrMsgType();
@@ -86,7 +105,13 @@ void IdanControl::GetThreadMethod() {
 }
 
 IdanMessageGet* IdanControl::GetMsgByID(const char* buffer) {
-	t_msgID id = buffer[4] + (buffer[3] << 8);
+	t_msgID id;
+	if (m_idanConf->IsCanView()) {
+		id = buffer[4] + (buffer[3] << 8);
+	}
+	else {
+		memcpy(&id, buffer, sizeof(id));
+	} 
 	for (auto const& message : m_getMessages) {
 		if (message->GetMsgID() == id) {
 			DBGLOG << "Msg with id: " << id << " found\n";
@@ -100,13 +125,13 @@ IdanMessageSend* IdanControl::GetMsgByType(IdanMsgType msgType) const {
 	IdanMessageSend* msg = nullptr;
 	switch (msgType) {
         case IDAN_PRIMARY:
-			msg = new IdanPrimaryMessage();
+			msg = new IdanPrimaryMessage(m_idanConf->IsCanView());
 		  	break;
         case IDAN_SECONDARY_REPORT:
-            msg = new IdanSecondaryReportMessage();
+            msg = new IdanSecondaryReportMessage(m_idanConf->IsCanView());
             break;
 		case IDAN_SECONDARY_SENSOR:
-			msg = new IdanSecondarySensorMessage();
+			msg = new IdanSecondarySensorMessage(m_idanConf->IsCanView());
 			break;
         default:
 			ERRLOG << "Something Wrong\n";

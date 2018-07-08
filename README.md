@@ -13,7 +13,7 @@ There are several directories on this project:
 
 Usage with Convoy project in Unity:
 
-*********Option 1 - automatiocally:**********
+*********Option 1 - automatically:**********
 Run /simulationICD/exFiles/postCompile.sh (make sure that you don't override files that you don't want to override)
 
 *********Option 2 - manually ****************

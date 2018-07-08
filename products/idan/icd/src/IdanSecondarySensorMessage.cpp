@@ -9,6 +9,10 @@
 #include "IdanData.h"
 #include "LoggerProxy.h"
 
+IdanSecondarySensorMessage::IdanSecondarySensorMessage(bool isCanView) {
+    m_isCanView = isCanView;
+}
+
 int IdanSecondarySensorMessage::GetMessageSize() const {
     return sizeof(IDAN_SecondarySensorsMsgType);
 }

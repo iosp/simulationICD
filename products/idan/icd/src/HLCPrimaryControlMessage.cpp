@@ -9,10 +9,13 @@
 #include "IdanData.h"
 #include "LoggerProxy.h"
 
-HLCPrimaryControlMessage::HLCPrimaryControlMessage(float hertz) : IdanMessageGet(hertz) {
+HLCPrimaryControlMessage::HLCPrimaryControlMessage(float hertz, bool isCanView) : IdanMessageGet(hertz) {
+    m_isCanView = isCanView;
 }
+
 void HLCPrimaryControlMessage::ParseMessage(const char* buffer) {
-    buffer = buffer + DATA_OFFSET;
+    int offset = m_isCanView ? CAN_VIEW_DATA_OFFSET : CAN_REG_DATA_OFFSET;
+    buffer = buffer + offset;
     m_message.ShutDownCmd = buffer[0];
     m_message.EmergencyCmd = buffer[1];
     m_message.SteerCmdMsb = buffer[2];

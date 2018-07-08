@@ -75,7 +75,7 @@ bool CanCommunication::InitGet() {
 		ERRLOG << "setsockopt fail\n";
     }
 
-	LOG << "using " << m_interfaceName << " to read\n";
+	LOG << "Can Get initialized successfully. interface name: " << m_interfaceName << "\n";
     return true;
 }
 
@@ -100,7 +100,7 @@ bool CanCommunication::InitSend() {
 		return false;
 	}		
 
-	LOG << "using " << m_interfaceName << " to write\n";
+	LOG << "Can send initialized successfully. interface name: " << m_interfaceName << "\n";
 	return true;
 }
 
@@ -109,7 +109,7 @@ void CanCommunication::GetData(char* buffer) {
     
     int nbytes = read(m_getSocket, &frame, sizeof(frame));
     if (nbytes > 0) {
-		DBGLOG << "read " << nbytes << " bytes from sockets\n";
+		DBGLOG << "Can read " << nbytes << " bytes from socket\n";
         if (frame.can_id & CAN_ERR_FLAG) {
             ERRLOG << "error frame\n";
         }
@@ -126,6 +126,7 @@ int CanCommunication::SendData(const char* buffer, int sizeOfData) {
 	memcpy(&frame.can_id, buffer, sizeof(frame.can_id));
 	memcpy(&frame.can_dlc, buffer + 4, sizeof(frame.can_dlc));
 	memcpy(&frame.data, buffer + 8, sizeof(frame.data));
+	DBGLOG << "Can is going to send " << sizeOfData << " bytes to socket\n";
     int nbytes = write(m_sendSocket, &frame, sizeof(struct can_frame));
     return nbytes;
 }

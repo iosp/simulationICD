@@ -16,10 +16,13 @@ const std::map<unsigned char, std::string> GearToStr =
 static const unsigned char PARKING_RELEASED = 0x01;
 static const unsigned char SACS_ON_VAL = 0x0B;
 
-HLCSecondaryControlMessage::HLCSecondaryControlMessage(float hertz) : IdanMessageGet(hertz) {
+HLCSecondaryControlMessage::HLCSecondaryControlMessage(float hertz, bool isCanView) : IdanMessageGet(hertz) {
+    m_isCanView = isCanView;
 }
+
 void HLCSecondaryControlMessage::ParseMessage(const char* buffer) {
-    buffer = buffer + DATA_OFFSET;
+    int offset = m_isCanView ? CAN_VIEW_DATA_OFFSET : CAN_REG_DATA_OFFSET;
+    buffer = buffer + offset;
     m_message.ShutDown = buffer[0];
 
     m_message.W1.RoadLight = buffer[1] & 1;

@@ -13,7 +13,7 @@
 
 class IdanSecondaryReportMessage : public IdanMessageSend {
 public:
-	IdanSecondaryReportMessage() = default;
+	IdanSecondaryReportMessage(bool m_isCanView);
 
 	virtual ~IdanSecondaryReportMessage() = default;
 	

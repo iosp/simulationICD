@@ -16,7 +16,7 @@ private:
 	HLC_PrimaryControlMsgType m_message;
 	
 public:
-	HLCPrimaryControlMessage(float hertz);
+	HLCPrimaryControlMessage(float hertz, bool m_isCanView);
 
 	virtual ~HLCPrimaryControlMessage() = default;
 
