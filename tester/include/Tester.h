@@ -16,6 +16,7 @@ class Tester {
     void TestTCP();
     void TestCAN();
     void TestIdan();
+    void TestLogs();
 public:
     Tester();
     ~Tester() = default;
