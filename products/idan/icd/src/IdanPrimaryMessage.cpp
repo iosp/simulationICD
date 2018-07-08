@@ -9,6 +9,10 @@
 #include "IdanData.h"
 #include "LoggerProxy.h"
 
+IdanPrimaryMessage::IdanPrimaryMessage(bool isCanView) {
+    m_isCanView = isCanView;
+}
+
 int IdanPrimaryMessage::GetMessageSize() const {
     return sizeof(IDAN_PrimaryReportMsgType);
 }

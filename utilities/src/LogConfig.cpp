@@ -24,6 +24,8 @@ const std::string LogConfig::FILE_LOG_LEVEL_KEY = "FILE_LOG_LEVEL";
 const std::string LogConfig::FILE_LOG_LEVEL_DEF_VAL = "NORMAL";
 const std::string LogConfig::LOG_DIR_NAME_KEY = "LOG_DIR_NAME";
 const std::string LogConfig::LOG_DIR_NAME_DEF_VAL = "icd_log";
+const std::string LogConfig::DELETE_OLD_LOGS_KEY = "DELETE_OLD_LOGS";
+const std::string LogConfig::DELETE_OLD_LOGS_DEF_VAL = "0";
 
 const boost::bimaps::bimap<LogLevel, std::string> LogConfig::m_logLevelToStr = 
     boost::assign::list_of<boost::bimaps::bimap<LogLevel, std::string>::relation>(_DEBUG_, "DEBUG")(_NORMAL_, "NORMAL")(_ERROR_, "ERROR")(_ALWAYS_, "ALWAYS");
@@ -37,6 +39,7 @@ void LogConfig::SetConfDefaultValues() {
     m_conf->SetValue(SCREEN_LOG_LEVEL_KEY, SCREEN_LOG_LEVEL_DEF_VAL);
     m_conf->SetValue(FILE_LOG_LEVEL_KEY, FILE_LOG_LEVEL_DEF_VAL);
     m_conf->SetValue(LOG_DIR_NAME_KEY, LOG_DIR_NAME_DEF_VAL);
+    m_conf->SetValue(DELETE_OLD_LOGS_KEY, DELETE_OLD_LOGS_DEF_VAL);
 }
 
 std::string LogConfig::GetProdName() const {
@@ -64,4 +67,8 @@ LogLevel LogConfig::GetFileLogLevel() const {
 
 std::string LogConfig::GetLogDirName() const {
     return m_conf->GetValue<std::string>(LOG_DIR_NAME_KEY);
+}
+
+bool LogConfig::DeleteOldLogs() const {
+    return m_conf->GetValue<bool>(DELETE_OLD_LOGS_KEY);
 }

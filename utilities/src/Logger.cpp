@@ -7,6 +7,7 @@
 
 #include <sstream>
 #include <iostream>
+#include <boost/filesystem.hpp> // boost::filesystem::remove_all
 #include "Logger.h"
 #include "Helper.h"
 
@@ -21,12 +22,20 @@ Logger::~Logger() {
 }
 
 void Logger::Init() {
+    static const std::string FILE_NAME_PREFIX = "icd_";
+    static const std::string FILE_NAME_POSTIX = ".log";
+
     m_logConf = new LogConfig(Utilities::GetHomeDir() + "/simConfigs/log.conf");
     m_screenLogLevel = m_logConf->GetScreenLogLevel();
     m_fileLogLevel = m_logConf->GetFileLogLevel();
     m_logDirPath = Utilities::GetHomeDir() + "/" + m_logConf->GetLogDirName() + "/";
+    // remove old logs from system if needed
+    if (m_logConf->DeleteOldLogs()) {
+        boost::filesystem::path dir(m_logDirPath);
+        boost::filesystem::remove_all(dir);
+    } 
     Utilities::MakeDirectory(m_logDirPath, boost::filesystem::all_all);
-    m_logFilePath = m_logDirPath + "icd_" + Utilities::GetFormattedTime("%Y_%m_%d_%H_%M_%S") + ".log";
+    m_logFilePath = m_logDirPath + FILE_NAME_PREFIX + Utilities::GetFormattedTime("%Y_%m_%d_%H_%M_%S") + FILE_NAME_POSTIX;
     m_basicLogFilePath = m_logFilePath;
 }
 

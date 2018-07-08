@@ -26,6 +26,8 @@ private:
 
     static const std::string LOG_DIR_NAME_KEY;
     static const std::string LOG_DIR_NAME_DEF_VAL;
+    static const std::string DELETE_OLD_LOGS_KEY;
+    static const std::string DELETE_OLD_LOGS_DEF_VAL;
 
     LogLevel GetLevelEnumByKey(const std::string& key) const;
  
@@ -45,6 +47,8 @@ public:
     LogLevel GetFileLogLevel() const;
 
     std::string GetLogDirName() const;
+
+    bool DeleteOldLogs() const;
 
     static const boost::bimaps::bimap<LogLevel, std::string> m_logLevelToStr;
 };

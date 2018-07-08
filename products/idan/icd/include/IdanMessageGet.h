@@ -10,7 +10,8 @@
 
 #include "IdanMessage.h"
 
-static const int DATA_OFFSET = 5;
+static const int CAN_REG_DATA_OFFSET = 8;
+static const int CAN_VIEW_DATA_OFFSET = 5;
 static const unsigned char SHUTDOWN_VAL = 0x0A;
 static const unsigned char EMERGENCY_VAL = 0x0C;
 

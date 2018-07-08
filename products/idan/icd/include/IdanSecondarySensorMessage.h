@@ -13,7 +13,7 @@
 
 class IdanSecondarySensorMessage : public IdanMessageSend {
 public:
-	IdanSecondarySensorMessage() = default;
+	IdanSecondarySensorMessage(bool m_isCanView);
 
 	virtual ~IdanSecondarySensorMessage() = default;
 	

@@ -153,8 +153,17 @@ void Tester::TestConf() {
     LOG << conf.GetValue<std::string>("day") << "\n";
 }
 
+void Tester::TestLogs() {
+    while (true) {
+        LOG << "hello world\n";
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
+    
+}
+
 Tester::Tester() {
-    TestVelodyne();
+    TestLogs();
+    // TestVelodyne();
     // TestNovatel();
     // TestTiltan();
     // TestIdan();

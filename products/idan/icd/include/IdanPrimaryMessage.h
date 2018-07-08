@@ -13,7 +13,7 @@
 
 class IdanPrimaryMessage : public IdanMessageSend {
 public:
-	IdanPrimaryMessage() = default;
+	IdanPrimaryMessage(bool m_isCanView);
 
 	virtual ~IdanPrimaryMessage() = default;
 

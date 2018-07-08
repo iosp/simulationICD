@@ -16,10 +16,16 @@ private:
     static const std::string INTERFACE_NAME_DEF_VAL;
     static const std::string IS_VIRTUAL_INTERFACE_KEY;
     static const std::string IS_VIRTUAL_INTERFACE_DEF_VAL;
+    static const std::string IS_CANVIEW_KEY;
+    static const std::string IS_CANVIEW_DEF_VAL;
+
     static const std::string CAN_BAUD_RATE_KEY;
     static const std::string CAN_BAUD_RATE_DEF_VAL;
     static const std::string HLC_HERTZ_KEY;
     static const std::string HLC_HERTZ_DEF_VAL;
+    static const std::string TCP_PORT_KEY;
+    static const std::string TCP_PORT_DEF_VAL;
+
 protected:
     virtual void SetConfDefaultValues() override;
 
@@ -37,6 +43,10 @@ public:
     float GetHLCHertz() const;
 
     bool IsVirtualInterface() const;
+
+    bool IsCanView() const;
+
+    std::string GetTCPPort() const;
 };
 
 
