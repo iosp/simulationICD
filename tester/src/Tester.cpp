@@ -162,10 +162,10 @@ void Tester::TestLogs() {
 }
 
 Tester::Tester() {
-    TestLogs();
+    // TestLogs();
     // TestVelodyne();
     // TestNovatel();
-    // TestTiltan();
+    TestTiltan();
     // TestIdan();
     // TestTCP();
 }
