@@ -162,4 +162,6 @@ struct Tiltan_Error_Estimation_Message {
 	UInt16				Bias_Acc_Z_Error;		//
 };
 
+#pragma pack()
+
 #endif // TILTANTRUCTS_H
