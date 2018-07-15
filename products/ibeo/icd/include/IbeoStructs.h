@@ -69,4 +69,6 @@ typedef struct
 //	unsigned short reserved;
 } ReplayMSG;
 
+#pragma pack()
+
 #endif
