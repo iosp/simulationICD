@@ -10,6 +10,8 @@
 
 #define CRC32_POLYNOMIAL 0xEDB88320L
 
+#pragma pack(1)
+
 
 /* LatLonAlt */
 typedef struct{
@@ -200,5 +202,6 @@ typedef struct {
 	unsigned int                                    CRC; //
 } PHS_BESTPOS;
 
+#pragma pack()
 
 #endif // NOVATEL_STRUCTS_H

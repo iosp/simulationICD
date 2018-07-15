@@ -8,7 +8,7 @@
 * Date: 01.05.18
 */
 
-#pragma once
+#pragma pack(1)
 
 typedef struct{
 	float latitude;
@@ -250,5 +250,7 @@ typedef struct{
 	unsigned short Bytes_2_reserved;
 	unsigned short Checksum_Egi;
 } PHSPERIODIC1HZMESSAGE;
+
+#pragma pack()
 
 #endif
