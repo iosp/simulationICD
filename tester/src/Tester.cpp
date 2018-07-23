@@ -163,9 +163,9 @@ void Tester::TestLogs() {
 
 Tester::Tester() {
     // TestLogs();
-    // TestVelodyne();
+    TestVelodyne();
     // TestNovatel();
-    TestTiltan();
+    // TestTiltan();
     // TestIdan();
     // TestTCP();
 }
