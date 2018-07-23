@@ -8,23 +8,29 @@
 * Date: 23.01.18
 */
 
+#ifdef _WIN32
+	#define LIBRARY_API __declspec(dllexport)	
+#elif
+	#define LIBRARY_API
+#endif
+
 struct NovatelWrapper;
 
 // Functions that can be used by the plugin
 extern "C" {
-    NovatelWrapper* NovatelCreateObject(const char* confFilePath);
+	LIBRARY_API NovatelWrapper* NovatelCreateObject(const char* confFilePath);
 
-    void NovatelDeleteObject(NovatelWrapper* pObj);
+	LIBRARY_API void NovatelDeleteObject(NovatelWrapper* pObj);
 
-    void NovatelSendBestPosData(NovatelWrapper* pObj);
+	LIBRARY_API void NovatelSendBestPosData(NovatelWrapper* pObj);
 
-    void NovatelSendBestVelData(NovatelWrapper* pObj);
+	LIBRARY_API void NovatelSendBestVelData(NovatelWrapper* pObj);
 
-    void NovatelSetPosition(NovatelWrapper* pObj, double latitude, double longitude, double altitude);
+	LIBRARY_API void NovatelSetPosition(NovatelWrapper* pObj, double latitude, double longitude, double altitude);
 
-    void NovatelSetVelocities(NovatelWrapper* pObj, double latSpeed, double longSpeed, double altAzimuth);
+	LIBRARY_API void NovatelSetVelocities(NovatelWrapper* pObj, double latSpeed, double longSpeed, double altAzimuth);
 
-    void NovatelSetTimeStamp(NovatelWrapper* pObj, float timeStamp);
+	LIBRARY_API void NovatelSetTimeStamp(NovatelWrapper* pObj, float timeStamp);
 }
 
 #endif // NOVATELPLUGINAPI_H

@@ -14,23 +14,30 @@
 * Date: 04.01.18
 */
 
+#ifdef _WIN32
+	#define LIBRARY_API __declspec(dllexport)	
+#elif
+	#define LIBRARY_API
+#endif
+
+
 struct VelodyneWrapper;
 
 // Functions that can be used by the plugin
-extern "C" {
-    VelodyneWrapper* VelodyneCreateObject(const char* confFilePath);
+extern "C"  {
+	LIBRARY_API VelodyneWrapper* VelodyneCreateObject(const char* confFilePath);
 
-    void VelodyneDeleteObject(VelodyneWrapper* pObj);
+	LIBRARY_API void VelodyneDeleteObject(VelodyneWrapper* pObj);
 
-    void VelodyneSetAzimuth(VelodyneWrapper* pObj, double azimuth);
+	LIBRARY_API void VelodyneSetAzimuth(VelodyneWrapper* pObj, double azimuth);
 
-    void VelodyneSetTimeStamp(VelodyneWrapper* pObj, float timeStamp);
+	LIBRARY_API void VelodyneSetTimeStamp(VelodyneWrapper* pObj, float timeStamp);
 
-    void VelodyneSetChannel(VelodyneWrapper* pObj, double distance, short reflectivity);
+	LIBRARY_API void VelodyneSetChannel(VelodyneWrapper* pObj, double distance, short reflectivity);
 
-    void VelodyneCloseBlock(VelodyneWrapper* pObj);
+	LIBRARY_API void VelodyneCloseBlock(VelodyneWrapper* pObj);
 
-    void VelodyneSendData(VelodyneWrapper* pObj);
+	LIBRARY_API void VelodyneSendData(VelodyneWrapper* pObj);
 }
 
 #endif // VELODYNEPLUGIN_H
