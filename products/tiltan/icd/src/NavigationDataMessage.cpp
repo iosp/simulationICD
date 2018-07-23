@@ -7,6 +7,7 @@
 
 #include "NavigationDataMessage.h"
 #include "TiltanData.h"
+#include "Helper.h" // Utilities::StrcpyCrossPlatform
 #include <cstring>  // memset, memcpy
 
 void NavigationDataMessage::FillMessage(const TiltanData& data) {
@@ -50,7 +51,7 @@ void NavigationDataMessage::FillMessage(const TiltanData& data) {
 
 void NavigationDataMessage::FillHeader(/* out */ TILTAN_HEADER& header) const {
 	header.Unit_Code = 0x3c;
-	strncpy((char*)header.Operation_Code, "\x80\x3c", 2); // 0x3C80 - reverse from ICD 
+	Utilities::StrcpyCrossPlatform((char*)header.Operation_Code, "\x80\x3c", 2); // 0x3C80 - reverse from ICD 
 	header.Length = sizeof(Tiltan_Navigation_Data_Message) - sizeof(TILTAN_HEADER);
 }
 

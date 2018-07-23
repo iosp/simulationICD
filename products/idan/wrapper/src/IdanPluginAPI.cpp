@@ -99,7 +99,11 @@ bool IsHLCSHazardsApplied(IdanWrapper* pObj){
 }
 
 const char* GetHLCSGear(IdanWrapper* pObj){
-    return strdup(pObj->GetHLCSGear().c_str());
+#ifdef __linux__
+	return strdup(pObj->GetHLCSGear().c_str());
+#elif _WIN32
+	return _strdup(pObj->GetHLCSGear().c_str());
+#endif
 }
 
 bool IsHLCSParkingBrakeReleased(IdanWrapper* pObj){

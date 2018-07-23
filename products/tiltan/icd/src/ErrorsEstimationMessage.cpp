@@ -7,6 +7,7 @@
 
 #include "ErrorsEstimationMessage.h"
 #include "TiltanData.h"
+#include "Helper.h" // Utilities::StrcpyCrossPlatform
 #include <cstring>  // memset, memcpy
 
 void ErrorsEstimationMessage::FillMessage(const TiltanData& data) {
@@ -45,7 +46,7 @@ void ErrorsEstimationMessage::FillMessage(const TiltanData& data) {
 
 void ErrorsEstimationMessage::FillHeader(/* out */ TILTAN_HEADER& header) const {
 	header.Unit_Code = 0x3c;
-	strncpy((char*)header.Operation_Code, "\x83\x3c", 2); // 0x3C80 - reverse from ICD 
+	Utilities::StrcpyCrossPlatform((char*)header.Operation_Code, "\x83\x3c", 2);
 	header.Length = sizeof(Tiltan_Error_Estimation_Message) - sizeof(TILTAN_HEADER);
 }
 

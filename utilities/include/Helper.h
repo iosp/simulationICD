@@ -93,6 +93,8 @@ namespace Utilities {
 		auto val = (it != m.end() ? it->second : defVal);
 		return val;
 	}
+
+	void StrcpyCrossPlatform(char* dst, const char* src, int len);
    
     /**
      * Add ctrl+c handler to process

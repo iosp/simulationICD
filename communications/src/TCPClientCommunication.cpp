@@ -7,6 +7,7 @@
 
 #include "TCPClientCommunication.h"
 #include "LoggerProxy.h"
+#include "Helper.h" // Utilities::StrcpyCrossPlatform
 #include <thread>
 
 TCPClientCommunication::TCPClientCommunication(const std::string& host): m_host(host) {
@@ -67,6 +68,7 @@ int TCPClientCommunication::SendData(const char* buffer, int sizeOfData) {
     }
     catch (std::exception& e) {
         ERRLOG << e.what() << "\n";
+		return 0;
     }
 }
 
@@ -81,7 +83,7 @@ void TCPClientCommunication::GetData(char* buffer) {
 
         size_t len = boost::asio::read(*m_socket, boost::asio::buffer(buf), error);
         if (error == boost::asio::error::eof) {
-            strcpy(buffer, buf.data());
+			Utilities::StrcpyCrossPlatform(buffer, buf.data(), len);
             DBGLOG << "TCP client read " << len << " bytes from socket\n";
             return;
         }

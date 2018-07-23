@@ -7,6 +7,7 @@
 
 #include "StatusMessage.h"
 #include "TiltanData.h"
+#include "Helper.h" // Utilities::StrcpyCrossPlatform
 #include <cstring> // memset, memcpy
 
 void StatusMessage::FillMessage(const TiltanData& data) {
@@ -18,15 +19,15 @@ void StatusMessage::FillMessage(const TiltanData& data) {
 	msg.Align_Time_CountDown = 60;
 	
 	GetDataValidityBitfield(tmpBuffer, 10);
-	strncpy((char*)msg.Data_Validity_Bitfield, tmpBuffer, sizeof(msg.Data_Validity_Bitfield));
+	Utilities::StrcpyCrossPlatform((char*)msg.Data_Validity_Bitfield, tmpBuffer, sizeof(msg.Data_Validity_Bitfield));
 	memset(&tmpBuffer, 0, sizeof(tmpBuffer));
 
 	GetSystemStatusBitfield(tmpBuffer, 10);
-	strncpy((char*)msg.System_Status_Bitfield, tmpBuffer, sizeof(msg.System_Status_Bitfield));
+	Utilities::StrcpyCrossPlatform((char*)msg.System_Status_Bitfield, tmpBuffer, sizeof(msg.System_Status_Bitfield));
 	memset(&tmpBuffer, 0, sizeof(tmpBuffer));
 
 	GetSystemAlertBitfield(tmpBuffer, 10);
-	strncpy((char*)msg.System_Alert_Bitfield, tmpBuffer, sizeof(msg.System_Alert_Bitfield));
+	Utilities::StrcpyCrossPlatform((char*)msg.System_Alert_Bitfield, tmpBuffer, sizeof(msg.System_Alert_Bitfield));
 	memset(&tmpBuffer, 0, sizeof(tmpBuffer));
 
 	// these fields are not parsed by the real system
@@ -45,7 +46,7 @@ void StatusMessage::FillMessage(const TiltanData& data) {
 
 void StatusMessage::FillHeader(/* out */ TILTAN_HEADER& header) const {
 	header.Unit_Code = 0x3c;
-	strncpy((char*)header.Operation_Code, "\x09\x3c", 2); // 0x093c - reverse from ICD 
+	Utilities::StrcpyCrossPlatform((char*)header.Operation_Code, "\09\x3c", 2);  // 0x093c - reverse from ICD 
 	header.Length = sizeof(Tiltan_Status_Message) - sizeof(TILTAN_HEADER);
 }
 

@@ -7,6 +7,7 @@
 
 #include "InternalGPSMessage.h"
 #include "TiltanData.h"
+#include "Helper.h" // Utilities::StrcpyCrossPlatform
 #include <cstring> // memset, memcpy
 
 void InternalGPSMessage::FillMessage(const TiltanData& data) {
@@ -49,7 +50,7 @@ void InternalGPSMessage::FillMessage(const TiltanData& data) {
 
 void InternalGPSMessage::FillHeader(/* out */ TILTAN_HEADER& header) const {
 	header.Unit_Code = 0x3c;
-	strncpy((char*)header.Operation_Code, "\x82\x3c", 2); // 0x3C82 - reverse from ICD 
+	Utilities::StrcpyCrossPlatform((char*)header.Operation_Code, "\x82\x3c", 2);
 	header.Length = sizeof(Tiltan_Internal_GPS) - sizeof(TILTAN_HEADER);
 }
 

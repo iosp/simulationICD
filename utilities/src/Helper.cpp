@@ -98,6 +98,14 @@ std::string Utilities::RunSystemCmd(const std::string& cmd) {
     return result;
 }
 
+void Utilities::StrcpyCrossPlatform(char* dst, const char* src, int len) {
+#ifdef __linux__
+	strncpy(dst, src, len);
+#elif _WIN32
+	strcpy_s(dst, len, src);
+#endif
+}
+
 void StopHandler(int s){
     LOG << "User pressed ctrl + c, process is stopped\n";
     exit(1); 
