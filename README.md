@@ -1,30 +1,33 @@
 # simulationICD
 This repository includes the ICD code for simulation of sensors and platform
 
-There are several directories on this project:
-1. interfaces - the interfaces of the project
-2. products - the sensors that someone build. every interface includes icd directory and wrapper directory
-3. communications - the UDP, TCP, etc communications
-4. tester - utility to let someone test his code.
-5. utilities - Logger, helper, etc - to use in the project
-6. comp - the compilation products (exe, lib, but not obj files) are located here.
-7. exFiles - external files that are not compile with the project
-8. makefiles - all the main makefiles of the project (makefile for each product, main makefile, tester makefile)
+This is the heirarchy of the project directories:
+1. source_code - all of the ICD source code for all the platforms
+    a. communications - UDP, TCP, etc communications
+    b. interfaces - the interfaces of the project
+    c. products - the ICD sensors: velodyne, novatel, tiltan, idan. NOTICE: ibeo and ipon are there but currently they are not compiled with the           project and not maintained.
+        every product has icd directory and wrapper directory. icd directory has the core code of the sensor, and the wrapper directory has the code that connects the ICD to the simulation.
+    d. tester - main.cpp and tester class to test the project with no need to connect it to the simulation
+    e. utilities - Logger, Helper, etc - for the project usage.
+2. os - files that are rellevant only for specific os
+    a. linux - makefiles, other scripts
+    b. windows - solution of visual studio
+3. external_files - files that are not part of the ICD project and are not compiled with it.
 
 Usage with Convoy project in Unity:
 
 *********Option 1 - automatically:**********
-Run /simulationICD/exFiles/postCompile.sh (make sure that you don't override files that you don't want to override)
+Run /external_files/postCompile.sh (make sure that you don't override files that you don't want to override)
 
 *********Option 2 - manually ****************
-1. cd ~/simulationICD/makefiles
+1. cd ~/simulationICD/os/linux/makefiles
 2. run "make"(*)
-3. cp ../comp/lib[SENSOR].so ~/ConvoyUnity/Assets/Plugins/
-4. sudo cp ../comp/lib[SENSOR].so /usr/lib
+3. cp comp/lib[SENSOR].so ~/ConvoyUnity/Assets/Plugins/
+4. sudo cp comp/lib[SENSOR].so /usr/lib
 5. sudo ldconfig
-6. cp /simulationICD/exFiles/*.cs ~/ConvoyUnity/Assets/Scripts/LibWrappers/
+6. cp /simulationICD/external_files/*.cs ~/ConvoyUnity/Assets/Scripts/LibWrappers/
 7. mkdir ~/simConfigs/;
-8. cp /simulationICD/exFiles/*.conf ~/simConfigs/
+8. cp /simulationICD/external_files/*.conf ~/simConfigs/
 
 (*) - if you want to use tester (with Tester.cpp) - run "make -f makefile_tester" and use ../comp/simicd binary file.
 

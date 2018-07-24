@@ -1,0 +1,62 @@
+CC = g++
+
+CFLAGS = -std=c++0x -fPIC -O -g
+
+COMP_DIR = ../comp
+
+TARGET = $(COMP_DIR)/simicd
+
+EX_LIBS = -lboost_system -lboost_filesystem -lpthread
+
+MAIN_INCLUDES = -I../../../source_code/tester/include \
+				-I../../../source_code/utilities/include
+
+STAT_DIR = ../comp/statlibs
+
+STAT_LIBS_BASE_NAMES = velodyneicd \
+						velodynewrapper \
+						novatelicd \
+						novatelwrapper \
+						tiltanicd \
+						tiltanwrapper \
+						idanicd \
+						idanwrapper \
+						utils \
+						communications \
+						tester
+
+STAT_LIBS = $(addprefix -l, $(STAT_LIBS_BASE_NAMES))
+
+_STAT_LIB_DEPS = $(addprefix $(STAT_DIR)/lib, $(STAT_LIBS_BASE_NAMES))
+STAT_LIB_DEPS = $(addsuffix .a, $(_STAT_LIB_DEPS))
+
+SUBDIRS = ../../../source_code/utilities \
+			 ../../../source_code/communications \
+			../../../source_code/products \
+			../../../source_code/tester
+
+all: createdirs compdirs $(TARGET)
+
+createdirs:
+	mkdir -p $(COMP_DIR)
+	mkdir -p $(STAT_DIR)
+
+compdirs:
+	for dir in $(SUBDIRS); do \
+		$(MAKE) -C $$dir; \
+	done
+
+# compilation
+$(TARGET): main.o $(STAT_LIB_DEPS)
+	$(CC) -L$(STAT_DIR) -o $@ main.o -Wl,-whole-archive $(STAT_LIBS) -Wl,-no-whole-archive $(EX_LIBS)
+
+main.o : ../../../source_code/tester/main.cpp
+	$(CC) $(CFLAGS) -c $^ $(MAIN_INCLUDES)
+
+.PHONY: all clean
+
+clean:
+	for dir in $(SUBDIRS); do \
+		$(MAKE) -C $$dir clean; \
+	done
+	$(RM) $(STAT_DIR)/*.a $(TARGET) *.o
