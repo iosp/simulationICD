@@ -4,3 +4,12 @@
 *.so
 core
 simicd
+*/*/x64
+Debug*/
+x64*/
+ipch*/
+*.suo
+*.db
+*.opendb
+*.tlog
+*.obj
