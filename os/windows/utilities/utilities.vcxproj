@@ -105,7 +105,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\robil\Documents\newSimICD\simulationICD\source_code\utilities\include;C:\Program Files\boost\boost_1_67_0</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\source_code\utilities\include;C:\Program Files\boost\boost_1_67_0</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

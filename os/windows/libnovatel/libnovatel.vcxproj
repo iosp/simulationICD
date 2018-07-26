@@ -111,12 +111,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;LIBNOVATEL_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Program Files\boost\boost_1_67_0;C:\Users\robil\Documents\newSimICD\simulationICD\source_code\utilities\include;C:\Users\robil\Documents\newSimICD\simulationICD\source_code\interfaces;C:\Users\robil\Documents\newSimICD\simulationICD\source_code\communications\include;C:\Users\robil\Documents\newSimICD\simulationICD\source_code\products\novatel\wrapper\include;C:\Users\robil\Documents\newSimICD\simulationICD\source_code\products\novatel\icd\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\boost\boost_1_67_0;..\..\..\source_code\utilities\include;..\..\..\source_code\interfaces;..\..\..\source_code\communications\include;..\..\..\source_code\products\novatel\wrapper\include;..\..\..\source_code\products\novatel\icd\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\robil\Documents\newSimICD\simulationICD\os\windows\x64\Debug;C:\Program Files\boost\boost_1_67_0\stage\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\x64\Debug;C:\Program Files\boost\boost_1_67_0\stage\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>communications.lib;utilities.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

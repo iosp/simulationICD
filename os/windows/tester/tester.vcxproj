@@ -97,12 +97,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Program Files\boost\boost_1_67_0;C:\Users\robil\Documents\newSimICD\simulationICD\source_code\products\velodyne\wrapper\include;C:\Users\robil\Documents\newSimICD\simulationICD\source_code\products\tiltan\wrapper\include;C:\Users\robil\Documents\newSimICD\simulationICD\source_code\products\novatel\wrapper\include;C:\Users\robil\Documents\newSimICD\simulationICD\source_code\products\idan\wrapper\include;C:\Users\robil\Documents\newSimICD\simulationICD\source_code\utilities\include;C:\Users\robil\Documents\newSimICD\simulationICD\source_code\tester\include;C:\Users\robil\Documents\newSimICD\simulationICD\source_code\interfaces;C:\Users\robil\Documents\newSimICD\simulationICD\source_code\communications\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\boost\boost_1_67_0;..\..\..\source_code\products\velodyne\wrapper\include;..\..\..\source_code\products\tiltan\wrapper\include;..\..\..\source_code\products\novatel\wrapper\include;..\..\..\source_code\products\idan\wrapper\include;..\..\..\source_code\utilities\include;..\..\..\source_code\tester\include;..\..\..\source_code\interfaces;..\..\..\source_code\communications\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\robil\Documents\newSimICD\simulationICD\os\windows\x64\Debug;C:\Program Files\boost\boost_1_67_0\stage\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\x64\Debug;C:\Program Files\boost\boost_1_67_0\stage\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>communications.lib;utilities.lib;libvelodyne.lib;libnovatel.lib;libtiltan.lib;libidan.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
