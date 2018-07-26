@@ -9,7 +9,8 @@
 
 
 class Tester {
-    void TestVelodyne();
+    void TestVelodyne16();
+    void TestVelodyne32();
     void TestNovatel();
     void TestTiltan();
     void TestConf();

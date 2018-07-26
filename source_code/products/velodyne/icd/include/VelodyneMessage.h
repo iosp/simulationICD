@@ -23,11 +23,23 @@ private:
     int m_packetIndex = 0;
 
     /**
+     * velodyne 16 / velodyne 32
+     */ 
+    bool m_isVelodyne16;
+
+    /**
      * Take every blocks[i] channels (i % 2 == 1) and combine it with blocks[i-1] channels.
      * @param blocks - the blocks to combine
      * @return combined vector (0,1,2,3,4,5 => 01, 23, 45)
      */ 
-    std::vector<VelodyneData::VelodyneBlock> CombineBlocks(const std::vector<VelodyneData::VelodyneBlock>& blocks) const;
+    std::vector<VelodyneData::VelodyneBlock> CombineAndMapBlocks(const std::vector<VelodyneData::VelodyneBlock>& blocks) const;
+
+    /**
+     * Map all block channels
+     * @param blocks - the blocks to map
+     * @return mapped vector
+     */ 
+    std::vector<VelodyneData::VelodyneBlock> MapBlocks(const std::vector<VelodyneData::VelodyneBlock>& blocks) const;
     
     /**
      * Fill time stamp on Velodyne packet
@@ -93,7 +105,7 @@ private:
     void printPacketData() const;
 
 public:
-	VelodyneMessage(int returnMode, int dataSource);
+	VelodyneMessage(int returnMode, int dataSource, bool isVelodyne16);
 
 	virtual ~VelodyneMessage() = default;
 

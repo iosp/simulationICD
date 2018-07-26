@@ -27,6 +27,10 @@ private:
      * Velodyne configuration values
      */ 
     VelodyneConfig* m_velodyneConf = nullptr;
+    /**
+     * velodyne 16 / velodyne 32
+     */ 
+    bool m_isVelodyne16;
 
     /**
      * Check validation of Velodyne data
@@ -41,7 +45,7 @@ protected:
     
 public:
 
-    VelodyneControl(const std::string& confFilePath);
+    VelodyneControl(const std::string& confFilePath, bool isVelodyne16);
 
     virtual ~VelodyneControl();
 

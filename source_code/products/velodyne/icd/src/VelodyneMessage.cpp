@@ -16,13 +16,19 @@ static const int DISTANCE_MULT = 500;
 static const int AZIMUTH_MULT = 100;
 static const int SECOND_TO_MICROSECOND  = 1e6;
 
-VelodyneMessage::VelodyneMessage(int returnMode, int dataSource) {
+VelodyneMessage::VelodyneMessage(int returnMode, int dataSource, bool isVelodyne16) : m_isVelodyne16(isVelodyne16) {
 	FillFactory(returnMode, dataSource);
 } 
 
 void VelodyneMessage::FillMessage(const VelodyneData& data) {
 	// convert data from 24*16 to 12*32
-    auto blocks = CombineBlocks(data.GetBlocks());
+    std::vector<VelodyneData::VelodyneBlock> blocks;
+    if (m_isVelodyne16) {
+        blocks = CombineAndMapBlocks(data.GetBlocks());
+    }
+    else {
+        blocks = MapBlocks(data.GetBlocks());
+    }
     // Fill timestamp of the first
     FillTimeStamp(blocks[0].GetSimTime());
      // for every block: fill azimuth, fill data records
@@ -34,7 +40,7 @@ void VelodyneMessage::FillMessage(const VelodyneData& data) {
     memcpy(m_buffer, &m_packet, sizeof(m_packet));
 }
 
-std::vector<VelodyneData::VelodyneBlock> VelodyneMessage::CombineBlocks(const std::vector<VelodyneData::VelodyneBlock>& origBlocks) const {
+std::vector<VelodyneData::VelodyneBlock> VelodyneMessage::CombineAndMapBlocks(const std::vector<VelodyneData::VelodyneBlock>& origBlocks) const {
     std::vector<VelodyneData::VelodyneBlock> combinedBlocks;
     VelodyneData::VelodyneBlock currBlock;
     for (int i = 0; i < origBlocks.size(); i++) {
@@ -49,6 +55,18 @@ std::vector<VelodyneData::VelodyneBlock> VelodyneMessage::CombineBlocks(const st
             combinedBlocks.push_back(currBlock);
             currBlock = VelodyneData::VelodyneBlock();
         }
+    }
+    return combinedBlocks;
+}
+
+
+std::vector<VelodyneData::VelodyneBlock> VelodyneMessage::MapBlocks(const std::vector<VelodyneData::VelodyneBlock>& origBlocks) const {
+    std::vector<VelodyneData::VelodyneBlock> combinedBlocks;
+    for (const auto& block : origBlocks) {
+        auto currBlock = block;
+        auto channels = MapChannels(currBlock.GetChannels());
+        currBlock.SetChannels(channels);
+        combinedBlocks.push_back(currBlock);
     }
     return combinedBlocks;
 }
