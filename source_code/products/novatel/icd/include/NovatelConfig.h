@@ -26,13 +26,12 @@ protected:
 public:
     NovatelConfig(const std::string& confFilePath);
 
-    virtual ~NovatelConfig() {}
+    virtual ~NovatelConfig() = default;
 
     std::string GetPortName() const;
 
     int GetBaudRate() const;
 };
-
 
 
 #endif // NOVATELCONFIG_H

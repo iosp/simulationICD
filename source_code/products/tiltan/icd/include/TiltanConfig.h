@@ -38,7 +38,7 @@ protected:
 public:
     TiltanConfig(const std::string& confFilePath);
 
-    virtual ~TiltanConfig(){}
+    virtual ~TiltanConfig() = default;
 
     std::string GetStatusMsgPort() const;
 

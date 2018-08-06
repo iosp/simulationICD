@@ -25,12 +25,12 @@ public:
     virtual ~IICD() = default;
 
     /**
-     * Set Data on ICD commonication object
+     * Set Data on ICD communication object
      */ 
     virtual void SendData(const TData& data) = 0;
 
     /**
-     * Receive Data from ICD commonication object
+     * Receive Data from ICD communication object
      */ 
     virtual TData ReceiveData() = 0;
 };

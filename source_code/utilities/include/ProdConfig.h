@@ -20,6 +20,9 @@ private:
 protected:
     ConfigurationINI* m_conf = nullptr;
 
+    /**
+     * set default values of the configuration on map
+     */ 
     virtual void SetConfDefaultValues() = 0;
 
     virtual std::string GetProdName() const = 0;

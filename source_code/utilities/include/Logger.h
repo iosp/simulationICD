@@ -10,8 +10,6 @@
 */
 
 #include "LogConfig.h" // LogLevel
-#include <string>
-#include <map>
 #include <sstream>
 #include <cstring> // strrchr
 #include <mutex>
