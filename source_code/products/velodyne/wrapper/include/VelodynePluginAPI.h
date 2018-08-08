@@ -25,7 +25,9 @@ struct VelodyneWrapper;
 
 // Functions that can be used by the plugin
 extern "C"  {
-	LIBRARY_API VelodyneWrapper* VelodyneCreateObject(const char* confFilePath);
+	LIBRARY_API VelodyneWrapper* Velodyne16CreateObject(const char* confFilePath);
+
+	LIBRARY_API VelodyneWrapper* Velodyne32CreateObject(const char* confFilePath);
 
 	LIBRARY_API void VelodyneDeleteObject(VelodyneWrapper* pObj);
 

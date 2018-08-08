@@ -11,7 +11,7 @@
 #include "UDPCommunication.h"
 #include "LoggerProxy.h"
 
-VelodyneControl::VelodyneControl(const std::string& confFilePath) {
+VelodyneControl::VelodyneControl(const std::string& confFilePath, bool isVelodyne16) : m_isVelodyne16(isVelodyne16) {
 	m_velodyneConf = new VelodyneConfig(confFilePath);
     InitCommunication();
 }
@@ -33,7 +33,8 @@ void VelodyneControl::InitCommunication() {
 }
 
 bool VelodyneControl::CheckDataValidation(const VelodyneData& data) const {
-    if (data.GetBlocks().size() != (NUM_OF_VELODYNE_DATA_BLOCKS * 2)) {
+    int desiredNumOfBlocks = m_isVelodyne16 ? NUM_OF_VELODYNE_DATA_BLOCKS * 2 : NUM_OF_VELODYNE_DATA_BLOCKS;
+    if (data.GetBlocks().size() != desiredNumOfBlocks) {
         ERRLOG << "Number of blocks is not valid: " << data.GetBlocks().size() << "\n";
         return false;
     }
@@ -46,7 +47,8 @@ bool VelodyneControl::CheckDataValidation(const VelodyneData& data) const {
             return false;
         }
         // check that the data size corresponds to the number of columns
-        if (block.GetChannels().size() != (NUM_OF_VELODYNE_DATA_CHANNELS_IN_BLOCK / 2)) {
+        int desiredNumOfChannelsInBlock = m_isVelodyne16 ? NUM_OF_VELODYNE_DATA_CHANNELS_IN_BLOCK / 2 : NUM_OF_VELODYNE_DATA_CHANNELS_IN_BLOCK;
+        if (block.GetChannels().size() != desiredNumOfChannelsInBlock) {
             ERRLOG << "Channels size is not valid: " << block.GetChannels().size() << "\n";
             return false;
         }
@@ -59,7 +61,7 @@ void VelodyneControl::SendData(const VelodyneData& data) {
         ERRLOG << "Velodyne communication is not initialized! Cannot send data.\n";
         return;
     }
-    VelodyneMessage msg((int)m_velodyneConf->GetReturnMode(), (int)m_velodyneConf->GetDataSource());
+    VelodyneMessage msg((int)m_velodyneConf->GetReturnMode(), (int)m_velodyneConf->GetDataSource(), m_isVelodyne16);
     if (CheckDataValidation(data)) {
         msg.FillMessage(data);
         DBGLOG << "Going to send data: " << data.toString() << "\n";

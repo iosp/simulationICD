@@ -25,12 +25,24 @@ public:
 
 	virtual int GetMessageSize() const = 0;
 
+	/**
+	 * Fill message's buffer with the input data
+	 * @param data - the message's data
+	 */ 
 	virtual void FillMessage(const TData& data) = 0;
 
+	/**
+	 * Initialize the buffer of the message
+	 */ 
 	virtual void InitMessage() {
 		memset(m_buffer, 0, BUFFER_SIZE);
 	}
 
+	/**
+	 * Send the message's buffer using the communication input
+	 * @param comm - communication protocol
+	 * @return - num of bytes that have been sent
+	 */ 
 	virtual int SendMessage(ICommunication* comm) const {
 		return comm->SendData(m_buffer, GetMessageSize());
 	}

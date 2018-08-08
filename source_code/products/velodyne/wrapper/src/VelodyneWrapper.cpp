@@ -8,8 +8,8 @@
 #include "VelodyneWrapper.h"
 #include "VelodyneControl.h"
 
-VelodyneWrapper::VelodyneWrapper(const std::string& confFilePath) {
-    m_icd = new VelodyneControl(confFilePath);
+VelodyneWrapper::VelodyneWrapper(const std::string& confFilePath, bool isVelodyne16) {
+    m_icd = new VelodyneControl(confFilePath, isVelodyne16);
 }
 
 VelodyneWrapper::~VelodyneWrapper(){

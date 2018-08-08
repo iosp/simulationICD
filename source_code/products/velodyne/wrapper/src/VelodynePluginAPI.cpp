@@ -8,8 +8,12 @@
 #include "VelodynePluginAPI.h"
 #include "VelodyneWrapper.h"
 
-VelodyneWrapper* VelodyneCreateObject(const char* confFilePath) {
-    return new VelodyneWrapper(confFilePath);
+VelodyneWrapper* Velodyne16CreateObject(const char* confFilePath) {
+    return new VelodyneWrapper(confFilePath, true);
+}
+
+VelodyneWrapper* Velodyne32CreateObject(const char* confFilePath) {
+    return new VelodyneWrapper(confFilePath, false);
 }
 
 void VelodyneDeleteObject(VelodyneWrapper* pObj) {

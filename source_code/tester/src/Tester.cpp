@@ -20,10 +20,10 @@
 
 using namespace boost::posix_time;
 
-void Tester::TestVelodyne() {
-    LOG << "*************** Running velodyne test ***************\n";
+void Tester::TestVelodyne16() {
+    LOG << "*************** Running velodyne 16 test ***************\n";
 
-    VelodyneWrapper* velodyne = VelodyneCreateObject("/home/robil/simConfigs/velodyne.conf");
+    VelodyneWrapper* velodyne = Velodyne16CreateObject("/home/robil/simConfigs/velodyne.conf");
     double azimuth = 0;
 
     for (auto i : boost::irange(0, 1000000)) {
@@ -35,6 +35,30 @@ void Tester::TestVelodyne() {
             VelodyneSetTimeStamp(velodyne, i);
             VelodyneCloseBlock(velodyne);
             azimuth += 0.2;
+            azimuth = (azimuth >= 360) ? 0 : azimuth;
+        }
+        VelodyneSendData(velodyne);
+		std::this_thread::sleep_for(std::chrono::microseconds(1333));
+    }
+
+    VelodyneDeleteObject(velodyne);
+}
+
+void Tester::TestVelodyne32() {
+    LOG << "*************** Running velodyne 32 test ***************\n";
+
+    VelodyneWrapper* velodyne = Velodyne32CreateObject("/home/robil/simConfigs/velodyne.conf");
+    double azimuth = 0;
+
+    for (auto i : boost::irange(0, 1000000)) {
+        for (auto j : boost::irange(0, 12)) {
+            for (auto k : boost::irange(0, 32)) {
+                VelodyneSetChannel(velodyne, 5, 0);
+            }
+            VelodyneSetAzimuth(velodyne, azimuth);
+            VelodyneSetTimeStamp(velodyne, i);
+            VelodyneCloseBlock(velodyne);
+            azimuth += 0.4;
             azimuth = (azimuth >= 360) ? 0 : azimuth;
         }
         VelodyneSendData(velodyne);
@@ -163,7 +187,8 @@ void Tester::TestLogs() {
 
 Tester::Tester() {
     // TestLogs();
-    TestVelodyne();
+    // TestVelodyne16();
+    TestVelodyne32();
     // TestNovatel();
     // TestTiltan();
     // TestIdan();

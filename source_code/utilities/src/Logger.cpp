@@ -5,11 +5,10 @@
 * Date: 27.11.17
 */
 
-#include <sstream>
-#include <iostream>
-#include <boost/filesystem.hpp> // boost::filesystem::remove_all
 #include "Logger.h"
 #include "Helper.h"
+#include <iostream>
+#include <boost/filesystem.hpp> // boost::filesystem::remove_all
 
 static const long MAX_FILE_SIZE = 209715200; // 200 MB
 

@@ -94,6 +94,12 @@ namespace Utilities {
 		return val;
 	}
 
+    /**
+     * copy string - cross platform method
+     * @param dst - destination to copy
+     * @param src - string to copy
+     * @param len - length of the string
+     */ 
 	void StrcpyCrossPlatform(char* dst, const char* src, int len);
    
     /**
@@ -101,7 +107,10 @@ namespace Utilities {
      */ 
     void AddStopHandler();
 
-    // For logging and debugging
+    /** For logging and debugging - the purpose of this feature is to trace enter and exit from a function
+     * Someone creates a local instance of the class, the ctor of the class writes that we enter to the function
+     * and the dtor (when going out from the function) writes that we exit from the function.
+     */ 
     class FunctionLogWrapper {
     private:
         std::string m_funcName;

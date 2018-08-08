@@ -47,7 +47,7 @@ private:
     void InitData();
 
 public:
-    VelodyneWrapper(const std::string& confFilePath);
+    VelodyneWrapper(const std::string& confFilePath, bool isVelodyne16);
 
     ~VelodyneWrapper();
 

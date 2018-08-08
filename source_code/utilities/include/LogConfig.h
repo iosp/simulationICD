@@ -10,7 +10,6 @@
 */
 
 #include "ProdConfig.h"
-#include <string>
 #include <boost/bimap/bimap.hpp>
 
 enum LogLevel {_NONE_ = -1, _DEBUG_, _NORMAL_, _ERROR_, _ALWAYS_};
@@ -40,7 +39,7 @@ public:
 
     LogConfig(const std::string& confFilePath);
 
-    virtual ~LogConfig(){}
+    virtual ~LogConfig() = default;
 
     LogLevel GetScreenLogLevel() const;
 

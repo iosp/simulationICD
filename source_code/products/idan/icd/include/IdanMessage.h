@@ -9,7 +9,7 @@
 */
 
 #include "Message.h"
-#include <stdint.h> // uins32_t
+#include <stdint.h> // uint32_t
 
 typedef uint32_t t_msgID;
 static const t_msgID HLC_PRIM_ID = 0x50;

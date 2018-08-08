@@ -6,7 +6,7 @@
 * Control multy-threaded log
 * Author: Binyamin Appelbaum
 * Date: 22.02.18
-* 
+* The purpose of this class is to make logger thread safe. 
 */
 
 #include "Logger.h"
@@ -28,6 +28,7 @@ public:
         m_logger.Write(level, sourceFile, funcName, lineNumber);
     }
 
+    // allow chain of calls to loggerproxy: LoggerProxy << "a" << 1 << "b" << ...
     template <typename T>
     inline LoggerProxy& operator << (const T& msg) {
         m_logger.Write(msg);
