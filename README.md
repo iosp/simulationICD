@@ -1,3 +1,7 @@
+Dependencies of the project:
+1. libboost-dev
+2. libboost-thread-dev
+
 # simulationICD
 This repository includes the ICD code for simulation of sensors and platform
 
@@ -17,7 +21,7 @@ This is the heirarchy of the project directories:
 Usage with Convoy project in Unity:
 
 *********Option 1 - automatically:**********
-Run /external_files/postCompile.sh (make sure that you don't override files that you don't want to override)
+Run /os/linux/postCompile.sh (make sure that you don't override files that you don't want to override)
 
 *********Option 2 - manually ****************
 1. cd ~/simulationICD/os/linux/makefiles
@@ -30,7 +34,3 @@ Run /external_files/postCompile.sh (make sure that you don't override files that
 8. cp /simulationICD/external_files/*.conf ~/simConfigs/
 
 (*) - if you want to use tester (with Tester.cpp) - run "make -f makefile_tester" and use ../comp/simicd binary file.
-
-Dependencies of the project:
-1. libboost-dev
-2. libboost-thread-dev
