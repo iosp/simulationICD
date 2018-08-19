@@ -71,7 +71,7 @@ void Tester::TestVelodyne32() {
 void Tester::TestNovatel() {
     LOG << "*************** Running novatel test ***************\n";\
     NovatelWrapper* novatel = NovatelCreateObject("/home/robil/simConfigs/novatel.conf");
-    for (auto i : boost::irange(0, 20)) {
+    for (auto i : boost::irange(0, 100000)) {
         time_duration td =  microsec_clock::local_time() - from_time_t(0);
         NovatelSetPosition(novatel, 31.771959, 35.217018, 10);
         NovatelSetVelocities(novatel, 10, 10, 10);
@@ -90,7 +90,7 @@ void Tester::TestTiltan() {
 
     boost::posix_time::ptime startTime = boost::posix_time::microsec_clock::local_time();
     TiltanWrapper* tiltan = TiltanCreateObject("/home/robil/simConfigs/tiltan.conf");
-    for (auto i : boost::irange(0, 30)) {
+    for (auto i : boost::irange(0, 100000)) {
         boost::posix_time::ptime currTime = boost::posix_time::microsec_clock::local_time();
         int simTime = i;
         TiltanSetTimeStamps(tiltan, simTime, simTime);
@@ -188,9 +188,9 @@ void Tester::TestLogs() {
 Tester::Tester() {
     // TestLogs();
     // TestVelodyne16();
-    TestVelodyne32();
+    //TestVelodyne32();
     // TestNovatel();
-    // TestTiltan();
+     TestTiltan();
     // TestIdan();
     // TestTCP();
 }

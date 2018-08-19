@@ -46,7 +46,7 @@ void StatusMessage::FillMessage(const TiltanData& data) {
 
 void StatusMessage::FillHeader(/* out */ TILTAN_HEADER& header) const {
 	header.Unit_Code = 0x3c;
-	Utilities::StrcpyCrossPlatform((char*)header.Operation_Code, "\09\x3c", 2);  // 0x093c - reverse from ICD 
+	Utilities::StrcpyCrossPlatform((char*)header.Operation_Code, "\x09\x3c", 2);  // 0x093c - reverse from ICD 
 	header.Length = sizeof(Tiltan_Status_Message) - sizeof(TILTAN_HEADER);
 }
 
