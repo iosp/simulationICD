@@ -10,7 +10,6 @@
 */
 
 #include <boost/asio.hpp> // boost::asio::io_service
-#include <boost/asio/serial_port.hpp>
 #include "ICommunication.h"
 #include <string>
 
