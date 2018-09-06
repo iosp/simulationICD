@@ -16,7 +16,6 @@ TCPServerCommunication::TCPServerCommunication(const std::string& port) :
 bool TCPServerCommunication::Init() {
     LOG << "Going to initialize TCP Server communication to port: " << m_port << "\n";
     try {
-        boost::asio::io_service io_service;
         m_socket = std::make_shared<tcp::socket>(io_service);
         tcp::acceptor acceptor(io_service, tcp::endpoint(tcp::v4(), std::stoi(m_port)));
         acceptor.accept(*m_socket);

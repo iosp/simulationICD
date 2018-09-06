@@ -102,7 +102,7 @@ void Utilities::StrcpyCrossPlatform(char* dst, const char* src, int len) {
 #ifdef __linux__
 	strncpy(dst, src, len);
 #elif _WIN32
-	strcpy_s(dst, len, src);
+	strcpy_s(dst, len + 1, src);
 #endif
 }
 

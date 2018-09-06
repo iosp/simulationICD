@@ -19,6 +19,7 @@ class TCPServerCommunication : public ICommunication {
 private:
     std::string m_port;
     std::shared_ptr<tcp::socket> m_socket;
+    boost::asio::io_service io_service;
 
 public:
     TCPServerCommunication(const std::string& port);
