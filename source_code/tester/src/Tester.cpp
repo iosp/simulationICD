@@ -23,7 +23,7 @@ using namespace boost::posix_time;
 void Tester::TestVelodyne16() {
     LOG << "*************** Running velodyne 16 test ***************\n";
 
-    VelodyneWrapper* velodyne = Velodyne16CreateObject("/home/robil/simConfigs/velodyne.conf");
+    VelodyneWrapper* velodyne = Velodyne16CreateObject("D:\\GIT\simulationICD\\external_files\\velodyne.conf");
     double azimuth = 0;
 
     for (auto i : boost::irange(0, 1000000)) {
@@ -70,7 +70,7 @@ void Tester::TestVelodyne32() {
 
 void Tester::TestNovatel() {
     LOG << "*************** Running novatel test ***************\n";\
-    NovatelWrapper* novatel = NovatelCreateObject("/home/robil/simConfigs/novatel.conf");
+    NovatelWrapper* novatel = NovatelCreateObject("D:\\GIT\simulationICD\\external_files\\novotel.conf");
     for (auto i : boost::irange(0, 100000)) {
         time_duration td =  microsec_clock::local_time() - from_time_t(0);
         NovatelSetPosition(novatel, 31.771959, 35.217018, 10);
@@ -89,7 +89,7 @@ void Tester::TestTiltan() {
     LOG << "*************** Running tiltan test ***************\n";
 
     boost::posix_time::ptime startTime = boost::posix_time::microsec_clock::local_time();
-    TiltanWrapper* tiltan = TiltanCreateObject("/home/robil/simConfigs/tiltan.conf");
+    TiltanWrapper* tiltan = TiltanCreateObject("D:\\GIT\simulationICD\\external_files\\tiltan.conf");
     for (auto i : boost::irange(0, 100000)) {
         boost::posix_time::ptime currTime = boost::posix_time::microsec_clock::local_time();
         int simTime = i;
@@ -111,7 +111,7 @@ void Tester::TestTiltan() {
         TiltanSendInternalGPSData(tiltan);
         TiltanSendNavigationData(tiltan);
         TiltanSendErrorEstimationData(tiltan);
-		std::this_thread::sleep_for(std::chrono::microseconds(100000));
+		std::this_thread::sleep_for(std::chrono::microseconds(1000000));//check 10000
     }
 
     TiltanDeleteObject(tiltan);
@@ -119,8 +119,9 @@ void Tester::TestTiltan() {
 
 void Tester::TestIdan() {
     LOG << "*************** Running idan test ***************\n";
-
-    IdanWrapper* idan = IdanCreateObject("/home/robil/simConfigs/idan.conf");
+	int k = 0;
+	int j = 0;
+    IdanWrapper* idan = IdanCreateObject("D:\\GIT\simulationICD\\external_files\\idan.conf");
 
     for (auto i : boost::irange(0, 10000)) {
         IdanReceiveData(idan);
@@ -138,12 +139,18 @@ void Tester::TestIdan() {
         SetIdanSecRepLeftTurnSignal(idan, IsHLCSLeftTurnSignalApplied(idan));
         SetIdanSecRepRightTurnSignal(idan, IsHLCSRightTurnSignalApplied(idan));
         SetIdanSecRepHazards(idan, IsHLCSHazardsApplied(idan));
-        SetIdanSecRepRequestedGear(idan, GetHLCSGear(idan));
-        SetIdanSecRepActualGear(idan, GetHLCSGear(idan));
+        SetIdanSecRepRequestedGear(idan, GetHLCSGearChar(idan));
+        SetIdanSecRepActualGear(idan, GetHLCSGearChar(idan));
         SetIdanSecRepParkingBrake(idan, IsHLCSParkingBrakeReleased(idan) ? "R" : "E");
         // SetIdanSecRepRpm(idan, 0);
         // SetIdanSecRepVelocity(idan, 0);
-        SendIdanSecondaryReportData(idan);
+		if (k == 4) {
+			SendIdanSecondaryReportData(idan);
+			k = 0;
+		}
+		else {
+			k++;
+		}
 
         SetIdanSecSenEngineTemp(idan, 90);
         SetIdanSecSenOilPress(idan, 50);
@@ -153,16 +160,22 @@ void Tester::TestIdan() {
         SetIdanSecSenBatterySumUp(idan, 0);
         SetIdanSecSenAirPressFront(idan, 100);
         SetIdanSecSenAirPressRear(idan, 100);
-        SendIdanSecondarySensorData(idan);
+		if (j == 49) {
+			SendIdanSecondarySensorData(idan);
+			j = 0;
+		}
+		else {
+			j++;
+		}
 
-		std::this_thread::sleep_for(std::chrono::microseconds(100000));
+		std::this_thread::sleep_for(std::chrono::microseconds(20000));
     }
 
    IdanDeleteObject(idan);
 }
 
 void Tester::TestTCP() {
-    TCPClientCommunication* t = new TCPClientCommunication("127.0.0.1");
+    TCPClientCommunication* t = new TCPClientCommunication("192.168.0.108");
     t->SendData("hello world", sizeof("hello world"));
 
     delete t;
@@ -190,7 +203,7 @@ Tester::Tester() {
     // TestVelodyne16();
     //TestVelodyne32();
     // TestNovatel();
-     TestTiltan();
-    // TestIdan();
+     //TestTiltan();
+     TestIdan();
     // TestTCP();
 }

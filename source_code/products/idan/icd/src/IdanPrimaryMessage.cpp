@@ -14,7 +14,17 @@ IdanPrimaryMessage::IdanPrimaryMessage(bool isCanView) {
 }
 
 int IdanPrimaryMessage::GetMessageSize() const {
-    return sizeof(IDAN_PrimaryReportMsgType);
+	int size = 0;
+	if (m_isCanView) {
+		while (m_buffer[size] != '\r') {
+			size++;
+		}
+		size++;
+		return size;
+	}
+	else {
+		return sizeof(IDAN_PrimaryReportMsgType);
+	}
 }
 
 void IdanPrimaryMessage::FillMessage(const IdanData& data) {

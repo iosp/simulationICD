@@ -35,7 +35,7 @@ private:
         bool leftTurnSignal = false;
         bool rightTurnSignal = false;
         bool hazards = false;
-        std::string gear;
+		char gearChar;
         bool IsParkingBrakeReleased = false;
         bool hasEmergencyCmd = false;
         bool HasSacsOnCmd = false;
@@ -56,8 +56,8 @@ private:
         bool leftTurnSignal = false;
         bool rightTurnSignal = false;
         bool hazards = false;
-        std::string requestedGear;
-        std::string actualGear;
+		char requestedGearChar;
+		char actualGearChar;
         std::string parkingBrake;
         float rpm = 0;
         float velocity = 0;
@@ -212,12 +212,12 @@ public:
         m_HLCSecondary.hazards = hazards;
     }
 
-    std::string GetHLCSGear() const {
-        return m_HLCSecondary.gear;
+    char GetHLCSGearChar() const {
+        return m_HLCSecondary.gearChar;
     }
 
-    void SetHLCSGear(const std::string& gear) {
-        m_HLCSecondary.gear = gear;
+    void SetHLCSGearChar(const char gear) {
+        m_HLCSecondary.gearChar = gear;
     }
 
     bool IsHLCSParkingBrakeReleased() const {
@@ -335,20 +335,20 @@ public:
         m_IDANSecondaryReport.hazards = hazards;
     }
 
-    std::string GetIdanSecRepRequestedGear() const {
-        return m_IDANSecondaryReport.requestedGear;
+    char GetIdanSecRepRequestedGearChar() const {
+        return m_IDANSecondaryReport.requestedGearChar;
     }
 
-    void SetIdanSecRepRequestedGear(const std::string& requestedGear) {
-        m_IDANSecondaryReport.requestedGear = requestedGear;
+    void SetIdanSecRepRequestedGearChar(const char requestedGear) {
+        m_IDANSecondaryReport.requestedGearChar = requestedGear;
     }
 
-    std::string GetIdanSecRepActualGear() const {
-        return m_IDANSecondaryReport.actualGear;
+    char GetIdanSecRepActualGearChar() const {
+        return m_IDANSecondaryReport.actualGearChar;
     }
 
-    void SetIdanSecRepActualGear(const std::string& actualGear) {
-        m_IDANSecondaryReport.actualGear = actualGear;
+    void SetIdanSecRepActualGearChar(const char actualGear) {
+        m_IDANSecondaryReport.actualGearChar = actualGear;
     }
 
     std::string GetIdanSecRepParkingBrake() const {

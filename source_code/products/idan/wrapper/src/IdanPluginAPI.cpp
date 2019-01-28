@@ -97,13 +97,29 @@ bool IsHLCSRightTurnSignalApplied(IdanWrapper* pObj){
 bool IsHLCSHazardsApplied(IdanWrapper* pObj){
     return pObj->IsHLCSHazardsApplied();
 }
-
+/*
 const char* GetHLCSGear(IdanWrapper* pObj){
 #ifdef __linux__
 	return strdup(pObj->GetHLCSGear().c_str());
 #elif _WIN32
 	return _strdup(pObj->GetHLCSGear().c_str());
 #endif
+}*/
+
+const char GetHLCSGearChar(IdanWrapper* pObj) {
+	char ans = 0x03;
+	if (pObj->GetHLCSGearChar() != NULL) {
+		ans = pObj->GetHLCSGearChar();
+}
+	return ans;
+}
+
+const int GetHLCSGear(IdanWrapper* pObj) {
+	int ans = 0x03;
+	if (pObj->GetHLCSGearChar() != NULL) {
+		ans = (int)pObj->GetHLCSGearChar();
+	}
+	return ans;
 }
 
 bool IsHLCSParkingBrakeReleased(IdanWrapper* pObj){
@@ -165,12 +181,20 @@ void SetIdanSecRepHazards(IdanWrapper* pObj, bool hazards) {
     pObj->SetIdanSecRepHazards(hazards);
 }
 
-void SetIdanSecRepRequestedGear(IdanWrapper* pObj, const char* requestedGear) {
+void SetIdanSecRepRequestedGear(IdanWrapper* pObj, const char requestedGear) {
     pObj->SetIdanSecRepRequestedGear(requestedGear);
 }
 
-void SetIdanSecRepActualGear(IdanWrapper* pObj, const char* actualGear) {
+void SetIdanSecRepRequestedGearInt(IdanWrapper* pObj, const int requestedGear) {
+	pObj->SetIdanSecRepRequestedGear((char)requestedGear);
+}
+
+void SetIdanSecRepActualGear(IdanWrapper* pObj, const char actualGear) {
     pObj->SetIdanSecRepActualGear(actualGear);
+}
+
+void SetIdanSecRepActualGearInt(IdanWrapper* pObj, const int actualGear) {
+	pObj->SetIdanSecRepActualGear((char)actualGear);
 }
 
 void SetIdanSecRepParkingBrake(IdanWrapper* pObj, const char* parkingBrake) {

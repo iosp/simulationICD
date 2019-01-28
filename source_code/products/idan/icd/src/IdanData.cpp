@@ -26,7 +26,7 @@ std::string IdanData::toString(IdanMsgType msgType) const {
                 ", parkingLight: " << m_HLCSecondary.parkingLight << ", keySwitch: " << m_HLCSecondary.keySwitch << 
                 ", motorStarter: " << m_HLCSecondary.motorStarter << ", horn: " << m_HLCSecondary.horn <<
                 ", leftTurnSignal: " << m_HLCSecondary.leftTurnSignal << ", rightTurnSignal: " << m_HLCSecondary.rightTurnSignal << 
-                ", hazards: " << m_HLCSecondary.hazards << ", gear: " << m_HLCSecondary.gear << 
+                ", hazards: " << m_HLCSecondary.hazards << ", gear: " << m_HLCSecondary.gearChar << 
                 ", IsParkingBrakeReleased: " << m_HLCSecondary.IsParkingBrakeReleased << ", hasEmergencyCmd: " << m_HLCSecondary.hasEmergencyCmd << 
                 ", HasSacsOnCmd: " << m_HLCSecondary.HasSacsOnCmd << std::endl;
             break;
@@ -40,7 +40,7 @@ std::string IdanData::toString(IdanMsgType msgType) const {
                 ", lightsCutoff: " << m_IDANSecondaryReport.lightsCutoff << ", keySwitch: " << m_IDANSecondaryReport.keySwitch << 
                 ", horn: " << m_IDANSecondaryReport.horn << ", leftTurnSignal: " << m_IDANSecondaryReport.leftTurnSignal << 
                 ", rightTurnSignal: " << m_IDANSecondaryReport.rightTurnSignal << ", hazards: " << m_IDANSecondaryReport.hazards <<
-                ", requestedGear: " << m_IDANSecondaryReport.requestedGear << ", actualGear: " << m_IDANSecondaryReport.actualGear << 
+                ", requestedGear: " << m_IDANSecondaryReport.requestedGearChar << ", actualGear: " << m_IDANSecondaryReport.actualGearChar << 
                 ", parkingBrake: " << m_IDANSecondaryReport.parkingBrake << ", rpm: " << m_IDANSecondaryReport.rpm <<
                 ", velocity: " << m_IDANSecondaryReport.velocity << std::endl;
             break;

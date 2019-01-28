@@ -11,7 +11,7 @@
 #include "ConfigurationINI.h"
 
 const std::string NovatelConfig::PORT_NAME_KEY = "PORT_NAME";
-const std::string NovatelConfig::PORT_NAME_DEF_VAL = "/dev/ttyUSB0";
+const std::string NovatelConfig::PORT_NAME_DEF_VAL = "COM1";
 const std::string NovatelConfig::BAUD_RATE_KEY = "BAUD_RATE";
 const std::string NovatelConfig::BAUD_RATE_DEF_VAL = "115200";
 

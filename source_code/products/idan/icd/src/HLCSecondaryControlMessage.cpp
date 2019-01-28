@@ -57,7 +57,8 @@ void HLCSecondaryControlMessage::UpdateData(IdanData& data) const {
 	data.SetHLCSRightTurnSignal(m_message.W2.RightTurnSig);
 	data.SetHLCSHazards(m_message.W2.Hazards);
 
-	data.SetHLCSGear(Utilities::GetValFromMap(GearToStr, m_message.Gear, (std::string)"N")); // def val: Nuetral);
+	//data.SetHLCSGear(Utilities::GetValFromMap(GearToStr, m_message.Gear, (std::string)"N")); // def val: Nuetral);
+	data.SetHLCSGearChar(m_message.Gear);
 	data.SetHLCSParkingBrake(m_message.ParkingBrake == PARKING_RELEASED);
 	data.SetHLCSEmergencyCmd(m_message.EmergencyCmd == EMERGENCY_VAL);
 	data.SetHLCSSacsOnCmd(m_message.SacsOnCmd == SACS_ON_VAL);

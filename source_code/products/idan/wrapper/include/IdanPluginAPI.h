@@ -62,7 +62,11 @@ extern "C" {
 
 	LIBRARY_API bool IsHLCSHazardsApplied(IdanWrapper* pObj);
 
-	LIBRARY_API const char* GetHLCSGear(IdanWrapper* pObj);
+	//LIBRARY_API const char* GetHLCSGear(IdanWrapper* pObj);
+
+	LIBRARY_API const char GetHLCSGearChar(IdanWrapper* pObj);
+
+	LIBRARY_API const int GetHLCSGear(IdanWrapper* pObj);
 
 	LIBRARY_API bool IsHLCSParkingBrakeReleased(IdanWrapper* pObj);
 
@@ -95,10 +99,14 @@ extern "C" {
 
 	LIBRARY_API void SetIdanSecRepHazards(IdanWrapper* obj, bool hazards);
 
-	LIBRARY_API void SetIdanSecRepRequestedGear(IdanWrapper* obj, const char* requestedGear);
+	LIBRARY_API void SetIdanSecRepRequestedGear(IdanWrapper* obj, const char requestedGear);
 
-	LIBRARY_API void SetIdanSecRepActualGear(IdanWrapper* obj, const char* actualGear);
+	LIBRARY_API void SetIdanSecRepRequestedGearInt(IdanWrapper* pObj, const int requestedGear);
 
+	LIBRARY_API void SetIdanSecRepActualGear(IdanWrapper* obj, const char actualGear);
+
+	LIBRARY_API void SetIdanSecRepActualGearInt(IdanWrapper* obj, const int actualGear);
+	
 	LIBRARY_API void SetIdanSecRepParkingBrake(IdanWrapper* obj, const char* parkingBrake);
 
 	LIBRARY_API void SetIdanSecRepRpm(IdanWrapper* obj, float rpm);
