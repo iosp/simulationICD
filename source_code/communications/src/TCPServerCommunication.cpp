@@ -37,7 +37,9 @@ int TCPServerCommunication::SendData(const char* buffer, int sizeOfData) {
     }
     catch (std::exception& e) {
        ERRLOG << e.what() << "\n";
-       return 0;
+	   return Init();
+
+       //return 0;
     }
 
     return sizeOfData;
