@@ -15,7 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\source_code\communications\include\ICD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\source_code\communications\include\ICommunication.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source_code\communications\include\NewTCP.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\source_code\communications\include\RSCommunication.h">
@@ -30,8 +36,14 @@
     <ClInclude Include="..\..\..\source_code\communications\include\UDPCommunication.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source_code\communications\include\UDPutil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\source_code\communications\src\NewTCP.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\source_code\communications\src\RSCommunication.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -42,6 +54,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source_code\communications\src\UDPCommunication.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source_code\communications\src\UDPutil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -37,8 +37,27 @@ int TCPServerCommunication::SendData(const char* buffer, int sizeOfData) {
     }
     catch (std::exception& e) {
        ERRLOG << e.what() << "\n";
-       return 0;
+	   return Init();
+
+       //return 0;
     }
 
     return sizeOfData;
+}
+
+void TCPServerCommunication::GetData(char* buffer) {
+	try {
+		std::array<char, 1000> buf;
+		boost::system::error_code error;
+
+		size_t len = boost::asio::read(*m_socket, boost::asio::buffer(buf), error);
+
+		memcpy(buffer, buf.data(), len * sizeof(char));
+
+		//	DBGLOG << "TCP server read " << len << " bytes from socket\n";
+
+	}
+	catch (std::exception& e) {
+		//ERRLOG << e.what() << "\n";
+	}
 }

@@ -33,6 +33,7 @@ public:
         }
 
         void SetChannels(const t_channel_data& channels) {
+			//m_channels.clear(); check if needed
             m_channels = channels;
         }
 

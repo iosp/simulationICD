@@ -65,7 +65,9 @@ public:
 
     bool IsHLCSHazardsApplied() const;
 
-    std::string GetHLCSGear() const;
+    //std::string GetHLCSGear() const;
+
+	char GetHLCSGearChar() const;
 
     bool IsHLCSParkingBrakeReleased() const;
 
@@ -98,9 +100,9 @@ public:
 
     void SetIdanSecRepHazards(bool hazards);
 
-    void SetIdanSecRepRequestedGear(const std::string& requestedGear);
+    void SetIdanSecRepRequestedGear(const char requestedGear);
 
-    void SetIdanSecRepActualGear(const std::string& actualGear);
+    void SetIdanSecRepActualGear(const char actualGear);
 
     void SetIdanSecRepParkingBrake(const std::string& parkingBrake);
 

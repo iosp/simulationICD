@@ -18,6 +18,24 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\source_code\communications\include\ICD.h" />
+    <ClInclude Include="..\..\..\source_code\communications\include\ICommunication.h" />
+    <ClInclude Include="..\..\..\source_code\communications\include\NewTCP.h" />
+    <ClInclude Include="..\..\..\source_code\communications\include\RSCommunication.h" />
+    <ClInclude Include="..\..\..\source_code\communications\include\TCPClientCommunication.h" />
+    <ClInclude Include="..\..\..\source_code\communications\include\TCPServerCommunication.h" />
+    <ClInclude Include="..\..\..\source_code\communications\include\UDPCommunication.h" />
+    <ClInclude Include="..\..\..\source_code\communications\include\UDPutil.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source_code\communications\src\NewTCP.cpp" />
+    <ClCompile Include="..\..\..\source_code\communications\src\RSCommunication.cpp" />
+    <ClCompile Include="..\..\..\source_code\communications\src\TCPClientCommunication.cpp" />
+    <ClCompile Include="..\..\..\source_code\communications\src\TCPServerCommunication.cpp" />
+    <ClCompile Include="..\..\..\source_code\communications\src\UDPCommunication.cpp" />
+    <ClCompile Include="..\..\..\source_code\communications\src\UDPutil.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{844845D3-26AE-4ADF-A7A9-BB3E2ED9A387}</ProjectGuid>
@@ -147,19 +165,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\source_code\communications\include\ICommunication.h" />
-    <ClInclude Include="..\..\..\source_code\communications\include\RSCommunication.h" />
-    <ClInclude Include="..\..\..\source_code\communications\include\TCPClientCommunication.h" />
-    <ClInclude Include="..\..\..\source_code\communications\include\TCPServerCommunication.h" />
-    <ClInclude Include="..\..\..\source_code\communications\include\UDPCommunication.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\source_code\communications\src\RSCommunication.cpp" />
-    <ClCompile Include="..\..\..\source_code\communications\src\TCPClientCommunication.cpp" />
-    <ClCompile Include="..\..\..\source_code\communications\src\TCPServerCommunication.cpp" />
-    <ClCompile Include="..\..\..\source_code\communications\src\UDPCommunication.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

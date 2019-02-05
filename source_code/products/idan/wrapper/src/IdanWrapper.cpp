@@ -95,8 +95,12 @@ bool IdanWrapper::IsHLCSHazardsApplied() const {
     return m_data.IsHLCSHazardsApplied();
 }
 
-std::string IdanWrapper::GetHLCSGear() const {
-    return m_data.GetHLCSGear();
+//std::string IdanWrapper::GetHLCSGear() const {
+//    return m_data.GetHLCSGear();
+//}
+
+char IdanWrapper::GetHLCSGearChar() const {
+	return m_data.GetHLCSGearChar();
 }
 
 bool IdanWrapper::IsHLCSParkingBrakeReleased() const {
@@ -158,12 +162,12 @@ void IdanWrapper::SetIdanSecRepHazards(bool hazards) {
     m_data.SetIdanSecRepHazards(hazards);
 } 
 
-void IdanWrapper::SetIdanSecRepRequestedGear(const std::string& requestedGear) {
-    m_data.SetIdanSecRepRequestedGear(requestedGear);
+void IdanWrapper::SetIdanSecRepRequestedGear(const char requestedGear) {
+    m_data.SetIdanSecRepRequestedGearChar(requestedGear);
 } 
 
-void IdanWrapper::SetIdanSecRepActualGear(const std::string& actualGear) {
-    m_data.SetIdanSecRepActualGear(actualGear);
+void IdanWrapper::SetIdanSecRepActualGear(const char actualGear) {
+    m_data.SetIdanSecRepActualGearChar(actualGear);
 } 
 
 void IdanWrapper::SetIdanSecRepParkingBrake(const std::string& parkingBrake) {

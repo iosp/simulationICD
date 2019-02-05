@@ -14,7 +14,17 @@ IdanSecondarySensorMessage::IdanSecondarySensorMessage(bool isCanView) {
 }
 
 int IdanSecondarySensorMessage::GetMessageSize() const {
-    return sizeof(IDAN_SecondarySensorsMsgType);
+	int size = 0;
+	if (m_isCanView) {
+		while (m_buffer[size] != '\r') {
+			size++;
+		}
+		size++;
+		return size;
+	}
+	else {
+		return sizeof(IDAN_SecondarySensorsMsgType);
+	}
 }
 
 void IdanSecondarySensorMessage::FillMessage(const IdanData& data) {

@@ -21,16 +21,27 @@ IdanSecondaryReportMessage::IdanSecondaryReportMessage(bool isCanView) {
 }
 
 int IdanSecondaryReportMessage::GetMessageSize() const {
-    return sizeof(IDAN_SecondaryReportMsgType);
+	int size = 0;
+	if (m_isCanView) {
+		while (m_buffer[size] != '\r') {
+			size++;
+		}
+		size++;
+		return size;
+	}
+	else {
+		return sizeof(IDAN_SecondaryReportMsgType);
+	}
 }
 
 void IdanSecondaryReportMessage::FillMessage(const IdanData& data) {
     IDAN_SecondaryReportMsgType msg;
-
+	int rpm = 0;
+	static bool engOn = false;
     msg.W0.Disc1 = 0;
     msg.W0.Disc2 = 0;
     msg.W0.Disc3 = 0;
-    msg.W0.SACSactive = 0;
+	msg.W0.SACSactive = 1;//was 0;
 
     msg.W1.RoadLight = data.IsIdanSecRepRoadLightsApplied();
     msg.W1.HighBeam = data.IsIdanSecRepHighBeamApplied();
@@ -43,12 +54,33 @@ void IdanSecondaryReportMessage::FillMessage(const IdanData& data) {
     msg.W2.RightTurn = data.IsIdanSecRepRightTurnSignalApplied();
     msg.W2.Hazard = data.IsIdanSecRepHazardsApplied();
 
-    msg.W3.ActualGear = Utilities::GetValFromMap(StrToGear, data.GetIdanSecRepActualGear(), (unsigned char) 0x03); // def val: Nuetral
-    msg.W3.ReqGear = Utilities::GetValFromMap(StrToGear, data.GetIdanSecRepRequestedGear(), (unsigned char)0x0E); // def val: Unknown
+    //msg.W3.ActualGear = Utilities::GetValFromMap(StrToGear, data.GetIdanSecRepActualGear(), (unsigned char) 0x03); // def val: Nuetral
+	msg.W3.ActualGear = data.GetIdanSecRepActualGearChar();//return when is not in tester
+	//msg.W3.ActualGear = 0x3; //for test
+    //msg.W3.ReqGear = Utilities::GetValFromMap(StrToGear, data.GetIdanSecRepRequestedGear(), (unsigned char)0x0E); // def val: Unknown
+	msg.W3.ReqGear = data.GetIdanSecRepRequestedGearChar(); //defult(unsigned char)0x0E) def val: Unknown //return when is not in tester
+	//msg.W3.ReqGear = 0x3; //for test
 
     msg.ParkingBreak = Utilities::GetValFromMap(StrToPark, data.GetIdanSecRepParkingBrake(), (unsigned char)0x02); // def val : Engaged
-    msg.RPMmsb = (((int)data.GetIdanSecRepRpm() >> 8) & 0xff);
-    msg.RPMlsb = ((int)data.GetIdanSecRepRpm() & 0xff);
+
+	//for tested and debug
+	//if (msg.W2.KeySwitch == 1 && msg.W2.MotorStarter == 1) {
+	//	engOn = true;
+	//	rpm = 700;
+	//}
+	//	if (msg.W2.KeySwitch == 0) {
+	//	engOn = false;
+	//	rpm = 0;
+	//}
+	//if (engOn)
+	//	rpm = 700;
+	//else 
+	//	rpm = 0;
+	//msg.RPMmsb = ((rpm >> 8) & 0xff);
+	//msg.RPMlsb = (rpm & 0xff);
+	msg.RPMmsb = (((int)data.GetIdanSecRepRpm() >> 8) & 0xff);//return when is not in tester
+	msg.RPMlsb = ((int)data.GetIdanSecRepRpm() & 0xff);//return when is not in tester
+
     msg.Velocity = (int)data.GetIdanSecRepVelocity();
 
     FillBuffer(msg);  

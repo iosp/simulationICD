@@ -8,7 +8,8 @@
 #include "IdanControl.h"
 #include "LoggerProxy.h"
 #include "Helper.h"
-#include "TCPClientCommunication.h"
+#include "TCPServerCommunication.h"
+#include "NewTCP.h"
 #include "IdanConfig.h"
 #include "HLCPrimaryControlMessage.h"
 #include "HLCSecondaryControlMessage.h"
@@ -38,7 +39,8 @@ void IdanControl::InitCommunication() {
 	LOG << "Initializing idan communication\n";
 
 	if (m_idanConf->IsCanView()) {
-		m_comm = new TCPClientCommunication(m_idanConf->GetTCPPort());
+		m_comm = new NewTCP(m_idanConf->GetTCPPort());
+		//m_comm = new TCPServerCommunication(m_idanConf->GetTCPPort());
 	}
 	else {
 		#ifdef __linux__
