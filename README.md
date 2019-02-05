@@ -1,3 +1,6 @@
+5.2.19
+we use canbus to communicate Idan in linux. In windows, we use CanView to communicate with Canbus (on the vehicle side) and Canview communicate with TCPServer at our simulationICD that is implimented with "NewTcp" class.
+#####################################################
 Dependencies of the project:
 1. libboost-dev
 2. libboost-thread-dev

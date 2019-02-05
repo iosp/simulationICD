@@ -9,7 +9,6 @@
 #include "LoggerProxy.h"
 #include "Helper.h"
 #include "TCPServerCommunication.h"
-#include "NewTCP.h"
 #include "IdanConfig.h"
 #include "HLCPrimaryControlMessage.h"
 #include "HLCSecondaryControlMessage.h"
@@ -18,6 +17,10 @@
 #include "IdanSecondarySensorMessage.h"
 #ifdef __linux__
 	#include "CanCommunication.h"
+#endif
+#ifdef _WIN32
+	#include "CanCommunication.h"
+	#include "NewTCP.h"
 #endif
 
 IdanControl::IdanControl(const std::string& confFilePath) {
@@ -38,18 +41,19 @@ IdanControl::~IdanControl() {
 void IdanControl::InitCommunication() {
 	LOG << "Initializing idan communication\n";
 
-	if (m_idanConf->IsCanView()) {
-		m_comm = new NewTCP(m_idanConf->GetTCPPort());
+	//if (m_idanConf->IsCanView()) {
+	//		m_comm = new NewTCP(m_idanConf->GetTCPPort());
 		//m_comm = new TCPServerCommunication(m_idanConf->GetTCPPort());
-	}
-	else {
+	//}
+	//else {
 		#ifdef __linux__
 			m_comm = new CanCommunication(m_idanConf->GetInterfaceName(), m_idanConf->GetBaudRate(), m_idanConf->IsVirtualInterface());
 		#elif _WIN32
-			ERRLOG << "no communication can be initialized for idan\n";
-			return;
+			m_comm = new NewTCP(m_idanConf->GetTCPPort());
+			//ERRLOG << "no communication can be initialized for idan\n";
+			//return;
 		#endif
-	}
+	//}
 
 	if (!m_comm->Init()) {
 		ERRLOG << "Failed to initialize Idan communication, not running get thread.\n";
