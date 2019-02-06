@@ -15,7 +15,11 @@ const std::string IdanConfig::INTERFACE_NAME_DEF_VAL = "can0";
 const std::string IdanConfig::IS_VIRTUAL_INTERFACE_KEY = "IS_VIRTUAL_INTERFACE";
 const std::string IdanConfig::IS_VIRTUAL_INTERFACE_DEF_VAL = "0";
 const std::string IdanConfig::IS_CANVIEW_KEY = "IS_CANVIEW";
-const std::string IdanConfig::IS_CANVIEW_DEF_VAL = "1";//0
+#ifdef _WIN32
+    const std::string IdanConfig::IS_CANVIEW_DEF_VAL = "1";
+#else
+    const std::string IdanConfig::IS_CANVIEW_DEF_VAL = "0";
+#endif
 const std::string IdanConfig::CAN_BAUD_RATE_KEY = "CAN_BAUD_RATE";
 const std::string IdanConfig::CAN_BAUD_RATE_DEF_VAL = "500000";
 const std::string IdanConfig::HLC_HERTZ_KEY = "HLC_HERTZ";

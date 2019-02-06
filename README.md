@@ -24,7 +24,7 @@ This is the heirarchy of the project directories:
 Usage with Convoy project in Unity:
 
 *********Option 1 - automatically:**********
-Run /os/linux/postCompile.sh (make sure that you don't override files that you don't want to override)
+Run $SIMULATIONICD/os/linux/postCompile.sh (make sure that you don't override files that you don't want to override)
 
 *********Option 2 - manually ****************
 1. cd ~/simulationICD/os/linux/makefiles
