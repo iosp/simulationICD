@@ -24,7 +24,9 @@
 #endif
 
 IdanControl::IdanControl(const std::string& confFilePath) {
+	LOG << "idancontrol call" << confFilePath << "\n";
 	m_idanConf = new IdanConfig(confFilePath);
+	LOG << "after idancontrol call" << confFilePath << "\n";
 	InitCommunication();
 }
 
