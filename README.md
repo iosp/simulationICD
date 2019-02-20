@@ -1,3 +1,6 @@
+5.2.19
+we use canbus to communicate Idan in linux. In windows, we use CanView to communicate with Canbus (on the vehicle side) and Canview communicate with TCPServer at our simulationICD that is implimented with "NewTcp" class.
+#####################################################
 Dependencies of the project:
 1. libboost-dev
 2. libboost-thread-dev
@@ -21,7 +24,7 @@ This is the heirarchy of the project directories:
 Usage with Convoy project in Unity:
 
 *********Option 1 - automatically:**********
-Run /os/linux/postCompile.sh (make sure that you don't override files that you don't want to override)
+Run $SIMULATIONICD/os/linux/postCompile.sh (make sure that you don't override files that you don't want to override)
 
 *********Option 2 - manually ****************
 1. cd ~/simulationICD/os/linux/makefiles

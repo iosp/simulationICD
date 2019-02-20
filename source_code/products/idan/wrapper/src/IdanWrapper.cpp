@@ -7,9 +7,10 @@
 
 #include "IdanWrapper.h"
 #include "IdanControl.h"
-
+#include "../../../../utilities/include/LoggerProxy.h"
 
 IdanWrapper::IdanWrapper(const std::string& confFilePath) {
+    LOG << "idan API call" << confFilePath << "\n";
     m_icd = new IdanControl(confFilePath);
 }
 

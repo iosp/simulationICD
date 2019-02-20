@@ -8,8 +8,10 @@
 #include "IdanPluginAPI.h"
 #include "IdanWrapper.h"
 #include <string.h> // strdup
+#include "../../../../utilities/include/LoggerProxy.h"
 
 IdanWrapper* IdanCreateObject(const char* confFilePath) {
+    LOG << "idan API call" << confFilePath << "\n";
     return new IdanWrapper(confFilePath);
 }
 

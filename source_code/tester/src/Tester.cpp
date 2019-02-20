@@ -23,7 +23,7 @@ using namespace boost::posix_time;
 void Tester::TestVelodyne16() {
     LOG << "*************** Running velodyne 16 test ***************\n";
 
-    VelodyneWrapper* velodyne = Velodyne16CreateObject("D:\\GIT\simulationICD\\external_files\\velodyne.conf");
+    VelodyneWrapper* velodyne = Velodyne16CreateObject("/home/robil/simConfigs/velodyne.conf");
     double azimuth = 0;
 
     for (auto i : boost::irange(0, 1000000)) {
@@ -70,7 +70,7 @@ void Tester::TestVelodyne32() {
 
 void Tester::TestNovatel() {
     LOG << "*************** Running novatel test ***************\n";\
-    NovatelWrapper* novatel = NovatelCreateObject("D:\\GIT\simulationICD\\external_files\\novotel.conf");
+    NovatelWrapper* novatel = NovatelCreateObject("/home/robil/simConfigs/novatel.conf");
     for (auto i : boost::irange(0, 100000)) {
         time_duration td =  microsec_clock::local_time() - from_time_t(0);
         NovatelSetPosition(novatel, 31.771959, 35.217018, 10);
@@ -89,7 +89,7 @@ void Tester::TestTiltan() {
     LOG << "*************** Running tiltan test ***************\n";
 
     boost::posix_time::ptime startTime = boost::posix_time::microsec_clock::local_time();
-    TiltanWrapper* tiltan = TiltanCreateObject("D:\\GIT\simulationICD\\external_files\\tiltan.conf");
+    TiltanWrapper* tiltan = TiltanCreateObject("/home/robil/simConfigs/tiltan.conf");
     for (auto i : boost::irange(0, 100000)) {
         boost::posix_time::ptime currTime = boost::posix_time::microsec_clock::local_time();
         int simTime = i;
@@ -121,7 +121,7 @@ void Tester::TestIdan() {
     LOG << "*************** Running idan test ***************\n";
 	int k = 0;
 	int j = 0;
-    IdanWrapper* idan = IdanCreateObject("D:\\GIT\simulationICD\\external_files\\idan.conf");
+    IdanWrapper* idan = IdanCreateObject("/home/robil/simConfigs/idan.conf");
 
     for (auto i : boost::irange(0, 10000)) {
         IdanReceiveData(idan);
@@ -200,10 +200,10 @@ void Tester::TestLogs() {
 
 Tester::Tester() {
     // TestLogs();
-    // TestVelodyne16();
+    TestVelodyne16();
     //TestVelodyne32();
-    // TestNovatel();
+     //TestNovatel();
      //TestTiltan();
-     TestIdan();
+     //TestIdan();
     // TestTCP();
 }
